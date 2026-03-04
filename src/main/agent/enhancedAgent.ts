@@ -88,7 +88,7 @@ export const enhancedAgent = async ({ mainWindow, event, randID, inbound }) => {
     Here is the workspace: 
     ${workspace}
 
-    You read the workspace files before writing code.
+    You make sure the app's backend and frontend has their git initialized. 
 
     Here is the prompt from user:
     ${inbound.prompt}

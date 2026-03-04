@@ -53,7 +53,7 @@ export function Home() {
                   baseURL: `http://localhost:1234/v1`,
                   model: 'qwen3.5-9b',
 
-                  folder: `my-app-01`,
+                  folder: `my-app-${Math.random().toString(36).slice(2, 9)}`,
 
                   action: 'message',
                   prompt: `
@@ -66,11 +66,15 @@ export function Home() {
                     - three.js
                     - @react-three/fiber @react-three/drei
                     - drag and drop lib in npm
+                    - backend service port uses "3002"
+                    - support cors
 
                   Backend: 
-                    - express js port using 3002
+                    - backend service port uses "3002"
+                    - express js 
                     - socket-io powered collaboration features 
                     - json file database
+                    - support cors, any domain
                   `
                 },
                 (stream) => {
@@ -85,7 +89,7 @@ export function Home() {
             askAI
           </Button>
 
-          <pre className="text-xs px-5 w-full whitespace-pre-wrap">{txt}</pre>
+          <pre className="text-xs py-5 px-5 w-full whitespace-pre-wrap">{txt}</pre>
 
           {/*  */}
         </div>

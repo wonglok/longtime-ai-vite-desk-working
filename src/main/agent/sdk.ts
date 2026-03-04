@@ -109,12 +109,6 @@ export const createAgent = async ({
             { role: 'user', content: procedureText },
             //
             ...messages
-              .slice()
-              .reverse()
-              .filter((_, i) => {
-                return i <= 150
-              })
-              .reverse()
           ],
 
           tools: toolkit.schemas,
