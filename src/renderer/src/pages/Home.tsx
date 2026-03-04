@@ -58,7 +58,7 @@ export function Home() {
                   action: 'message',
                   prompt: `
                   App idea:
-                    - I want to build a kanban drag and drop todo app.
+                    - I want to build a kanban drag and drop todo app with collaborative realtime update features.
 
                   Frontend:
                     - reactjs with vite
