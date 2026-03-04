@@ -110,7 +110,9 @@ export const createAgent = async ({
       let i = 0
       let run = async () => {
         i++
+
         console.log('Step: ', i)
+
         const {
           choices: [{ message }]
         }: any = await openai.chat.completions.create({
@@ -127,8 +129,6 @@ export const createAgent = async ({
           reasoning_effort: 'xhigh'
         })
 
-        onProgress(`${message.content}`)
-
         messages.push(message)
 
         if (message?.tool_calls?.length > 0) {
@@ -143,7 +143,6 @@ export const createAgent = async ({
               const result = await toolkit.run(fn.name, JSON.parse(fn.arguments))
 
               // console.log(fn.name, JSON.parse(fn.arguments), JSON.stringify(result, null, '\t'))
-
               messages.push({
                 role: 'tool',
                 tool_call_id: id,
@@ -153,14 +152,15 @@ export const createAgent = async ({
           } catch (e) {
             console.error(e)
           }
-        }
 
-        if (message?.tool_calls?.length === 0) {
-          console.log(`\n======== ✅ Done ========`)
-          console.log(`\n======== ✅ Done ========`)
-          console.log(`\n======== ✅ Done ========`)
+          return await run()
         } else {
-          await run()
+          if (JSON.parse(message.content).appDevelopmentStatus === 'all_done') {
+            console.log(`======== ✅ Done ========`)
+            onProgress(`======== ✅ Done ========`)
+          } else {
+            return await run()
+          }
         }
       }
       await run()

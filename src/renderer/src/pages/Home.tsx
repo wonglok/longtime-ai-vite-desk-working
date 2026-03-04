@@ -53,7 +53,7 @@ export function Home() {
                   baseURL: `http://localhost:1234/v1`,
                   model: 'qwen3.5-9b',
 
-                  folder: `my-app-${Math.random().toString(36).slice(2, 9)}`,
+                  folder: `my-app-001`,
 
                   action: 'message',
                   prompt: `
@@ -69,6 +69,7 @@ Frontend:
   - drag and drop lib in npm
   - frontend service port uses "3001"
   - backend service port uses "3002"
+  - git repo
 
 Backend: 
   - support cors, any domain
@@ -76,6 +77,10 @@ Backend:
   - express js 
   - socket-io powered collaboration features 
   - json file database
+  - git repo
+
+Finally:
+  start the backend and frontend server.
                   `
                 },
                 (stream) => {

@@ -24,9 +24,9 @@ export const enhancedAgent = async ({ mainWindow, event, randID, inbound }) => {
 
   mainWindow.webContents.send(`askAI-stream${randID}`, 'Agent Starts...')
 
-  const memory = await createMemoryAccessor({
-    workspacePath: ``
-  })
+  // const memory = await createMemoryAccessor({
+  //   workspacePath: ``
+  // })
 
   const agent = await createAgent({
     apiKey: inbound.apiKey,
@@ -41,11 +41,11 @@ export const enhancedAgent = async ({ mainWindow, event, randID, inbound }) => {
     contextWindow: 4096,
     tools: [
       //
-      terminalTool(),
-      // calculate
-      readFileTool(memory),
-      writeFileTool(memory),
-      fetchTool
+      terminalTool()
+      // // calculate
+      // readFileTool(memory),
+      // writeFileTool(memory),
+      // fetchTool
     ]
   })
 
