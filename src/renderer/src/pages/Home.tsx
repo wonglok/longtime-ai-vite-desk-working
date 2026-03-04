@@ -74,7 +74,7 @@ export function Home() {
                 },
                 (stream) => {
                   console.log(stream)
-                  setTxt(stream)
+                  setTxt(`${stream}`)
                 }
               )
 

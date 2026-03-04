@@ -1,11 +1,10 @@
-import { createAgent, removeThinkTags } from './sdk'
+import { createAgent } from './sdk'
 import { fetchTool, getAllFilesAsync, terminalTool } from './toolbox'
 import { join } from 'path'
 import { app } from 'electron'
 import { makeDirectory } from 'make-dir'
 // @ts-ignore
 import metaprompt from './prompt/meta-prompt.md?raw'
-import { streamText } from './simple-ai-calls'
 
 // ============================================================================
 // USAGE
@@ -50,7 +49,9 @@ export const enhancedAgent = async ({ mainWindow, event, randID, inbound }) => {
   const agent = await createAgent({
     apiKey: inbound.apiKey,
     baseURL: inbound.baseURL,
-
+    onProgress: (str: string) => {
+      mainWindow.webContents.send(`askAI-stream${randID}`, str)
+    },
     temperature: 0.0,
     maxSteps: 999,
     model: inbound.model, // local

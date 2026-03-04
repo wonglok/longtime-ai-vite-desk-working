@@ -4,7 +4,7 @@
 // import { processPromptRequest } from './tools/processStack'
 // import { prepToolListFiles } from './tools/fsTools'
 
-import { enhancedAgent } from './agent/example'
+import { enhancedAgent } from './agent/enhancedAgent'
 
 // function removeThinkTags(input) {
 //   const regex = /<think>.*?<\/think>/gis

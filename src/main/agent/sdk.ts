@@ -71,8 +71,10 @@ export const createAgent = async ({
   model = 'qwen3.5-4b',
   temperature = 0.1,
   maxSteps = 20,
-  contextWindow = 4096
+  contextWindow = 4096,
+  onProgress = () => {}
 }: {
+  onProgress: (v) => void
   model: string
   temperature: number
   apiKey?: string
@@ -136,6 +138,8 @@ export const createAgent = async ({
           const result = await toolkit.run(fn.name, JSON.parse(fn.arguments))
 
           // console.log(fn.name, JSON.parse(fn.arguments), JSON.stringify(result, null, '\t'))
+
+          onProgress(JSON.stringify(result))
 
           messages.push({ role: 'tool', tool_call_id: id, content: `${JSON.stringify(result)}` })
         }
