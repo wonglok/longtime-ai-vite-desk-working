@@ -44,27 +44,18 @@ export function Home() {
             onClick={async () => {
               //
 
-              const enhancedPrompt = await window.api.askAI(
-                {
-                  apiKey: '',
-                  baseURL: `http://localhost:1234/v1`,
-                  workspace: `./workspace`,
-                  action: 'enhance',
-                  inputPrompt: 'i want to build a todo list'
-                },
-                (stream) => {
-                  console.log(stream)
-                  setTxt(stream)
-                }
-              )
-
               const data = await window.api.askAI(
                 {
                   apiKey: '',
                   baseURL: `http://localhost:1234/v1`,
-                  workspace: `./workspace`,
+                  model: 'qwen3.5-9b',
+
+                  folder: `my-app-01`,
+
                   action: 'message',
-                  inputPrompt: `${enhancedPrompt}`
+                  prompt: `
+                  i want to build a kanban drag and drop todo app with socket-io powered collaboration features and express js with json file database.
+                  `
                 },
                 (stream) => {
                   console.log(stream)
@@ -78,7 +69,7 @@ export function Home() {
             askAI
           </Button>
 
-          <pre className="text-xs">{txt}</pre>
+          <pre className="text-xs px-5 w-full whitespace-pre-wrap">{txt}</pre>
 
           {/*  */}
         </div>

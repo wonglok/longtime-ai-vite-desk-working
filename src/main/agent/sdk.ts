@@ -145,3 +145,9 @@ export const createAgent = async ({
     }
   }
 }
+
+export function removeThinkTags(input) {
+  const regex = /<think>.*?<\/think>/gis
+  const result = input.replace(regex, '')
+  return result
+}

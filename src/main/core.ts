@@ -23,7 +23,12 @@ export const setupIPCMain = async ({ ipcMain, mainWindow }) => {
       mainWindow.webContents.send(`askAI-stream${randID}`, `Begin Processing Todo list...`)
 
       if (inbound.action === 'message') {
-        enhancedAgent({ mainWindow, event, inbound, randID, inputPrompt: inbound.inputPrompt })
+        await enhancedAgent({
+          mainWindow,
+          event,
+          inbound,
+          randID
+        })
       }
 
       event.reply(`${'askAI-reply'}${randID}`, { status: 'done' })
@@ -33,116 +38,3 @@ export const setupIPCMain = async ({ ipcMain, mainWindow }) => {
     }
   })
 }
-
-// const planner = await generateJSON({
-//     api: inbound,
-//     messages: [
-//       {
-//         role: 'system',
-//         content: `
-//           You are a execution planner.
-//         `
-//       }
-//     ],
-//     schema: z.object({
-//       plan: z.string(),
-//       review: z.string()
-//     }),
-//     temperature: 0.5
-//   })
-// let tools = [
-//   //
-//   prepToolListFiles({ workspace: inbound.workspace }),
-//   prepToolCreateFolder({ workspace: inbound.workspace }),
-//   prepToolReadFile({ workspace: inbound.workspace }),
-//   prepToolWriteFile({ workspace: inbound.workspace }),
-//   prepToolTrashFile({ workspace: inbound.workspace }),
-//   prepToolTrashFolder({ workspace: inbound.workspace })
-// ]
-//       let runGroup = async ({ plan }) => {
-//         //
-//         // console.log('before-task', todo)
-//         //
-//         const pickedTask = await streamText({
-//           api: inbound,
-//           onStream: (message) => {
-//             mainWindow.webContents.send(`askAI-stream${randID}`, message)
-//           },
-//           messages: [
-//             {
-//               role: 'system',
-//               content: `You are a developer.`
-//             },
-//             {
-//               role: 'user',
-//               content: `
-//                 pick a task from the todo list and work on it. mark it as working with this: [doing].
-//                 here's the todo list:\n${plan}`
-//             }
-//           ],
-//           temperature: 0
-//         })
-//         console.log('after-pick', pickedTask)
-//         const review = await generateJSON({
-//           api: inbound,
-//           messages: [
-//             {
-//               role: 'system',
-//               content: `You are a senior developer.`
-//             },
-//             {
-//               role: 'user',
-//               content: `here's the todo list:\n${plan}`
-//             },
-//             {
-//               role: 'user',
-//               content: `the developer have been working on task: ${pickedTask}.
-//               `
-//             },
-//             {
-//               role: 'user',
-//               content: `here's the current file system:\n${JSON.stringify(files, null, '\t')}`
-//             },
-//             {
-//               role: 'user',
-//               content: `You udpate the todo list, if it's finished then you use [done] to mark the task to be finished`
-//             }
-//           ],
-//           schema: z.object({
-//             plan: z.string().describe('update todo list with the work it provides'),
-//             continueToRun: z.boolean()
-//           }),
-//           temperature: 0
-//         })
-//         console.log('after-review', review)
-//         if (review.continueToRun) {
-//           return await runGroup({ plan: review.todo })
-//         } else {
-//           return { plan: review.todo }
-//         }
-//       }
-//       const plan = await streamText({
-//         api: inbound,
-//         temperature: 0,
-//         onStream: (message) => {
-//           mainWindow.webContents.send(`askAI-stream${randID}`, message)
-//         },
-//         messages: [
-//           {
-//             role: 'system',
-//             content: `
-//             You write structured todo list from the user requirements. You include check list task boxes []. You only plan the todo list, you dont write code.
-//             If user didn't mention the backend, then please build an express js backend with simple fs based json db.
-//             `
-//           },
-//           {
-//             role: 'user',
-//             content: `
-// i want to build a todo list
-//           `
-//           }
-//         ]
-//       })
-//       const output = await runGroup({
-//         plan: `${plan}`
-//       })
