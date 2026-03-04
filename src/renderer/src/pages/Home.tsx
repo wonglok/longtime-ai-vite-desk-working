@@ -57,16 +57,16 @@ export function Home() {
 
                   action: 'message',
                   prompt: `
-                  app idea:
+                  App idea:
                     - i want to build a kanban drag and drop todo app.
 
-                  frontend:
+                  Frontend:
                     - reactjs with vite
                     - socket io client
                     - three.js
                     - @react-three/fiber @react-three/drei
 
-                  backend: 
+                  Backend: 
                     - express js 
                     - socket-io powered collaboration features 
                     - json file database
