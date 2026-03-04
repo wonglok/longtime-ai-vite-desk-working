@@ -40,6 +40,9 @@ export function Home() {
           {/*  */}
 
           {/*  */}
+
+          {/*  */}
+
           <Button
             onClick={async () => {
               //
@@ -54,7 +57,19 @@ export function Home() {
 
                   action: 'message',
                   prompt: `
-                  i want to build a kanban drag and drop todo app with socket-io powered collaboration features and express js with json file database.
+                  app idea:
+                    - i want to build a kanban drag and drop todo app.
+
+                  frontend:
+                    - reactjs with vite
+                    - socket io client
+                    - three.js
+                    - @react-three/fiber @react-three/drei
+
+                  backend: 
+                    - express js 
+                    - socket-io powered collaboration features 
+                    - json file database
                   `
                 },
                 (stream) => {
