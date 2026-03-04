@@ -92,17 +92,29 @@ export const createAgent = async ({
   //
 
   return {
-    run: async (input: string) => {
-      messages.push({ role: 'user', content: input })
+    executeProcedure: async (procedureText: string) => {
+      // messages.push()
 
       console.log('\n🚀 Agent Loop\n' + '═'.repeat(30))
 
       for (let i = 0; i < maxIter; i++) {
+        console.log('Step: ', i)
         const {
           choices: [{ message }]
         } = await openai.chat.completions.create({
           model: model,
-          messages: messages,
+          messages: [
+            { role: 'user', content: procedureText },
+            //
+            ...messages
+              .slice()
+              .reverse()
+              .filter((_, i) => {
+                return i <= 150
+              })
+              .reverse()
+          ],
+
           tools: toolkit.schemas,
           tool_choice: 'auto',
           temperature: temperature
@@ -123,7 +135,7 @@ export const createAgent = async ({
 
           const result = await toolkit.run(fn.name, JSON.parse(fn.arguments))
 
-          console.log(fn.name, fn.arguments, result)
+          // console.log(fn.name, JSON.parse(fn.arguments), JSON.stringify(result, null, '\t'))
 
           messages.push({ role: 'tool', tool_call_id: id, content: `${JSON.stringify(result)}` })
         }

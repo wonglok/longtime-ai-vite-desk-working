@@ -28,9 +28,9 @@ export const terminalTool = () =>
           //   console.info(`${stderr}`)
           //   // reject(`std error: ${stderr}`)
           // }
-
-          console.log(`stdout: ${JSON.stringify(stdout)}`)
-          resolve(JSON.stringify(stdout))
+          console.log('cmd: ', cmd)
+          console.log(`${stdout}`)
+          resolve(stdout)
         })
       })
     }

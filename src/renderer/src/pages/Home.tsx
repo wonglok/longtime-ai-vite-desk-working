@@ -43,16 +43,28 @@ export function Home() {
           <Button
             onClick={async () => {
               //
+
+              const enhancedPrompt = await window.api.askAI(
+                {
+                  apiKey: '',
+                  baseURL: `http://localhost:1234/v1`,
+                  workspace: `./workspace`,
+                  action: 'enhance',
+                  inputPrompt: 'i want to build a todo list'
+                },
+                (stream) => {
+                  console.log(stream)
+                  setTxt(stream)
+                }
+              )
+
               const data = await window.api.askAI(
                 {
                   apiKey: '',
                   baseURL: `http://localhost:1234/v1`,
                   workspace: `./workspace`,
                   action: 'message',
-                  latestPrompt: 'i want to build a todo list',
-                  pinnedNotes: `
-                    build software in my-software folder within workspace.
-                  `
+                  inputPrompt: `${enhancedPrompt}`
                 },
                 (stream) => {
                   console.log(stream)

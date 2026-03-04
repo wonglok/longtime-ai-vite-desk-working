@@ -4,7 +4,7 @@
 // import { processPromptRequest } from './tools/processStack'
 // import { prepToolListFiles } from './tools/fsTools'
 
-import { example } from './agent/example'
+import { enhancedAgent } from './agent/example'
 
 // function removeThinkTags(input) {
 //   const regex = /<think>.*?<\/think>/gis
@@ -23,37 +23,7 @@ export const setupIPCMain = async ({ ipcMain, mainWindow }) => {
       mainWindow.webContents.send(`askAI-stream${randID}`, `Begin Processing Todo list...`)
 
       if (inbound.action === 'message') {
-        example()
-        //
-        // const dirTool = prepToolListFiles({ workspace: inbound.workspace })
-        // const refined = await generateJSON({
-        //   api: inbound,
-        //   temperature: 0,
-        //   reasoning: {
-        //     effort: 'high'
-        //   },
-        //   messages: [
-        //     {
-        //       role: 'system',
-        //       content: `
-        //       You are an AI senior developer, you refine prompt and write overall context for AI agents to use.
-        //       Current file tree:
-        //       ${await dirTool.execute({ relativePath: './' })}
-        //     `
-        //     },
-        //     {
-        //       role: 'user',
-        //       content: `${inbound.prompt}`
-        //     }
-        //   ],
-        //   schema: z.object({
-        //     context: z.string()
-        //   })
-        // })
-        // mainWindow.webContents.send(
-        //   `askAI-stream${randID}`,
-        //   `Todo list: \n ${JSON.stringify(refined, null, '\t')}`
-        // )
+        enhancedAgent({ mainWindow, event, inbound, randID, inputPrompt: inbound.inputPrompt })
       }
 
       event.reply(`${'askAI-reply'}${randID}`, { status: 'done' })
