@@ -126,6 +126,7 @@ export const createAgent = async ({
 
         if (!message.tool_calls?.length) {
           console.log(`\n✅ Done:\n${message.content}`)
+          console.log(`\n======== ✅ Done ========`)
           return { messages, output: messages[messages.length - 1]?.content }
         }
 
@@ -139,7 +140,7 @@ export const createAgent = async ({
 
           // console.log(fn.name, JSON.parse(fn.arguments), JSON.stringify(result, null, '\t'))
 
-          onProgress(JSON.stringify(result))
+          onProgress(`${message.content}`)
 
           messages.push({ role: 'tool', tool_call_id: id, content: `${JSON.stringify(result)}` })
         }

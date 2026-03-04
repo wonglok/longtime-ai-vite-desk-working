@@ -58,23 +58,24 @@ export function Home() {
                   action: 'message',
                   prompt: `
                   App idea:
-                    - i want to build a kanban drag and drop todo app.
+                    - I want to build a kanban drag and drop todo app.
 
                   Frontend:
                     - reactjs with vite
-                    - socket io client
+                    - socket-io client
                     - three.js
                     - @react-three/fiber @react-three/drei
+                    - drag and drop lib in npm
 
                   Backend: 
-                    - express js 
+                    - express js port using 3002
                     - socket-io powered collaboration features 
                     - json file database
                   `
                 },
                 (stream) => {
                   console.log(stream)
-                  setTxt(`${stream}`)
+                  setTxt(`${stream.replace(`<think>`, '').replace(`</think>`, '')}`)
                 }
               )
 

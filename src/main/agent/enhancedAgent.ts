@@ -67,27 +67,28 @@ export const enhancedAgent = async ({ mainWindow, event, randID, inbound }) => {
     ]
   })
 
-  const files = await getAllFilesAsync(workspace, [])
-  const filesText = `${files
-    .filter((r) => {
-      if (r.includes('node_modules')) {
-        return false
-      }
-      return true
-    })
-    .map((r) => {
-      return `${r}`
-    })
-    .join('\n')}`.trim()
+  //   const files = await getAllFilesAsync(workspace, [])
+  //   const filesText = `
+  // Here are the files of the current workspace:
+  //   ${files
+  //     .filter((r) => {
+  //       if (r.includes('node_modules')) {
+  //         return false
+  //       }
+  //       return true
+  //     })
+  //     .map((r) => {
+  //       return `${r}`
+  //     })
+  //     .join('\n')}`.trim()
 
-  console.log(filesText)
+  // console.log(filesText)
 
   const result = await agent.executeProcedure(`
-    Here are the files of the current workspace:
-    ${filesText}
-
     Here is the workspace: 
     ${workspace}
+
+    You read the workspace files before writing code.
 
     Here is the prompt from user:
     ${inbound.prompt}
