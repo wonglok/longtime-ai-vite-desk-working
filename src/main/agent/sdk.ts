@@ -95,8 +95,9 @@ export const createAgent = async ({
 
   return {
     executeProcedure: async (procedureText: string) => {
-      // messages.push()
+      messages.push({ role: 'system', content: procedureText })
 
+      //
       console.log('\n🚀 Agent Loop\n' + '═'.repeat(30))
 
       for (let i = 0; i < maxIter; i++) {
@@ -106,7 +107,6 @@ export const createAgent = async ({
         } = await openai.chat.completions.create({
           model: model,
           messages: [
-            { role: 'user', content: procedureText },
             //
             ...messages
           ],

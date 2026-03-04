@@ -67,32 +67,35 @@ export const enhancedAgent = async ({ mainWindow, event, randID, inbound }) => {
     ]
   })
 
-  //   const files = await getAllFilesAsync(workspace, [])
-  //   const filesText = `
-  // Here are the files of the current workspace:
-  //   ${files
-  //     .filter((r) => {
-  //       if (r.includes('node_modules')) {
-  //         return false
-  //       }
-  //       return true
-  //     })
-  //     .map((r) => {
-  //       return `${r}`
-  //     })
-  //     .join('\n')}`.trim()
+  const files = await getAllFilesAsync(workspace, [])
+  const filesText = `
+  Here are the files of the current workspace:
+    ${files
+      .filter((r) => {
+        if (r.includes('node_modules')) {
+          return false
+        }
+        return true
+      })
+      .map((r) => {
+        return `${r}`
+      })
+      .join('\n')}`.trim()
 
-  // console.log(filesText)
-
-  const result = await agent.executeProcedure(`
-    Here is the workspace: 
+  const procedureText = `
+    You are in this workspace folder:
     ${workspace}
 
-    You make sure the app's backend and frontend has their git initialized. 
+    Here are the files in the workspace:
+    ${filesText}
 
     Here is the prompt from user:
     ${inbound.prompt}
-  `)
+  `
+
+  console.log(procedureText)
+
+  const result = await agent.executeProcedure(procedureText)
 
   /*
   Calculate 2+2, write to "result.txt", then read it back then add 1 then save it then send it to me.
