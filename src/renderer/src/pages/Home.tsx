@@ -62,7 +62,7 @@ App idea:
 
 Frontend:
   - support cors, any domain
-  - reactjs with vite, disable linting.
+  - react js with vite, disable linting, use javascript instead of typescript
   - socket-io client
   - three.js
   - @react-three/fiber @react-three/drei
@@ -70,17 +70,19 @@ Frontend:
   - frontend service port uses "3001"
   - backend service port uses "3002"
   - git repo
+  - npm run install
+  - npm run dev
 
 Backend: 
+  - use common js
   - support cors, any domain
   - backend service port uses "3002"
   - express js 
   - socket-io powered collaboration features 
   - json file database
   - git repo
-
-Guidelines:
-  - Check the folder files before start writing code
+  - npm run install
+  - npm run dev
 
 Finally:
   start the backend and frontend server.
