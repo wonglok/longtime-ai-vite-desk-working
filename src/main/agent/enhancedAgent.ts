@@ -68,7 +68,6 @@ export const enhancedAgent = async ({ mainWindow, event, randID, inbound }) => {
     You are in this workspace folder:
     ${workspace}
 
-    Here are the files in the workspace:
     ${filesText}
 
     Here is the prompt from user:

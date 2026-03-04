@@ -155,10 +155,15 @@ export const createAgent = async ({
 
           return await run()
         } else {
-          if (JSON.parse(message.content).appDevelopmentStatus === 'all_done') {
-            console.log(`======== ✅ Done ========`)
-            onProgress(`======== ✅ Done ========`)
-          } else {
+          try {
+            let data = JSON.parse(message.content)
+            if (data?.appDevelopmentStatus === 'all_done') {
+              console.log(`======== ✅ Done ========`)
+              onProgress(`======== ✅ Done ========`)
+            } else {
+              return await run()
+            }
+          } catch (e) {
             return await run()
           }
         }
