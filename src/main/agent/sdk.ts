@@ -1,6 +1,8 @@
 import OpenAI from 'openai'
 import { ChatCompletionMessageParam, ChatCompletionTool } from 'openai/resources/chat/completions'
 import { z } from 'zod'
+import { zodResponseFormat } from 'openai/helpers/zod'
+import { terminalTool } from './toolbox'
 // ============================================================================
 // CORE TYPES & FACTORY
 // ============================================================================
@@ -105,11 +107,13 @@ export const createAgent = async ({
       //
       console.log('\n🚀 Agent Loop\n' + '═'.repeat(30))
 
-      for (let i = 0; i < maxIter; i++) {
+      let i = 0
+      let run = async () => {
+        i++
         console.log('Step: ', i)
         const {
           choices: [{ message }]
-        } = await openai.chat.completions.create({
+        }: any = await openai.chat.completions.create({
           model: model,
           messages: [
             //
@@ -119,32 +123,47 @@ export const createAgent = async ({
 
           tools: toolkit.schemas,
           tool_choice: 'auto',
-          temperature: temperature
+          temperature: temperature,
+          reasoning_effort: 'xhigh'
         })
 
         onProgress(`${message.content}`)
 
         messages.push(message)
 
-        if (!message.tool_calls?.length) {
-          console.log(`\n✅ Done:\n${message.content}`)
-          console.log(`\n======== ✅ Done ========`)
-          return { messages, output: messages[messages.length - 1]?.content }
+        if (message?.tool_calls?.length > 0) {
+          // return { messages, output: messages[messages.length - 1]?.content }
+          console.log(`\n📍 Iter ${i + 1}: ${message.tool_calls.length} tool(s)`)
+
+          try {
+            for (const caller of message.tool_calls) {
+              const id = caller.id
+              const fn = caller['function']
+
+              const result = await toolkit.run(fn.name, JSON.parse(fn.arguments))
+
+              // console.log(fn.name, JSON.parse(fn.arguments), JSON.stringify(result, null, '\t'))
+
+              messages.push({
+                role: 'tool',
+                tool_call_id: id,
+                content: `${JSON.stringify(result)}`
+              })
+            }
+          } catch (e) {
+            console.error(e)
+          }
         }
 
-        console.log(`\n📍 Iter ${i + 1}: ${message.tool_calls.length} tool(s)`)
-
-        for (const caller of message.tool_calls) {
-          const id = caller.id
-          const fn = caller['function']
-
-          const result = await toolkit.run(fn.name, JSON.parse(fn.arguments))
-
-          // console.log(fn.name, JSON.parse(fn.arguments), JSON.stringify(result, null, '\t'))
-
-          messages.push({ role: 'tool', tool_call_id: id, content: `${JSON.stringify(result)}` })
+        if (message?.tool_calls?.length === 0) {
+          console.log(`\n======== ✅ Done ========`)
+          console.log(`\n======== ✅ Done ========`)
+          console.log(`\n======== ✅ Done ========`)
+        } else {
+          await run()
         }
       }
+      await run()
 
       return { messages, output: messages[messages.length - 1]?.content }
     }

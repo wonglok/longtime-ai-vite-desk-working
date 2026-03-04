@@ -1,7 +1,8 @@
 import z from 'zod'
 
 export async function generateJSON({
-  api,
+  baseURL = 'http://localhost:1234/v1',
+  apiKey = '',
   schema,
   temperature = 0.8,
   reasoning = {
@@ -20,12 +21,12 @@ export async function generateJSON({
 }) {
   //
 
-  return await fetch(`${api.baseURL}/chat/completions`, {
+  return await fetch(`${baseURL}/chat/completions`, {
     method: 'POST',
     mode: 'cors',
     headers: new Headers({
       [`Content-Type`]: `application/json`,
-      [`Authorization`]: `Bearer ${api.apiKey || 'na'}`
+      [`Authorization`]: `Bearer ${apiKey || 'na'}`
     }),
     body: JSON.stringify({
       model: `qwen3.5-4b`,
@@ -56,7 +57,8 @@ export async function generateJSON({
 }
 
 export async function streamText({
-  api,
+  baseURL = 'http://localhost:1234/v1',
+  apiKey = '',
   onStream = (v: any) => {},
   temperature = 0.8,
   messages = [
@@ -73,12 +75,12 @@ export async function streamText({
     effort: 'low'
   }
 }) {
-  let response = await fetch(`${api.baseURL}/chat/completions`, {
+  let response = await fetch(`${baseURL}/chat/completions`, {
     method: 'POST',
     mode: 'cors',
     headers: new Headers({
       [`Content-Type`]: `application/json`,
-      [`Authorization`]: `Bearer ${api.apiKey || 'na'}`
+      [`Authorization`]: `Bearer ${apiKey || 'na'}`
     }),
     body: JSON.stringify({
       model: `qwen3.5-4b`,
