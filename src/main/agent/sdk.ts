@@ -152,7 +152,7 @@ export const createAgent = async ({
           tools: toolkit.schemas,
           tool_choice: 'auto',
           temperature: temperature,
-          reasoning_effort: 'xhigh'
+          reasoning_effort: 'high'
         })
 
         messages.push(message)
