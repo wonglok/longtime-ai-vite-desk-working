@@ -49,6 +49,12 @@ export const example = async () => {
   */
   const files = await getAllFilesAsync(workspace, [])
   const filesText = `${files
+    .filter((r) => {
+      if (r.includes('node_modules')) {
+        return false
+      }
+      return true
+    })
     .map((r) => {
       return `${r}`
     })
