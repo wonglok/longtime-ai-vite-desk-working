@@ -116,6 +116,8 @@ export const createAgent = async ({
           temperature: temperature
         })
 
+        onProgress(`${message.content}`)
+
         messages.push(message)
 
         if (!message.tool_calls?.length) {
@@ -133,8 +135,6 @@ export const createAgent = async ({
           const result = await toolkit.run(fn.name, JSON.parse(fn.arguments))
 
           // console.log(fn.name, JSON.parse(fn.arguments), JSON.stringify(result, null, '\t'))
-
-          onProgress(`${message.content}`)
 
           messages.push({ role: 'tool', tool_call_id: id, content: `${JSON.stringify(result)}` })
         }
