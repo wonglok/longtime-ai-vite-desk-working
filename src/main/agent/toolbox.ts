@@ -1,7 +1,7 @@
 import { makeDirectory } from 'make-dir'
 import { join } from 'path'
-import * as path from 'path'
 import { z } from 'zod'
+import * as path from 'path'
 import * as fs from 'fs/promises'
 import { defineTool } from './sdk'
 import { exec } from 'child_process'
@@ -137,33 +137,3 @@ export const writeFileTool = (memory: MemoryAccessor) =>
   })
 
 //
-
-/**
- * Recursively list all files in a directory and its subdirectories.
- * @param {string} dirPath The absolute or relative path to the directory.
- * @param {string[]} [fileList] An optional array to accumulate file paths.
- * @returns {string[]} An array of absolute file paths.
- */
-export const getAllFilesAsync = async (dirPath, fileList: string[] = []) => {
-  // Read the contents of the current directory
-  const files = await fs.readdir(dirPath)
-
-  for (let file of files) {
-    // Construct the full path to the current item
-    const fullPath = path.join(dirPath, file)
-
-    // Check if the item is a directory
-    if ((await fs.stat(fullPath)).isDirectory()) {
-      // If it's a directory, recursively call the function
-      await getAllFilesAsync(fullPath, fileList)
-    } else {
-      // If it's a file, add its full path to the list
-      fileList.push(fullPath)
-    }
-  }
-
-  // files.forEach(async (file) => {
-  // })
-
-  return fileList
-}

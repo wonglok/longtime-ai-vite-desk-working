@@ -1,8 +1,10 @@
 import OpenAI from 'openai'
 import { ChatCompletionMessageParam, ChatCompletionTool } from 'openai/resources/chat/completions'
 import { z } from 'zod'
+import * as path from 'path'
+import * as fs from 'fs/promises'
 import { zodResponseFormat } from 'openai/helpers/zod'
-import { terminalTool } from './toolbox'
+
 // ============================================================================
 // CORE TYPES & FACTORY
 // ============================================================================
@@ -67,28 +69,27 @@ export const estimateTokenCountFromObject = (theobject: string) =>
 // ============================================================================
 
 export const createAgent = async ({
+  workspace = '',
   apiKey = '',
   baseURL = 'http://localhost:1234/v1',
   tools,
   model = 'qwen3.5-4b',
   temperature = 0.1,
-  maxSteps = 20,
   contextWindow = 4096,
   onProgress = () => {}
 }: {
+  workspace: string
   onProgress: (v) => void
   model: string
   temperature: number
   apiKey?: string
   baseURL?: string
-  maxSteps?: number
   tools: ToolDef<any>[]
   contextWindow: number
 }) => {
   const openai = new OpenAI({ apiKey, baseURL })
   const toolkit = createToolKit(tools)
   const messages: ChatCompletionMessageParam[] = []
-  const maxIter = maxSteps
   const maxToken = contextWindow
 
   //
@@ -109,9 +110,24 @@ export const createAgent = async ({
 
       let i = 0
       let run = async () => {
+        console.log('Running Step: ', i)
+
         i++
 
-        console.log('Step: ', i)
+        const files = await getAllFilesAsync(workspace, [])
+        const filesListText = `
+  Here are the files in the current workspace:
+    ${files
+      .filter((r) => {
+        if (r.includes('node_modules')) {
+          return false
+        }
+        return true
+      })
+      .map((r) => {
+        return `${r}`
+      })
+      .join('\n')}`.trim()
 
         const {
           choices: [{ message }]
@@ -120,7 +136,17 @@ export const createAgent = async ({
           messages: [
             //
             { role: 'system', content: procedureText },
+            { role: 'user', content: filesListText },
             ...messages
+              .slice()
+              .reverse()
+              .filter((_, idx) => {
+                if (idx <= 250) {
+                  return true
+                }
+                return false
+              })
+              .reverse()
           ],
 
           tools: toolkit.schemas,
@@ -155,17 +181,16 @@ export const createAgent = async ({
 
           return await run()
         } else {
-          try {
-            let data = JSON.parse(message.content)
-            if (data?.appDevelopmentStatus === 'all_done') {
-              console.log(`======== ✅ Done ========`)
-              onProgress(`======== ✅ Done ========`)
-            } else {
-              return await run()
-            }
-          } catch (e) {
-            return await run()
-          }
+          //   try {
+          //   let data = JSON.parse(message.content)
+          //   if (data?.appDevelopmentStatus === 'all_done') {
+          //     console.log(`======== ✅ Done ========`)
+          //     onProgress(`======== ✅ Done ========`)
+          //   } else {
+          //     return await run()
+          //   }
+          // } catch (e) {
+          // }
         }
       }
       await run()
@@ -179,4 +204,34 @@ export function removeThinkTags(input) {
   const regex = /<think>.*?<\/think>/gis
   const result = input.replace(regex, '')
   return result
+}
+
+/**
+ * Recursively list all files in a directory and its subdirectories.
+ * @param {string} dirPath The absolute or relative path to the directory.
+ * @param {string[]} [fileList] An optional array to accumulate file paths.
+ * @returns {string[]} An array of absolute file paths.
+ */
+export const getAllFilesAsync = async (dirPath, fileList: string[] = []) => {
+  // Read the contents of the current directory
+  const files = await fs.readdir(dirPath)
+
+  for (let file of files) {
+    // Construct the full path to the current item
+    const fullPath = path.join(dirPath, file)
+
+    // Check if the item is a directory
+    if ((await fs.stat(fullPath)).isDirectory()) {
+      // If it's a directory, recursively call the function
+      await getAllFilesAsync(fullPath, fileList)
+    } else {
+      // If it's a file, add its full path to the list
+      fileList.push(fullPath)
+    }
+  }
+
+  // files.forEach(async (file) => {
+  // })
+
+  return fileList
 }

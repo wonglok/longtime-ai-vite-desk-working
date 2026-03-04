@@ -79,6 +79,9 @@ Backend:
   - json file database
   - git repo
 
+Guidelines:
+  - Check the folder files before start writing code
+
 Finally:
   start the backend and frontend server.
                   `

@@ -1,12 +1,5 @@
 import { createAgent } from './sdk'
-import {
-  createMemoryAccessor,
-  fetchTool,
-  getAllFilesAsync,
-  readFileTool,
-  terminalTool,
-  writeFileTool
-} from './toolbox'
+import { terminalTool } from './toolbox'
 import { join } from 'path'
 import { app } from 'electron'
 import { makeDirectory } from 'make-dir'
@@ -29,13 +22,13 @@ export const enhancedAgent = async ({ mainWindow, event, randID, inbound }) => {
   // })
 
   const agent = await createAgent({
+    workspace: workspace,
     apiKey: inbound.apiKey,
     baseURL: inbound.baseURL,
     onProgress: (str: string) => {
       mainWindow.webContents.send(`askAI-stream${randID}`, str)
     },
     temperature: 0.0,
-    maxSteps: 999,
     model: inbound.model, // local
     // model: `m1-qwen3.5-35b-a3b`, // remote
     contextWindow: 4096,
@@ -49,26 +42,9 @@ export const enhancedAgent = async ({ mainWindow, event, randID, inbound }) => {
     ]
   })
 
-  const files = await getAllFilesAsync(workspace, [])
-  const filesText = `
-  Here are the files of the current workspace:
-    ${files
-      .filter((r) => {
-        if (r.includes('node_modules')) {
-          return false
-        }
-        return true
-      })
-      .map((r) => {
-        return `${r}`
-      })
-      .join('\n')}`.trim()
-
   const procedureText = `
     You are in this workspace folder:
     ${workspace}
-
-    ${filesText}
 
     Here is the prompt from user:
     ${inbound.prompt}
