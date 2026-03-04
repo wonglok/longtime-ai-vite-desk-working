@@ -95,8 +95,13 @@ export const createAgent = async ({
 
   return {
     executeProcedure: async (procedureText: string) => {
-      messages.push({ role: 'system', content: procedureText })
-
+      //
+      if (messages.length === 0) {
+        messages.push({
+          role: 'user',
+          content: 'continue task'
+        })
+      }
       //
       console.log('\n🚀 Agent Loop\n' + '═'.repeat(30))
 
@@ -108,6 +113,7 @@ export const createAgent = async ({
           model: model,
           messages: [
             //
+            { role: 'system', content: procedureText },
             ...messages
           ],
 

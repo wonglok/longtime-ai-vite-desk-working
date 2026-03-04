@@ -115,7 +115,7 @@ export const createMemoryAccessor = async ({
 
 export type MemoryAccessor = Awaited<ReturnType<typeof createMemoryAccessor>>
 
-export const readFile = (memory: MemoryAccessor) =>
+export const readFileTool = (memory: MemoryAccessor) =>
   defineTool({
     name: 'read_file',
     description: 'Read contents of a file',
@@ -125,7 +125,7 @@ export const readFile = (memory: MemoryAccessor) =>
     }
   })
 
-export const writeFile = (memory: MemoryAccessor) =>
+export const writeFileTool = (memory: MemoryAccessor) =>
   defineTool({
     name: 'write_file',
     description: 'Write content to a file',

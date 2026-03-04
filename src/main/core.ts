@@ -33,6 +33,7 @@ export const setupIPCMain = async ({ ipcMain, mainWindow }) => {
 
       event.reply(`${'askAI-reply'}${randID}`, { status: 'done' })
     } catch (e) {
+      console.error(e)
       event.reply(`${'askAI-reply'}${randID}`, { status: 'failed' })
     } finally {
     }

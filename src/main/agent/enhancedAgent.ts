@@ -1,5 +1,12 @@
 import { createAgent } from './sdk'
-import { fetchTool, getAllFilesAsync, terminalTool } from './toolbox'
+import {
+  createMemoryAccessor,
+  fetchTool,
+  getAllFilesAsync,
+  readFileTool,
+  terminalTool,
+  writeFileTool
+} from './toolbox'
 import { join } from 'path'
 import { app } from 'electron'
 import { makeDirectory } from 'make-dir'
@@ -15,36 +22,11 @@ export const enhancedAgent = async ({ mainWindow, event, randID, inbound }) => {
   const workspace = join(docs, `ai-home`, `${inbound.folder}`)
   await makeDirectory(workspace)
 
-  // const memory = await createMemoryAccessor({
-  //   workspacePath: workspace
-  // })
-
-  // const refined = await streamText({
-  //   api: inbound,
-  //   temperature: 0,
-  //   reasoning: {
-  //     effort: 'low'
-  //   },
-  //   messages: [
-  //     {
-  //       role: 'system',
-  //       content: `
-  //         You are an experienced senior software engineer. You don't overthink. You write the plan concisely.
-  //       `
-  //     },
-  //     {
-  //       role: 'user',
-  //       content: `
-  //       ${metaprompt}
-  //       ${inbound.prompt}`
-  //     }
-  //   ],
-  //   onStream: (v) => {
-  //     mainWindow.webContents.send(`askAI-stream${randID}`, v)
-  //   }
-  // })
-
   mainWindow.webContents.send(`askAI-stream${randID}`, 'Agent Starts...')
+
+  const memory = await createMemoryAccessor({
+    workspacePath: ``
+  })
 
   const agent = await createAgent({
     apiKey: inbound.apiKey,
@@ -60,10 +42,10 @@ export const enhancedAgent = async ({ mainWindow, event, randID, inbound }) => {
     tools: [
       //
       terminalTool(),
-      fetchTool
       // calculate
-      // readFile(memory),
-      // writeFile(memory)
+      readFileTool(memory),
+      writeFileTool(memory),
+      fetchTool
     ]
   })
 
@@ -103,11 +85,32 @@ export const enhancedAgent = async ({ mainWindow, event, randID, inbound }) => {
   */
 
   console.log(result.output)
-
-  //
-  // console.log(result.output)
-  //
 }
+
+// const refined = await streamText({
+//   api: inbound,
+//   temperature: 0,
+//   reasoning: {
+//     effort: 'low'
+//   },
+//   messages: [
+//     {
+//       role: 'system',
+//       content: `
+//         You are an experienced senior software engineer. You don't overthink. You write the plan concisely.
+//       `
+//     },
+//     {
+//       role: 'user',
+//       content: `
+//       ${metaprompt}
+//       ${inbound.prompt}`
+//     }
+//   ],
+//   onStream: (v) => {
+//     mainWindow.webContents.send(`askAI-stream${randID}`, v)
+//   }
+// })
 
 // const planner = await generateJSON({
 //     api: inbound,
