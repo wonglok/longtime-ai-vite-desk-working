@@ -48,6 +48,8 @@ export const enhancedAgent = async ({ mainWindow, event, randID, inbound }) => {
 
     Here is the prompt from user:
     ${inbound.prompt}
+
+    Output "[all_done_marker]" when all coding work are done
   `
 
   console.log(procedureText)

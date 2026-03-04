@@ -181,6 +181,11 @@ export const createAgent = async ({
 
           return await run()
         } else {
+          //
+          if (message.content && message.content.includes('all_done_marker')) {
+          } else {
+            return await run()
+          }
         }
       }
       await run()
