@@ -61,20 +61,21 @@ export function Home() {
                     - I want to build a kanban drag and drop todo app with collaborative realtime update features.
 
                   Frontend:
-                    - reactjs with vite
+                    - support cors, any domain
+                    - reactjs with vite, disable linting.
                     - socket-io client
                     - three.js
                     - @react-three/fiber @react-three/drei
                     - drag and drop lib in npm
+                    - frontend service port uses "3001"
                     - backend service port uses "3002"
-                    - support cors
 
                   Backend: 
+                    - support cors, any domain
                     - backend service port uses "3002"
                     - express js 
                     - socket-io powered collaboration features 
                     - json file database
-                    - support cors, any domain
                   `
                 },
                 (stream) => {
