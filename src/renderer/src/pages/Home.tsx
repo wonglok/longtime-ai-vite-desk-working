@@ -32,7 +32,10 @@ export function Home() {
 
         appSpec: `
 App idea:
-  - I want to build a todo app with kanban ui drag and drop with collaborative realtime update features.
+  - I want to build a todo app 
+  - with kanban ui drag and drop 
+  - with collaborative realtime update features
+  - with mouse crusor of each visitor on screen (html div with transform translate)
 
 Backend Technical Requirements: 
   - git init if there's no git

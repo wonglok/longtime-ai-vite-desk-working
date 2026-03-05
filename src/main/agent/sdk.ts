@@ -166,7 +166,7 @@ ${todo}
               .slice()
               .reverse()
               .filter((_, idx) => {
-                if (idx < 10) {
+                if (idx < 3) {
                   return true
                 }
                 return false
@@ -185,7 +185,6 @@ ${todo}
         if (message?.tool_calls?.length > 0) {
           // return { toolMessages, output: toolMessages[toolMessages.length - 1]?.content }
           console.log(`\n📍 Iter ${i}: ${message.tool_calls.length} tool(s)`)
-          i++
 
           try {
             for (const caller of message.tool_calls) {
@@ -215,8 +214,11 @@ ${todo}
           }
         }
 
+        i++
+
         if (taskManager.appIsFullyBuilt) {
           onProgress('App is built')
+          return
         } else {
           return await run()
         }
