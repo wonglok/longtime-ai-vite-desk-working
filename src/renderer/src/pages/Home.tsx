@@ -31,9 +31,11 @@ export function Home() {
         action: 'message',
         todo: `
 Todo:
-- [] git setup for project workspace folder
+- [] check what the current development progress / status and check the items that are finished
+- [] git setup for project workspace folder if neeeded
 - [] backend code 
-- [] front end code with integration to backend
+- [] front end layout code css
+- [] integrate frontend to backend
 - [] produce a database json file with example data
 
         `,

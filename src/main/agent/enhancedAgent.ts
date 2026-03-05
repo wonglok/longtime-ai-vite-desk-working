@@ -23,7 +23,6 @@ export const enhancedAgent = async ({ mainWindow, event, randID, inbound }) => {
 
   const taskManager: TaskManager = {
     appIsFullyBuilt: false,
-    nextStep: 'check current status',
     todo: `${inbound.todo}`
   }
   const agent = await createAgent({

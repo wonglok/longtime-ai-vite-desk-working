@@ -12,12 +12,12 @@ import { exec } from 'child_process'
 
 export type TaskManager = {
   todo: string
-  nextStep: string
+  // nextStep: string
   appIsFullyBuilt: boolean
 }
 
 export const taskManagerTool = ({
-  taskManager = { todo: '', appIsFullyBuilt: false, nextStep: '' }
+  taskManager = { todo: '', appIsFullyBuilt: false }
 }: {
   taskManager: TaskManager
 }) =>
@@ -26,14 +26,14 @@ export const taskManagerTool = ({
     description:
       'this task manager tool can update the todo list and write down what the next steo can be',
     schema: z.object({
-      nextStep: z.string(),
+      // nextStep: z.string().describe('one next task to work on'),
       appIsFullyBuilt: z.boolean().describe('when the app is fully built'),
       latestTodos: z.string().describe('latest updated todo list')
     }),
-    execute: async ({ nextStep, latestTodos, appIsFullyBuilt }) => {
+    execute: async ({ latestTodos, appIsFullyBuilt }) => {
       return new Promise((resolve, reject) => {
         taskManager.todo = latestTodos
-        taskManager.nextStep = nextStep
+        // taskManager.nextStep = nextStep
         taskManager.appIsFullyBuilt = appIsFullyBuilt
         resolve(`${latestTodos}`)
       })

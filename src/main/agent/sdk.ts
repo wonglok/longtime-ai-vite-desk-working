@@ -131,9 +131,9 @@ export const createAgent = async ({
         //     })
         //     .join('\n')}`.trim()
 
-        let nextStep = ``
-        if (taskManager.nextStep) {
-          nextStep = `Here is next step:\n${taskManager.nextStep}`
+        let todo = ``
+        if (taskManager.todo) {
+          todo = `${taskManager.todo}`
         }
         const contextMessages: ChatCompletionMessageParam[] = [
           //
@@ -151,9 +151,8 @@ ${workspace}
 
 ${instructions}
 
-${taskManager.todo}
+${todo}
 
-${nextStep}
               `
           }
         ]
