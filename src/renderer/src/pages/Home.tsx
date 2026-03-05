@@ -60,7 +60,7 @@ Guidelines:
 MUST Work within the workspace folder. 
 MUST use task manager to keep track of progress of development
 Must check the box in todo when you fullfilled the task.
-Must write about what was done successfully or failed and what to do next
+Must write about progress update. Including what task was failed or done successfully and what to do next
           `,
         todo: `
 Todo:
