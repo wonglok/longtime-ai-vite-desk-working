@@ -206,7 +206,7 @@ ${todo}
               const result = await toolkit.run(fn.name, JSON.parse(fn.arguments))
 
               if (fn.name === 'terminal_tool') {
-                progressText = `Todo:\n${taskManager.todo}\n${'(shell) $ '} ${JSON.parse(fn.arguments).cmd}\n${result.data}\n`
+                progressText = `Todo:\n${taskManager.todo}\n${'(shell) $ '}\n\n\n${JSON.parse(fn.arguments).cmd}\n${result.data}\n`
                 onProgress(progressText)
               }
 
