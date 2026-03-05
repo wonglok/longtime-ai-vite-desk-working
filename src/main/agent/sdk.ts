@@ -69,7 +69,7 @@ export const estimateTokenCountFromObject = (theobject: string) =>
 // ============================================================================
 
 export const createAgent = async ({
-  instructions = '',
+  appSpec = '',
   workspace = '',
   apiKey = '',
   baseURL = 'http://localhost:1234/v1',
@@ -79,7 +79,7 @@ export const createAgent = async ({
   contextWindow = 4096,
   onProgress = () => {}
 }: {
-  instructions: string
+  appSpec: string
   workspace: string
   onProgress: (v) => void
   model: string
@@ -147,7 +147,7 @@ you are an AI senior developer.
 You are in this workspace folder:
 ${workspace}
 
-${instructions}
+${appSpec}
 
 ${todo}
               `

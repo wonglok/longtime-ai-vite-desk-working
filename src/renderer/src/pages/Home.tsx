@@ -29,17 +29,8 @@ export function Home() {
         folder: `my-app-001`,
 
         action: 'message',
-        todo: `
-Todo:
-- [] check what the current development progress / status and check the items that are finished
-- [] git setup for project workspace folder if neeeded
-- [] backend code 
-- [] front end layout code css
-- [] integrate frontend to backend
-- [] produce a database json file with example data
 
-        `,
-        instructions: `
+        appSpec: `
 App idea:
   - I want to build a todo app with kanban ui drag and drop with collaborative realtime update features.
 
@@ -67,7 +58,17 @@ MUST Work within the workspace folder.
 MUST use task manager to keep track of progress of development
 Check the box in todo when you fullfilled the task.
 
-          `
+          `,
+        todo: `
+Todo:
+- [] check what the current development progress / status and check the items that are finished
+- [] git setup for project workspace folder if neeeded
+- [] backend code 
+- [] front end layout code css
+- [] integrate frontend to backend
+- [] produce a database json file with example data
+
+        `
       },
       (stream) => {
         setTxt(`${stream.replace(/\<think\>/gi, '').replace(/\<\/think\>/gi, '')}`)

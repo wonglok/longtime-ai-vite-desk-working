@@ -26,7 +26,7 @@ export const enhancedAgent = async ({ mainWindow, event, randID, inbound }) => {
     todo: `${inbound.todo}`
   }
   const agent = await createAgent({
-    instructions: inbound.instructions,
+    appSpec: inbound.appSpec,
     workspace: workspace,
     apiKey: inbound.apiKey,
     baseURL: inbound.baseURL,
