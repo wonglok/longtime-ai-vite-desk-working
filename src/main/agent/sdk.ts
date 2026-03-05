@@ -149,7 +149,6 @@ ${workspace}
 
 ${appSpec}
 
-${todo}
               `
           }
         ]
@@ -171,7 +170,14 @@ ${todo}
                 }
                 return false
               })
-              .reverse()
+              .reverse(),
+            {
+              role: 'assistant',
+              content: `
+Todo and Progress update:
+${todo}
+              `
+            }
           ],
 
           tools: toolkit.schemas,
