@@ -35,7 +35,6 @@ export const enhancedAgent = async ({ mainWindow, event, randID, inbound }) => {
     },
     temperature: 0.0,
     model: inbound.model, // local
-    // model: `m1-qwen3.5-35b-a3b`, // remote
     contextWindow: 4096,
     tools: [
       //
