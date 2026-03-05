@@ -114,20 +114,20 @@ export const createAgent = async ({
 
         i++
 
-        const files = await getAllFilesAsync(workspace, [])
-        const filesListText = `
-  Here are the files in the current workspace:
-    ${files
-      .filter((r) => {
-        if (r.includes('node_modules')) {
-          return false
-        }
-        return true
-      })
-      .map((r) => {
-        return `${r}`
-      })
-      .join('\n')}`.trim()
+        // const files = await getAllFilesAsync(workspace, [])
+        //       const filesListText = `
+        // Here are the files in the current workspace:
+        //   ${files
+        //     .filter((r) => {
+        //       if (r.includes('node_modules')) {
+        //         return false
+        //       }
+        //       return true
+        //     })
+        //     .map((r) => {
+        //       return `${r}`
+        //     })
+        //     .join('\n')}`.trim()
 
         let nextStep = ``
         if (taskManager.nextStep) {
@@ -139,7 +139,6 @@ export const createAgent = async ({
             role: 'system',
             content: `
 you are an AI senior developer.
-${filesListText}
               `
           },
           {
@@ -151,7 +150,6 @@ ${workspace}
 ${taskManager.todo}
 
 ${nextStep}
-
               `
           },
 
@@ -198,7 +196,8 @@ ${nextStep}
               }
 
               if (fn.name === 'task_manager_tool') {
-                progressText = `Thinking:\n${removeThinkTags(message.content)}\nTodo List:\n${fn.arguments}\n${result.data}\n`
+                let args = JSON.parse(fn.arguments)
+                progressText = `Thinking:\n${removeThinkTags(message.content)}\nTodo List:\n${args.todo}\nNext Step: \n${args.nextStep}\n${result.data}\n`
                 onProgress(progressText)
               }
 
