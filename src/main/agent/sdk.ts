@@ -152,7 +152,6 @@ ${workspace}
 ${instructions}
 
 ${todo}
-
               `
           }
         ]
@@ -216,14 +215,11 @@ ${todo}
           } catch (e) {
             console.error(e)
           }
+        }
 
-          return await run()
+        if (taskManager.appIsFullyBuilt) {
         } else {
-          //
-          if (taskManager.appIsFullyBuilt) {
-          } else {
-            return await run()
-          }
+          return await run()
         }
       }
       await run()

@@ -66,7 +66,7 @@ Guidelines:
 MUST Work within the workspace folder. 
 Check the box when you fullfilled the requirement.
 For every step update the todo list using task manager and also set next step using task manager.
-When is app is fully built, update using task manager, then start the backend and frontend server.
+
           `
       },
       (stream) => {
