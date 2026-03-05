@@ -60,10 +60,11 @@ Guidelines:
 MUST Work within the workspace folder. 
 MUST use task manager to keep track of progress of development
 Must check the box in todo when you fullfilled the task.
+Must write about what was done successfully or failed and what to do next
           `,
         todo: `
 Todo:
-- [] write down any missing todos or any sub task of each todo if needed.
+- [] write down any missing todos or any sub task of each todo if needed, 
 - [] check what the current development progress / status and check the items that are finished
 - [] git setup for project workspace folder if neeeded
 - [] backend code 
@@ -71,6 +72,9 @@ Todo:
 - [] integrate frontend to backend
 - [] make sure front end works accordingly
 - [] produce a database json file with example data
+
+Progress update:
+[next step...]
         `
       },
       (stream) => {
