@@ -10,10 +10,68 @@ import {
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export function Home() {
   let [txt, setTxt] = useState('')
+
+  const onClickAsk = async () => {
+    //
+
+    const data = await window.api.askAI(
+      {
+        apiKey: '',
+        baseURL: `http://localhost:1234/v1`,
+        model: 'qwen3.5-9b',
+
+        folder: `my-app-001`,
+
+        action: 'message',
+        prompt: `
+App idea:
+  - I want to build a todo app with kanban ui drag and drop with collaborative realtime update features.
+
+Frontend:
+  - support cors, any domain
+  - react js with vite, disable linting, use javascript instead of typescript
+  - socket-io client
+  - three.js
+  - @react-three/fiber @react-three/drei
+  - drag and drop lib in npm
+  - frontend service port uses "3001"
+  - backend service port uses "3002"
+  - git repo
+  - npm run install
+  - npm run dev
+
+Backend: 
+  - use common js
+  - support cors, any domain
+  - backend service port uses "3002"
+  - express js 
+  - socket-io powered collaboration features 
+  - json file database
+  - git repo
+  - npm run install
+  - npm run dev
+
+Finally:
+  start the backend and frontend server.
+                  `
+      },
+      (stream) => {
+        console.log(stream)
+        setTxt(`${stream.replace(`<think>`, '').replace(`</think>`, '')}`)
+      }
+    )
+
+    console.log(data, 'result')
+  }
+
+  useEffect(() => {
+    onClickAsk()
+  }, [])
+
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -43,62 +101,7 @@ export function Home() {
 
           {/*  */}
 
-          <Button
-            onClick={async () => {
-              //
-
-              const data = await window.api.askAI(
-                {
-                  apiKey: '',
-                  baseURL: `http://localhost:1234/v1`,
-                  model: 'qwen3.5-9b',
-
-                  folder: `my-app-001`,
-
-                  action: 'message',
-                  prompt: `
-App idea:
-  - I want to build a kanban drag and drop todo app with collaborative realtime update features.
-
-Frontend:
-  - support cors, any domain
-  - react js with vite, disable linting, use javascript instead of typescript
-  - socket-io client
-  - three.js
-  - @react-three/fiber @react-three/drei
-  - drag and drop lib in npm
-  - frontend service port uses "3001"
-  - backend service port uses "3002"
-  - git repo
-  - npm run install
-  - npm run dev
-
-Backend: 
-  - use common js
-  - support cors, any domain
-  - backend service port uses "3002"
-  - express js 
-  - socket-io powered collaboration features 
-  - json file database
-  - git repo
-  - npm run install
-  - npm run dev
-
-Finally:
-  start the backend and frontend server.
-                  `
-                },
-                (stream) => {
-                  console.log(stream)
-                  setTxt(`${stream.replace(`<think>`, '').replace(`</think>`, '')}`)
-                }
-              )
-
-              console.log(data, 'result')
-            }}
-          >
-            askAI
-          </Button>
+          <Button onClick={onClickAsk}>askAI</Button>
 
           <pre className="text-xs py-5 px-5 w-full whitespace-pre-wrap">{txt}</pre>
 
