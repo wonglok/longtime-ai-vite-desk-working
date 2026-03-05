@@ -147,18 +147,15 @@ ${workspace}
 Here are the files we have in the workspace: 
 ${filesListText}
 `
-            }
-          ]
-
-          /*
-{
-  role: 'assistant',
-  content: `
+            },
+            {
+              role: 'assistant',
+              content: `
 Todo and Progress update:
 ${todo}
-  `
-}
-          */
+              `
+            }
+          ]
 
           const openai = new OpenAI({ apiKey, baseURL })
           const start = performance.now()
@@ -202,6 +199,8 @@ ${todo}
                 const fn = caller['function']
 
                 const result = await toolkit.run(fn.name, JSON.parse(fn.arguments))
+
+                console.log('fn.name', fn.name)
 
                 if (fn.name === 'terminal_tool') {
                   progressText = `Todo:\n${taskManager.todo}\n\n\n\n${'(shell) $ '}${JSON.parse(fn.arguments).cmd}\n${result.data}\n`

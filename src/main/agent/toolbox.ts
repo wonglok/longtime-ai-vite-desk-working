@@ -1,6 +1,6 @@
 import { makeDirectory } from 'make-dir'
 import { join } from 'path'
-import { z } from 'zod'
+import { success, z } from 'zod'
 import * as path from 'path'
 import * as fs from 'fs/promises'
 import { defineTool } from './sdk'
@@ -38,7 +38,7 @@ export const taskManagerTool = ({
         taskManager.todo = latestTodos
         taskManager.appIsFullyBuilt = appIsFullyBuilt
 
-        resolve(`${JSON.stringify(taskManager)}`)
+        resolve(`${JSON.stringify({ status: 'successfully updated todo' })}`)
       })
     }
   })
