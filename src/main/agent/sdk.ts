@@ -217,6 +217,7 @@ ${todo}
         }
 
         if (taskManager.appIsFullyBuilt) {
+          onProgress('App is built')
         } else {
           return await run()
         }
