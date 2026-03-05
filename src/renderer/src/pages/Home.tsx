@@ -22,46 +22,42 @@ export function Home() {
       {
         apiKey: '',
         baseURL: `http://localhost:1234/v1`,
-        model: 'qwen3.5-9b',
+
+        // model: 'qwen3.5-9b',
+        model: `qwen3.5-4b`,
 
         folder: `my-app-001`,
 
         action: 'message',
         prompt: `
+# Todo list
 App idea:
-  - I want to build a todo app with kanban ui drag and drop with collaborative realtime update features.
+  - [] I want to build a todo app with kanban ui drag and drop with collaborative realtime update features.
 
-Frontend:
+Frontend TechSpec:
+  - git init if there's no git
+  - start a vite project with react disable linting, use javascript instead of typescript
+  - update config to set frontend service port to use "3001"
+  - update config to set backend service port to use "3002"      
   - support cors, any domain
-  - react js with vite, disable linting, use javascript instead of typescript
   - socket-io client
-  - three.js
-  - @react-three/fiber @react-three/drei
-  - drag and drop lib in npm
-  - frontend service port uses "3001"
-  - backend service port uses "3002"
-  - git repo
-  - npm run install
-  - npm run dev
 
-Backend: 
-  - use common js
+Backend TechSpec: 
+  - git init if there's no git
+  - starta a express js project with socket.io 
+  - use common js in package.json
   - support cors, any domain
   - backend service port uses "3002"
-  - express js 
-  - socket-io powered collaboration features 
-  - json file database
-  - git repo
-  - npm run install
-  - npm run dev
+  - implement socket-io powered collaboration features 
+  - implement json file database
 
-Finally:
-  start the backend and frontend server.
-                  `
+Check the box when you fullfilled the requirement.
+
+When you finish all tasks, output "<all_done_marker>[all_done_marker]</all_done_marker>", then start the backend and frontend server.
+          `
       },
       (stream) => {
-        console.log(stream)
-        setTxt(`${stream.replace(`<think>`, '').replace(`</think>`, '')}`)
+        setTxt(`${stream.replace(/\<think\>/gi, '').replace(/\<\/think\>/gi, '')}`)
       }
     )
 

@@ -1,5 +1,5 @@
 import { createAgent } from './sdk'
-import { terminalTool } from './toolbox'
+import { allTasksAreDoneTool, terminalTool, updateTodoListTool } from './toolbox'
 import { join } from 'path'
 import { app } from 'electron'
 import { makeDirectory } from 'make-dir'
@@ -21,6 +21,7 @@ export const enhancedAgent = async ({ mainWindow, event, randID, inbound }) => {
   //   workspacePath: ``
   // })
 
+  const taskManager = { allTasksAreDone: false, todo: `${inbound.prompt}` }
   const agent = await createAgent({
     workspace: workspace,
     apiKey: inbound.apiKey,
@@ -33,28 +34,19 @@ export const enhancedAgent = async ({ mainWindow, event, randID, inbound }) => {
     // model: `m1-qwen3.5-35b-a3b`, // remote
     contextWindow: 4096,
     tools: [
-      //
-      terminalTool()
-      // // calculate
-      // readFileTool(memory),
-      // writeFileTool(memory),
-      // fetchTool
+      terminalTool(),
+      updateTodoListTool({ taskManager }),
+      allTasksAreDoneTool({ taskManager })
     ]
   })
 
   const procedureText = `
-    You are in this workspace folder:
-    ${workspace}
-
-    Here is the prompt from user:
-    ${inbound.prompt}
-
-    Output "[all_done_marker]" when all coding work are done
+  
   `
 
   console.log(procedureText)
 
-  const result = await agent.executeProcedure(procedureText)
+  const result = await agent.executeProcedure({ taskManager: taskManager, procedureText })
 
   /*
   Calculate 2+2, write to "result.txt", then read it back then add 1 then save it then send it to me.

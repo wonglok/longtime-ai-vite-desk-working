@@ -4,6 +4,7 @@ import { z } from 'zod'
 import * as path from 'path'
 import * as fs from 'fs/promises'
 import { zodResponseFormat } from 'openai/helpers/zod'
+import { allTasksAreDoneTool } from './toolbox'
 
 // ============================================================================
 // CORE TYPES & FACTORY
@@ -97,7 +98,10 @@ export const createAgent = async ({
   //
 
   return {
-    executeProcedure: async (procedureText: string) => {
+    executeProcedure: async ({
+      taskManager = { allTasksAreDone: false, todo: '' },
+      procedureText = ''
+    }) => {
       //
       if (messages.length === 0) {
         messages.push({
@@ -107,7 +111,7 @@ export const createAgent = async ({
       }
       //
       console.log('\n🚀 Agent Loop\n' + '═'.repeat(30))
-
+      let progressText = ''
       let i = 0
       let run = async () => {
         console.log('Running Step: ', i)
@@ -135,13 +139,24 @@ export const createAgent = async ({
           model: model,
           messages: [
             //
-            { role: 'system', content: procedureText },
+            {
+              role: 'user',
+              content: `
+You are in this workspace folder:
+${workspace}
+
+Here is the prompt from user:
+              
+${taskManager.todo}
+              
+              `
+            },
             { role: 'user', content: filesListText },
             ...messages
               .slice()
               .reverse()
               .filter((_, idx) => {
-                if (idx <= 250) {
+                if (idx < 10) {
                   return true
                 }
                 return false
@@ -150,7 +165,7 @@ export const createAgent = async ({
           ],
 
           tools: toolkit.schemas,
-          tool_choice: 'auto',
+          tool_choice: 'required',
           temperature: temperature,
           reasoning_effort: 'high'
         })
@@ -168,7 +183,16 @@ export const createAgent = async ({
 
               const result = await toolkit.run(fn.name, JSON.parse(fn.arguments))
 
-              // console.log(fn.name, JSON.parse(fn.arguments), JSON.stringify(result, null, '\t'))
+              if (fn.name === 'terminal_tool') {
+                progressText = `Thinking:\n${removeThinkTags(message.content)}\n${'(bash)$ '} ${JSON.parse(fn.arguments).cmd}\n${result.data}\n`
+                onProgress(progressText)
+              }
+
+              if (fn.name === 'update_todo_list_tool') {
+                progressText = `Thinking:\n${removeThinkTags(message.content)}\nTodo List:\n${JSON.parse(fn.arguments).todo}\n${result.data}\n`
+                onProgress(progressText)
+              }
+
               messages.push({
                 role: 'tool',
                 tool_call_id: id,
@@ -197,7 +221,7 @@ export const createAgent = async ({
 
 export function removeThinkTags(input) {
   const regex = /<think>.*?<\/think>/gis
-  const result = input.replace(regex, '')
+  const result = input.replace(regex, '').trim()
   return result
 }
 

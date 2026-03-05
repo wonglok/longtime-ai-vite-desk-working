@@ -10,6 +10,40 @@ import { exec } from 'child_process'
 // TOOL DEFINITIONS
 // ============================================================================
 
+export const allTasksAreDoneTool = ({
+  taskManager = { todo: '', allTasksAreDone: false }
+}: {
+  taskManager: { todo: string; allTasksAreDone: boolean }
+}) =>
+  defineTool({
+    name: 'all_task_done_tool',
+    description: 'all_task_done tool',
+    schema: z.object({ allTasksAreDone: z.boolean().describe('allTasksAreDone: true or false') }),
+    execute: async ({ allTasksAreDone }) => {
+      return new Promise((resolve, reject) => {
+        taskManager.allTasksAreDone = allTasksAreDone
+        resolve(taskManager)
+      })
+    }
+  })
+
+export const updateTodoListTool = ({
+  taskManager = { todo: '', allTasksAreDone: false }
+}: {
+  taskManager: { todo: string; allTasksAreDone: boolean }
+}) =>
+  defineTool({
+    name: 'update_todo_list_tool',
+    description: 'update todo list tool',
+    schema: z.object({ latestTodos: z.string().describe('latest updated todo list') }),
+    execute: async ({ latestTodos }) => {
+      return new Promise((resolve, reject) => {
+        taskManager.todo = latestTodos
+        resolve(`${latestTodos}`)
+      })
+    }
+  })
+
 export const terminalTool = () =>
   defineTool({
     name: 'terminal_tool',
