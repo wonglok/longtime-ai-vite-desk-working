@@ -112,9 +112,7 @@ export const createAgent = async ({
       let progressText = ''
       let i = 0
       let run = async () => {
-        console.log('Running Step: ', i)
-
-        i++
+        console.log('Begin Running Step: ', i)
 
         // const files = await getAllFilesAsync(workspace, [])
         //       const filesListText = `
@@ -156,7 +154,7 @@ ${todo}
           }
         ]
 
-        console.log(contextMessages)
+        // console.log(contextMessages)
 
         const {
           choices: [{ message }]
@@ -186,7 +184,8 @@ ${todo}
 
         if (message?.tool_calls?.length > 0) {
           // return { toolMessages, output: toolMessages[toolMessages.length - 1]?.content }
-          console.log(`\n📍 Iter ${i + 1}: ${message.tool_calls.length} tool(s)`)
+          console.log(`\n📍 Iter ${i}: ${message.tool_calls.length} tool(s)`)
+          i++
 
           try {
             for (const caller of message.tool_calls) {
