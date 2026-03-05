@@ -30,7 +30,7 @@ export function Home() {
         action: 'message',
 
         appSpec: `
-App idea:
+User's App idea:
   - I want to build a todo app 
   - with kanban ui drag and drop 
   - with collaborative realtime update features

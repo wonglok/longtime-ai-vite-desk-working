@@ -89,17 +89,16 @@ export const createAgent = async ({
   tools: ToolDef<any>[]
   contextWindow: number
 }) => {
-  const openai = new OpenAI({ apiKey, baseURL })
-  const toolkit = createToolKit(tools)
-  const toolMessages: ChatCompletionMessageParam[] = []
-  const maxToken = contextWindow
-
   //
   //  console.log(maxToken)
   //
 
   return {
     executeProcedure: async ({ taskManager }: { taskManager: TaskManager }) => {
+      const toolMessages: ChatCompletionMessageParam[] = []
+
+      const toolkit = createToolKit(tools)
+
       //
       // if (toolMessages.length === 0) {
       //   toolMessages.push({
@@ -108,69 +107,57 @@ export const createAgent = async ({
       //   })
       // }
       //
+
       console.log('\n🚀 Agent Loop\n' + '═'.repeat(30))
       let progressText = ''
       let i = 0
       let run = async () => {
-        console.log('Begin Running Step: ', i)
+        // console.log(contextMessages)
 
-        // const files = await getAllFilesAsync(workspace, [])
-        //       const filesListText = `
-        // Here are the files in the current workspace:
-        //   ${files
-        //     .filter((r) => {
-        //       if (r.includes('node_modules')) {
-        //         return false
-        //       }
-        //       return true
-        //     })
-        //     .map((r) => {
-        //       return `${r}`
-        //     })
-        //     .join('\n')}`.trim()
+        try {
+          const files = await getAllFilesAsync(workspace, [])
+          const filesListText = `
+        Here are the files in the current workspace:
+          ${files
+            .filter((r) => {
+              if (r.includes('node_modules')) {
+                return false
+              }
+              return true
+            })
+            .map((r) => {
+              return `${r}`
+            })
+            .join('\n')}`.trim()
 
-        let todo = ``
-        if (taskManager.todo) {
-          todo = `${taskManager.todo}`
-        }
-        const contextMessages: ChatCompletionMessageParam[] = [
-          //
-          {
-            role: 'system',
-            content: `
-you are an AI senior developer.
+          let todo = ``
+          if (taskManager.todo) {
+            todo = `${taskManager.todo}`
+          }
+          const contextMessages: ChatCompletionMessageParam[] = [
+            //
+            {
+              role: 'system',
+              content: `
+You are an AI senior developer. You write software for people.
+
               `
-          },
-          {
-            role: 'user',
-            content: `
-**You must work in this workspace folder**:
-${workspace}
+            },
+            {
+              role: 'user',
+              content: `
+
+User's Prompt:
 
 ${appSpec}
 
-              `
-          }
-        ]
+**You must work in this workspace folder**:
+${workspace}
 
-        // console.log(contextMessages)
-
-        let start = performance.now()
-
-        let resp = await openai.chat.completions.create({
-          model: model,
-          messages: [
-            ...contextMessages,
-            ...toolMessages
-              .slice()
-              .reverse()
-              .filter((_, idx) => {
-                if (idx < 100) {
-                  return true
-                }
-                return false
-              })
-              .reverse(),
+Here are the files we have in the workspace: 
+${filesListText}
+`
+            },
             {
               role: 'assistant',
               content: `
@@ -178,61 +165,82 @@ Todo and Progress update:
 ${todo}
               `
             }
-          ],
+          ]
 
-          tools: toolkit.schemas,
-          tool_choice: 'required',
-          temperature: temperature,
-          reasoning_effort: 'high'
-        })
+          const openai = new OpenAI({ apiKey, baseURL })
+          let start = performance.now()
+          let resp = await openai.chat.completions.create({
+            model: model,
+            messages: [
+              ...contextMessages,
+              ...toolMessages
+                .slice()
+                .reverse()
+                .filter((_, idx) => {
+                  if (idx < 100) {
+                    return true
+                  }
+                  return false
+                })
+                .reverse()
+            ],
 
-        let end = performance.now()
-        console.log('token/s', resp?.usage?.completion_tokens! / ((end - start) / 1000))
+            tools: toolkit.schemas,
+            tool_choice: 'required',
+            temperature: temperature,
+            reasoning_effort: 'high'
+          })
 
-        const {
-          choices: [{ message }]
-        }: any = resp
+          let end = performance.now()
+          console.log('token/s', resp?.usage?.completion_tokens! / ((end - start) / 1000))
 
-        toolMessages.push(message)
+          const {
+            choices: [{ message }]
+          }: any = resp
 
-        if (message?.tool_calls?.length > 0) {
-          console.log(`\n📍 Iter ${i}: ${message.tool_calls.length} tool(s)`)
+          toolMessages.push(message)
 
-          try {
-            for (const caller of message.tool_calls) {
-              const id = caller.id
-              const fn = caller['function']
+          if (message?.tool_calls?.length > 0) {
+            console.log(`\n📍 Iter ${i}: ${message.tool_calls.length} tool(s)`)
 
-              const result = await toolkit.run(fn.name, JSON.parse(fn.arguments))
+            try {
+              for (const caller of message.tool_calls) {
+                const id = caller.id
+                const fn = caller['function']
 
-              if (fn.name === 'terminal_tool') {
-                progressText = `Todo:\n${taskManager.todo}\n${'(shell) $ '}\n\n\n${JSON.parse(fn.arguments).cmd}\n${result.data}\n`
-                onProgress(progressText)
+                const result = await toolkit.run(fn.name, JSON.parse(fn.arguments))
+
+                if (fn.name === 'terminal_tool') {
+                  progressText = `Todo:\n${taskManager.todo}\n${'(shell) $ '}\n\n\n${JSON.parse(fn.arguments).cmd}\n${result.data}\n`
+                  onProgress(progressText)
+                }
+
+                if (fn.name === 'task_manager_tool') {
+                  progressText = `Todo:\n${taskManager.todo}`
+                  onProgress(progressText)
+                }
+
+                toolMessages.push({
+                  role: 'tool',
+                  tool_call_id: id,
+                  content: `${JSON.stringify(result)}`
+                })
               }
-
-              if (fn.name === 'task_manager_tool') {
-                progressText = `Todo:\n${taskManager.todo}`
-                onProgress(progressText)
-              }
-
-              toolMessages.push({
-                role: 'tool',
-                tool_call_id: id,
-                content: `${JSON.stringify(result)}`
-              })
+            } catch (e) {
+              console.error(e)
             }
-          } catch (e) {
-            console.error(e)
           }
-        }
 
-        i++
-
-        if (taskManager.appIsFullyBuilt) {
-          onProgress('App is built')
-          return
-        } else {
-          return await run()
+          if (taskManager.appIsFullyBuilt) {
+            onProgress('App is fully built')
+            return
+          } else {
+            return await run()
+          }
+        } catch (e) {
+          console.error(e)
+        } finally {
+          i++
         }
       }
       await run()
