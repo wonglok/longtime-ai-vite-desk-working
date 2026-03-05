@@ -52,6 +52,7 @@ Frontend Technical Requirements:
   - use "3002" as backend service port
   - support cors, any domain
   - use socket.io-client powered collaboration features 
+  - make sure the client has all the initial data needed
 
 Guidelines: 
 MUST Work within the workspace folder. 
@@ -66,6 +67,7 @@ Todo:
 - [] backend code 
 - [] front end layout code css
 - [] integrate frontend to backend
+- [] make sure front end works accordingly
 - [] produce a database json file with example data
 
         `
