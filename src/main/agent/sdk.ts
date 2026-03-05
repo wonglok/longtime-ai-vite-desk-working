@@ -197,8 +197,8 @@ ${nextStep}
                 onProgress(progressText)
               }
 
-              if (fn.name === 'update_todo_list_tool') {
-                progressText = `Thinking:\n${removeThinkTags(message.content)}\nTodo List:\n${JSON.parse(fn.arguments).todo}\n${result.data}\n`
+              if (fn.name === 'task_manager_tool') {
+                progressText = `Thinking:\n${removeThinkTags(message.content)}\nTodo List:\n${fn.arguments}\n${result.data}\n`
                 onProgress(progressText)
               }
 
