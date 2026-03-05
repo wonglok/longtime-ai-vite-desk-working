@@ -64,17 +64,8 @@ Must write about progress update. Including what task was failed or done success
           `,
         todo: `
 Todo:
-- [] write down any missing todos or any sub task of each todo if needed, 
-- [] check what the current development progress / status and check the items that are finished
-- [] git setup for project workspace folder if neeeded
-- [] backend code 
-- [] front end layout code css
-- [] integrate frontend to backend
-- [] make sure front end works accordingly
-- [] produce a database json file with example data
-
-Progress update:
-[next step...]
+- [] write down any missing todos or any sub task of each todo if needed.
+- [] write progress update.
         `
       },
       (stream) => {

@@ -144,7 +144,7 @@ you are an AI senior developer.
           {
             role: 'user',
             content: `
-You are in this workspace folder:
+**You must work in this workspace folder**:
 ${workspace}
 
 ${appSpec}
@@ -166,7 +166,7 @@ ${todo}
               .slice()
               .reverse()
               .filter((_, idx) => {
-                if (idx < 3) {
+                if (idx < 100) {
                   return true
                 }
                 return false
@@ -212,7 +212,7 @@ ${todo}
               toolMessages.push({
                 role: 'tool',
                 tool_call_id: id,
-                content: `Tool Result: ${JSON.stringify(result)}`
+                content: `${JSON.stringify(result)}`
               })
             }
           } catch (e) {
