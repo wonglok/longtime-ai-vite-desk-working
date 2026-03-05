@@ -183,7 +183,6 @@ ${todo}
         toolMessages.push(message)
 
         if (message?.tool_calls?.length > 0) {
-          // return { toolMessages, output: toolMessages[toolMessages.length - 1]?.content }
           console.log(`\n📍 Iter ${i}: ${message.tool_calls.length} tool(s)`)
 
           try {
@@ -194,12 +193,12 @@ ${todo}
               const result = await toolkit.run(fn.name, JSON.parse(fn.arguments))
 
               if (fn.name === 'terminal_tool') {
-                progressText = `Thinking:\n${removeThinkTags(message.content)}\n${'(shell) $ '} ${JSON.parse(fn.arguments).cmd}\n${result.data}\n`
+                progressText = `Todo:\n${taskManager.todo}\n${'(shell) $ '} ${JSON.parse(fn.arguments).cmd}\n${result.data}\n`
                 onProgress(progressText)
               }
 
               if (fn.name === 'task_manager_tool') {
-                progressText = `Thinking:\n${removeThinkTags(message.content)}\nTodo List:\n${taskManager.todo}\n`
+                progressText = `Todo:\n${taskManager.todo}`
                 onProgress(progressText)
               }
 
