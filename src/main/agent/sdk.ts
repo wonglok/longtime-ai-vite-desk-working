@@ -3,8 +3,7 @@ import { ChatCompletionMessageParam, ChatCompletionTool } from 'openai/resources
 import { z } from 'zod'
 import * as path from 'path'
 import * as fs from 'fs/promises'
-import { zodResponseFormat } from 'openai/helpers/zod'
-import { allTasksAreDoneTool, TaskManager } from './toolbox'
+import { TaskManager } from './toolbox'
 
 // ============================================================================
 // CORE TYPES & FACTORY
@@ -140,13 +139,15 @@ export const createAgent = async ({
             role: 'system',
             content: `
 you are an AI senior developer.
-**You are in this workspace folder**
-${workspace}
+${filesListText}
               `
           },
           {
             role: 'user',
             content: `
+You are in this workspace folder:
+${workspace}
+
 Here is the user prompt:
 ${taskManager.todo}
 
@@ -155,7 +156,6 @@ ${nextStep}
 
               `
           },
-          { role: 'user', content: filesListText },
           ...messages
             .slice()
             .reverse()
@@ -216,7 +216,7 @@ ${nextStep}
           return await run()
         } else {
           //
-          if (message.content && message.content.includes('all_done_marker')) {
+          if (taskManager.appIsFullyBuilt) {
           } else {
             return await run()
           }
