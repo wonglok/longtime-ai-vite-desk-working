@@ -73,21 +73,21 @@ export const createAgent = async ({
   workspace = '',
   apiKey = '',
   baseURL = 'http://localhost:1234/v1',
-  tools,
+  tools = [],
   model = 'qwen3.5-4b',
   temperature = 0.1,
-  contextWindow = 4096,
   onProgress = () => {}
+  // contextWindow = 4096,
 }: {
   appSpec: string
   workspace: string
-  onProgress: (v) => void
   model: string
   temperature: number
   apiKey?: string
   baseURL?: string
   tools: ToolDef<any>[]
-  contextWindow: number
+  onProgress: (v) => void
+  // contextWindow: number
 }) => {
   //
   //  console.log(maxToken)
@@ -95,8 +95,7 @@ export const createAgent = async ({
 
   return {
     executeProcedure: async ({ taskManager }: { taskManager: TaskManager }) => {
-      const toolMessages: ChatCompletionMessageParam[] = []
-
+      let toolCallMessages: ChatCompletionMessageParam[] = []
       const toolkit = createToolKit(tools)
 
       let progressText = ''
@@ -105,75 +104,61 @@ export const createAgent = async ({
         i++
 
         console.log('\nAgent Loop \n' + ` (${i}) ` + '═'.repeat(30))
-        // console.log(contextMessages)
 
         try {
           const files = await getAllFilesAsync(workspace, [])
           const filesListText = `
         Here are the files in the current workspace:
+
           ${files
             .filter((r) => {
-              if (r.includes('node_modules')) {
+              if (r.path.includes('node_modules')) {
                 return false
               }
               return true
             })
             .map((r) => {
-              return `${r}`
+              return `${r.path}\n${r.content}`
             })
             .join('\n')}`.trim()
 
-          let todo = ``
-          if (taskManager.todo) {
-            todo = `${taskManager.todo}`
-          }
+          /*
+Here are the files we have in the workspace: 
+${filesListText}
+            */
+
           const contextMessages: ChatCompletionMessageParam[] = [
-            //
             {
               role: 'system',
               content: `
-You are an AI senior developer. You write software.
-              `
+You are an AI senior developer, you develop user's app idea.
+
+Guidelines: 
+MUST Work within the workspace folder. 
+Read the code before writing it.
+`
             },
             {
               role: 'user',
               content: `
 User's Prompt:
+
+navigate to: ${workspace}
+
 ${appSpec}
 
-**You must work in this workspace folder**:
-${workspace}
-
-Here are the files we have in the workspace: 
-${filesListText}
-`
-            },
-            {
-              role: 'assistant',
-              content: `
-Todo and Progress update:
-${todo}
               `
             }
           ]
 
           const openai = new OpenAI({ apiKey, baseURL })
           const start = performance.now()
+
+          const messages = [...contextMessages, ...toolCallMessages]
+
           const resp = await openai.chat.completions.create({
             model: model,
-            messages: [
-              ...contextMessages,
-              ...toolMessages
-                .slice()
-                .reverse()
-                .filter((_, idx) => {
-                  if (idx < 100) {
-                    return true
-                  }
-                  return false
-                })
-                .reverse()
-            ],
+            messages: messages,
 
             tools: toolkit.schemas,
             tool_choice: 'required',
@@ -188,7 +173,7 @@ ${todo}
             choices: [{ message }]
           }: any = resp
 
-          toolMessages.push(message)
+          toolCallMessages.push(message)
 
           if (message?.tool_calls?.length > 0) {
             console.log(`\n📍 Iter ${i}: ${message.tool_calls.length} tool(s)`)
@@ -200,19 +185,12 @@ ${todo}
 
                 const result = await toolkit.run(fn.name, JSON.parse(fn.arguments))
 
-                console.log('fn.name', fn.name)
-
                 if (fn.name === 'terminal_tool') {
-                  progressText = `Todo:\n${taskManager.todo}\n\n\n\n${'(shell) $ '}${JSON.parse(fn.arguments).cmd}\n${result.data}\n`
+                  progressText = `${'(shell) $ '}${JSON.parse(fn.arguments).cmd}\n${result.data}\n`
                   onProgress(progressText)
                 }
 
-                if (fn.name === 'task_manager_tool') {
-                  progressText = `Todo:\n${taskManager.todo}`
-                  onProgress(progressText)
-                }
-
-                toolMessages.push({
+                toolCallMessages.push({
                   role: 'tool',
                   tool_call_id: id,
                   content: `${JSON.stringify(result)}`
@@ -230,6 +208,19 @@ ${todo}
             return await run()
           }
         } catch (e) {
+          //
+
+          toolCallMessages = toolCallMessages
+            .slice()
+            .reverse()
+            .filter((_, idx, arr) => {
+              if (idx < arr.length / 2) {
+                return true
+              }
+              return false
+            })
+            .reverse()
+
           console.error(e)
           return await run()
         } finally {
@@ -237,7 +228,7 @@ ${todo}
       }
       await run()
 
-      return { toolMessages, output: toolMessages[toolMessages.length - 1]?.content }
+      return { toolCallMessages, output: toolCallMessages[toolCallMessages.length - 1]?.content }
     }
   }
 }
@@ -251,10 +242,13 @@ export function removeThinkTags(input) {
 /**
  * Recursively list all files in a directory and its subdirectories.
  * @param {string} dirPath The absolute or relative path to the directory.
- * @param {string[]} [fileList] An optional array to accumulate file paths.
- * @returns {string[]} An array of absolute file paths.
+ * @param {{path: string; content: string}[]} [fileList] An optional array to accumulate file paths.
+ * @returns {{path: string; content: string}[]} An array of absolute file paths.
  */
-export const getAllFilesAsync = async (dirPath, fileList: string[] = []) => {
+export const getAllFilesAsync = async (
+  dirPath,
+  fileList: { path: string; content: string }[] = []
+) => {
   // Read the contents of the current directory
   const files = await fs.readdir(dirPath)
 
@@ -268,7 +262,11 @@ export const getAllFilesAsync = async (dirPath, fileList: string[] = []) => {
       await getAllFilesAsync(fullPath, fileList)
     } else {
       // If it's a file, add its full path to the list
-      fileList.push(fullPath)
+
+      fileList.push({
+        path: fullPath,
+        content: await fs.readFile(fullPath, 'utf-8')
+      })
     }
   }
 

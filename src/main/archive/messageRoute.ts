@@ -1,16 +1,16 @@
-import { createAgent } from './sdk'
-import { terminalTool, taskManagerTool, TaskManager } from './toolbox'
+// import { createAgent } from './sdk'
+// import { terminalTool, TaskManager } from './toolbox'
 import { join } from 'path'
 import { app } from 'electron'
 import { makeDirectory } from 'make-dir'
-// @ts-ignore
-import metaprompt from './prompt/meta-prompt.md?raw'
+// // @ts-ignore
+// import metaprompt from './prompt/meta-prompt.md?raw'
 
 // ============================================================================
 // USAGE
 // ============================================================================
 
-export const enhancedAgent = async ({ mainWindow, event, randID, inbound }) => {
+export const messageRoute = async ({ mainWindow, event, randID, inbound }) => {
   const docs = app.getPath('documents')
   const workspace = join(docs, `ai-home`, `${inbound.folder}`)
   await makeDirectory(workspace)
@@ -21,35 +21,34 @@ export const enhancedAgent = async ({ mainWindow, event, randID, inbound }) => {
   //   workspacePath: ``
   // })
 
-  const taskManager: TaskManager = {
-    appIsFullyBuilt: false,
-    todo: `${inbound.todo}`
-  }
-  const agent = await createAgent({
-    appSpec: inbound.appSpec,
-    workspace: workspace,
-    apiKey: inbound.apiKey,
-    baseURL: inbound.baseURL,
-    onProgress: (str: string) => {
-      mainWindow.webContents.send(`askAI-stream${randID}`, str)
-    },
-    temperature: 0.0,
-    model: inbound.model, // local
-    contextWindow: 4096,
-    tools: [
-      //
-      terminalTool(),
-      taskManagerTool({ taskManager })
-    ]
-  })
+  // const taskManager: TaskManager = {
+  //   appIsFullyBuilt: false,
+  //   todo: `${inbound.todo}`
+  // }
 
-  const result = await agent.executeProcedure({
-    taskManager: taskManager
-  })
+  // const agent = await createAgent({
+  //   appSpec: inbound.appSpec,
+  //   workspace: workspace,
+  //   apiKey: inbound.apiKey,
+  //   baseURL: inbound.baseURL,
+  //   onProgress: (str: string) => {
+  //     mainWindow.webContents.send(`askAI-stream${randID}`, str)
+  //   },
+  //   temperature: 0.0,
+  //   model: inbound.model, // local
+  //   tools: [
+  //     //
+  //     terminalTool({ taskManager })
+  //   ]
+  // })
 
-  console.log(result.output)
+  // const result = await agent.executeProcedure({
+  //   taskManager: taskManager
+  // })
 
-  return result.output
+  // console.log(result.output)
+
+  // return result.output
 }
 
 /*

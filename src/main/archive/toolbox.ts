@@ -16,39 +16,41 @@ export type TaskManager = {
   appIsFullyBuilt: boolean
 }
 
-export const taskManagerTool = ({
+// export const taskManagerTool = ({
+//   taskManager = { todo: '', appIsFullyBuilt: false }
+// }: {
+//   taskManager: TaskManager
+// }) =>
+//   defineTool({
+//     name: 'todo_manager_tool',
+//     description: 'latest version of todo list with progress update',
+//     schema: z.object({
+//       appIsFullyBuilt: z.boolean().describe('when the app is fully built'),
+//       latestTodos: z.string().describe('latest version of todo list with progress update')
+//     }),
+//     execute: async ({ latestTodos, appIsFullyBuilt }) => {
+//       return new Promise((resolve, reject) => {
+//         taskManager.todo = latestTodos
+//         taskManager.appIsFullyBuilt = appIsFullyBuilt
+
+//         resolve(`${JSON.stringify({ status: 'successfully updated todo' })}`)
+//       })
+//     }
+//   })
+
+export const terminalTool = ({
   taskManager = { todo: '', appIsFullyBuilt: false }
 }: {
   taskManager: TaskManager
 }) =>
   defineTool({
-    name: 'task_manager_tool',
-    description:
-      'this task manager tool can update the todo list with current task and any necessary sub task',
-    schema: z.object({
-      appIsFullyBuilt: z.boolean().describe('when the app is fully built'),
-      latestTodos: z
-        .string()
-        .describe(
-          'this task manager tool can update the todo list with current task and any necessary sub task'
-        )
-    }),
-    execute: async ({ latestTodos, appIsFullyBuilt }) => {
-      return new Promise((resolve, reject) => {
-        taskManager.todo = latestTodos
-        taskManager.appIsFullyBuilt = appIsFullyBuilt
-
-        resolve(`${JSON.stringify({ status: 'successfully updated todo' })}`)
-      })
-    }
-  })
-
-export const terminalTool = () =>
-  defineTool({
     name: 'terminal_tool',
-    description: 'terminal tool',
-    schema: z.object({ cmd: z.string() }),
-    execute: async ({ cmd }) => {
+    description: 'terminal tool and think about whether the app is fully developed',
+    schema: z.object({
+      cmd: z.string(),
+      appIsFullyBuilt: z.boolean().describe('when the app is fully built')
+    }),
+    execute: async ({ cmd, appIsFullyBuilt }) => {
       return new Promise((resolve, reject) => {
         exec(`${cmd}`, (error, stdout, stderr) => {
           if (error) {
@@ -61,6 +63,11 @@ export const terminalTool = () =>
           //   console.info(`${stderr}`)
           //   // reject(`std error: ${stderr}`)
           // }
+
+          taskManager.appIsFullyBuilt = appIsFullyBuilt
+
+          console.log('taskManager.appIsFullyBuilt', taskManager.appIsFullyBuilt)
+
           console.log('cmd: ', cmd)
           console.log(`${stdout}`)
           resolve(stdout)

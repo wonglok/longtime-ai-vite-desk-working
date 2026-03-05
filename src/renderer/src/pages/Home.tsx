@@ -13,14 +13,17 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/s
 import { useEffect, useState } from 'react'
 
 export function Home() {
-  let [txt, setTxt] = useState('')
+  let [terminal, setTerm] = useState('')
+  let [think, setThink] = useState('')
 
   const onClickAsk = async () => {
+    // Must always update todo list and progress udpate with todo_manager_tool. Do not remove the existing todos, but you can add todos
+    //
     //
 
     const data = await window.api.askAI(
       {
-        apiKey: '',
+        apiKey: 'NA',
         baseURL: `http://localhost:1234/v1`,
 
         model: `qwen/qwen3.5-9b`,
@@ -36,40 +39,35 @@ User's App idea:
   - with collaborative realtime update features
   - with mouse crusor of each visitor on screen (html div with transform translate)
 
+Frontend Technical Requirements:
+  - git init if there's no git
+  - use a vite project with react disable linting, use javascript instead of typescript
+  - use "3002" as backend port
+  - support cors, any domain
+  - use socket.io-client powered collaboration features 
+  - make sure the client has all the initial data needed
+
 Backend Technical Requirements: 
   - git init if there's no git
   - create .gitignore for "node_modules" folder and "dist" folder
   - starta a express js project with socket.io 
   - use common js in package.json
   - support cors, any domain
-  - use "3001" as frontend service port
-  - use "3002" as backend service port
+  - use "3001" as frontend port
   - use socket-io powered collaboration features 
   - use json file database
-
-Frontend Technical Requirements:
-  - git init if there's no git
-  - use a vite project with react disable linting, use javascript instead of typescript
-  - use "3001" as frontend service port
-  - use "3002" as backend service port
-  - support cors, any domain
-  - use socket.io-client powered collaboration features 
-  - make sure the client has all the initial data needed
-
-Guidelines: 
-MUST Work within the workspace folder. 
-MUST use task manager to keep track of progress of development
-Must check the box in todo when you fullfilled the task.
-Must write about progress update. Including what task was failed or done successfully and what to do next
-          `,
-        todo: `
-Todo:
-- [] write down any missing todos or any sub task of each todo if needed.
-- [] write progress update.
-        `
+          `
       },
       (stream) => {
-        setTxt(`${stream.replace(/\<think\>/gi, '').replace(/\<\/think\>/gi, '')}`)
+        let data = JSON.parse(stream)
+        console.log(data)
+
+        if (data.type === 'think') {
+          //
+          // console.log(data.type)
+          //
+        }
+        // setTxt(`${stream.replace(/\<think\>/gi, '').replace(/\<\/think\>/gi, '')}`)
       }
     )
 
@@ -109,9 +107,8 @@ Todo:
 
           {/*  */}
 
-          <Button onClick={onClickAsk}>askAI</Button>
-
-          <pre className="text-xs py-5 px-5 w-full whitespace-pre-wrap">{txt}</pre>
+          <pre className="text-xs py-5 px-5 w-full whitespace-pre-wrap">{think}</pre>
+          <pre className="text-xs py-5 px-5 w-full whitespace-pre-wrap">{terminal}</pre>
 
           {/*  */}
         </div>

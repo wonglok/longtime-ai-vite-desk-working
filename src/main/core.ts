@@ -4,7 +4,8 @@
 // import { processPromptRequest } from './tools/processStack'
 // import { prepToolListFiles } from './tools/fsTools'
 
-import { enhancedAgent } from './agent/enhancedAgent'
+// import { utilityProcess, MessageChannelMain } from 'electron'
+import { runAgent } from './agent-pi/runAgent'
 
 // function removeThinkTags(input) {
 //   const regex = /<think>.*?<\/think>/gis
@@ -20,14 +21,28 @@ export const setupIPCMain = async ({ ipcMain, mainWindow }) => {
     //
 
     try {
-      mainWindow.webContents.send(`askAI-stream${randID}`, `Begin Processing Todo list...`)
-
       if (inbound.action === 'message') {
-        await enhancedAgent({
-          mainWindow,
-          event,
-          inbound,
-          randID
+        //
+
+        mainWindow.webContents.send(
+          `askAI-stream${randID}`,
+          JSON.stringify({
+            type: 'notice',
+            text: 'Agent Loading...'
+          })
+        )
+
+        await runAgent({
+          onEvent: ({ type, text }) => {
+            mainWindow.webContents.send(
+              `askAI-stream${randID}`,
+              JSON.stringify({
+                type: type,
+                text: text
+              })
+            )
+          },
+          inbound
         })
       }
 
