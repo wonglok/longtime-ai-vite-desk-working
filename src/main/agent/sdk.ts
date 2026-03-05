@@ -195,13 +195,12 @@ ${todo}
               const result = await toolkit.run(fn.name, JSON.parse(fn.arguments))
 
               if (fn.name === 'terminal_tool') {
-                progressText = `Thinking:\n${removeThinkTags(message.content)}\n${'(bash)$ '} ${JSON.parse(fn.arguments).cmd}\n${result.data}\n`
+                progressText = `Thinking:\n${removeThinkTags(message.content)}\n${'(shell) $ '} ${JSON.parse(fn.arguments).cmd}\n${result.data}\n`
                 onProgress(progressText)
               }
 
               if (fn.name === 'task_manager_tool') {
-                let args = JSON.parse(fn.arguments)
-                progressText = `Thinking:\n${removeThinkTags(message.content)}\nTodo List:\n${args.latestTodos}\n`
+                progressText = `Thinking:\n${removeThinkTags(message.content)}\nTodo List:\n${taskManager.todo}\n`
                 onProgress(progressText)
               }
 
