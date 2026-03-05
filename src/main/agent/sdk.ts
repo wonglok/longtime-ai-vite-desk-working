@@ -156,9 +156,9 @@ ${todo}
 
         // console.log(contextMessages)
 
-        const {
-          choices: [{ message }]
-        }: any = await openai.chat.completions.create({
+        let start = performance.now()
+
+        let resp = await openai.chat.completions.create({
           model: model,
           messages: [
             ...contextMessages,
@@ -179,6 +179,13 @@ ${todo}
           temperature: temperature,
           reasoning_effort: 'high'
         })
+
+        let end = performance.now()
+        console.log('token/s', resp?.usage?.completion_tokens! / ((end - start) / 1000))
+
+        const {
+          choices: [{ message }]
+        }: any = resp
 
         toolMessages.push(message)
 

@@ -26,7 +26,6 @@ export const taskManagerTool = ({
     description:
       'this task manager tool can update the todo list with current task and any necessary sub task',
     schema: z.object({
-      // nextStep: z.string().describe('one next task to work on'),
       appIsFullyBuilt: z.boolean().describe('when the app is fully built'),
       latestTodos: z
         .string()
