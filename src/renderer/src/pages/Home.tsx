@@ -72,7 +72,6 @@ Todo:
 - [] integrate frontend to backend
 - [] make sure front end works accordingly
 - [] produce a database json file with example data
-
         `
       },
       (stream) => {

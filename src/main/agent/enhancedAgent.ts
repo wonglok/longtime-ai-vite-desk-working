@@ -37,7 +37,11 @@ export const enhancedAgent = async ({ mainWindow, event, randID, inbound }) => {
     model: inbound.model, // local
     // model: `m1-qwen3.5-35b-a3b`, // remote
     contextWindow: 4096,
-    tools: [terminalTool(), taskManagerTool({ taskManager })]
+    tools: [
+      //
+      terminalTool(),
+      taskManagerTool({ taskManager })
+    ]
   })
 
   const result = await agent.executeProcedure({
