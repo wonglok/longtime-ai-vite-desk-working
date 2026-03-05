@@ -23,7 +23,7 @@ export function Home() {
         apiKey: '',
         baseURL: `http://localhost:1234/v1`,
 
-        model: 'qwen3.5-9b',
+        model: `qwen/qwen3.5-9b`,
         // model: `qwen3.5-4b`,
 
         folder: `my-app-001`,
