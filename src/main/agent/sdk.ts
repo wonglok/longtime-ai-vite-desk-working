@@ -89,7 +89,7 @@ export const createAgent = async ({
 }) => {
   const openai = new OpenAI({ apiKey, baseURL })
   const toolkit = createToolKit(tools)
-  const messages: ChatCompletionMessageParam[] = []
+  const toolMessages: ChatCompletionMessageParam[] = []
   const maxToken = contextWindow
 
   //
@@ -99,8 +99,8 @@ export const createAgent = async ({
   return {
     executeProcedure: async ({ taskManager }: { taskManager: TaskManager }) => {
       //
-      // if (messages.length === 0) {
-      //   messages.push({
+      // if (toolMessages.length === 0) {
+      //   toolMessages.push({
       //     role: 'user',
       //     content: 'continue task'
       //   })
@@ -150,12 +150,12 @@ ${workspace}
 
 ${taskManager.todo}
 
-
 ${nextStep}
 
               `
           },
-          ...messages
+
+          ...toolMessages
             .slice()
             .reverse()
             .filter((_, idx) => {
@@ -179,10 +179,10 @@ ${nextStep}
           reasoning_effort: 'high'
         })
 
-        messages.push(message)
+        toolMessages.push(message)
 
         if (message?.tool_calls?.length > 0) {
-          // return { messages, output: messages[messages.length - 1]?.content }
+          // return { toolMessages, output: toolMessages[toolMessages.length - 1]?.content }
           console.log(`\n📍 Iter ${i + 1}: ${message.tool_calls.length} tool(s)`)
 
           try {
@@ -202,10 +202,10 @@ ${nextStep}
                 onProgress(progressText)
               }
 
-              messages.push({
+              toolMessages.push({
                 role: 'tool',
                 tool_call_id: id,
-                content: `${JSON.stringify(result)}`
+                content: `Tool Result: ${JSON.stringify(result)}`
               })
             }
           } catch (e) {
@@ -223,7 +223,7 @@ ${nextStep}
       }
       await run()
 
-      return { messages, output: messages[messages.length - 1]?.content }
+      return { toolMessages, output: toolMessages[toolMessages.length - 1]?.content }
     }
   }
 }
