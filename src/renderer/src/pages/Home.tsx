@@ -43,6 +43,7 @@ App idea:
 
 Backend Technical Requirements: 
   - git init if there's no git
+  - create .gitignore for "node_modules" folder and "dist" folder
   - starta a express js project with socket.io 
   - use common js in package.json
   - support cors, any domain
