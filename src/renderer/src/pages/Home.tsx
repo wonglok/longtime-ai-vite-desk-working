@@ -64,8 +64,8 @@ Frontend Technical Requirements:
 
 Guidelines: 
 MUST Work within the workspace folder. 
-Check the box when you fullfilled the requirement.
-For every step update the todo list using task manager and also set next step using task manager.
+MUST use task manager to keep track of progress of development
+Check the box in todo when you fullfilled the task.
 
           `
       },

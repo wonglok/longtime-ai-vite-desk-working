@@ -24,22 +24,22 @@ export const taskManagerTool = ({
   defineTool({
     name: 'task_manager_tool',
     description:
-      'this task manager tool can update the todo list with current task and what the next step can be',
+      'this task manager tool can update the todo list with current task and any necessary sub task',
     schema: z.object({
       // nextStep: z.string().describe('one next task to work on'),
       appIsFullyBuilt: z.boolean().describe('when the app is fully built'),
       latestTodos: z
         .string()
         .describe(
-          'this task manager tool can update the todo list with current task and what the next step can be'
+          'this task manager tool can update the todo list with current task and any necessary sub task'
         )
     }),
     execute: async ({ latestTodos, appIsFullyBuilt }) => {
       return new Promise((resolve, reject) => {
         taskManager.todo = latestTodos
-        // taskManager.nextStep = nextStep
         taskManager.appIsFullyBuilt = appIsFullyBuilt
-        resolve(`${latestTodos}`)
+
+        resolve(`${JSON.stringify(taskManager)}`)
       })
     }
   })
