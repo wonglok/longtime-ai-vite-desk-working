@@ -10,35 +10,31 @@ import { exec } from 'child_process'
 // TOOL DEFINITIONS
 // ============================================================================
 
-export const allTasksAreDoneTool = ({
-  taskManager = { todo: '', allTasksAreDone: false }
-}: {
-  taskManager: { todo: string; allTasksAreDone: boolean }
-}) =>
-  defineTool({
-    name: 'all_task_done_tool',
-    description: 'all_task_done tool',
-    schema: z.object({ allTasksAreDone: z.boolean().describe('allTasksAreDone: true or false') }),
-    execute: async ({ allTasksAreDone }) => {
-      return new Promise((resolve, reject) => {
-        taskManager.allTasksAreDone = allTasksAreDone
-        resolve(taskManager)
-      })
-    }
-  })
+export type TaskManager = {
+  todo: string
+  nextStep: string
+  appIsFullyBuilt: boolean
+}
 
-export const updateTodoListTool = ({
-  taskManager = { todo: '', allTasksAreDone: false }
+export const taskManagerTool = ({
+  taskManager = { todo: '', appIsFullyBuilt: false, nextStep: '' }
 }: {
-  taskManager: { todo: string; allTasksAreDone: boolean }
+  taskManager: TaskManager
 }) =>
   defineTool({
-    name: 'update_todo_list_tool',
-    description: 'update todo list tool',
-    schema: z.object({ latestTodos: z.string().describe('latest updated todo list') }),
-    execute: async ({ latestTodos }) => {
+    name: 'task_manager_tool',
+    description:
+      'this task manager tool can update the todo list and write down what the next steo can be',
+    schema: z.object({
+      nextStep: z.string(),
+      appIsFullyBuilt: z.boolean().describe('when the app is fully built'),
+      latestTodos: z.string().describe('latest updated todo list')
+    }),
+    execute: async ({ nextStep, latestTodos, appIsFullyBuilt }) => {
       return new Promise((resolve, reject) => {
         taskManager.todo = latestTodos
+        taskManager.nextStep = nextStep
+        taskManager.appIsFullyBuilt = appIsFullyBuilt
         resolve(`${latestTodos}`)
       })
     }

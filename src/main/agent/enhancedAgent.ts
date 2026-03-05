@@ -1,5 +1,5 @@
 import { createAgent } from './sdk'
-import { allTasksAreDoneTool, terminalTool, updateTodoListTool } from './toolbox'
+import { terminalTool, taskManagerTool, TaskManager } from './toolbox'
 import { join } from 'path'
 import { app } from 'electron'
 import { makeDirectory } from 'make-dir'
@@ -21,7 +21,11 @@ export const enhancedAgent = async ({ mainWindow, event, randID, inbound }) => {
   //   workspacePath: ``
   // })
 
-  const taskManager = { allTasksAreDone: false, todo: `${inbound.prompt}` }
+  const taskManager: TaskManager = {
+    appIsFullyBuilt: false,
+    nextStep: 'check current status',
+    todo: `${inbound.prompt}`
+  }
   const agent = await createAgent({
     workspace: workspace,
     apiKey: inbound.apiKey,
@@ -33,28 +37,20 @@ export const enhancedAgent = async ({ mainWindow, event, randID, inbound }) => {
     model: inbound.model, // local
     // model: `m1-qwen3.5-35b-a3b`, // remote
     contextWindow: 4096,
-    tools: [
-      terminalTool(),
-      updateTodoListTool({ taskManager }),
-      allTasksAreDoneTool({ taskManager })
-    ]
+    tools: [terminalTool(), taskManagerTool({ taskManager })]
   })
 
-  const procedureText = `
-  
-  `
+  const result = await agent.executeProcedure({ taskManager: taskManager })
 
-  console.log(procedureText)
+  console.log(result.output)
 
-  const result = await agent.executeProcedure({ taskManager: taskManager, procedureText })
+  return result.output
+}
 
-  /*
+/*
   Calculate 2+2, write to "result.txt", then read it back then add 1 then save it then send it to me.
   get http://example.com and write to "example.html"
   */
-
-  console.log(result.output)
-}
 
 // const refined = await streamText({
 //   api: inbound,

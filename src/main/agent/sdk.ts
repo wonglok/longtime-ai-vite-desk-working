@@ -4,7 +4,7 @@ import { z } from 'zod'
 import * as path from 'path'
 import * as fs from 'fs/promises'
 import { zodResponseFormat } from 'openai/helpers/zod'
-import { allTasksAreDoneTool } from './toolbox'
+import { allTasksAreDoneTool, TaskManager } from './toolbox'
 
 // ============================================================================
 // CORE TYPES & FACTORY
@@ -98,17 +98,14 @@ export const createAgent = async ({
   //
 
   return {
-    executeProcedure: async ({
-      taskManager = { allTasksAreDone: false, todo: '' },
-      procedureText = ''
-    }) => {
+    executeProcedure: async ({ taskManager }: { taskManager: TaskManager }) => {
       //
-      if (messages.length === 0) {
-        messages.push({
-          role: 'user',
-          content: 'continue task'
-        })
-      }
+      // if (messages.length === 0) {
+      //   messages.push({
+      //     role: 'user',
+      //     content: 'continue task'
+      //   })
+      // }
       //
       console.log('\n🚀 Agent Loop\n' + '═'.repeat(30))
       let progressText = ''
@@ -133,36 +130,49 @@ export const createAgent = async ({
       })
       .join('\n')}`.trim()
 
+        let nextStep = ``
+        if (taskManager.nextStep) {
+          nextStep = taskManager.nextStep
+        }
+        const inputMessages: ChatCompletionMessageParam[] = [
+          //
+          {
+            role: 'system',
+            content: `
+you are an AI senior developer.
+**You are in this workspace folder**
+${workspace}
+              `
+          },
+          {
+            role: 'user',
+            content: `
+Here is the user prompt:
+${taskManager.todo}
+
+Here is next step:
+${nextStep}
+
+              `
+          },
+          { role: 'user', content: filesListText },
+          ...messages
+            .slice()
+            .reverse()
+            .filter((_, idx) => {
+              if (idx < 4) {
+                return true
+              }
+              return false
+            })
+            .reverse()
+        ]
+
         const {
           choices: [{ message }]
         }: any = await openai.chat.completions.create({
           model: model,
-          messages: [
-            //
-            {
-              role: 'user',
-              content: `
-You are in this workspace folder:
-${workspace}
-
-Here is the prompt from user:
-              
-${taskManager.todo}
-              
-              `
-            },
-            { role: 'user', content: filesListText },
-            ...messages
-              .slice()
-              .reverse()
-              .filter((_, idx) => {
-                if (idx < 10) {
-                  return true
-                }
-                return false
-              })
-              .reverse()
-          ],
+          messages: inputMessages,
 
           tools: toolkit.schemas,
           tool_choice: 'required',

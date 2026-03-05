@@ -23,37 +23,41 @@ export function Home() {
         apiKey: '',
         baseURL: `http://localhost:1234/v1`,
 
-        // model: 'qwen3.5-9b',
-        model: `qwen3.5-4b`,
+        model: 'qwen3.5-9b',
+        // model: `qwen3.5-4b`,
 
         folder: `my-app-001`,
 
         action: 'message',
         prompt: `
-# Todo list
 App idea:
-  - [] I want to build a todo app with kanban ui drag and drop with collaborative realtime update features.
+  - I want to build a todo app with kanban ui drag and drop with collaborative realtime update features.
 
-Frontend TechSpec:
-  - git init if there's no git
-  - start a vite project with react disable linting, use javascript instead of typescript
-  - update config to set frontend service port to use "3001"
-  - update config to set backend service port to use "3002"      
-  - support cors, any domain
-  - socket-io client
-
-Backend TechSpec: 
+Backend Technical Requirements: 
   - git init if there's no git
   - starta a express js project with socket.io 
   - use common js in package.json
   - support cors, any domain
-  - backend service port uses "3002"
-  - implement socket-io powered collaboration features 
-  - implement json file database
+  - use "3001" as frontend service port
+  - use "3002" as backend service port
+  - use socket-io powered collaboration features 
+  - use json file database
 
+Frontend Technical Requirements:
+  - git init if there's no git
+  - use a vite project with react disable linting, use javascript instead of typescript
+  - use "3001" as frontend service port
+  - use "3002" as backend service port
+  - support cors, any domain
+  - use socket.io-client powered collaboration features 
+
+Todo list:
+- [] todo app with all above features developed.
+
+Guidelines: 
 Check the box when you fullfilled the requirement.
-
-When you finish all tasks, output "<all_done_marker>[all_done_marker]</all_done_marker>", then start the backend and frontend server.
+For every step update the todo list using task manager and also set next step using task manager.
+When is app is fully built, update using task manager, then start the backend and frontend server.
           `
       },
       (stream) => {
