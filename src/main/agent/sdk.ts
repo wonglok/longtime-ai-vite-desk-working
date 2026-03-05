@@ -201,7 +201,7 @@ ${todo}
 
               if (fn.name === 'task_manager_tool') {
                 let args = JSON.parse(fn.arguments)
-                progressText = `Thinking:\n${removeThinkTags(message.content)}\nTodo List:\n${args.latestTodos}\nNext Step: \n${args.nextStep}\n${result.data}\n`
+                progressText = `Thinking:\n${removeThinkTags(message.content)}\nTodo List:\n${args.latestTodos}\n`
                 onProgress(progressText)
               }
 
