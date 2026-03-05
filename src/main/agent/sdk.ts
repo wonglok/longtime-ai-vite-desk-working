@@ -169,7 +169,7 @@ ${todo}
               .slice()
               .reverse()
               .filter((_, idx) => {
-                if (idx < 4) {
+                if (idx < 10) {
                   return true
                 }
                 return false
