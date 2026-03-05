@@ -29,7 +29,15 @@ export function Home() {
         folder: `my-app-001`,
 
         action: 'message',
-        prompt: `
+        todo: `
+Todo:
+- [] git setup for project workspace folder
+- [] backend code 
+- [] front end code with integration to backend
+- [] produce a database json file with example data
+
+        `,
+        instructions: `
 App idea:
   - I want to build a todo app with kanban ui drag and drop with collaborative realtime update features.
 
@@ -50,9 +58,6 @@ Frontend Technical Requirements:
   - use "3002" as backend service port
   - support cors, any domain
   - use socket.io-client powered collaboration features 
-
-Todo list:
-- [] todo app with all above features developed.
 
 Guidelines: 
 MUST Work within the workspace folder. 

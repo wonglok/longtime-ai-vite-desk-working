@@ -69,6 +69,7 @@ export const estimateTokenCountFromObject = (theobject: string) =>
 // ============================================================================
 
 export const createAgent = async ({
+  instructions = '',
   workspace = '',
   apiKey = '',
   baseURL = 'http://localhost:1234/v1',
@@ -78,6 +79,7 @@ export const createAgent = async ({
   contextWindow = 4096,
   onProgress = () => {}
 }: {
+  instructions: string
   workspace: string
   onProgress: (v) => void
   model: string
@@ -133,7 +135,7 @@ export const createAgent = async ({
         if (taskManager.nextStep) {
           nextStep = `Here is next step:\n${taskManager.nextStep}`
         }
-        const inputMessages: ChatCompletionMessageParam[] = [
+        const contextMessages: ChatCompletionMessageParam[] = [
           //
           {
             role: 'system',
@@ -147,29 +149,34 @@ you are an AI senior developer.
 You are in this workspace folder:
 ${workspace}
 
+${instructions}
+
 ${taskManager.todo}
 
 ${nextStep}
               `
-          },
-
-          ...toolMessages
-            .slice()
-            .reverse()
-            .filter((_, idx) => {
-              if (idx < 4) {
-                return true
-              }
-              return false
-            })
-            .reverse()
+          }
         ]
+
+        console.log(contextMessages)
 
         const {
           choices: [{ message }]
         }: any = await openai.chat.completions.create({
           model: model,
-          messages: inputMessages,
+          messages: [
+            ...contextMessages,
+            ...toolMessages
+              .slice()
+              .reverse()
+              .filter((_, idx) => {
+                if (idx < 4) {
+                  return true
+                }
+                return false
+              })
+              .reverse()
+          ],
 
           tools: toolkit.schemas,
           tool_choice: 'required',
@@ -197,7 +204,7 @@ ${nextStep}
 
               if (fn.name === 'task_manager_tool') {
                 let args = JSON.parse(fn.arguments)
-                progressText = `Thinking:\n${removeThinkTags(message.content)}\nTodo List:\n${args.todo}\nNext Step: \n${args.nextStep}\n${result.data}\n`
+                progressText = `Thinking:\n${removeThinkTags(message.content)}\nTodo List:\n${args.latestTodos}\nNext Step: \n${args.nextStep}\n${result.data}\n`
                 onProgress(progressText)
               }
 

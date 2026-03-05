@@ -24,9 +24,10 @@ export const enhancedAgent = async ({ mainWindow, event, randID, inbound }) => {
   const taskManager: TaskManager = {
     appIsFullyBuilt: false,
     nextStep: 'check current status',
-    todo: `${inbound.prompt}`
+    todo: `${inbound.todo}`
   }
   const agent = await createAgent({
+    instructions: inbound.instructions,
     workspace: workspace,
     apiKey: inbound.apiKey,
     baseURL: inbound.baseURL,
@@ -40,7 +41,9 @@ export const enhancedAgent = async ({ mainWindow, event, randID, inbound }) => {
     tools: [terminalTool(), taskManagerTool({ taskManager })]
   })
 
-  const result = await agent.executeProcedure({ taskManager: taskManager })
+  const result = await agent.executeProcedure({
+    taskManager: taskManager
+  })
 
   console.log(result.output)
 
