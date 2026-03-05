@@ -139,16 +139,13 @@ export const createAgent = async ({
             {
               role: 'system',
               content: `
-You are an AI senior developer. You write software for people.
-
+You are an AI senior developer. You write software.
               `
             },
             {
               role: 'user',
               content: `
-
 User's Prompt:
-
 ${appSpec}
 
 **You must work in this workspace folder**:
