@@ -99,19 +99,12 @@ export const createAgent = async ({
 
       const toolkit = createToolKit(tools)
 
-      //
-      // if (toolMessages.length === 0) {
-      //   toolMessages.push({
-      //     role: 'user',
-      //     content: 'continue task'
-      //   })
-      // }
-      //
-
-      console.log('\n🚀 Agent Loop\n' + '═'.repeat(30))
       let progressText = ''
       let i = 0
       let run = async () => {
+        i++
+
+        console.log('\nAgent Loop \n' + ` (${i}) ` + '═'.repeat(30))
         // console.log(contextMessages)
 
         try {
@@ -154,19 +147,22 @@ ${workspace}
 Here are the files we have in the workspace: 
 ${filesListText}
 `
-            },
-            {
-              role: 'assistant',
-              content: `
-Todo and Progress update:
-${todo}
-              `
             }
           ]
 
+          /*
+{
+  role: 'assistant',
+  content: `
+Todo and Progress update:
+${todo}
+  `
+}
+          */
+
           const openai = new OpenAI({ apiKey, baseURL })
-          let start = performance.now()
-          let resp = await openai.chat.completions.create({
+          const start = performance.now()
+          const resp = await openai.chat.completions.create({
             model: model,
             messages: [
               ...contextMessages,
@@ -188,8 +184,8 @@ ${todo}
             reasoning_effort: 'high'
           })
 
-          let end = performance.now()
-          console.log('token/s', resp?.usage?.completion_tokens! / ((end - start) / 1000))
+          const end = performance.now()
+          console.log('token / s', resp?.usage?.completion_tokens! / ((end - start) / 1000))
 
           const {
             choices: [{ message }]
@@ -208,7 +204,7 @@ ${todo}
                 const result = await toolkit.run(fn.name, JSON.parse(fn.arguments))
 
                 if (fn.name === 'terminal_tool') {
-                  progressText = `Todo:\n${taskManager.todo}\n${'(shell) $ '}\n\n\n${JSON.parse(fn.arguments).cmd}\n${result.data}\n`
+                  progressText = `Todo:\n${taskManager.todo}\n\n\n\n${'(shell) $ '}${JSON.parse(fn.arguments).cmd}\n${result.data}\n`
                   onProgress(progressText)
                 }
 
@@ -236,8 +232,8 @@ ${todo}
           }
         } catch (e) {
           console.error(e)
+          return await run()
         } finally {
-          i++
         }
       }
       await run()
