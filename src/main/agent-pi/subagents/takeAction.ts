@@ -1,8 +1,6 @@
 import { Agent } from '@mariozechner/pi-agent-core'
 import { AllModels } from '../../model'
 import { readFileTool } from '../tool/readFileTool'
-import { getThinkingWords } from '../utils/getThinking'
-import { removeThinkTags } from '../utils/remoteThinking'
 import { writeFileTool } from '../tool/writeFileTool'
 import { listFilesTool } from '../tool/listFilesTool'
 
@@ -43,29 +41,31 @@ The current workspace is: ${workspace}
     if (evt.type === 'message_update' && evt.assistantMessageEvent.type === 'text_delta') {
       let textContent = (evt.message.content[0] as { text: string }).text
 
-      if (textContent.includes(`<think>`)) {
-        onEvent({
-          type: 'think',
-          text: getThinkingWords(textContent).replace(`<think>`, ``)
-        })
-      } else {
-        onEvent({
-          type: 'think',
-          text: ''
-        })
-      }
+      onEvent({
+        type: 'side',
+        text: textContent
+      })
 
-      if (textContent.includes(`</think>`)) {
-        onEvent({
-          type: 'workbox',
-          text: removeThinkTags(textContent)
-        })
-      } else {
-        onEvent({
-          type: 'workbox',
-          text: ''
-        })
-      }
+      // if (textContent.includes(`<think>`)) {
+      //   onEvent({
+      //     type: 'think',
+      //     text: getThinkingWords(textContent).replace(`<think>`, ``)
+      //   })
+      // } else {
+
+      // }
+
+      // if (textContent.includes(`</think>`)) {
+      //   onEvent({
+      //     type: 'workbox',
+      //     text: removeThinkTags(textContent)
+      //   })
+      // } else {
+      //   onEvent({
+      //     type: 'workbox',
+      //     text: ''
+      //   })
+      // }
     }
   })
 
@@ -84,12 +84,4 @@ You update all the finished tasks and write to "todo.md".
 
 You finally write the action result summary to "action-result-summary.md".
 `)
-
-  const finalMessage = agent.state.messages[agent.state.messages.length - 1]
-
-  const textContent = (finalMessage.content[0] as { text: string }).text
-
-  console.log(textContent)
-
-  return textContent
 }

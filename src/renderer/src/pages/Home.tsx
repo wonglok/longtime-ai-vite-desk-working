@@ -13,6 +13,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator
 } from '@/components/ui/breadcrumb'
+import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { useEffect, useState } from 'react'
@@ -23,6 +24,7 @@ export function Home() {
   let [terminal, setTerm] = useState('')
   let [workbox, setWorkbox] = useState('')
   let [think, setThink] = useState('')
+  let [stopFunc, setStop] = useState<any>(null)
 
   useEffect(() => {
     const controller = window.api.askAI(
@@ -85,14 +87,23 @@ Backend Technical Requirements:
       }
     )
 
+    setStop(() => {
+      return () => {
+        controller.abort()
+      }
+    })
+
     return () => {
       controller.abort()
+      setWorkbox('')
+      setSide('')
       setThink('')
       setNotice('')
       setTerm('')
     }
   }, [])
 
+  //
   //
 
   return (
@@ -116,28 +127,31 @@ Backend Technical Requirements:
             </Breadcrumb>
           </div>
         </header>
+        {/*  */}
 
-        <div className="gap-4 p-4 pt-0">
-          <pre className="text-xs py-5 px-5 w-full whitespace-pre-wrap">{notice}</pre>
-          {/*  */}
-          <ChainOfThought>
-            <ChainOfThoughtContent>
-              <ChainOfThoughtHeader>Thinking</ChainOfThoughtHeader>
-              <ChainOfThoughtStep label={think} status={'active'} className="whitespace-pre-wrap" />
-            </ChainOfThoughtContent>
-          </ChainOfThought>
-
-          <div className="flex">
-            <div className="w-1/2">
-              <pre className="text-xs py-5 px-5 w-full whitespace-pre-wrap">{workbox}</pre>
-              <pre className="text-xs py-5 px-5 w-full whitespace-pre-wrap">{terminal}</pre>
+        <div className="gap-4 p-4 pt-0  h-full">
+          <div className="flex h-full">
+            <div className="w-1/2  h-full">
+              <pre className="text-xs  w-full whitespace-pre-wrap">{notice}</pre>
+              <pre className="text-xs  w-full whitespace-pre-wrap">{workbox}</pre>
+              <pre className="text-xs  w-full whitespace-pre-wrap">{terminal}</pre>
             </div>
-            <div className="w-1/2">
-              <pre className="text-xs py-5 px-5 w-full whitespace-pre-wrap">{side}</pre>
+            <div className="w-1/2  h-full">
+              <pre className="text-xs  w-full whitespace-pre-wrap">
+                {stopFunc && (
+                  <Button
+                    variant={'destructive'}
+                    onClick={() => {
+                      stopFunc()
+                    }}
+                  >
+                    STOP
+                  </Button>
+                )}
+                <div>{side}</div>
+              </pre>
             </div>
           </div>
-
-          {/*  */}
         </div>
       </SidebarInset>
     </SidebarProvider>

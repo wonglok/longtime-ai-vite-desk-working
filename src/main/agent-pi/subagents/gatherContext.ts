@@ -43,29 +43,10 @@ The current workspace is: ${workspace}
     if (evt.type === 'message_update' && evt.assistantMessageEvent.type === 'text_delta') {
       let textContent = (evt.message.content[0] as { text: string }).text
 
-      if (textContent.includes(`<think>`)) {
-        onEvent({
-          type: 'think',
-          text: getThinkingWords(textContent).replace(`<think>`, ``)
-        })
-      } else {
-        onEvent({
-          type: 'think',
-          text: ''
-        })
-      }
-
-      if (textContent.includes(`</think>`)) {
-        onEvent({
-          type: 'workbox',
-          text: removeThinkTags(textContent)
-        })
-      } else {
-        onEvent({
-          type: 'workbox',
-          text: ''
-        })
-      }
+      onEvent({
+        type: 'side',
+        text: textContent
+      })
     }
   })
 
@@ -78,12 +59,4 @@ If you see there's a "todo.md", read it.
 You gather related context information in the workspace.
 You output a todo list, and write to "todo.md"
 `)
-
-  const finalMessage = agent.state.messages[agent.state.messages.length - 1]
-
-  const textContent = (finalMessage.content[0] as { text: string }).text
-
-  console.log(textContent)
-
-  return textContent
 }

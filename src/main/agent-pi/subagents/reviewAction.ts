@@ -50,29 +50,10 @@ The current workspace is: ${workspace}
     if (evt.type === 'message_update' && evt.assistantMessageEvent.type === 'text_delta') {
       let textContent = (evt.message.content[0] as { text: string }).text
 
-      if (textContent.includes(`<think>`)) {
-        onEvent({
-          type: 'think',
-          text: getThinkingWords(textContent).replace(`<think>`, ``)
-        })
-      } else {
-        onEvent({
-          type: 'think',
-          text: ''
-        })
-      }
-
-      if (textContent.includes(`</think>`)) {
-        onEvent({
-          type: 'workbox',
-          text: removeThinkTags(textContent)
-        })
-      } else {
-        onEvent({
-          type: 'workbox',
-          text: ''
-        })
-      }
+      onEvent({
+        type: 'side',
+        text: textContent
+      })
     }
   })
 
@@ -88,12 +69,4 @@ You read: "action-result-summary.md" to understand actions taken
 
 You review the current situation and write down the next step action in "next-step.md"
 `)
-
-  const finalMessage = agent.state.messages[agent.state.messages.length - 1]
-
-  const textContent = (finalMessage.content[0] as { text: string }).text
-
-  console.log(textContent)
-
-  return textContent
 }
