@@ -4,9 +4,10 @@
 // import { processPromptRequest } from './tools/processStack'
 // import { prepToolListFiles } from './tools/fsTools'
 
-// import { utilityProcess, MessageChannelMain } from 'electron'
-import { runAgent } from './agent-pi/runAgent'
+import { runAgent } from './agent-pi/agent-sdk'
 
+// import { utilityProcess, MessageChannelMain } from 'electron'
+// import { runAgent } from './agent-pi/runAgent'
 // function removeThinkTags(input) {
 //   const regex = /<think>.*?<\/think>/gis
 //   const result = input.replace(regex, '')
@@ -15,24 +16,21 @@ import { runAgent } from './agent-pi/runAgent'
 
 // console.log('plan', removeThinkTags(plan))
 
+export const abortedFlags = {}
 export const setupIPCMain = async ({ ipcMain, mainWindow }) => {
   //
-  ipcMain.on('askAI-message', async (event, inbound, randID) => {
-    //
+  ipcMain.on('askAI-abort', async (event, inbound, randID) => {
+    abortedFlags[randID] = abortedFlags[randID] || true
+  })
 
+  ipcMain.on('askAI-message', async (event, inbound, randID) => {
     try {
       if (inbound.action === 'message') {
-        //
-
-        mainWindow.webContents.send(
-          `askAI-stream${randID}`,
-          JSON.stringify({
-            type: 'notice',
-            text: 'Agent Loading...'
-          })
-        )
-
         await runAgent({
+          inbound,
+          checkAborted: () => {
+            return abortedFlags[randID] === true
+          },
           onEvent: ({ type, text }) => {
             mainWindow.webContents.send(
               `askAI-stream${randID}`,
@@ -41,8 +39,7 @@ export const setupIPCMain = async ({ ipcMain, mainWindow }) => {
                 text: text
               })
             )
-          },
-          inbound
+          }
         })
       }
 

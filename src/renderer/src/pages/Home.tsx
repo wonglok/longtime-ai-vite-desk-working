@@ -1,3 +1,9 @@
+import {
+  ChainOfThought,
+  ChainOfThoughtContent,
+  ChainOfThoughtHeader,
+  ChainOfThoughtStep
+} from '@/components/ai-elements/chain-of-thought'
 import { AppSidebar } from '@/components/app-sidebar'
 import {
   Breadcrumb,
@@ -7,21 +13,19 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator
 } from '@/components/ui/breadcrumb'
-import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { useEffect, useState } from 'react'
 
 export function Home() {
+  let [notice, setNotice] = useState('')
+  let [side, setSide] = useState('')
   let [terminal, setTerm] = useState('')
+  let [workbox, setWorkbox] = useState('')
   let [think, setThink] = useState('')
 
-  const onClickAsk = async () => {
-    // Must always update todo list and progress udpate with todo_manager_tool. Do not remove the existing todos, but you can add todos
-    //
-    //
-
-    const data = await window.api.askAI(
+  useEffect(() => {
+    const controller = window.api.askAI(
       {
         apiKey: 'NA',
         baseURL: `http://localhost:1234/v1`,
@@ -42,41 +46,54 @@ User's App idea:
 Frontend Technical Requirements:
   - git init if there's no git
   - use a vite project with react disable linting, use javascript instead of typescript
-  - use "3002" as backend port
-  - support cors, any domain
-  - use socket.io-client powered collaboration features 
-  - make sure the client has all the initial data needed
+  - npm install socket.io-client 
+  - socket.io-client should support cors, any domain
+  - use "3002" as frontend port
 
 Backend Technical Requirements: 
   - git init if there's no git
+  - start a nodejs backend 
+  - npm init -y
+  - npm install express socket.io 
+  - use commonjs in package.json
+  - write dev script in package.json
   - create .gitignore for "node_modules" folder and "dist" folder
-  - starta a express js project with socket.io 
-  - use common js in package.json
+  - socket.io-client should support cors, any domain
   - support cors, any domain
-  - use "3001" as frontend port
-  - use socket-io powered collaboration features 
+  - use "3001" as backend port
   - use json file database
           `
       },
       (stream) => {
-        let data = JSON.parse(stream)
-        console.log(data)
-
-        if (data.type === 'think') {
-          //
-          // console.log(data.type)
-          //
+        const data = JSON.parse(stream)
+        // console.log(data)
+        if (data.type === 'side') {
+          setSide(data.text)
         }
-        // setTxt(`${stream.replace(/\<think\>/gi, '').replace(/\<\/think\>/gi, '')}`)
+        if (data.type === 'think') {
+          setThink(data.text)
+        }
+        if (data.type === 'workbox') {
+          setWorkbox(data.text)
+        }
+        if (data.type === 'notice') {
+          setNotice(data.text)
+        }
+        if (data.type === 'terminal') {
+          setTerm(data.text)
+        }
       }
     )
 
-    console.log(data, 'result')
-  }
-
-  useEffect(() => {
-    onClickAsk()
+    return () => {
+      controller.abort()
+      setThink('')
+      setNotice('')
+      setTerm('')
+    }
   }, [])
+
+  //
 
   return (
     <SidebarProvider>
@@ -101,14 +118,24 @@ Backend Technical Requirements:
         </header>
 
         <div className="gap-4 p-4 pt-0">
+          <pre className="text-xs py-5 px-5 w-full whitespace-pre-wrap">{notice}</pre>
           {/*  */}
+          <ChainOfThought>
+            <ChainOfThoughtContent>
+              <ChainOfThoughtHeader>Thinking</ChainOfThoughtHeader>
+              <ChainOfThoughtStep label={think} status={'active'} className="whitespace-pre-wrap" />
+            </ChainOfThoughtContent>
+          </ChainOfThought>
 
-          {/*  */}
-
-          {/*  */}
-
-          <pre className="text-xs py-5 px-5 w-full whitespace-pre-wrap">{think}</pre>
-          <pre className="text-xs py-5 px-5 w-full whitespace-pre-wrap">{terminal}</pre>
+          <div className="flex">
+            <div className="w-1/2">
+              <pre className="text-xs py-5 px-5 w-full whitespace-pre-wrap">{workbox}</pre>
+              <pre className="text-xs py-5 px-5 w-full whitespace-pre-wrap">{terminal}</pre>
+            </div>
+            <div className="w-1/2">
+              <pre className="text-xs py-5 px-5 w-full whitespace-pre-wrap">{side}</pre>
+            </div>
+          </div>
 
           {/*  */}
         </div>

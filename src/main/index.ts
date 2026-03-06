@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, screen } from 'electron'
 import path, { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -14,20 +14,35 @@ function createWindow(): void {
   if (import.meta.env.DEV) {
     extraHeight = 300
   }
+  const bounds = screen.getPrimaryDisplay().bounds
 
-  const mainWindow = new BrowserWindow({
-    width: 1024,
-    height: 670 + extraHeight,
-    x: 100,
-    y: 500,
-    show: false,
-    autoHideMenuBar: true,
-    ...(process.platform === 'linux' ? { icon } : {}),
-    webPreferences: {
-      preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
-    }
-  })
+  const mainWindow = import.meta.env.DEV
+    ? new BrowserWindow({
+        width: bounds.width / 3,
+        height: bounds.height,
+        x: 0,
+        y: 0,
+        show: false,
+        autoHideMenuBar: true,
+        ...(process.platform === 'linux' ? { icon } : {}),
+        webPreferences: {
+          preload: join(__dirname, '../preload/index.js'),
+          sandbox: false
+        }
+      })
+    : new BrowserWindow({
+        width: 1024,
+        height: 670 + extraHeight,
+        x: 0,
+        y: 0,
+        show: false,
+        autoHideMenuBar: true,
+        ...(process.platform === 'linux' ? { icon } : {}),
+        webPreferences: {
+          preload: join(__dirname, '../preload/index.js'),
+          sandbox: false
+        }
+      })
 
   if (import.meta.env.DEV) {
     mainWindow.webContents.openDevTools()

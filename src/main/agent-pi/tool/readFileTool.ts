@@ -12,12 +12,6 @@ export const readFileTool = ({ workspace }): AgentTool => {
       path: Type.String({ description: 'File path' })
     }),
     execute: async (toolCallId, params: any, signal, onUpdate) => {
-      let dir = dirname(params.path)
-
-      if (!dir.includes(workspace)) {
-        throw new Error('cannot access other folder')
-      }
-
       const content = await fs.readFile(params.path, 'utf-8')
 
       // Optional: stream progress
@@ -35,3 +29,7 @@ export const readFileTool = ({ workspace }): AgentTool => {
     }
   }
 }
+
+//
+
+//

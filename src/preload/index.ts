@@ -6,22 +6,42 @@ import { electronAPI } from '@electron-toolkit/preload'
 // Custom APIs for renderer
 const api = {
   askAI: (data, stream: (v: any) => {}) => {
-    return new Promise((resolve) => {
-      const randID = `_${Math.random().toString(36).slice(2, 9)}`
+    //
 
-      const handler = (_event, value: any) => {
-        if (stream) {
-          stream(value)
-        }
+    const controller = {
+      data: null,
+      abort: () => {
+        ipcRenderer.send('askAI-abort', data, randID)
+      },
+      getDataAsync() {
+        return new Promise((resolve) => {
+          let tt = setInterval(() => {
+            if (controller.data !== null) {
+              clearInterval(tt)
+              resolve(controller.data)
+            }
+          }, 1)
+        })
       }
-      ipcRenderer.on('askAI-stream' + randID, handler)
+    }
 
-      ipcRenderer.once('askAI-reply' + randID, (_event, arg) => {
-        resolve(arg)
-        ipcRenderer.off('askAI-stream' + randID, handler)
-      })
-      ipcRenderer.send('askAI-message', data, randID)
+    const randID = `_${Math.random().toString(36).slice(2, 9)}`
+
+    const handler = (_event, value: any) => {
+      if (stream) {
+        stream(value)
+      }
+    }
+    ipcRenderer.on('askAI-stream' + randID, handler)
+
+    ipcRenderer.once('askAI-reply' + randID, (_event, arg) => {
+      controller.data = arg
+
+      ipcRenderer.off('askAI-stream' + randID, handler)
     })
+    ipcRenderer.send('askAI-message', data, randID)
+
+    return controller
   }
 }
 
