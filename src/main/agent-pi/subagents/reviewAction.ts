@@ -1,5 +1,5 @@
 import { Agent } from '@mariozechner/pi-agent-core'
-import { AllModels } from '../../model'
+import { AllModels } from '../model'
 import { readFileTool } from '../tool/readFileTool'
 // import { getThinkingWords } from '../utils/getThinking'
 // import { removeThinkTags } from '../utils/remoteThinking'

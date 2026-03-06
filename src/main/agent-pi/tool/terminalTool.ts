@@ -42,8 +42,8 @@ export const terminalTool = ({ workspace }): AgentTool => {
       // Optional: stream progress
 
       return {
-        content: [{ type: 'text', text: `${result}` }],
-        details: { path: params.path, size: 0 }
+        content: [{ type: 'text', text: `${JSON.stringify(result)}` }],
+        details: { command: `${params.command}`, size: 0 }
       }
     }
   }

@@ -1,5 +1,5 @@
 import { Agent } from '@mariozechner/pi-agent-core'
-import { AllModels } from '../../model'
+import { AllModels } from '../model'
 import { readFileTool } from '../tool/readFileTool'
 import { writeFileTool } from '../tool/writeFileTool'
 import { listFilesTool } from '../tool/listFilesTool'

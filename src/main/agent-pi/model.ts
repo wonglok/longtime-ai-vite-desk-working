@@ -2,7 +2,7 @@ import { Model } from '@mariozechner/pi-ai'
 
 // Example: LiteLLM proxy with explicit compat settings
 export const Qwen3_5_Model_9b: Model<'openai-completions'> = {
-  id: 'qwen/qwen3.5-9b',
+  id: 'qwen3.5-9b',
   name: 'Qwen3.5-9b',
   api: 'openai-completions',
   provider: 'lmstudio',
