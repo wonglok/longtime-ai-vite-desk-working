@@ -6,7 +6,14 @@ import { removeThinkTags } from '../utils/remoteThinking'
 import { writeFileTool } from '../tool/writeFileTool'
 import { listFilesTool } from '../tool/listFilesTool'
 
-export const takeAction = async ({ context, workspace, checkAborted, inbound, onEvent }: any) => {
+export const reviewAction = async ({
+  todo,
+  report,
+  workspace,
+  checkAborted,
+  inbound,
+  onEvent
+}: any) => {
   //
 
   const agent = new Agent({
@@ -70,19 +77,16 @@ The current workspace is: ${workspace}
   })
 
   await agent.prompt(`
-Here's the context of the tasks:
-${context}
-
+Here's the report summary of the actions taken:
+${report}
 
 Instruction:
 You only work at the workspace:  ${workspace}
 
-You follow to todo list in the context.
+You read: "todo.md" to understand context & todo 
+You read: "action-result-summary.md" to understand actions taken
 
-You read the "todo.md".
-You update all the finished tasks and write to "todo.md".
-
-You finally write the action result summary to "action-result-summary.md".
+You review the current situation and write down the next step action in "next-step.md"
 `)
 
   const finalMessage = agent.state.messages[agent.state.messages.length - 1]

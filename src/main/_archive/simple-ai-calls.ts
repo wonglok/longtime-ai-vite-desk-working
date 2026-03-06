@@ -1,5 +1,3 @@
-import z from 'zod'
-
 export async function generateJSON({
   baseURL = 'http://localhost:1234/v1',
   apiKey = '',
@@ -36,7 +34,7 @@ export async function generateJSON({
         json_schema: {
           // name: 'my_response',
           strict: 'true',
-          schema: z.toJSONSchema(schema)
+          schema: schema.toJSONSchema()
         }
       },
       reasoning: reasoning,
