@@ -1,9 +1,9 @@
-import {
-  ChainOfThought,
-  ChainOfThoughtContent,
-  ChainOfThoughtHeader,
-  ChainOfThoughtStep
-} from '@/components/ai-elements/chain-of-thought'
+// import {
+//   ChainOfThought,
+//   ChainOfThoughtContent,
+//   ChainOfThoughtHeader,
+//   ChainOfThoughtStep
+// } from '@/components/ai-elements/chain-of-thought'
 import { AppSidebar } from '@/components/app-sidebar'
 import {
   Breadcrumb,
@@ -32,38 +32,24 @@ export function Home() {
         apiKey: 'NA',
         baseURL: `http://localhost:1234/v1`,
 
-        model: `qwen/qwen3.5-9b`,
+        model: `qwen3.5-4b`,
 
         folder: `my-app-001`,
 
         action: 'message',
 
         appSpec: `
-User's App idea:
-  - I want to build a todo app 
-  - with kanban ui drag and drop 
-  - with collaborative realtime update features
-  - with mouse crusor of each visitor on screen (html div with transform translate)
+# User's App idea
+- I want to build a todo app 
+- with kanban ui drag and drop 
+- with collaborative realtime update features
+- with mouse crusor of each visitor on screen (html div with transform translate)
 
-Frontend Technical Requirements:
-  - git init if there's no git
-  - use a vite project with react disable linting, use javascript instead of typescript
-  - npm install socket.io-client 
-  - socket.io-client should support cors, any domain
-  - use "3002" as frontend port
+# Frontend Technical Requirements
+use a vite project with reactjs, use javascript instead of typescript, @use-gesture/react, support cors, with port 3002
 
-Backend Technical Requirements: 
-  - git init if there's no git
-  - start a nodejs backend 
-  - npm init -y
-  - npm install express socket.io 
-  - use commonjs in package.json
-  - write dev script in package.json
-  - create .gitignore for "node_modules" folder and "dist" folder
-  - socket.io-client should support cors, any domain
-  - support cors, any domain
-  - use "3001" as backend port
-  - use json file database
+# Backend Technical Requirements 
+backend uses express-js and socket.io, json file database, support cors wiht port 3001
           `
       },
       (stream) => {
@@ -133,6 +119,7 @@ Backend Technical Requirements:
           <div className="flex h-full">
             <div className="w-1/2  h-full">
               <pre className="text-xs  w-full whitespace-pre-wrap">{notice}</pre>
+              <pre className="text-xs  w-full whitespace-pre-wrap">{think}</pre>
               <pre className="text-xs  w-full whitespace-pre-wrap">{workbox}</pre>
               <pre className="text-xs  w-full whitespace-pre-wrap">{terminal}</pre>
             </div>

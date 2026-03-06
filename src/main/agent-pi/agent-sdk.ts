@@ -2,11 +2,12 @@ import { app } from 'electron'
 import { gatherContext } from './subagents/gatherContext'
 import { takeAction } from './subagents/takeAction'
 import { reviewAction } from './subagents/reviewAction'
+import { makeDirectory } from 'make-dir'
 
 export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
-  //
   const docs = app.getPath('documents')
   const workspace = `${docs}/ai-home/${inbound.folder}`
+  await makeDirectory(workspace)
 
   onEvent({ type: 'notice', text: `Preparing Cotnext:\n${inbound.appSpec}` })
 
@@ -41,3 +42,6 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
     }
   })
 }
+
+//
+//

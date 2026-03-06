@@ -3,6 +3,7 @@ import { AllModels } from '../../model'
 import { readFileTool } from '../tool/readFileTool'
 import { writeFileTool } from '../tool/writeFileTool'
 import { listFilesTool } from '../tool/listFilesTool'
+import { terminalTool } from '../tool/terminalTool'
 
 export const takeAction = async ({ context, workspace, checkAborted, inbound, onEvent }: any) => {
   //
@@ -14,14 +15,16 @@ export const takeAction = async ({ context, workspace, checkAborted, inbound, on
         //
         listFilesTool({ workspace: workspace }),
         readFileTool({ workspace: workspace }),
-        writeFileTool({ workspace: workspace })
+        writeFileTool({ workspace: workspace }),
+        terminalTool({ workspace: workspace })
+        //
       ],
       systemPrompt: `
 You are an AI senior developer.
 
 The current workspace is: ${workspace}
       `,
-      model: AllModels.find((r) => r.id === 'qwen/qwen3.5-9b')
+      model: AllModels.find((r) => r.id === inbound.model)
     },
     getApiKey: async () => {
       // provider
@@ -45,27 +48,6 @@ The current workspace is: ${workspace}
         type: 'side',
         text: textContent
       })
-
-      // if (textContent.includes(`<think>`)) {
-      //   onEvent({
-      //     type: 'think',
-      //     text: getThinkingWords(textContent).replace(`<think>`, ``)
-      //   })
-      // } else {
-
-      // }
-
-      // if (textContent.includes(`</think>`)) {
-      //   onEvent({
-      //     type: 'workbox',
-      //     text: removeThinkTags(textContent)
-      //   })
-      // } else {
-      //   onEvent({
-      //     type: 'workbox',
-      //     text: ''
-      //   })
-      // }
     }
   })
 
@@ -73,11 +55,10 @@ The current workspace is: ${workspace}
 Here's the context of the tasks:
 ${context}
 
-
 Instruction:
 You only work at the workspace:  ${workspace}
 
-You follow to todo list in the context.
+You use terminal tool and work on the todo list
 
 You read the "todo.md".
 You update all the finished tasks and write to "todo.md".
