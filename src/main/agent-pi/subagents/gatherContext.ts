@@ -73,11 +73,9 @@ The current workspace is: ${workspace}
 ${inbound.appSpec}
 
 Instruction:
-You only work at the workspace.
-The current workspace is: ${workspace}
-You gather related context information in the workspace.
+You only work at the workspace:  ${workspace}
 If you see there's a "todo.md", read it.
-
+You gather related context information in the workspace.
 You output a todo list, and write to "todo.md"
 `)
 

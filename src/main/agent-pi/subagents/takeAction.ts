@@ -75,10 +75,12 @@ ${context}
 
 
 Instruction:
-You only work at the workspace.
-The current workspace is: ${workspace}
+You only work at the workspace:  ${workspace}
 
-You work according to the context of the tasks.
+You follow to todo list in the context.
+
+You read the "todo.md".
+You update all the finished tasks and write to "todo.md".
 
 You finally output the summary of progress udpate.
 `)
