@@ -8,7 +8,7 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
   const docs = app.getPath('documents')
   const workspace = `${docs}/ai-home/${inbound.folder}`
 
-  onEvent({ type: 'notice', text: `${inbound.appSpec}` })
+  onEvent({ type: 'notice', text: `Preparing Cotnext:\n${inbound.appSpec}` })
 
   await gatherContext({
     checkAborted: checkAborted,
