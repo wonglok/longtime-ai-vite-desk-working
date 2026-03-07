@@ -53,17 +53,16 @@ The current workspace is: ${workspace}
   })
 
   await agent.prompt(`
-Here's the context of the tasks:
-${context}
-
 Instruction:
 You only work at the workspace:  ${workspace}
+
+You read the "todo.md".
 
 You use terminal tool and work on the todo list
 You always use npm install to install modules
 
-You read the "todo.md".
 You update all the finished tasks and write to "todo.md".
+
 
 You finally write the action result summary to "action-result-summary.md".
 `)

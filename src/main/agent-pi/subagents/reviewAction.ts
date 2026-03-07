@@ -7,14 +7,7 @@ import { writeFileTool } from '../tool/writeFileTool'
 import { listFilesTool } from '../tool/listFilesTool'
 import { getModelByInbound } from '../utils/getModel'
 
-export const reviewAction = async ({
-  todo,
-  report,
-  workspace,
-  checkAborted,
-  inbound,
-  onEvent
-}: any) => {
+export const reviewAction = async ({ workspace, checkAborted, inbound, onEvent }: any) => {
   //
 
   const agent = new Agent({
@@ -59,13 +52,10 @@ The current workspace is: ${workspace}
   })
 
   await agent.prompt(`
-Here's the report summary of the actions taken:
-${report}
-
 Instruction:
 You only work at the workspace:  ${workspace}
 
-You read: "todo.md" to understand context & todo 
+You read: "todo.md" to understand
 You read: "action-result-summary.md" to understand actions taken
 
 You review the current situation and write down the next step action in "next-step.md"
