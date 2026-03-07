@@ -62,13 +62,11 @@ Instruction:
 You only work at the workspace:  ${workspace}
 
 You read the "todo.md".
+You choose 2-3 todos to work on.
+You use "terminal_tool" to work on the chosen todos.
+You update "todo.md" by checking the finished todos.
 
-You use terminal tool and work on the todo list
-You always use npm install to install modules
-
-You update all the finished tasks and write to "todo.md".
-
-Finally, you schedule more work using "work_schedule_tool".
+You schedule more work using "work_schedule_tool" if necessary.
 `)
 
   return schedule
