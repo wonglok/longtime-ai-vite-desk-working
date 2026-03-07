@@ -53,12 +53,15 @@ The current workspace is: ${workspace}
 ${inbound.appSpec}
 
 Instruction:
+If you see there's a "todo.md" read it.
+
 You only work at the workspace:  ${workspace}
-If you see there's a "next-step.md" read it.
 You gather related context information in the workspace.
-You output a todo list, and write to "todo.md"
 
 we use ./frontend folder for front end code
 we use ./backend folder for back end code
+
+You output a todo list, and write to "todo.md"
+
 `)
 }

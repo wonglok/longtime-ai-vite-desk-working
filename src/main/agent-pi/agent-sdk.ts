@@ -1,7 +1,6 @@
 import { app } from 'electron'
 import { gatherContext } from './subagents/gatherContext'
 import { takeAction } from './subagents/takeAction'
-import { reviewAction } from './subagents/reviewAction'
 import { makeDirectory } from 'make-dir'
 
 export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
@@ -11,36 +10,35 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
 
   onEvent({ type: 'notice', text: `Preparing Cotnext:\n${inbound.appSpec}` })
 
-  await gatherContext({
-    checkAborted: checkAborted,
-    workspace: workspace,
-    inbound: inbound,
-    onEvent: ({ type, text }) => {
-      onEvent({ type, text })
+  let loopRun = async () => {
+    await gatherContext({
+      checkAborted: checkAborted,
+      workspace: workspace,
+      inbound: inbound,
+      onEvent: ({ type, text }) => {
+        onEvent({ type, text })
+      }
+    })
+
+    onEvent({ type: 'notice', text: `Taking Action` })
+
+    const schedule = await takeAction({
+      loopRun: loopRun,
+      checkAborted: checkAborted,
+      workspace: workspace,
+      inbound: inbound,
+      onEvent: ({ type, text }) => {
+        onEvent({ type, text })
+      }
+    })
+
+    console.log('schedule.scheduleWork', schedule.scheduleWork)
+    if (schedule.scheduleWork) {
+      await loopRun()
     }
-  })
+  }
 
-  onEvent({ type: 'notice', text: `Taking Action` })
-
-  await takeAction({
-    checkAborted: checkAborted,
-    workspace: workspace,
-    inbound: inbound,
-    onEvent: ({ type, text }) => {
-      onEvent({ type, text })
-    }
-  })
-
-  onEvent({ type: 'notice', text: `Review Action` })
-
-  await reviewAction({
-    checkAborted: checkAborted,
-    workspace: workspace,
-    inbound: inbound,
-    onEvent: ({ type, text }) => {
-      onEvent({ type, text })
-    }
-  })
+  await loopRun()
 }
 
 //

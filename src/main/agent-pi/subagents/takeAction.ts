@@ -5,19 +5,24 @@ import { writeFileTool } from '../tool/writeFileTool'
 import { listFilesTool } from '../tool/listFilesTool'
 import { terminalTool } from '../tool/terminalTool'
 import { getModelByInbound } from '../utils/getModel'
+import { workScheduleTool } from '../tool/workScheduleTool'
 
-export const takeAction = async ({ context, workspace, checkAborted, inbound, onEvent }: any) => {
+export const takeAction = async ({ workspace, checkAborted, inbound, onEvent }: any) => {
   //
+  const schedule = { scheduleWork: false }
 
   const agent = new Agent({
     initialState: {
       thinkingLevel: 'xhigh',
       tools: [
         //
+
         listFilesTool({ workspace: workspace }),
         readFileTool({ workspace: workspace }),
         writeFileTool({ workspace: workspace }),
-        terminalTool({ workspace: workspace })
+        terminalTool({ workspace: workspace }),
+
+        workScheduleTool({ schedule: schedule })
         //
       ],
       systemPrompt: `
@@ -63,7 +68,8 @@ You always use npm install to install modules
 
 You update all the finished tasks and write to "todo.md".
 
-
-You finally write the action result summary to "action-result-summary.md".
+Finally, you schedule more work using "work_schedule_tool".
 `)
+
+  return schedule
 }
