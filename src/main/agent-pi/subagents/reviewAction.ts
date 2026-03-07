@@ -1,10 +1,11 @@
 import { Agent } from '@mariozechner/pi-agent-core'
-import { AllModels } from '../model'
+// import { AllModels } from '../model'
 import { readFileTool } from '../tool/readFileTool'
 // import { getThinkingWords } from '../utils/getThinking'
 // import { removeThinkTags } from '../utils/remoteThinking'
 import { writeFileTool } from '../tool/writeFileTool'
 import { listFilesTool } from '../tool/listFilesTool'
+import { getModelByInbound } from '../utils/getModel'
 
 export const reviewAction = async ({
   todo,
@@ -30,7 +31,7 @@ You are an AI senior developer.
 
 The current workspace is: ${workspace}
       `,
-      model: AllModels.find((r) => r.id === inbound.model)
+      model: getModelByInbound(inbound)
     },
     getApiKey: async () => {
       // provider

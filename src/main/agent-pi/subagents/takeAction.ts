@@ -1,9 +1,10 @@
 import { Agent } from '@mariozechner/pi-agent-core'
-import { AllModels } from '../model'
+// import { AllModels } from '../model'
 import { readFileTool } from '../tool/readFileTool'
 import { writeFileTool } from '../tool/writeFileTool'
 import { listFilesTool } from '../tool/listFilesTool'
 import { terminalTool } from '../tool/terminalTool'
+import { getModelByInbound } from '../utils/getModel'
 
 export const takeAction = async ({ context, workspace, checkAborted, inbound, onEvent }: any) => {
   //
@@ -24,7 +25,7 @@ You are an AI senior developer.
 
 The current workspace is: ${workspace}
       `,
-      model: AllModels.find((r) => r.id === inbound.model)
+      model: getModelByInbound(inbound)
     },
     getApiKey: async () => {
       // provider
@@ -59,6 +60,7 @@ Instruction:
 You only work at the workspace:  ${workspace}
 
 You use terminal tool and work on the todo list
+You always use npm install to install modules
 
 You read the "todo.md".
 You update all the finished tasks and write to "todo.md".

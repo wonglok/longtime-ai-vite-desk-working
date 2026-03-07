@@ -1,8 +1,9 @@
 import { Agent } from '@mariozechner/pi-agent-core'
-import { AllModels } from '../model'
+// import { AllModels } from '../model'
 import { readFileTool } from '../tool/readFileTool'
 import { writeFileTool } from '../tool/writeFileTool'
 import { listFilesTool } from '../tool/listFilesTool'
+import { getModelByInbound } from '../utils/getModel'
 
 export const gatherContext = async ({ workspace, checkAborted, inbound, onEvent }: any) => {
   //
@@ -21,7 +22,7 @@ You are an AI senior developer.
 
 The current workspace is: ${workspace}
       `,
-      model: AllModels.find((r) => r.id === inbound.model)
+      model: getModelByInbound(inbound)
     },
     getApiKey: async () => {
       // provider
@@ -53,8 +54,11 @@ ${inbound.appSpec}
 
 Instruction:
 You only work at the workspace:  ${workspace}
-If you see there's a "next-step.md" or "todo.md", read them both.
+If you see there's a "next-step.md" read it.
 You gather related context information in the workspace.
 You output a todo list, and write to "todo.md"
+
+we use ./frontend folder for front end code
+we use ./backend folder for back end code
 `)
 }
