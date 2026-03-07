@@ -11,6 +11,10 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
   onEvent({ type: 'notice', text: `Preparing Cotnext:\n${inbound.appSpec}` })
 
   let loopRun = async () => {
+    if (checkAborted()) {
+      return
+    }
+
     await gatherContext({
       checkAborted: checkAborted,
       workspace: workspace,
@@ -19,6 +23,10 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
         onEvent({ type, text })
       }
     })
+
+    if (checkAborted()) {
+      return
+    }
 
     onEvent({ type: 'notice', text: `Taking Action` })
 
@@ -36,6 +44,10 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
     if (schedule.scheduleWork) {
       await loopRun()
     }
+  }
+
+  if (checkAborted()) {
+    return
   }
 
   await loopRun()
