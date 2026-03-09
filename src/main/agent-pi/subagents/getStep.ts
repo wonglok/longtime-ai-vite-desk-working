@@ -23,7 +23,7 @@ const WorkTask = z.object({
         task: z.string()
       })
     )
-    .describe('a todo items'),
+    .describe('a todo items, mark todo items'),
 
   terminal: z
     .object({
@@ -200,10 +200,10 @@ ${inbound.appSpec}
 
   console.log(workstep)
 
-  onEvent({
-    type: 'workstep',
-    text: JSON.stringify(workstep, null, '\t')
-  })
+  // onEvent({
+  //   type: 'workstep',
+  //   text: JSON.stringify(workstep, null, '\t')
+  // })
 
   return workstep
 }

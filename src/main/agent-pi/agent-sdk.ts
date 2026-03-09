@@ -38,7 +38,7 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
       memory: ``,
       todo: [
         {
-          task: `my user was having an app idea or something. let's see if i build something already or not`,
+          task: `continue.`,
           done: false
         }
       ]
