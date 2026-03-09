@@ -9,15 +9,11 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
 
   onEvent({ type: 'notice', text: `Preparing Cotnext:\n${inbound.appSpec}` })
 
-  let loopRun = async ({ step }: { step: WorkStep }) => {
-    if (checkAborted()) {
-      return
-    }
-
+  const loopRun = async ({ step }: { step: WorkStep }) => {
     const workStep: WorkStep | null = await getStep({
       step: step,
       checkAborted: checkAborted,
-      workspace: workspace,
+      workspace: `${docs}/ai-home/`,
       inbound: inbound,
       onEvent: ({ type, text }) => {
         onEvent({ type, text })
@@ -30,24 +26,25 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
     if (workStep?.end) {
       return
     }
+    if (checkAborted()) {
+      return
+    }
 
     return await loopRun({ step: workStep })
-  }
-
-  if (checkAborted()) {
-    return
   }
 
   await loopRun({
     step: {
       end: false,
-      currentThought: ``,
-      longTermMemory: ``,
-      todo: `my user was having an app idea or something. let's see if i made something already or not.`
+      memory: ``,
+      todo: [
+        {
+          task: `my user was having an app idea or something. let's see if i build something already or not`,
+          done: false
+        }
+      ]
     }
   })
 }
 
-//
-//
 //

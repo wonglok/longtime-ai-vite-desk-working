@@ -19,6 +19,8 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/s
 import { useEffect, useState } from 'react'
 
 export function Home() {
+  let [messages, setMessages] = useState([])
+  let [workstep, setWorkstep] = useState(null)
   let [notice, setNotice] = useState('')
   let [side, setSide] = useState('')
   let [terminal, setTerm] = useState('')
@@ -32,8 +34,8 @@ export function Home() {
         baseURL: `http://localhost:1234/v1`,
         apiKey: 'N/A',
 
-        model: `qwen/qwen3.5-35b-a3b`,
-        // model: `qwen3.5-4b`,
+        // model: `qwen/qwen3.5-35b-a3b`,
+        model: `qwen3.5-9b`,
 
         folder: `my-app-001`,
 
@@ -46,8 +48,13 @@ backend uses json db, express and socketio with cors support
           `
       },
       (stream) => {
+        //
         const data = JSON.parse(stream)
-        // console.log(data)
+        console.log(data)
+
+        if (data.type === 'workstep') {
+          setWorkstep(data.text)
+        }
         if (data.type === 'side') {
           setSide(data.text)
         }
@@ -62,6 +69,9 @@ backend uses json db, express and socketio with cors support
         }
         if (data.type === 'terminal') {
           setTerm(data.text)
+        }
+        if (data.type === 'messages') {
+          setMessages(JSON.parse(data.text))
         }
       }
     )
@@ -106,17 +116,26 @@ backend uses json db, express and socketio with cors support
             </Breadcrumb>
           </div>
         </header>
-        {/*  */}
 
         <div className="gap-4 p-4 pt-0  h-full">
+          <div className="text-xs">
+            {messages.map((msg: any, i) => {
+              return (
+                <li key={'k' + i} className="border m-2 p-2">
+                  <pre>{msg?.content.trim()}</pre>
+                </li>
+              )
+            })}
+            <pre>{workstep}</pre>
+          </div>
           <div className="flex h-full">
-            <div className="w-1/2  h-full">
+            {/* <div className="w-1/2  h-full">
               <pre className="text-xs  w-full whitespace-pre-wrap">{notice}</pre>
               <pre className="text-xs  w-full whitespace-pre-wrap">{think}</pre>
               <pre className="text-xs  w-full whitespace-pre-wrap">{workbox}</pre>
               <pre className="text-xs  w-full whitespace-pre-wrap">{terminal}</pre>
-            </div>
-            <div className="w-1/2  h-full">
+            </div> */}
+            {/* <div className="w-1/2 h-full">
               <pre className="text-xs  w-full whitespace-pre-wrap">
                 {stopFunc && (
                   <Button
@@ -128,9 +147,10 @@ backend uses json db, express and socketio with cors support
                     STOP
                   </Button>
                 )}
+
                 <div>{side}</div>
               </pre>
-            </div>
+            </div> */}
           </div>
         </div>
       </SidebarInset>

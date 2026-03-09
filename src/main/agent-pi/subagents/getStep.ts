@@ -8,73 +8,53 @@ import {
 import { z } from 'zod'
 
 const WorkTask = z.object({
-  longTermMemory: z
+  memory: z
     .string()
-    .describe(
-      'write a longTermMemory for myself to read, which summarise all the memories in my mind so that i dont forget.'
-    ),
+    .describe('write a memory for myself to read again, i output memory so that i dont forget.'),
 
-  currentThought: z
-    .string()
-    .describe(`Short term memory about the task that i'm currently working on.`),
+  // currentThoughts: z
+  //   .string()
+  //   .describe(`Short term memory about the task that i'm currently working on.`),
+
+  todo: z
+    .array(
+      z.object({
+        done: z.boolean(),
+        task: z.string()
+      })
+    )
+    .describe('a todo items'),
+
   terminal: z
     .object({
-      command: z.string().describe('terminal command')
+      checkFor: z.string().describe('check for things like terminal result'),
+      cmd: z.string().describe('terminal command')
     })
+    .describe('what to run in the terminal')
     .optional(),
 
-  todo: z.string().describe('next step to work on, with checkboxes [] or [x]'),
-
-  end: z.boolean().describe('needs to end and no more next step to work with')
+  end: z.boolean().describe('needs to allDone, and no more next step to work with')
 })
 
 export type WorkStep = z.infer<typeof WorkTask> & {
   lastCommandResult?: string
 }
 
-export async function getStep({ step, workspace, checkAborted, inbound, onEvent }) {
+export async function getStep({ step, workspace, inbound, checkAborted, onEvent }) {
   const openai = new OpenAI({
     baseURL: inbound.baseURL,
     apiKey: inbound.apiKey
   })
 
-  console.log('step', step)
   let insertLastStep = (step: WorkStep) => {
     let array: ChatCompletionMessageParam[] = []
 
-    if (step.longTermMemory) {
+    if (step.memory) {
       array.push({
         role: 'user',
         content: `
-Here's the longTermMemory i wrote for myself to read, which summarise all the memories in my mind so that i dont forget:
-${step.longTermMemory}`
-      })
-    }
-
-    if (step?.currentThought) {
-      array.push({
-        role: 'user',
-        content: `
-Here's the last currentThought (short term memory):
-${step?.currentThought}`
-      })
-    }
-
-    if (step?.terminal) {
-      array.push({
-        role: 'user',
-        content: `
-Here's the last terminal command i wrote:
-${step?.terminal}`
-      })
-    }
-
-    if (step.lastCommandResult) {
-      array.push({
-        role: 'user',
-        content: `
-Here's the result from the terminal command i wrote before:
-${step.lastCommandResult}`
+    Here's the memory i wrote for myself to read, which summarise all the memories in my mind so that i dont forget:
+    ${step.memory}`
       })
     }
 
@@ -82,43 +62,93 @@ ${step.lastCommandResult}`
       array.push({
         role: 'user',
         content: `
-Here's the todo that i wrote for me before:
-${step.todo}
+Here's the todo that i wrote for me before like a todo list:
+
+${step.todo
+  .map((r) => {
+    return `${r.done ? `[x]` : `[]`} ${r.task}`
+  })
+  .join('\n')}
           `
+      })
+    }
+
+    //     if (step?.currentThoughts) {
+    //       array.push({
+    //         role: 'user',
+    //         content: `
+    // Here's the last currentThoughts (short term memory):
+    // ${step?.currentThoughts}`
+    //       })
+    //     }
+
+    if (step?.terminal) {
+      array.push({
+        role: 'user',
+        content: `
+Here's the last terminal command i wrote:
+${step?.terminal.cmd}`
+      })
+
+      if (step?.terminal.checkFor) {
+        array.push({
+          role: 'user',
+          content: `
+What should i check for:
+${step?.terminal.checkFor}`
+        })
+      }
+    }
+
+    if (step?.lastCommandResult) {
+      array.push({
+        role: 'user',
+        content: `
+Here's the result of the terminal command i wrote before:
+${step.lastCommandResult}`
       })
     }
 
     return array
   }
 
-  const workstep = await openai.chat.completions
-    .create({
-      model: inbound.model,
-      messages: [
-        {
-          role: 'system',
-          content: `
+  const msg: ChatCompletionMessageParam[] = [
+    {
+      role: 'system',
+      content: `
 You are an AI senior developer.
 
 The current workspace is: ${workspace}
 
 You do things step by step.
           `.trim()
-        },
+    },
 
-        {
-          role: 'user',
-          content: `
+    {
+      role: 'user',
+      content: `
+
 Instruction:
 You only work at the workspace:  ${workspace}
+You help build the user idea.
 
 Here's the user app idea:
 ${inbound.appSpec}
           `
-        },
+    },
 
-        ...insertLastStep(step)
-      ],
+    ...insertLastStep(step)
+  ]
+
+  onEvent({
+    type: 'messages',
+    text: JSON.stringify(msg)
+  })
+
+  const workstep = await openai.chat.completions
+    .create({
+      model: inbound.model,
+      messages: msg,
       response_format: {
         type: 'json_schema',
         json_schema: {
@@ -139,8 +169,8 @@ ${inbound.appSpec}
     })
 
   if (workstep) {
-    if (workstep?.terminal?.command) {
-      let terminalCmd = workstep.terminal?.command
+    if (workstep?.terminal?.cmd) {
+      let terminalCmd = workstep.terminal?.cmd
 
       let termianlResult = await new Promise((resolve) => {
         return exec(
@@ -170,5 +200,14 @@ ${inbound.appSpec}
     }
   }
 
+  console.log(workstep)
+
+  onEvent({
+    type: 'workstep',
+    text: JSON.stringify(workstep, null, '\t')
+  })
+
   return workstep
 }
+
+//
