@@ -44,8 +44,8 @@ export function Home() {
 
         appSpec: `I want to build a todo app with kanban ui with collaborative realtime update with drag and drop feature and mouse crusor of each visitor as well
 
-frontend uses react, "@use-gesture/react"
-backend uses json db, express and socketio with cors support
+frontend uses vite reactjs, "@use-gesture/react"
+backend uses express.js, json db, and socketio with cors support
           `
       },
       (stream) => {
