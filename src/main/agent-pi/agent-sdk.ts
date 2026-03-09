@@ -14,7 +14,7 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
       return
     }
 
-    const workStep: WorkStep = await getStep({
+    const workStep: WorkStep | null = await getStep({
       lastStep: lastStep,
       checkAborted: checkAborted,
       workspace: workspace,
@@ -32,36 +32,6 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
     }
 
     return await loopRun({ lastStep: workStep })
-
-    // await gatherContext({
-    //   checkAborted: checkAborted,
-    //   workspace: workspace,
-    //   inbound: inbound,
-    //   onEvent: ({ type, text }) => {
-    //     onEvent({ type, text })
-    //   }
-    // })
-
-    // if (checkAborted()) {
-    //   return
-    // }
-
-    // onEvent({ type: 'notice', text: `Taking Action` })
-
-    // const schedule = await takeAction({
-    //   loopRun: loopRun,
-    //   checkAborted: checkAborted,
-    //   workspace: workspace,
-    //   inbound: inbound,
-    //   onEvent: ({ type, text }) => {
-    //     onEvent({ type, text })
-    //   }
-    // })
-
-    // console.log('schedule.scheduleWork', schedule.scheduleWork)
-    // if (schedule.scheduleWork) {
-    //   await loopRun()
-    // }
   }
 
   if (checkAborted()) {
@@ -72,10 +42,11 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
     lastStep: {
       activity: {
         action: 'think',
-        thought: `let's explore what should i do next.`
+        thought: `Things will be okay.`
       },
       stop: false,
-      memory: `let's do the task!`
+      memory: `let's do the task!`,
+      nextStep: 'think about what to do.'
     }
   })
 }

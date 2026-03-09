@@ -1,3 +1,4 @@
+import { exec } from 'child_process'
 import OpenAI from 'openai'
 import {
   ChatCompletion,
@@ -16,19 +17,23 @@ const WorkTask = z.object({
   activity: z.discriminatedUnion('action', [
     z.object({
       action: z.literal('think'),
-      thought: z.string().describe('thought')
+      thought: z.string().describe('thought process')
     }),
     z.object({
       //
-      action: z.literal('use-terminal'),
+      action: z.literal('use-terminal').describe('use terminal to execute commands'),
       command: z.string().describe('terminal command')
     })
   ]),
 
-  stop: z.boolean().describe('needs to stop the work')
+  nextStep: z.string().describe('next step for me to work on in detail'),
+
+  stop: z.boolean().describe('needs to stop or no more next step')
 })
 
-export type WorkStep = z.infer<typeof WorkTask>
+export type WorkStep = z.infer<typeof WorkTask> & {
+  lastCommandResult?: string
+}
 
 export async function getStep({ lastStep, workspace, checkAborted, inbound, onEvent }) {
   const openai = new OpenAI({
@@ -36,12 +41,12 @@ export async function getStep({ lastStep, workspace, checkAborted, inbound, onEv
     apiKey: inbound.apiKey
   })
 
-  let insertLast = (step: WorkStep) => {
+  let insertLastStep = (step: WorkStep) => {
     let array: ChatCompletionMessageParam[] = [
       {
         role: 'user',
         content: `
-Here's the last memory of myself:
+Here's the memory i wrote for myself to read, which summarise all the memories in my mind so that i dont forget:
 ${lastStep.memory}`
       }
     ]
@@ -62,10 +67,19 @@ ${lastStep.activity.command}`
       })
     }
 
+    if (step.lastCommandResult) {
+      array.push({
+        role: 'user',
+        content: `
+Here's the result from the terminal command i wrote before:
+${step.lastCommandResult}`
+      })
+    }
+
     return array
   }
 
-  const response = await openai.chat.completions
+  const workstep = await openai.chat.completions
     .create({
       model: inbound.model,
       messages: [
@@ -76,11 +90,11 @@ You are an AI senior developer.
 
 The current workspace is: ${workspace}
 
-You output a working loop.
+You do things step by step.
           `.trim()
         },
 
-        ...insertLast(lastStep),
+        ...insertLastStep(lastStep),
 
         {
           role: 'user',
@@ -90,6 +104,14 @@ You only work at the workspace:  ${workspace}
 
 Here's the user message
 ${inbound.appSpec}
+          `
+        },
+
+        {
+          role: 'user',
+          content: `
+Here's the next step:
+${lastStep.nextStep}
           `
         }
       ],
@@ -103,14 +125,39 @@ ${inbound.appSpec}
     })
     .then((response) => {
       // console.log(response.choices[0].message)
-      return JSON.parse(response.choices[0].message.content!)
+      return JSON.parse(response.choices[0].message.content!) as WorkStep
     })
     .catch((r) => {
       console.error(r)
       return null
     })
 
-  console.log(JSON.stringify(response, null, '\t'))
+  if (workstep) {
+    console.log(JSON.stringify(workstep, null, '\t'))
 
-  return response
+    if (workstep.activity.action === 'use-terminal') {
+      let terminalCmd = workstep.activity.command
+      let termianlResult = await new Promise((resolve) => {
+        return exec(`${terminalCmd}`, (error, stdout, stderr) => {
+          if (error) {
+            console.error(`exec error: ${error}`)
+            return resolve(null)
+          }
+          if (stderr) {
+            console.error(`stderr: ${stderr}`)
+            return resolve(null)
+          }
+          console.log(`stdout: ${stdout}`)
+
+          resolve(stdout)
+        })
+      })
+
+      workstep.lastCommandResult = termianlResult as string
+
+      console.log(termianlResult)
+    }
+  }
+
+  return workstep
 }
