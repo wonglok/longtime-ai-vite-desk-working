@@ -33,7 +33,7 @@ export function Home() {
         apiKey: 'N/A',
 
         model: `qwen/qwen3.5-35b-a3b`,
-        // model: `qwen3.5-9b`,
+        // model: `qwen3.5-4b`,
 
         folder: `my-app-001`,
 

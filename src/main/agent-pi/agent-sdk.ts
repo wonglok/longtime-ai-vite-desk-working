@@ -9,13 +9,13 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
 
   onEvent({ type: 'notice', text: `Preparing Cotnext:\n${inbound.appSpec}` })
 
-  let loopRun = async ({ lastStep }: { lastStep: WorkStep }) => {
+  let loopRun = async ({ step }: { step: WorkStep }) => {
     if (checkAborted()) {
       return
     }
 
     const workStep: WorkStep | null = await getStep({
-      lastStep: lastStep,
+      step: step,
       checkAborted: checkAborted,
       workspace: workspace,
       inbound: inbound,
@@ -27,11 +27,11 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
     if (!workStep) {
       return
     }
-    if (workStep?.stop) {
+    if (workStep?.end) {
       return
     }
 
-    return await loopRun({ lastStep: workStep })
+    return await loopRun({ step: workStep })
   }
 
   if (checkAborted()) {
@@ -39,14 +39,11 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
   }
 
   await loopRun({
-    lastStep: {
-      activity: {
-        action: 'think',
-        thought: `Things will be okay.`
-      },
-      stop: false,
-      memory: `let's do the task!`,
-      nextStep: 'think about what to do.'
+    step: {
+      end: false,
+      currentThought: ``,
+      longTermMemory: ``,
+      todo: `my user was having an app idea or something. let's see if i made something already or not.`
     }
   })
 }

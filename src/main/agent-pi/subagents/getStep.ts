@@ -8,62 +8,64 @@ import {
 import { z } from 'zod'
 
 const WorkTask = z.object({
-  memory: z
+  longTermMemory: z
     .string()
     .describe(
-      'write a memory for myself to read, which summarise all the memories in my mind so that i dont forget.'
+      'write a longTermMemory for myself to read, which summarise all the memories in my mind so that i dont forget.'
     ),
 
-  activity: z.discriminatedUnion('action', [
-    z.object({
-      action: z.literal('think'),
-      thought: z.string().describe('thought process')
-    }),
-    z.object({
-      //
-      action: z.literal('use-terminal').describe('use terminal to execute commands'),
+  currentThought: z
+    .string()
+    .describe(`Short term memory about the task that i'm currently working on.`),
+  terminal: z
+    .object({
       command: z.string().describe('terminal command')
     })
-  ]),
+    .optional(),
 
-  nextStep: z.string().describe('next step for me to work on in detail'),
+  todo: z.string().describe('next step to work on, with checkboxes [] or [x]'),
 
-  stop: z.boolean().describe('needs to stop or no more next step')
+  end: z.boolean().describe('needs to end and no more next step to work with')
 })
 
 export type WorkStep = z.infer<typeof WorkTask> & {
   lastCommandResult?: string
 }
 
-export async function getStep({ lastStep, workspace, checkAborted, inbound, onEvent }) {
+export async function getStep({ step, workspace, checkAborted, inbound, onEvent }) {
   const openai = new OpenAI({
     baseURL: inbound.baseURL,
     apiKey: inbound.apiKey
   })
 
+  console.log('step', step)
   let insertLastStep = (step: WorkStep) => {
-    let array: ChatCompletionMessageParam[] = [
-      {
+    let array: ChatCompletionMessageParam[] = []
+
+    if (step.longTermMemory) {
+      array.push({
         role: 'user',
         content: `
-Here's the memory i wrote for myself to read, which summarise all the memories in my mind so that i dont forget:
-${lastStep.memory}`
-      }
-    ]
+Here's the longTermMemory i wrote for myself to read, which summarise all the memories in my mind so that i dont forget:
+${step.longTermMemory}`
+      })
+    }
 
-    // if (step?.activity?.action === 'nothing') {
-    //   array.push({
-    //     role: 'user',
-    //     content: ``
-    //   })
-    // }
+    if (step?.currentThought) {
+      array.push({
+        role: 'user',
+        content: `
+Here's the last currentThought (short term memory):
+${step?.currentThought}`
+      })
+    }
 
-    if (step?.activity?.action === 'use-terminal') {
+    if (step?.terminal) {
       array.push({
         role: 'user',
         content: `
 Here's the last terminal command i wrote:
-${lastStep.activity.command}`
+${step?.terminal}`
       })
     }
 
@@ -73,6 +75,16 @@ ${lastStep.activity.command}`
         content: `
 Here's the result from the terminal command i wrote before:
 ${step.lastCommandResult}`
+      })
+    }
+
+    if (step.todo) {
+      array.push({
+        role: 'user',
+        content: `
+Here's the todo that i wrote for me before:
+${step.todo}
+          `
       })
     }
 
@@ -94,26 +106,18 @@ You do things step by step.
           `.trim()
         },
 
-        ...insertLastStep(lastStep),
-
         {
           role: 'user',
           content: `
 Instruction:
 You only work at the workspace:  ${workspace}
 
-Here's the user message
+Here's the user app idea:
 ${inbound.appSpec}
           `
         },
 
-        {
-          role: 'user',
-          content: `
-Here's the next step:
-${lastStep.nextStep}
-          `
-        }
+        ...insertLastStep(step)
       ],
       response_format: {
         type: 'json_schema',
@@ -124,7 +128,9 @@ ${lastStep.nextStep}
       }
     })
     .then((response) => {
+      //
       // console.log(response.choices[0].message)
+      //
       return JSON.parse(response.choices[0].message.content!) as WorkStep
     })
     .catch((r) => {
@@ -133,29 +139,34 @@ ${lastStep.nextStep}
     })
 
   if (workstep) {
-    console.log(JSON.stringify(workstep, null, '\t'))
+    if (workstep?.terminal?.command) {
+      let terminalCmd = workstep.terminal?.command
 
-    if (workstep.activity.action === 'use-terminal') {
-      let terminalCmd = workstep.activity.command
       let termianlResult = await new Promise((resolve) => {
-        return exec(`${terminalCmd}`, (error, stdout, stderr) => {
-          if (error) {
-            console.error(`exec error: ${error}`)
-            return resolve(null)
-          }
-          if (stderr) {
-            console.error(`stderr: ${stderr}`)
-            return resolve(null)
-          }
-          console.log(`stdout: ${stdout}`)
+        return exec(
+          `${terminalCmd}`,
+          {
+            cwd: `${workspace}`
+          },
+          (error, stdout, stderr) => {
+            if (error) {
+              console.error(`exec error: ${error}`)
+              return resolve(null)
+            }
+            if (stderr) {
+              console.error(`stderr: ${stderr}`)
+              return resolve(null)
+            }
+            // console.log(`stdout: ${stdout}`)
 
-          resolve(stdout)
-        })
+            resolve(stdout)
+          }
+        )
       })
 
       workstep.lastCommandResult = termianlResult as string
-
-      console.log(termianlResult)
+    } else {
+      workstep.lastCommandResult = ''
     }
   }
 
