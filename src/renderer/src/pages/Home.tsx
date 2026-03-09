@@ -20,13 +20,14 @@ import { useEffect, useState } from 'react'
 
 export function Home() {
   let [messages, setMessages] = useState([])
-  let [workstep, setWorkstep] = useState(null)
-  let [notice, setNotice] = useState('')
-  let [side, setSide] = useState('')
-  let [terminal, setTerm] = useState('')
-  let [workbox, setWorkbox] = useState('')
-  let [think, setThink] = useState('')
   let [stopFunc, setStop] = useState<any>(null)
+
+  // let [workstep, setWorkstep] = useState(null)
+  // let [notice, setNotice] = useState('')
+  // let [side, setSide] = useState('')
+  // let [terminal, setTerm] = useState('')
+  // let [workbox, setWorkbox] = useState('')
+  // let [think, setThink] = useState('')
 
   useEffect(() => {
     const controller = window.api.askAI(
@@ -52,24 +53,24 @@ backend uses json db, express and socketio with cors support
         const data = JSON.parse(stream)
         console.log(data)
 
-        if (data.type === 'workstep') {
-          setWorkstep(data.text)
-        }
-        if (data.type === 'side') {
-          setSide(data.text)
-        }
-        if (data.type === 'think') {
-          setThink(data.text)
-        }
-        if (data.type === 'workbox') {
-          setWorkbox(data.text)
-        }
-        if (data.type === 'notice') {
-          setNotice(data.text)
-        }
-        if (data.type === 'terminal') {
-          setTerm(data.text)
-        }
+        // if (data.type === 'workstep') {
+        //   setWorkstep(data.text)
+        // }
+        // if (data.type === 'side') {
+        //   setSide(data.text)
+        // }
+        // if (data.type === 'think') {
+        //   setThink(data.text)
+        // }
+        // if (data.type === 'workbox') {
+        //   setWorkbox(data.text)
+        // }
+        // if (data.type === 'notice') {
+        //   setNotice(data.text)
+        // }
+        // if (data.type === 'terminal') {
+        //   setTerm(data.text)
+        // }
         if (data.type === 'messages') {
           setMessages(JSON.parse(data.text))
         }
@@ -84,11 +85,11 @@ backend uses json db, express and socketio with cors support
 
     return () => {
       controller.abort()
-      setWorkbox('')
-      setSide('')
-      setThink('')
-      setNotice('')
-      setTerm('')
+      // setWorkbox('')
+      // setSide('')
+      // setThink('')
+      // setNotice('')
+      // setTerm('')
     }
   }, [])
 

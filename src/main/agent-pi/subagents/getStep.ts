@@ -25,13 +25,7 @@ const WorkTask = z.object({
     )
     .describe('a todo items, mark todo items'),
 
-  terminal: z
-    .object({
-      checkFor: z.string().describe('check for things like terminal result'),
-      cmd: z.string().describe('terminal command')
-    })
-    .describe('what to run in the terminal')
-    .optional()
+  terminalCMD: z.string().describe('terminal command').optional()
 })
 
 export type WorkStep = z.infer<typeof WorkTask> & {
@@ -80,22 +74,13 @@ ${step.todo
     //       })
     //     }
 
-    if (step?.terminal) {
+    if (step?.terminalCMD) {
       array.push({
         role: 'user',
         content: `
 Here's the last terminal command i wrote:
-${step?.terminal.cmd}`
+${step?.terminalCMD}`
       })
-
-      if (step?.terminal.checkFor) {
-        array.push({
-          role: 'user',
-          content: `
-What should i check for:
-${step?.terminal.checkFor}`
-        })
-      }
     }
 
     if (step?.lastCommandResult) {
@@ -167,10 +152,10 @@ ${inbound.appSpec}
     })
 
   if (workstep) {
-    if (workstep?.terminal?.cmd) {
-      let terminalCmd = workstep.terminal?.cmd
+    if (workstep?.terminalCMD) {
+      const terminalCmd = workstep.terminalCMD
 
-      let termianlResult = await new Promise((resolve) => {
+      const termianlResult = await new Promise((resolve) => {
         return exec(
           `${terminalCmd}`,
           {
