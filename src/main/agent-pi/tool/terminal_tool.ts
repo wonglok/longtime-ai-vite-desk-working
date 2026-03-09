@@ -2,7 +2,7 @@ import { AgentTool } from '@mariozechner/pi-agent-core'
 import { Type } from '@sinclair/typebox'
 import { exec } from 'child_process'
 
-export const terminalTool = ({ workspace }): AgentTool => {
+export const terminal_tool = ({ workspace }): AgentTool => {
   return {
     name: 'terminal_tool',
     label: 'Terminal tool', // For UI display

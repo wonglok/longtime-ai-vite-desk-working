@@ -6,8 +6,6 @@ import { listFilesTool } from '../tool/listFilesTool'
 import { getModelByInbound } from '../utils/getModel'
 
 export const gatherContext = async ({ workspace, checkAborted, inbound, onEvent }: any) => {
-  //
-
   const agent = new Agent({
     initialState: {
       thinkingLevel: 'xhigh',
@@ -53,15 +51,11 @@ The current workspace is: ${workspace}
 ${inbound.appSpec}
 
 Instruction:
-If you see there's a "todo.md" read it.
-
 You only work at the workspace:  ${workspace}
+
+You read "todo.md"
 You gather related context information in the workspace.
 
-we use ./frontend folder for front end code
-we use ./backend folder for back end code
-
 You output a todo list, and write to "todo.md"
-
 `)
 }

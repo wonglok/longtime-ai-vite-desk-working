@@ -29,8 +29,8 @@ export function Home() {
   useEffect(() => {
     const controller = window.api.askAI(
       {
-        apiKey: 'NA',
         baseURL: `http://localhost:1234/v1`,
+        apiKey: 'N/A',
 
         model: `qwen/qwen3.5-35b-a3b`,
         // model: `qwen3.5-9b`,
@@ -39,18 +39,10 @@ export function Home() {
 
         action: 'message',
 
-        appSpec: `
-# User's App idea
-- I want to build a todo app 
-- with kanban ui drag and drop 
-- with collaborative realtime update features
-- with mouse crusor of each visitor on screen (html div with transform translate)
+        appSpec: `I want to build a todo app with kanban ui with collaborative realtime update with drag and drop feature and mouse crusor of each visitor as well
 
-# Frontend Technical Requirements
-use a vite project with reactjs, use javascript instead of typescript, @use-gesture/react, support cors, with port 3002
-
-# Backend Technical Requirements 
-backend uses express-js and socket.io, json file database, support cors wiht port 3001
+frontend uses react, "@use-gesture/react"
+backend uses json db, express and socketio with cors support
           `
       },
       (stream) => {

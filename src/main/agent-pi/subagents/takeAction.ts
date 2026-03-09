@@ -3,9 +3,9 @@ import { Agent } from '@mariozechner/pi-agent-core'
 import { readFileTool } from '../tool/readFileTool'
 import { writeFileTool } from '../tool/writeFileTool'
 import { listFilesTool } from '../tool/listFilesTool'
-import { terminalTool } from '../tool/terminalTool'
+import { terminal_tool } from '../tool/terminal_tool'
 import { getModelByInbound } from '../utils/getModel'
-import { workScheduleTool } from '../tool/workScheduleTool'
+import { work_schedule_tool } from '../tool/work_schedule_tool'
 
 export const takeAction = async ({ workspace, checkAborted, inbound, onEvent }: any) => {
   //
@@ -20,9 +20,9 @@ export const takeAction = async ({ workspace, checkAborted, inbound, onEvent }: 
         listFilesTool({ workspace: workspace }),
         readFileTool({ workspace: workspace }),
         writeFileTool({ workspace: workspace }),
-        terminalTool({ workspace: workspace }),
+        terminal_tool({ workspace: workspace }),
 
-        workScheduleTool({ schedule: schedule })
+        work_schedule_tool({ schedule: schedule })
         //
       ],
       systemPrompt: `

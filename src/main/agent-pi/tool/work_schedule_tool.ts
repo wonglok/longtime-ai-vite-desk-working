@@ -1,7 +1,7 @@
 import { AgentTool } from '@mariozechner/pi-agent-core'
 import { Type } from '@sinclair/typebox'
 
-export const workScheduleTool = ({ schedule }): AgentTool => {
+export const work_schedule_tool = ({ schedule }): AgentTool => {
   return {
     name: 'work_schedule_tool',
     label: 'a tool for scheduling more work', // For UI display
