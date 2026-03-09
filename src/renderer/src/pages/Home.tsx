@@ -129,6 +129,17 @@ backend uses json db, express and socketio with cors support
             {/* <pre>{workstep}</pre> */}
           </div>
           <div className="flex h-full">
+            {stopFunc && (
+              <Button
+                variant={'destructive'}
+                onClick={() => {
+                  stopFunc()
+                }}
+              >
+                STOP
+              </Button>
+            )}
+
             {/* <div className="w-1/2  h-full">
               <pre className="text-xs  w-full whitespace-pre-wrap">{notice}</pre>
               <pre className="text-xs  w-full whitespace-pre-wrap">{think}</pre>
@@ -137,16 +148,7 @@ backend uses json db, express and socketio with cors support
             </div> */}
             {/* <div className="w-1/2 h-full">
               <pre className="text-xs  w-full whitespace-pre-wrap">
-                {stopFunc && (
-                  <Button
-                    variant={'destructive'}
-                    onClick={() => {
-                      stopFunc()
-                    }}
-                  >
-                    STOP
-                  </Button>
-                )}
+                
 
                 <div>{side}</div>
               </pre>
