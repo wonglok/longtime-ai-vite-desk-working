@@ -126,7 +126,7 @@ backend uses json db, express and socketio with cors support
                 </li>
               )
             })}
-            <pre>{workstep}</pre>
+            {/* <pre>{workstep}</pre> */}
           </div>
           <div className="flex h-full">
             {/* <div className="w-1/2  h-full">
