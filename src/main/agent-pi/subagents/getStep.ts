@@ -31,9 +31,7 @@ const WorkTask = z.object({
       cmd: z.string().describe('terminal command')
     })
     .describe('what to run in the terminal')
-    .optional(),
-
-  end: z.boolean().describe('needs to allDone, and no more next step to work with')
+    .optional()
 })
 
 export type WorkStep = z.infer<typeof WorkTask> & {

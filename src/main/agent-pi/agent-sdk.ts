@@ -23,7 +23,7 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
     if (!workStep) {
       return
     }
-    if (workStep?.end) {
+    if (workStep?.todo.filter((r) => r.done).length === workStep?.todo.length) {
       return
     }
     if (checkAborted()) {
@@ -35,7 +35,6 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
 
   await loopRun({
     step: {
-      end: false,
       memory: ``,
       todo: [
         {
