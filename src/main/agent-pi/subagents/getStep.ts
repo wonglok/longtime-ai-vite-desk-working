@@ -8,9 +8,9 @@ import {
 import { z } from 'zod'
 
 const WorkTask = z.object({
-  memory: z
-    .string()
-    .describe('write a memory for myself to read again, i output memory so that i dont forget.'),
+  // memory: z
+  //   .string()
+  //   .describe('write a memory for myself to read again, i output memory so that i dont forget.'),
 
   // currentThoughts: z
   //   .string()
@@ -30,6 +30,7 @@ const WorkTask = z.object({
 
 export type WorkStep = z.infer<typeof WorkTask> & {
   lastCommandResult?: string
+  lastCommandCall?: string
 }
 
 export async function getStep({ step, workspace, inbound, checkAborted, onEvent }) {
@@ -41,14 +42,14 @@ export async function getStep({ step, workspace, inbound, checkAborted, onEvent 
   let insertLastStep = (step: WorkStep) => {
     let array: ChatCompletionMessageParam[] = []
 
-    if (step.memory) {
-      array.push({
-        role: 'user',
-        content: `
-    Here's the memory i wrote for myself to read, which summarise all the memories in my mind so that i dont forget:
-    ${step.memory}`
-      })
-    }
+    // if (step.memory) {
+    //   array.push({
+    //     role: 'user',
+    //     content: `
+    // Here's the memory i wrote for myself to read, which summarise all the memories in my mind so that i dont forget:
+    // ${step.memory}`
+    //   })
+    // }
 
     if (step.todo) {
       array.push({
@@ -65,21 +66,12 @@ ${step.todo
       })
     }
 
-    //     if (step?.currentThoughts) {
-    //       array.push({
-    //         role: 'user',
-    //         content: `
-    // Here's the last currentThoughts (short term memory):
-    // ${step?.currentThoughts}`
-    //       })
-    //     }
-
-    if (step?.terminalCMD) {
+    if (step?.lastCommandCall) {
       array.push({
         role: 'user',
         content: `
 Here's the last terminal command i wrote:
-${step?.terminalCMD}`
+${step?.lastCommandCall}`
       })
     }
 
@@ -177,8 +169,10 @@ ${inbound.appSpec}
         )
       })
 
+      workstep.lastCommandCall = terminalCmd as string
       workstep.lastCommandResult = termianlResult as string
     } else {
+      workstep.lastCommandCall = ''
       workstep.lastCommandResult = ''
     }
   }

@@ -35,7 +35,6 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
 
   await loopRun({
     step: {
-      memory: ``,
       todo: [
         {
           task: `continue.`,
