@@ -155,12 +155,12 @@ ${inbound.appSpec}
           },
           (error, stdout, stderr) => {
             if (error) {
-              console.error(`exec error: ${error}`)
-              return resolve(null)
+              console.log('error', error)
+              return resolve(`error: ${error}`)
             }
             if (stderr) {
               console.error(`stderr: ${stderr}`)
-              return resolve(null)
+              return resolve(`error: ${stderr}`)
             }
             // console.log(`stdout: ${stdout}`)
 
