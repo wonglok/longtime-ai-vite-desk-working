@@ -45,7 +45,7 @@ export function Home() {
 
         appSpec: `
 ## app idea
-  I want to build a CRM app
+  I want to build a todo app
   - kanban style UI drag and drop items similar to trello
   - with realtime updates using socket.io
   - showing mouse position of each page visitor
@@ -70,10 +70,10 @@ export function Home() {
   - uses node.js backend with esm javascript
   - express
   - port 3001
-  - json database
+  - json database with some sample data
   - socket.io
   - cors support for all rest api and soclet.io
-  - package.json "script" has commands such as "npm run build", "npm run start", "npm run dev"
+  - "~/backend/package.json" "script" has commands such as "npm run build", "npm run start", "npm run dev"
   - the backend folder should also have .gitignore file to avoid commiting "node_modules" folder to git
   - no need to start backend server at the end
   - in the end, verify app idea is built into backend code
