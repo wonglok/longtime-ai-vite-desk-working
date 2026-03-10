@@ -21,6 +21,7 @@ export const setupIPCMain = async ({ ipcMain, mainWindow }) => {
   //
   ipcMain.on('askAI-abort', async (event, inbound, randID) => {
     abortedFlags[randID] = abortedFlags[randID] || true
+    console.log('abortedFlags[randID]', abortedFlags[randID])
   })
 
   ipcMain.on('askAI-message', async (event, inbound, randID) => {
@@ -29,7 +30,7 @@ export const setupIPCMain = async ({ ipcMain, mainWindow }) => {
         await runAgent({
           inbound,
           checkAborted: () => {
-            return abortedFlags[randID] === true
+            return abortedFlags[randID]
           },
           onEvent: (ev) => {
             mainWindow.webContents.send(`askAI-stream${randID}`, JSON.stringify(ev))

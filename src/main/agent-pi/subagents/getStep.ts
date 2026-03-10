@@ -141,23 +141,32 @@ You pick the right task to work on.
     todo: step.todo
   })
 
-  if (checkAborted()) {
-    return step
-  }
+  const controller = new AbortController()
+  const signal = controller.signal
+
+  const intrv = setInterval(() => {
+    if (!signal.aborted && checkAborted()) {
+      clearInterval(intrv)
+      controller.abort()
+    }
+  }, 1)
 
   const nextStep = await openai.chat.completions
-    .create({
-      model: inbound.model,
-      messages: messages,
-      response_format: {
-        type: 'json_schema',
-        json_schema: {
-          name: 'worktask',
-          schema: WorkTask.toJSONSchema()
-        }
+    .create(
+      {
+        model: inbound.model,
+        messages: messages,
+        response_format: {
+          type: 'json_schema',
+          json_schema: {
+            name: 'worktask',
+            schema: WorkTask.toJSONSchema()
+          }
+        },
+        reasoning_effort: 'high'
       },
-      reasoning_effort: 'high'
-    })
+      { signal }
+    )
     .then((response) => {
       //
       // console.log(response.choices[0].message)
@@ -168,6 +177,8 @@ You pick the right task to work on.
       console.error(r)
       return null
     })
+
+  clearInterval(intrv)
 
   if (nextStep) {
     onEvent({
@@ -207,6 +218,8 @@ You pick the right task to work on.
         })
       }
     }
+  } else {
+    return null
   }
 
   // console.log(nextStep)
