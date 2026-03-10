@@ -69,7 +69,7 @@ export function Home() {
   - use @use-gesture/react for gesture / drag and drop code
   - don't use proxy in vite, cors support for fetch, rest api and soclet.io-client calls
   - no need to start frontend server at the end
-  - in the end, run npm install
+  - in the end, run "npm install"
   - in the end, verify app idea is built into frontend code
 
 ## backend guidelines
@@ -82,7 +82,7 @@ export function Home() {
   - "~/backend/package.json" "script" has commands such as "npm run build", "npm run start", "npm run dev"
   - the backend folder should also have .gitignore file to avoid commiting "node_modules" folder to git
   - no need to start backend server at the end
-  - in the end, run npm install
+  - in the end, run "npm install"
   - in the end, verify app idea is built into backend code
 
   `,
