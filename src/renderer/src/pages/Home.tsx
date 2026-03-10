@@ -38,24 +38,25 @@ export function Home() {
         route: 'runAgent',
 
         // model: `qwen/qwen3-coder-30b`,
-        // model: `qwen/qwen3.5-35b-a3b`,
-        model: `nvidia/nemotron-3-nano`,
+        model: `qwen/qwen3.5-35b-a3b`,
+        // model: `nvidia/nemotron-3-nano`,
 
         folder: `todo-app`,
 
         appSpec: `
 ## app idea
-I want to build a fullstack trello style task management app
+I want to build a trello style task management app
 - trello style UI drag and drop items
 - with realtime updates using socket.io
 - showing mouse position of each page visitor
 
-## app's folders
-  - [project-folder]/frontend/ (frontend folder)
-  - [project-folder]/backend/ (backend folder)
-  - [project-folder]/backend/src/index.js (backend source code entry point)
-  - [project-folder]/backend/public (public folder for static assets)
-  - [project-folder]/backend/data (data folder for json database)
+## app folders
+  ~/backend/*
+  ~/backend/src/index.js (backend source code entry point)
+  ~/backend/public (public folder for static assets)
+  ~/backend/data (data folder for json database)
+
+  ~/frontend/*
 
 ## frontend development guidelines
   - uses vite with react.js, esm javascript 

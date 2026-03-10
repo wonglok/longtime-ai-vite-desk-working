@@ -6,7 +6,7 @@ import { z } from 'zod'
 const WorkTask = z.object({
   thought: z
     .string()
-    .describe('thought of the agent and the current tasks for the agent to see again'),
+    .describe('thought of the agent and the current tasks for the agent to see again. '),
 
   todo: z
     .array(
@@ -21,7 +21,7 @@ const WorkTask = z.object({
     .array(
       z.object({
         cmd: z.string().describe('command for terminal'),
-        reason: z.string().describe('reason of running this command')
+        reason: z.string().describe('consie and succinct reason of running this command ')
       })
     )
     .describe('terminal commands')
