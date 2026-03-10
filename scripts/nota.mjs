@@ -11,6 +11,10 @@ export const handler = async function () {
   await notarize({
     appPath: path.join(import.meta.dirname, '../dist/mac-arm64/longtime-ai.app'),
     keychainProfile: 'WONG_LOK_PROFILE'
+
+    // add to bashrc or zshrc:
+    // APPLE_KEYCHAIN=login
+    // APPLE_KEYCHAIN_PROFILE=WONG_LOK_PROFILE
   }).then((r) => {
     console.log(r)
     console.log('notarize: is ok!!')
