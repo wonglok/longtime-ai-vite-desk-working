@@ -38,10 +38,14 @@ export function Home() {
         folder: `todo-app`,
 
         appSpec: `
-I want to build a todo app.
+I want to build a react todo app with backend with realtime updates.
 
-"[project-folder]/frontend" folder uses vite with reactjs, esm javascript and socket.io-client 
-"[project-folder]/backend" folder uses node.js backend with esm javascript, express, json database, socket.io, package.json "script" has commands such as "npm run build", "npm run start", "npm run dev" 
+"[project-folder]/frontend" folder uses vite with react.js, esm javascript and socket.io-client, cors support for rest api and socletio calls
+"[project-folder]/backend" folder uses node.js backend with esm javascript, express, json database, socket.io, cors support for all rest and socletio responses, package.json "script" has commands such as "npm run build", "npm run start", "npm run dev". it should also have .gitignore
+        `,
+
+        errorMessage: `
+
         `
       },
       (stream) => {

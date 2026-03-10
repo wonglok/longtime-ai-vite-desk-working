@@ -73,7 +73,15 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
     })
   }
 
-  let state = { executionHistory: [], nextStep: null }
+  let state = {
+    executionHistory: [],
+    nextStep: {
+      thought: `let's get to work.`,
+      todo: [],
+      terminalCalls: []
+    }
+  }
+
   try {
     let stateStr = await readFile(path.join(workspace, 'state.json'), 'utf-8')
     state = JSON.parse(stateStr)
@@ -82,12 +90,8 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
   }
 
   await loopRun({
-    executionHistory: state.executionHistory || [],
-    step: state.nextStep || {
-      thought: `let's get to work.`,
-      todo: [],
-      terminalCalls: []
-    }
+    executionHistory: state.executionHistory,
+    step: state.nextStep
   })
 }
 
