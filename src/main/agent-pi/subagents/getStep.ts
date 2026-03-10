@@ -88,11 +88,11 @@ The [project-folder] name is called: ${JSON.stringify(inbound.folder)}
     messages.push({
       role: 'user',
       content: `
-Here's the app specification:
+Here's the latest app specification:
 ${inbound.appSpec.trim()}
 
 ## Todo:
-check to see if we need to update todo lists due to updated app specification.
+check the latest app spec against the current todo list to see if we need to update it todo list.
 `.trim()
     })
 
