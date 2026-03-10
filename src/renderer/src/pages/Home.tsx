@@ -45,13 +45,14 @@ export function Home() {
 
         appSpec: `
 ## app idea
-  I want to build a todo app
+  I want to build a todo task management app
   - kanban style UI drag and drop items similar to trello
   - with realtime updates using socket.io
   - showing mouse position of each page visitor
 
 ## folders
   "~/frontend/*" (frontend folder for vite)
+  "~/frontend/src/App.jsx" (Frontend app entry point for App.jsx)
   "~/backend/*" (backend folder for nodejs)
   "~/backend/src/index.js" (backend source code entry point)
   "~/backend/public" (public folder for static assets)
