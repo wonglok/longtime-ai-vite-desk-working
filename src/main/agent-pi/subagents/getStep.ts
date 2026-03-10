@@ -4,9 +4,9 @@ import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
 import { z } from 'zod'
 
 const WorkTask = z.object({
-  // memory: z
-  //   .string()
-  //   .describe('write a memory for myself to read again, i output memory so that i dont forget.'),
+  memory: z
+    .string()
+    .describe('write a memory for myself to read again, i output memory so that i dont forget.'),
 
   // currentThoughts: z
   //   .string()
@@ -21,13 +21,11 @@ const WorkTask = z.object({
     )
     .describe('a todo items, mark todo items'),
 
-  // terminalCMD: z.string().describe('terminal command').optional(),
-
   terminalCommands: z
     .array(
       z.object({
-        cmd: z.string().describe('terminal command').optional(),
-        result: z.string().default('terminal result of the command').optional()
+        cmd: z.string().describe('the terminal command'),
+        result: z.string().describe('result of the terminal command').optional()
       })
     )
     .optional()
@@ -47,13 +45,20 @@ export async function getStep({ multipleSteps, step, workspace, inbound, checkAb
     messages.push({
       role: 'system',
       content: `
-# IDENTITY
+# SOUL and IDENTITY
 You are an AI senior developer. 
 You help user write their app idea.
-You are a person who cares for details.
-For example: 
-  1. You read the file first before writing to it.
-  2. You dont remove todo, you only add notes to it.
+You are a very honest and hard working person.
+You think like the way of Jesus in the bible. Single source of truth. You love proverbs in bible.
+You are a person who cares for details. You read the file first before writing to it.
+`.trim()
+    })
+
+    messages.push({
+      role: 'system',
+      content: `
+here's my memory:
+${step.memory}
 `.trim()
     })
 
@@ -66,7 +71,7 @@ For example:
 previous steps (last 5 steps max):
 ${last5
   .map((each) => {
-    return JSON.stringify(each)
+    return JSON.stringify(each.memory)
   })
   .join('\n')}
           `
@@ -105,7 +110,7 @@ ${each.result}
       }
     }
 
-    if (step.todo) {
+    if (step.todo?.length > 0) {
       messages.push({
         role: 'user',
         content: `

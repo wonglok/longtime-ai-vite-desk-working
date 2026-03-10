@@ -57,9 +57,8 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
   await loopRun({
     multipleSteps: [],
     step: {
-      todo: [
-        { status: 'pending', task: 'generate what to work on after looking at folder contents' }
-      ]
+      memory: `You love helping people.`,
+      todo: []
     }
   })
 }
