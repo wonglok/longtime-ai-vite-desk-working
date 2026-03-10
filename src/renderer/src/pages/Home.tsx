@@ -148,7 +148,9 @@ I want to build a fullstack todo task management app
           <div className="flex">
             <TodoManagement></TodoManagement>
           </div>
-          <Brain></Brain>
+          <div className="w-full">
+            <Brain></Brain>
+          </div>
 
           <div className="w-full flex">
             <div className="w-2/3">
@@ -156,7 +158,7 @@ I want to build a fullstack todo task management app
             </div>
           </div>
 
-          <div className="text-xs">
+          <div className="text-xs w-full overflow-x-scroll">
             {messages.map((msg: any, i) => {
               return (
                 <li key={'k' + i} className="border m-2 p-2">
