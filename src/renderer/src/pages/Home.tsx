@@ -22,6 +22,8 @@ import { TodoManagement } from '@renderer/ui/TodoManagement/TodoManagement'
 import { useEffect, useState } from 'react'
 
 export function Home() {
+  //
+
   let [messages, setContextMessages] = useState([])
   let [stopFunc, setStop] = useState<any>(null)
 
@@ -39,7 +41,9 @@ export function Home() {
         folder: `todo-app`,
 
         appSpec: `
-I want to build a react todo kanban drag and drop app with backend with realtime updates.
+I want to build a fullstack todo kanban drag and drop ap 
+- with realtime updates
+- showing mouse position of each page visitor
 
 "[project-folder]/frontend" folder uses vite with react.js, esm javascript and socket.io-client, cors support for rest api and socletio calls
 "[project-folder]/backend" folder uses node.js backend with esm javascript, express, json database, socket.io, cors support for all rest and socletio responses, package.json "script" has commands such as "npm run build", "npm run start", "npm run dev". it should also have .gitignore
