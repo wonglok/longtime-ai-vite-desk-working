@@ -65,14 +65,14 @@ ${step.thought}
     })
 
     if (executionHistory) {
-      let last5 = executionHistory.slice().reverse().slice(0, 5).reverse()
+      let lastFew = executionHistory.slice().reverse().slice(0, 3).reverse()
       messages.push({
         role: 'user',
         content: `
 # Previous execution history
-(last 5 execution history step):
+(last 3 execution history step):
 
-${last5
+${lastFew
   .map((each) => {
     let cloned = { ...each }
 
