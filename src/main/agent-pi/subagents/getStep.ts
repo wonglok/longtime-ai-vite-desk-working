@@ -176,7 +176,7 @@ You pick the right task to work on.
             schema: WorkTask.toJSONSchema()
           }
         },
-        reasoning_effort: 'medium',
+        reasoning_effort: 'none',
         stream: true,
         temperature: 0
       },
