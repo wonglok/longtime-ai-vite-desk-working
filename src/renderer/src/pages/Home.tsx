@@ -50,21 +50,21 @@ I want to build a trello style task management app
 - with realtime updates using socket.io
 - showing mouse position of each page visitor
 
-## app folders
-  ~/frontend
-  ~/backend
-  ~/backend/src/index.js (backend source code entry point)
-  ~/backend/public (public folder for static assets)
-  ~/backend/data (data folder for json database)
+## folders
+  "~/frontend/*" (vite folder)
+  "~/backend/*" (backend folder)
+  "~/backend/src/index.js" (backend source code entry point)
+  "~/backend/public" (public folder for static assets)
+  "~/backend/data" (data folder for json database)
 
-  ## frontend development guidelines
-  - uses vite with react.js, esm javascript 
-  - uses tailwindcss
-  - socket.io-client
-  - use @use-gesture/react for gesture / drag and drop code
-  - cors support for rest api and soclet.io-client calls
+## frontend guidelines
+- uses vite with react.js, esm javascript 
+- uses tailwindcss
+- socket.io-client
+- use @use-gesture/react for gesture / drag and drop code
+- cors support for rest api and soclet.io-client calls
 
-## backend development guidelines
+## backend guidelines
   - uses node.js backend with esm javascript
   - express
   - port 3001
