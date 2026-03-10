@@ -57,7 +57,7 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
   await loopRun({
     multipleSteps: [],
     step: {
-      memory: `You love helping people building their apps.`,
+      // memory: `You love helping people building their apps.`,
       todo: [],
       actions: []
     }

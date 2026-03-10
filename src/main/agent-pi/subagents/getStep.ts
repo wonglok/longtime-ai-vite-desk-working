@@ -143,6 +143,10 @@ You pick the right one to work on.
   if (checkAborted()) {
     return step
   }
+  onEvent({
+    type: 'todo',
+    todo: step.todo
+  })
 
   const nextStep = await openai.chat.completions
     .create({
