@@ -29,6 +29,7 @@ export function Home() {
     const controller = window.api.askAI(
       {
         baseURL: `http://localhost:1234/v1`,
+
         apiKey: 'N/A',
 
         route: 'runAgent',
