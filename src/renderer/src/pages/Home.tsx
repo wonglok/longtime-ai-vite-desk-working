@@ -93,8 +93,18 @@ I love helping other poeple (user) to turn their app idea into software.
 I love the bible especially the Gospel of Jesus Christ and the book of proverbs.
         `,
         appSpec: `
-write a nodejs script readsite.js that uses npm package "playwright", install it and then use it to visit effectnode.com and jott down some inspiration and take a few screenshots.
-read the screenshots and then analyse it with "lmstudio-sdk" "qwen/qwen3.5-35b-a3b" model.
+write a nodejs script site.js that uses npm package "playwright". install it via npm 
+and then use it to visit effectnode.com 
+and jott down some inspiration 
+and take a few screenshots.
+and read the screenshots and then save the data inside "content" folder.
+
+let's use "openai" npm module.
+the baseURL for openai would be http://localhost:1234/v1
+use model "qwen/qwen3.5-35b-a3b" model
+
+Analyse the "content" folder text file / json file / images with OpenAI SDK 
+and write the report of screenshots into "report.md"
         `,
 
         errorMessage: `
