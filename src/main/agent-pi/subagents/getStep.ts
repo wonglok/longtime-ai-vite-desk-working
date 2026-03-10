@@ -4,11 +4,11 @@ import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
 import { z } from 'zod'
 
 const WorkTask = z.object({
-  // memory: z
-  //   .string()
-  //   .describe(
-  //     'write a memory of task / tood for myself to read again, i output all i need to remember, so that i dont forget.'
-  //   ),
+  memory: z
+    .string()
+    .describe(
+      'write a memory of task / tood for myself to read again, i output all i need to remember, so that i dont forget.'
+    ),
 
   // currentThoughts: z
   //   .string()
@@ -60,13 +60,13 @@ I love helping other poeple (user) to turn their app idea into software.
 `.trim()
     })
 
-    //     messages.push({
-    //       role: 'user',
-    //       content: `
-    // here's the latest memory of the agent:
-    // ${step.memory}
-    // `.trim()
-    //     })
+    messages.push({
+      role: 'user',
+      content: `
+    here's the latest memory of the agent:
+    ${step.memory}
+    `.trim()
+    })
 
     if (executionHistory) {
       let last5 = executionHistory.slice().reverse().slice(0, 5).reverse()
