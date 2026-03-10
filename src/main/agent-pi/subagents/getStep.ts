@@ -20,12 +20,11 @@ const WorkTask = z.object({
   terminalCalls: z
     .array(
       z.object({
-        cmd: z.string().describe('command in terminal'),
-        reason: z.string().describe('reason of running this command in terminal')
+        cmd: z.string().describe('command for terminal'),
+        reason: z.string().describe('reason of running this command')
       })
     )
     .describe('terminal commands')
-    .min(1)
 })
 
 export type ExecStep = z.infer<typeof WorkTask>
@@ -73,7 +72,12 @@ ${step.thought}
 (last 5 execution history step):
 ${last5
   .map((each) => {
-    return JSON.stringify(each)
+    let cloned = { ...each }
+    delete cloned.todo
+
+    return JSON.stringify({
+      ...cloned
+    })
   })
   .join('\n')}
           `
@@ -106,14 +110,15 @@ check the latest app spec against the current todo list to see if we need to upd
           role: 'user',
           content: `
 # Terminal Command & Result
-## Reason of the command:
-${each.reason}
 
-## The terminal command used:
-${each.cmd}
+## The terminal command:
+${each.cmd || ''}
+
+## Reason of running this command:
+${each.reason || ''}
 
 ## Result of command:
-${each.result}
+${each.result || ''}
 `.trim()
         })
       }
