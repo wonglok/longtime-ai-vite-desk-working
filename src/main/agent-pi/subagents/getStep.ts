@@ -2,7 +2,6 @@ import { exec } from 'child_process'
 import OpenAI from 'openai'
 import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
 import { z } from 'zod'
-import { removeThinkTags } from '../utils/remoteThinking'
 
 const WorkTask = z.object({
   thought: z
@@ -26,6 +25,7 @@ const WorkTask = z.object({
       })
     )
     .describe('terminal commands')
+    .min(1)
 })
 
 export type ExecStep = z.infer<typeof WorkTask>
@@ -176,8 +176,9 @@ You pick the right task to work on.
             schema: WorkTask.toJSONSchema()
           }
         },
-        reasoning_effort: 'high',
-        stream: true
+        reasoning_effort: 'medium',
+        stream: true,
+        temperature: 0
       },
       { signal }
     )

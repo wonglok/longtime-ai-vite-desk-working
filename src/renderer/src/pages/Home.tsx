@@ -44,9 +44,9 @@ export function Home() {
 
         appSpec: `
 ## app idea
-I want to build a fullstack todo task management app
-- kanban style UI drag and drop items across the column
-- with realtime updates
+I want to build a fullstack trello style task management app
+- trello style UI drag and drop items
+- with realtime updates using socket.io
 - showing mouse position of each page visitor
 
 ## app's folders
@@ -55,7 +55,7 @@ I want to build a fullstack todo task management app
 
 ## frontend development guidelines
   - uses vite with react.js, esm javascript
-  - zustand for global state management
+  - zustand for state management
   - socket.io-client
   - use @use-gesture/react for gesture / drag and drop code
   - cors support for rest api and socletio calls
