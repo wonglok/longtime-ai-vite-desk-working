@@ -137,11 +137,6 @@ ${step.todo
     return step
   }
 
-  onEvent({
-    type: 'todo',
-    todo: step.todo
-  })
-
   const nextStep = await openai.chat.completions
     .create({
       model: inbound.model,

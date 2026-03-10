@@ -40,7 +40,7 @@ export function Home() {
         model: `qwen/qwen3.5-35b-a3b`,
         // model: `qwen3.5-9b`,
 
-        folder: `my-app-001`,
+        folder: `todo-app`,
 
         action: 'message',
 
