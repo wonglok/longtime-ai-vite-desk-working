@@ -27,7 +27,7 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
 
     multipleSteps.push(step)
 
-    const execStep: ExecStep | null = await getStep({
+    const nextStep: ExecStep | null = await getStep({
       step: step,
       multipleSteps: multipleSteps,
       checkAborted: checkAborted,
@@ -38,24 +38,26 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
       }
     })
 
-    if (!execStep) {
-      return
+    if (!nextStep) {
+      return await loopRun({ multipleSteps, step: step })
     }
 
-    onEvent({ type: 'todo', todo: execStep.todo })
+    onEvent({ type: 'todo', todo: nextStep.todo })
+    onEvent({ type: 'multipleSteps', multipleSteps: multipleSteps })
 
     if (
-      execStep?.todo.filter((r) => r.status === 'completed').length === execStep?.todo.length &&
-      execStep.todo.length > 0
+      nextStep?.todo.filter((r) => r.status === 'completed').length === nextStep?.todo.length &&
+      nextStep.todo.length > 0
     ) {
       return
     }
 
-    return await loopRun({ multipleSteps, step: execStep })
+    return await loopRun({ multipleSteps, step: nextStep })
   }
 
+  console.log(inbound.multipleSteps)
   await loopRun({
-    multipleSteps: [],
+    multipleSteps: inbound.multipleSteps || [],
     step: {
       // memory: `You love helping people building their apps.`,
       todo: [],

@@ -25,18 +25,41 @@ export function Home() {
   let [messages, setContextMessages] = useState([])
   let [stopFunc, setStop] = useState<any>(null)
 
-  // let [workstep, setWorkstep] = useState(null)
-  // let [notice, setNotice] = useState('')
-  // let [side, setSide] = useState('')
-  // let [terminal, setTerm] = useState('')
-  // let [workbox, setWorkbox] = useState('')
-  // let [think, setThink] = useState('')
-
   useEffect(() => {
+    // todo
+    {
+      let lastTodo: any = []
+
+      let lastToddoStr = localStorage.getItem('todo')
+      if (typeof lastToddoStr === 'string' && lastToddoStr !== 'null') {
+        try {
+          lastTodo = JSON.parse(lastToddoStr)
+        } catch (e) {
+          console.error(e)
+        }
+
+        useTM.setState({
+          todos: lastTodo
+        })
+      }
+    }
+
+    let lastMultipleStep: any = []
+    let lastMultipleStepStr = localStorage.getItem('multipleSteps')
+    if (typeof lastMultipleStepStr === 'string' && lastMultipleStepStr !== 'null') {
+      try {
+        lastMultipleStep = JSON.parse(lastMultipleStepStr)
+      } catch (e) {
+        console.error(e)
+      }
+    }
+
     const controller = window.api.askAI(
       {
         baseURL: `http://localhost:1234/v1`,
         apiKey: 'N/A',
+
+        lastMultipleStep: lastMultipleStep,
 
         route: 'runAgent',
 
@@ -47,9 +70,8 @@ export function Home() {
         appSpec: `
 I want to build a todo app.
 
-"[project-folder]/" folder has a package.json with scripts support commands such as: "npm run dev", "npm run build", "npm run start" command that starts both servers
 "[project-folder]/frontend" folder uses vite with reactjs, typescript and socket.io-client 
-"[project-folder]/backend" folder uses node.js backend with esm modules, typescript, express, json database, socket.io, package.json "script" has commands such as { "dev": "nodemon ./server.js",  "start": "node ./server.js" } 
+"[project-folder]/backend" folder uses node.js backend with typescript, express, json database, socket.io, package.json "script" has commands such as "npm run build", "npm run start", "npm run dev" 
         `
       },
       (stream) => {
@@ -57,31 +79,15 @@ I want to build a todo app.
         const resp = JSON.parse(stream)
         console.log(resp)
 
-        // if (resp.type === 'workstep') {
-        //   setWorkstep(resp.text)
-        // }
-        // if (resp.type === 'side') {
-        //   setSide(resp.text)
-        // }
-        // if (resp.type === 'think') {
-        //   setThink(resp.text)
-        // }
-        // if (resp.type === 'workbox') {
-        //   setWorkbox(resp.text)
-        // }
-        // if (resp.type === 'notice') {
-        //   setNotice(resp.text)
-        // }
-        // if (resp.type === 'terminal') {
-        //   setTerm(resp.text)
-        // }
-
-        //
+        if (resp.type === 'multipleSteps') {
+          localStorage.setItem('multipleSteps', JSON.stringify(resp.multipleSteps))
+        }
 
         if (resp.type === 'messages') {
           setContextMessages(resp.messages || [])
         }
         if (resp.type === 'todo') {
+          localStorage.setItem('todo', JSON.stringify(resp.todo))
           useTM.setState({ todos: resp.todo })
         }
         if (resp.type === 'actionsToTake') {
