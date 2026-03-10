@@ -106,7 +106,7 @@ ${inbound.appSpec.trim()}
         messages.push({
           role: 'user',
           content: `
-# Terminal Command Action
+# Terminal Command & Result
 Here's the terminal command used:
 ${each.cmd}
 Result of command:
@@ -121,20 +121,14 @@ ${each.result}
         role: 'user',
         content: `
 Here's todo list:
-
 ${step.todo
   .map((r) => {
     return `${`[${r.status}]`} ${r.task}`
   })
   .join('\n')}
 
-You pick the right one to work on.
+You pick the right task to work on.
           `
-      })
-
-      onEvent({
-        type: 'todo',
-        todo: step!.todo
       })
     }
 
@@ -146,14 +140,14 @@ You pick the right one to work on.
     type: 'messages',
     messages: messages
   })
-
-  if (checkAborted()) {
-    return step
-  }
   onEvent({
     type: 'todo',
     todo: step.todo
   })
+
+  if (checkAborted()) {
+    return step
+  }
 
   const nextStep = await openai.chat.completions
     .create({
