@@ -64,25 +64,25 @@ export function Home() {
 ## frontend guidelines
   - uses vite with react.js, esm javascript 
   - port 5174
-  - uses tailwindcss
+  - uses @tailwindcss/postcss
   - socket.io-client
   - use @use-gesture/react for gesture / drag and drop code
-  - cors support for fetch, rest api and soclet.io-client calls
+  - don't use proxy in vite, cors support for fetch, rest api and soclet.io-client calls
   - no need to start frontend server at the end
-  - npm install
+  - in the end, run npm install
   - in the end, verify app idea is built into frontend code
 
 ## backend guidelines
   - uses node.js backend with esm javascript
-  - express
+  - install express
+  - install socket.io
   - port 3001
   - json database with some sample data
-  - socket.io
   - cors support for all rest api response and soclet.io
   - "~/backend/package.json" "script" has commands such as "npm run build", "npm run start", "npm run dev"
   - the backend folder should also have .gitignore file to avoid commiting "node_modules" folder to git
   - no need to start backend server at the end
-  - npm install
+  - in the end, run npm install
   - in the end, verify app idea is built into backend code
 
   `,
