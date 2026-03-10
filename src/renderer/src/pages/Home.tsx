@@ -46,13 +46,17 @@ I want to build a fullstack todo kanban drag and drop ap
 - with realtime updates
 - showing mouse position of each page visitor
 
-## "[project-folder]/frontend" folder 
+## folders
+  - [project-folder]/frontend
+  - [project-folder]/backend
+
+## frontend requirements
   - uses vite with react.js, esm javascript, 
   - zustand for global state management and 
   - socket.io-client, 
   - cors support for rest api and socletio calls
 
-## "[project-folder]/backend" folder 
+## backend requirements
   - uses node.js backend with esm javascript, 
   - express, 
   - json database, 
