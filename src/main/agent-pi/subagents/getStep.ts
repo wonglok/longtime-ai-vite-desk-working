@@ -70,6 +70,7 @@ ${step.thought}
         content: `
 # Previous execution history
 (last 5 execution history step):
+
 ${last5
   .map((each) => {
     let cloned = { ...each }
