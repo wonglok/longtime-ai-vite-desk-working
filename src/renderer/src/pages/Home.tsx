@@ -47,8 +47,8 @@ I want to build a fullstack todo kanban drag and drop ap
 - showing mouse position of each page visitor
 
 ## folders
-  - [project-folder]/frontend
-  - [project-folder]/backend
+  - [project-folder]/frontend/* (frontend folder)
+  - [project-folder]/backend/* (backend folder)
 
 ## frontend requirements
   - uses vite with react.js, esm javascript, 
