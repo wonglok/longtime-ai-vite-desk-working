@@ -2,7 +2,7 @@ import { create } from 'zustand'
 
 export type Todo = {
   task: string
-  status: 'pending' | 'working' | 'completed'
+  status: 'pending' | 'in-progress' | 'completed'
 }
 
 export type Action = {
@@ -14,9 +14,9 @@ const getInit = (set, get) => {
   return {
     //
     //
-    actions: [] as Action[],
+    actionsToTake: [] as Action[],
     todos: [] as Todo[],
-    status: ['pending', 'working', 'completed'] as any[]
+    status: ['pending', 'in-progress', 'completed'] as any[]
     //
     //
   }

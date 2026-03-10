@@ -12,24 +12,25 @@ const WorkTask = z.object({
 
   // currentThoughts: z
   //   .string()
-  //   .describe(`Short term memory about the task that i'm currently working on.`),
+  //   .describe(`Short term memory about the task that i'm currently inprogress on.`),
 
   todo: z
     .array(
-      z
-        .object({
-          status: z.enum(['pending', 'working', 'completed']),
-          task: z.string()
-        })
-        .describe('choose at least one task to work on')
+      z.object({
+        status: z.enum(['pending', 'in-progress', 'completed']),
+        task: z.string()
+      })
     )
     .describe('a detailed todo list'),
 
-  actions: z.array(
-    z.object({
-      cmd: z.string().describe('the terminal command')
-    })
-  )
+  actionsToTake: z
+    .array(
+      z.object({
+        cmd: z.string().describe('current command line action')
+      })
+    )
+    .describe('current command line calls')
+    .optional()
 })
 
 export type ExecStep = z.infer<typeof WorkTask>
@@ -66,8 +67,8 @@ I love helping other poeple (user) to turn their app idea into software.
       messages.push({
         role: 'user',
         content: `
-# Previous actions
-Previous actions (last 5 actions max):
+# Previous actionsToTake
+Previous actionsToTake (last 5 actionsToTake max):
 ${last5
   .map((each) => {
     return JSON.stringify(each)
@@ -94,8 +95,8 @@ ${inbound.appSpec.trim()}
 `.trim()
     })
 
-    if ((step?.actions?.length || 0) > 0) {
-      for (let each of step.actions as { cmd: string; result: string }[]) {
+    if ((step?.actionsToTake?.length || 0) > 0) {
+      for (let each of step.actionsToTake as { cmd: string; result: string }[]) {
         messages.push({
           role: 'user',
           content: `
@@ -178,8 +179,8 @@ You pick the right one to work on.
       todo: nextStep.todo
     })
 
-    if (nextStep.actions && nextStep.actions.length) {
-      for (let each of nextStep.actions) {
+    if (nextStep.actionsToTake && nextStep.actionsToTake.length) {
+      for (let each of nextStep.actionsToTake) {
         ;(each as { result: string; cmd: string }).result = await new Promise((resolve) => {
           return exec(
             `${each.cmd}`,
@@ -204,7 +205,7 @@ You pick the right one to work on.
 
         onEvent({
           type: 'acitons',
-          actions: nextStep.actions
+          actionsToTake: nextStep.actionsToTake
         })
       }
     }

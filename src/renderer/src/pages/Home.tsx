@@ -82,12 +82,10 @@ I want to build a todo app.
           setContextMessages(resp.messages || [])
         }
         if (resp.type === 'todo') {
-          console.log(resp.todo)
           useTM.setState({ todos: resp.todo })
         }
-        if (resp.type === 'actions') {
-          console.log(resp.actions)
-          useTM.setState({ actions: resp.actions })
+        if (resp.type === 'actionsToTake') {
+          useTM.setState({ actionsToTake: resp.actionsToTake })
         }
       }
     )

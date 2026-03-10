@@ -14,7 +14,7 @@ export function TodoManagement() {
               title: `bg-blue-500 text-white rounded-lg `,
               task: `bg-blue-400 text-white rounded-lg `
             },
-            working: {
+            ['in-progress']: {
               title: `bg-green-500 text-white rounded-lg `,
               task: `bg-green-400 text-white rounded-lg `
             },

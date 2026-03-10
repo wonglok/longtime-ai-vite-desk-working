@@ -1,13 +1,13 @@
 import { type Action, useTM } from '@renderer/store/useTM'
 
 export function ActionsTerm() {
-  const actions = useTM((r: any) => r.actions) as Action[]
+  const actionsToTake = useTM((r: any) => r.actionsToTake) as Action[]
 
   return (
     <>
       {/*  */}
       <div className="w-full h-[200px] gap-4 rounded-2xl ">
-        {actions.map((eachAction, idx) => {
+        {actionsToTake.map((eachAction, idx) => {
           return (
             <div key={`${eachAction.cmd}${idx}`}>
               <div>${eachAction.cmd}</div>
