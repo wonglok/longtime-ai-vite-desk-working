@@ -140,7 +140,9 @@ I want to build a fullstack todo task management app
             </Button>
           )}
 
-          <TodoManagement></TodoManagement>
+          <div className="w-full">
+            <TodoManagement></TodoManagement>
+          </div>
           <ActionsTerm></ActionsTerm>
 
           <div className="text-xs">
