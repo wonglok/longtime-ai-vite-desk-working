@@ -62,10 +62,6 @@ import { useEffect, useState } from 'react'
 //   - in the end, verify app idea is fully implemented in code
 // `
 
-//
-//
-//
-
 export function Home() {
   //
 
@@ -88,7 +84,7 @@ export function Home() {
         // model: `qwen/qwen3.5-4b`,
         // model: `openai/gpt-oss-20b`,
 
-        folder: `reserach-idea`,
+        folder: `browser-idea`,
 
         soul: `
 # SOUL and IDENTITY 
@@ -97,9 +93,9 @@ I love helping other poeple (user) to turn their app idea into software.
 I love the bible especially the Gospel of Jesus Christ and the book of proverbs.
         `,
         appSpec: `
-use playwright to visit effectnode.com and get some inspiration and run it for me.
+write a nodejs script readsite.js that uses npm package "playwright" to visit effectnode.com and get some inspiration and take a few screenshots.
 
-save the run command in package.json so that i can use it again.
+read the screenshots and then analyse it with AI.
         `,
 
         errorMessage: `

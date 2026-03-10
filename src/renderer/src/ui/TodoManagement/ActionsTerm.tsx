@@ -3,7 +3,7 @@ import { type Action, useTM } from '@renderer/store/useTM'
 export function ActionsTerm() {
   const terminalCalls = useTM((r: any) => r.terminalCalls) as Action[]
 
-  console.log('terminalCalls', terminalCalls)
+  console.log('terminalCalls', terminalCalls.map((r) => r.cmd).join('\n'))
   return (
     <>
       {/*  */}
