@@ -10,10 +10,10 @@ const WorkTask = z.object({
     .array(
       z.object({
         status: z.enum(['pending', 'in-progress', 'completed']),
-        task: z.string()
+        task: z.string().describe('a concise and succinct todo item')
       })
     )
-    .describe('a detailed todo list'),
+    .describe('a concise and succinct todo list'),
 
   terminalCalls: z
     .array(
