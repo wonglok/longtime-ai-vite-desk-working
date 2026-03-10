@@ -52,7 +52,7 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
       path.join(workspace, 'state.json'),
       JSON.stringify(
         {
-          todo: nextStep.todo,
+          nextStep: nextStep,
           multipleSteps: multipleSteps
         },
         null,
@@ -73,7 +73,7 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
     })
   }
 
-  let state = { multipleSteps: [], todo: [] }
+  let state = { multipleSteps: [], nextStep: null }
   try {
     let stateStr = await readFile(path.join(workspace, 'state.json'), 'utf-8')
     state = JSON.parse(stateStr)
@@ -83,9 +83,9 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
 
   await loopRun({
     multipleSteps: state.multipleSteps || [],
-    step: {
-      todo: state.todo || [],
-      actionsToTake: []
+    step: state.nextStep || {
+      todo: [],
+      terminalCalls: []
     }
   })
 }

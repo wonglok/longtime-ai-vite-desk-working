@@ -23,14 +23,13 @@ const WorkTask = z.object({
     )
     .describe('a detailed todo list'),
 
-  actionsToTake: z
+  terminalCalls: z
     .array(
       z.object({
-        cmd: z.string().describe('current command line action')
+        cmd: z.string().describe('current task command line action')
       })
     )
-    .describe('current command line calls')
-    .optional()
+    .describe('current task command line calls')
 })
 
 export type ExecStep = z.infer<typeof WorkTask>
@@ -67,8 +66,8 @@ I love helping other poeple (user) to turn their app idea into software.
       messages.push({
         role: 'user',
         content: `
-# Previous actionsToTake
-Previous actionsToTake (last 5 actionsToTake max):
+# Previous working step
+Previous working step (last 5 working step max):
 ${last5
   .map((each) => {
     return JSON.stringify(each)
@@ -95,15 +94,15 @@ ${inbound.appSpec.trim()}
 `.trim()
     })
 
-    if ((step?.actionsToTake?.length || 0) > 0) {
-      for (let each of step.actionsToTake as { cmd: string; result: string }[]) {
+    if ((step?.terminalCalls?.length || 0) > 0) {
+      for (let each of step.terminalCalls as { cmd: string; result: string }[]) {
         messages.push({
           role: 'user',
           content: `
 # Terminal Command Action
-Here's the last terminal command:
+Here's the terminal command used:
 ${each.cmd}
-Reult:
+Result of command:
 ${each.result}
 `.trim()
         })
@@ -179,8 +178,8 @@ You pick the right one to work on.
       todo: nextStep.todo
     })
 
-    if (nextStep.actionsToTake && nextStep.actionsToTake.length) {
-      for (let each of nextStep.actionsToTake) {
+    if (nextStep.terminalCalls && nextStep.terminalCalls.length) {
+      for (let each of nextStep.terminalCalls) {
         ;(each as { result: string; cmd: string }).result = await new Promise((resolve) => {
           return exec(
             `${each.cmd}`,
@@ -204,8 +203,8 @@ You pick the right one to work on.
         })
 
         onEvent({
-          type: 'actionsToTake',
-          actionsToTake: nextStep.actionsToTake
+          type: 'terminalCalls',
+          terminalCalls: nextStep.terminalCalls
         })
       }
     }

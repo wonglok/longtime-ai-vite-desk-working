@@ -14,7 +14,7 @@ const getInit = (set, get) => {
   return {
     //
     //
-    actionsToTake: [] as Action[],
+    terminalCalls: [] as Action[],
     todos: [] as Todo[],
     status: ['pending', 'in-progress', 'completed'] as any[]
     //

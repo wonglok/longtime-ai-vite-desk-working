@@ -55,8 +55,8 @@ I want to build a todo app.
         if (resp.type === 'todo') {
           useTM.setState({ todos: resp.todo })
         }
-        if (resp.type === 'actionsToTake') {
-          useTM.setState({ actionsToTake: resp.actionsToTake })
+        if (resp.type === 'terminalCalls') {
+          useTM.setState({ terminalCalls: resp.terminalCalls })
         }
       }
     )
