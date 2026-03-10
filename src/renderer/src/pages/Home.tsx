@@ -26,24 +26,6 @@ export function Home() {
   let [stopFunc, setStop] = useState<any>(null)
 
   useEffect(() => {
-    // todo
-    {
-      let lastTodo: any = []
-
-      let lastToddoStr = localStorage.getItem('todo')
-      if (typeof lastToddoStr === 'string' && lastToddoStr !== 'null') {
-        try {
-          lastTodo = JSON.parse(lastToddoStr)
-        } catch (e) {
-          console.error(e)
-        }
-
-        useTM.setState({
-          todos: lastTodo
-        })
-      }
-    }
-
     let lastMultipleStep: any = []
     let lastMultipleStepStr = localStorage.getItem('multipleSteps')
     if (typeof lastMultipleStepStr === 'string' && lastMultipleStepStr !== 'null') {
