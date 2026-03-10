@@ -1,5 +1,5 @@
 import { useTM } from '@renderer/store/useTM'
-import { useEffect } from 'react'
+// import { useEffect } from 'react'
 
 export function TodoManagement() {
   const todos = useTM((r) => r.todos)
@@ -37,7 +37,10 @@ export function TodoManagement() {
               >
                 {eStatus}
               </div>
-              <div className="overflow-y-scroll w-full" style={{ height: `calc(100% - 50px)` }}>
+              <div
+                className="overflow-y-scroll w-full rounded-2xl"
+                style={{ height: `calc(100% - 50px - 20px)`, marginTop: '10px' }}
+              >
                 {todos
                   .filter((e) => e.status === eStatus)
                   .map((todo, i) => {

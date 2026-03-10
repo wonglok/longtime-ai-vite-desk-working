@@ -39,7 +39,7 @@ export function Home() {
 
         // model: `qwen/qwen3-coder-30b`,
         model: `qwen/qwen3.5-35b-a3b`,
-        // model: `nvidia/nemotron-3-nano`,
+        // model: `qwen/qwen3.5-9b`,
 
         folder: `todo-app`,
 
@@ -51,14 +51,13 @@ I want to build a trello style task management app
 - showing mouse position of each page visitor
 
 ## app folders
-  ~/backend/*
+  ~/frontend
+  ~/backend
   ~/backend/src/index.js (backend source code entry point)
   ~/backend/public (public folder for static assets)
   ~/backend/data (data folder for json database)
 
-  ~/frontend/*
-
-## frontend development guidelines
+  ## frontend development guidelines
   - uses vite with react.js, esm javascript 
   - uses tailwindcss
   - socket.io-client

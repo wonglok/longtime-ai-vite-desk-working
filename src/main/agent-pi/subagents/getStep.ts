@@ -15,16 +15,16 @@ const WorkTask = z.object({
         task: z.string().describe('task description')
       })
     )
-    .describe('a concise and succinct todo list'),
+    .describe('a todo list'),
 
   terminalCalls: z
     .array(
       z.object({
         cmd: z.string().describe('command for terminal'),
-        reason: z.string().describe('consie and succinct reason of running this command ')
+        reason: z.string().describe('reason of running this command ')
       })
     )
-    .describe('terminal commands')
+    .describe('a list of terminal commands')
     .min(1)
 })
 
