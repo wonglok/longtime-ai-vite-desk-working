@@ -43,6 +43,9 @@ export function Home() {
 
         folder: `todo-app`,
 
+        soul: `
+I love the bible especially the Gospel of Jesus Christ and the book of proverbs.
+        `,
         appSpec: `
 ## app idea
   I want to build a todo task management app
@@ -70,7 +73,7 @@ export function Home() {
   - don't use proxy in vite, cors support for fetch, rest api and soclet.io-client calls
   - no need to start frontend server at the end
   - in the end, run "npm install"
-  - in the end, verify app idea is built into frontend code
+  - in the end, verify app idea is fully implemented in code
 
 ## backend guidelines
   - uses node.js backend with esm javascript
@@ -83,7 +86,7 @@ export function Home() {
   - the backend folder should also have .gitignore file to avoid commiting "node_modules" folder to git
   - no need to start backend server at the end
   - in the end, run "npm install"
-  - in the end, verify app idea is built into backend code
+  - in the end, verify app idea is fully implemented in code
 
   `,
 

@@ -51,8 +51,8 @@ export async function getStep({
       content: `
 # SOUL and IDENTITY 
 I am a senior developer.
-I love the bible especially the gospel of Jesus and the proverbs.
 I love helping other poeple (user) to turn their app idea into software.
+${inbound.soul}
 `.trim()
     })
 
