@@ -18,7 +18,7 @@ import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { useTM } from '@renderer/store/useTM'
 import { ActionsTerm } from '@renderer/ui/TodoManagement/ActionsTerm'
-import { Brain } from '@renderer/ui/TodoManagement/Brain'
+// import { Brain } from '@renderer/ui/TodoManagement/Brain'
 import { TodoManagement } from '@renderer/ui/TodoManagement/TodoManagement'
 import { useEffect, useState } from 'react'
 
@@ -62,15 +62,16 @@ I want to build a fullstack trello style task management app
   - uses tailwindcss
   - socket.io-client
   - use @use-gesture/react for gesture / drag and drop code
-  - cors support for rest api and socletio calls
+  - cors support for rest api and soclet.io-client calls
 
 ## backend development guidelines
-  - uses node.js backend with esm javascript, 
+  - uses node.js backend with esm javascript
   - express
-  - json database, 
-  - socket.io, 
-  - cors support for all rest and socletio responses, 
-  - package.json "script" has commands such as "npm run build", "npm run start", "npm run dev". 
+  - port 3001
+  - json database
+  - socket.io
+  - cors support for all rest api and soclet.io 
+  - package.json "script" has commands such as "npm run build", "npm run start", "npm run dev"
   - the backend folder should also have .gitignore file to avoid commiting "node_modules" folder to git
         `,
 
