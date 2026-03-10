@@ -27,11 +27,11 @@ export function TodoManagement() {
 
           return (
             <div
-              className="h-full rounded-2xl pt-3 bg-gray-100 shadow-[#a7a7a7] shadow-inner w-[300px] text-xs "
+              className="h-full rounded-2xl pt-3 bg-gray-100 shadow-[#585858] w-[300px] text-xs "
               key={`${eStatus}`}
             >
               <div
-                className={`mx-2 px-2 py-2 text-center  flex items-center justify-center text-xl ${classy?.title}`}
+                className={`mx-2 px-2 py-2 text-center  flex items-center justify-center text-xl ${classy?.title} shadow shadow-[#ffffff]`}
                 style={{ height: `50px` }}
               >
                 {eStatus}

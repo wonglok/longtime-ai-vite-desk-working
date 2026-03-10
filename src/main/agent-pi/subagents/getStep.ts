@@ -28,7 +28,7 @@ const WorkTask = z.object({
         result: z.string().describe('result of the terminal command').optional()
       })
     )
-    .optional()
+    .min(1)
 })
 
 export type ExecStep = z.infer<typeof WorkTask>
@@ -45,19 +45,18 @@ export async function getStep({ multipleSteps, step, workspace, inbound, checkAb
     messages.push({
       role: 'system',
       content: `
-# SOUL and IDENTITY
-You are an AI senior developer. 
-You help user write their app idea.
-You are a very honest and hard working person.
-You think like the way of Jesus in the bible. Single source of truth. You love proverbs in bible.
-You are a person who cares for details. You read the file first before writing to it.
+# SOUL and IDENTITY 
+I am a senior developer. 
+I help user write their app idea.
+I love proverbs in the bible, I have wisdom.
+I am a person who cares for details, I read the file first before writing to it.
 `.trim()
     })
 
     messages.push({
-      role: 'system',
+      role: 'user',
       content: `
-here's my memory:
+here's the latest memory of the agent:
 ${step.memory}
 `.trim()
     })
@@ -67,11 +66,11 @@ ${step.memory}
       messages.push({
         role: 'user',
         content: `
-# Previous Steps
-previous steps (last 5 steps max):
+# Previous actions
+Previous actions (last 5 actions max):
 ${last5
   .map((each) => {
-    return JSON.stringify(each.memory)
+    return JSON.stringify(each)
   })
   .join('\n')}
           `
@@ -81,8 +80,8 @@ ${last5
     messages.push({
       role: 'user',
       content: `
-"MUST HAVE" RULES:
-You only work at the workspace folder: ${JSON.stringify(workspace)}
+# MUST HAVE RULES:
+Only work at the workspace folder: ${JSON.stringify(workspace)}
 The [project-folder] name is called ${JSON.stringify(inbound.folder)}
           `
     })
@@ -90,7 +89,7 @@ The [project-folder] name is called ${JSON.stringify(inbound.folder)}
     messages.push({
       role: 'user',
       content: `
-Here's the user app idea:
+Here's the app idea:
 ${inbound.appSpec.trim()}
 `.trim()
     })
@@ -100,6 +99,7 @@ ${inbound.appSpec.trim()}
         messages.push({
           role: 'user',
           content: `
+# Terminal Command Action
 Here's the last terminal command:
 ${each.cmd}
 
@@ -121,6 +121,8 @@ ${step.todo
     return `${`[${r.status}]`} ${r.task}`
   })
   .join('\n')}
+
+You pick the right one to work on.
           `
       })
 
