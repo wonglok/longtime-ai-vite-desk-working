@@ -51,7 +51,7 @@ I want to build a trello style task management app
 - showing mouse position of each page visitor
 
 ## folders
-  "~/frontend/*" (vite folder)
+  "~/frontend/*" (frontend folder)
   "~/backend/*" (backend folder)
   "~/backend/src/index.js" (backend source code entry point)
   "~/backend/public" (public folder for static assets)
