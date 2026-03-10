@@ -55,6 +55,7 @@ You help user write their app idea.
       messages.push({
         role: 'user',
         content: `
+# Previous Steps
 previous steps (last 5 steps max):
 ${last5
   .map((each) => {
@@ -143,7 +144,8 @@ ${step.todo
           name: 'worktask',
           schema: WorkTask.toJSONSchema()
         }
-      }
+      },
+      reasoning_effort: 'high'
     })
     .then((response) => {
       //
