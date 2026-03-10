@@ -17,10 +17,10 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
   }
 
   const loopRun = async ({
-    multipleSteps,
+    executionHistory,
     step
   }: {
-    multipleSteps: ExecStep[]
+    executionHistory: ExecStep[]
     step: ExecStep
   }) => {
     //
@@ -28,11 +28,11 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
       return
     }
 
-    multipleSteps.push(step)
+    executionHistory.push(step)
 
     const nextStep: ExecStep | null = await getStep({
       step: step,
-      multipleSteps: multipleSteps,
+      executionHistory: executionHistory,
       checkAborted: checkAborted,
       workspace: `${workspace}`,
       inbound: inbound,
@@ -42,18 +42,18 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
     })
 
     if (!nextStep) {
-      return await loopRun({ multipleSteps, step: step })
+      return await loopRun({ executionHistory, step: step })
     }
 
     onEvent({ type: 'todo', todo: nextStep.todo })
-    onEvent({ type: 'multipleSteps', multipleSteps: multipleSteps })
+    onEvent({ type: 'executionHistory', executionHistory: executionHistory })
 
     await writeFile(
       path.join(workspace, 'state.json'),
       JSON.stringify(
         {
           nextStep: nextStep,
-          multipleSteps: multipleSteps
+          executionHistory: executionHistory
         },
         null,
         '\t'
@@ -68,12 +68,12 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
     }
 
     return await loopRun({
-      multipleSteps: multipleSteps.slice().reverse().slice(0, 5).reverse(),
+      executionHistory: executionHistory.slice().reverse().slice(0, 5).reverse(),
       step: nextStep
     })
   }
 
-  let state = { multipleSteps: [], nextStep: null }
+  let state = { executionHistory: [], nextStep: null }
   try {
     let stateStr = await readFile(path.join(workspace, 'state.json'), 'utf-8')
     state = JSON.parse(stateStr)
@@ -82,7 +82,7 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
   }
 
   await loopRun({
-    multipleSteps: state.multipleSteps || [],
+    executionHistory: state.executionHistory || [],
     step: state.nextStep || {
       todo: [],
       terminalCalls: []

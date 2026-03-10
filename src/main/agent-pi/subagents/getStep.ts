@@ -34,7 +34,14 @@ const WorkTask = z.object({
 
 export type ExecStep = z.infer<typeof WorkTask>
 
-export async function getStep({ multipleSteps, step, workspace, inbound, checkAborted, onEvent }) {
+export async function getStep({
+  executionHistory,
+  step,
+  workspace,
+  inbound,
+  checkAborted,
+  onEvent
+}) {
   const openai = new OpenAI({
     baseURL: inbound.baseURL,
     apiKey: inbound.apiKey
@@ -61,8 +68,8 @@ I love helping other poeple (user) to turn their app idea into software.
     // `.trim()
     //     })
 
-    if (multipleSteps) {
-      let last5 = multipleSteps.slice().reverse().slice(0, 5).reverse()
+    if (executionHistory) {
+      let last5 = executionHistory.slice().reverse().slice(0, 5).reverse()
       messages.push({
         role: 'user',
         content: `
