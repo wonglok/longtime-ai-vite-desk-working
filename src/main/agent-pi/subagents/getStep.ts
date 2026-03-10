@@ -21,14 +21,12 @@ const WorkTask = z.object({
     )
     .describe('a todo items, mark todo items'),
 
-  terminalCommands: z
-    .array(
-      z.object({
-        cmd: z.string().describe('the terminal command'),
-        result: z.string().describe('result of the terminal command').optional()
-      })
-    )
-    .min(1)
+  terminalCommands: z.array(
+    z.object({
+      cmd: z.string().describe('the terminal command'),
+      result: z.string().describe('result of the terminal command').optional()
+    })
+  )
 })
 
 export type ExecStep = z.infer<typeof WorkTask>
@@ -46,10 +44,9 @@ export async function getStep({ multipleSteps, step, workspace, inbound, checkAb
       role: 'system',
       content: `
 # SOUL and IDENTITY 
-I am a senior developer. 
-I help user write their app idea.
+I am a senior developer who loves the bible. 
 I love proverbs in the bible, I have wisdom.
-I am a person who cares for details, I read the file first before writing to it.
+I help user to turn their app idea into apps.
 `.trim()
     })
 
@@ -198,6 +195,13 @@ You pick the right one to work on.
             }
           )
         })
+          .then((r) => {
+            return `${r}`
+          })
+          .catch((r) => {
+            console.error(r)
+            return `${r}`
+          })
       }
     }
   }

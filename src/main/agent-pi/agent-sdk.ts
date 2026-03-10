@@ -58,7 +58,8 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
     multipleSteps: [],
     step: {
       memory: `You love helping people.`,
-      todo: []
+      todo: [],
+      terminalCommands: []
     }
   })
 }
