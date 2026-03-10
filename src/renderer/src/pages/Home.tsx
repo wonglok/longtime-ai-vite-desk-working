@@ -93,9 +93,8 @@ I love helping other poeple (user) to turn their app idea into software.
 I love the bible especially the Gospel of Jesus Christ and the book of proverbs.
         `,
         appSpec: `
-write a nodejs script readsite.js that uses npm package "playwright" to visit effectnode.com and get some inspiration and take a few screenshots.
-
-read the screenshots and then analyse it with AI.
+write a nodejs script readsite.js that uses npm package "browsernode", install it and then use it to visit effectnode.com and jott down some inspiration and take a few screenshots.
+read the screenshots and then analyse it with "lmstudio-sdk" "qwen/qwen3.5-35b-a3b" model.
         `,
 
         errorMessage: `
