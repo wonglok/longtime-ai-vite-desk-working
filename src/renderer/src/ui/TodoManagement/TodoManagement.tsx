@@ -8,7 +8,7 @@ export function TodoManagement() {
   return (
     <>
       {/*  */}
-      <div className="flex flex-row flex-wrap w-full h-[500px] gap-4 rounded-2xl ">
+      <div className="flex flex-row w-full h-[500px] gap-4 rounded-2xl ">
         {status.map((eStatus) => {
           let colorStyle = {
             pending: {

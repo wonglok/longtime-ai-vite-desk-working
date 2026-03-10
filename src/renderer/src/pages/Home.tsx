@@ -18,6 +18,7 @@ import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { useTM } from '@renderer/store/useTM'
 import { ActionsTerm } from '@renderer/ui/TodoManagement/ActionsTerm'
+import { Brain } from '@renderer/ui/TodoManagement/Brain'
 import { TodoManagement } from '@renderer/ui/TodoManagement/TodoManagement'
 import { useEffect, useState } from 'react'
 
@@ -44,7 +45,7 @@ export function Home() {
         appSpec: `
 ## app idea
 I want to build a fullstack todo task management app
-- trello style drag and drop UI
+- kanban style UI drag and drop items across the column
 - with realtime updates
 - showing mouse position of each page visitor
 
@@ -84,6 +85,10 @@ I want to build a fullstack todo task management app
         if (resp.type === 'todo') {
           useTM.setState({ todos: resp.todo })
         }
+        if (resp.type === 'brain') {
+          useTM.setState({ brain: resp.brain })
+        }
+
         if (resp.type === 'terminalCalls') {
           useTM.setState({ terminalCalls: resp.terminalCalls })
         }
@@ -140,10 +145,16 @@ I want to build a fullstack todo task management app
             </Button>
           )}
 
-          <div className="w-full">
+          <div className="flex">
             <TodoManagement></TodoManagement>
           </div>
-          <ActionsTerm></ActionsTerm>
+          <Brain></Brain>
+
+          <div className="w-full flex">
+            <div className="w-2/3">
+              <ActionsTerm></ActionsTerm>
+            </div>
+          </div>
 
           <div className="text-xs">
             {messages.map((msg: any, i) => {

@@ -2,6 +2,7 @@ import { exec } from 'child_process'
 import OpenAI from 'openai'
 import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
 import { z } from 'zod'
+import { removeThinkTags } from '../utils/remoteThinking'
 
 const WorkTask = z.object({
   thought: z
@@ -175,15 +176,23 @@ You pick the right task to work on.
             schema: WorkTask.toJSONSchema()
           }
         },
-        reasoning_effort: 'high'
+        reasoning_effort: 'high',
+        stream: true
       },
       { signal }
     )
-    .then((response) => {
+    .then(async (response) => {
+      // return JSON.parse(response.choices[0].message.content!) as ExecStep
       //
-      // console.log(response.choices[0].message)
-      //
-      return JSON.parse(response.choices[0].message.content!) as ExecStep
+      let tt = ''
+      for await (let event of response) {
+        tt += event.choices[0]?.delta?.content || ''
+        onEvent({ type: 'brain', brain: tt })
+      }
+
+      let cleand = `${removeThinkTags(`${tt}`.trim())}`.trim()
+
+      return JSON.parse(cleand)
     })
     .catch((r) => {
       console.error(r)

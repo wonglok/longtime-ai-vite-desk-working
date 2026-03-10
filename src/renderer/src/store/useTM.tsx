@@ -14,6 +14,7 @@ const getInit = (set, get) => {
   return {
     //
     //
+    brain: '' as string,
     terminalCalls: [] as Action[],
     todos: [] as Todo[],
     status: ['pending', 'in-progress', 'completed'] as any[]
