@@ -4,11 +4,11 @@ import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
 import { z } from 'zod'
 
 const WorkTask = z.object({
-  memory: z
-    .string()
-    .describe(
-      'write a memory of task / tood for myself to read again, i output all i need to remember, so that i dont forget.'
-    ),
+  // memory: z
+  //   .string()
+  //   .describe(
+  //     'write a memory of task / tood for myself to read again, i output all i need to remember, so that i dont forget.'
+  //   ),
 
   // currentThoughts: z
   //   .string()
@@ -47,19 +47,19 @@ export async function getStep({ multipleSteps, step, workspace, inbound, checkAb
       role: 'system',
       content: `
 # SOUL and IDENTITY 
-I am a senior developer who loves the bible. 
-I love the bible especially the gospel and the proverbs.
+I am a senior developer.
+I love the bible especially the gospel of Jesus and the proverbs.
 I love helping other poeple (user) to turn their app idea into software.
 `.trim()
     })
 
-    messages.push({
-      role: 'user',
-      content: `
-here's the latest memory of the agent:
-${step.memory}
-`.trim()
-    })
+    //     messages.push({
+    //       role: 'user',
+    //       content: `
+    // here's the latest memory of the agent:
+    // ${step.memory}
+    // `.trim()
+    //     })
 
     if (multipleSteps) {
       let last5 = multipleSteps.slice().reverse().slice(0, 5).reverse()
@@ -82,7 +82,7 @@ ${last5
       content: `
 # MUST HAVE RULES:
 Only work at the workspace folder: ${JSON.stringify(workspace)}
-The [project-folder] name is called ${JSON.stringify(inbound.folder)}
+The [project-folder] name is called: ${JSON.stringify(inbound.folder)}
           `
     })
 
@@ -197,13 +197,6 @@ You pick the right one to work on.
             }
           )
         })
-          .then((r) => {
-            return `${r}`
-          })
-          .catch((r) => {
-            console.error(r)
-            return `${r}`
-          })
 
         onEvent({
           type: 'acitons',

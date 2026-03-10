@@ -6,7 +6,7 @@ export function ActionsTerm() {
   return (
     <>
       {/*  */}
-      <div className="w-full h-[500px] gap-4 rounded-2xl ">
+      <div className="w-full h-[200px] gap-4 rounded-2xl ">
         {actions.map((eachAction, idx) => {
           return (
             <div key={`${eachAction.cmd}${idx}`}>

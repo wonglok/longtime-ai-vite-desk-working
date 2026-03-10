@@ -31,7 +31,7 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
       step: step,
       multipleSteps: multipleSteps,
       checkAborted: checkAborted,
-      workspace: `${docs}/ai-home`,
+      workspace: `${workspace}`,
       inbound: inbound,
       onEvent: (ev) => {
         onEvent(ev)
