@@ -63,6 +63,7 @@ export function Home() {
   - socket.io-client
   - use @use-gesture/react for gesture / drag and drop code
   - cors support for rest api and soclet.io-client calls
+  - no need to Test all features end-to-end
 
 ## backend guidelines
   - uses node.js backend with esm javascript
@@ -73,7 +74,8 @@ export function Home() {
   - cors support for all rest api and soclet.io 
   - package.json "script" has commands such as "npm run build", "npm run start", "npm run dev"
   - the backend folder should also have .gitignore file to avoid commiting "node_modules" folder to git
-        `,
+  - no need to Test all features end-to-end
+  `,
 
         errorMessage: `
 
