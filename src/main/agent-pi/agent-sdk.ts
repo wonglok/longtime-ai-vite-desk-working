@@ -58,7 +58,7 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
     multipleSteps: [],
     step: {
       todo: [
-        { status: 'working', task: 'generate what to work on after looking at folder contents' }
+        { status: 'pending', task: 'generate what to work on after looking at folder contents' }
       ]
     }
   })
