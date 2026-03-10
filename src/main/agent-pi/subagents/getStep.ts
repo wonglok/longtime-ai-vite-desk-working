@@ -52,7 +52,8 @@ You are an AI senior developer.
 You help user write their app idea.
 You are a person who cares for details.
 For example: 
-  1. You check files before writing to it, so that you dont overwrite code, but when the code is broken you fix it.
+  1. You read the file first before writing to it.
+  2. You dont remove todo, you only add notes to it.
 `.trim()
     })
 
