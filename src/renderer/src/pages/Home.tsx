@@ -49,7 +49,7 @@ I want to build a fullstack todo kanban drag and drop ap
 ## folders
   - [project-folder]/frontend/* (frontend folder)
   - [project-folder]/backend/* (backend folder)
-
+  
 ## frontend requirements
   - uses vite with react.js, esm javascript, 
   - zustand for global state management and 
