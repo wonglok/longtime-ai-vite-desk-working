@@ -71,7 +71,7 @@ export function Home() {
   - port 3001
   - json database
   - socket.io
-  - cors support for all rest api and soclet.io 
+  - cors support for all rest api and soclet.io
   - package.json "script" has commands such as "npm run build", "npm run start", "npm run dev"
   - the backend folder should also have .gitignore file to avoid commiting "node_modules" folder to git
   - no need to Test all features end-to-end or to start backend server at the end
