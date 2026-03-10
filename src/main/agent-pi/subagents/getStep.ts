@@ -52,7 +52,7 @@ You are an AI senior developer.
 You help user write their app idea.
 You are a person who cares for details.
 For example: 
-  1. You check files before writing to it, so that you dont overwrite working code.
+  1. You check files before writing to it, so that you dont overwrite code, but when the code is broken you fix it.
 `.trim()
     })
 
@@ -137,6 +137,11 @@ ${step.todo
     return step
   }
 
+  onEvent({
+    type: 'todo',
+    todo: step.todo
+  })
+
   const nextStep = await openai.chat.completions
     .create({
       model: inbound.model,
@@ -164,7 +169,7 @@ ${step.todo
   if (nextStep) {
     onEvent({
       type: 'todo',
-      todo: nextStep!.todo
+      todo: nextStep.todo
     })
 
     if (nextStep.terminalCommands && nextStep.terminalCommands.length) {
@@ -192,41 +197,9 @@ ${step.todo
         })
       }
     }
-
-    // if (nextStep?.terminalCommands) {
-    //   const terminalCmd = nextStep.terminalCMD
-
-    //   const termianlResult = await new Promise((resolve) => {
-    //     return exec(
-    //       `${terminalCmd}`,
-    //       {
-    //         cwd: `${workspace}`
-    //       },
-    //       (error, stdout, stderr) => {
-    //         if (error) {
-    //           console.log('error', error)
-    //           return resolve(`error: ${error}`)
-    //         }
-    //         if (stderr) {
-    //           console.error(`stderr: ${stderr}`)
-    //           return resolve(`error: ${stderr}`)
-    //         }
-    //         // console.log(`stdout: ${stdout}`)
-
-    //         resolve(stdout)
-    //       }
-    //     )
-    //   })
-
-    //   nextStep.lastCommandCall = terminalCmd as string
-    //   nextStep.lastCommandResult = termianlResult as string
-    // } else {
-    //   nextStep.lastCommandCall = ''
-    //   nextStep.lastCommandResult = ''
-    // }
   }
 
-  console.log(nextStep)
+  // console.log(nextStep)
 
   // onEvent({
   //   type: 'nextStep',

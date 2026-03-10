@@ -27,22 +27,26 @@ export function TodoManagement() {
 
           return (
             <div
-              className="h-full rounded-2xl pt-3 bg-gray-100 shadow-[#a7a7a7] shadow-inner w-[300px] text-xs overflow-y-scroll"
+              className="h-full rounded-2xl pt-3 bg-gray-100 shadow-[#a7a7a7] shadow-inner w-[300px] text-xs "
               key={`${eStatus}`}
             >
-              <div className={`mx-2 px-2 py-2 text-center ${classy?.title}`}>{eStatus}</div>
-
-              {todos
-                .filter((e) => e.status === eStatus)
-                .map((todo, i) => {
-                  return (
-                    <div className={`m-2 p-2 ${classy.task}`} key={todo.task + i}>
-                      {todo.task}
-                    </div>
-                  )
-                })}
-
-              {/*  */}
+              <div
+                className={`mx-2 px-2 py-2 text-center  flex items-center justify-center text-xl ${classy?.title}`}
+                style={{ height: `50px` }}
+              >
+                {eStatus}
+              </div>
+              <div className="overflow-y-scroll w-full" style={{ height: `calc(100% - 50px)` }}>
+                {todos
+                  .filter((e) => e.status === eStatus)
+                  .map((todo, i) => {
+                    return (
+                      <div className={`m-2 p-2 ${classy.task}`} key={todo.task + i}>
+                        {todo.task}
+                      </div>
+                    )
+                  })}
+              </div>
             </div>
           )
         })}
