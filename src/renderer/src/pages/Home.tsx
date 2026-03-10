@@ -45,24 +45,24 @@ export function Home() {
 
         appSpec: `
 ## app idea
-I want to build a trello style task management app
-- trello style UI drag and drop items
-- with realtime updates using socket.io
-- showing mouse position of each page visitor
+  I want to build a trello style task management app
+  - trello style UI drag and drop items
+  - with realtime updates using socket.io
+  - showing mouse position of each page visitor
 
 ## folders
-  "~/frontend/*" (frontend folder)
-  "~/backend/*" (backend folder)
+  "~/frontend/*" (frontend folder for vite)
+  "~/backend/*" (backend folder for nodejs)
   "~/backend/src/index.js" (backend source code entry point)
   "~/backend/public" (public folder for static assets)
   "~/backend/data" (data folder for json database)
 
 ## frontend guidelines
-- uses vite with react.js, esm javascript 
-- uses tailwindcss
-- socket.io-client
-- use @use-gesture/react for gesture / drag and drop code
-- cors support for rest api and soclet.io-client calls
+  - uses vite with react.js, esm javascript 
+  - uses tailwindcss
+  - socket.io-client
+  - use @use-gesture/react for gesture / drag and drop code
+  - cors support for rest api and soclet.io-client calls
 
 ## backend guidelines
   - uses node.js backend with esm javascript
