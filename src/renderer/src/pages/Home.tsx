@@ -54,7 +54,8 @@ I want to build a fullstack trello style task management app
   - [project-folder]/backend/* (backend folder)
 
 ## frontend development guidelines
-  - uses vite with react.js, esm javascript
+  - uses vite with react.js, esm javascript 
+  - uses tailwindcss
   - zustand for state management
   - socket.io-client
   - use @use-gesture/react for gesture / drag and drop code
