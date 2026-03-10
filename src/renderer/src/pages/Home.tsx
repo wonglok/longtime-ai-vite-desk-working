@@ -52,9 +52,9 @@ I want to build a fullstack trello style task management app
 
 ## app's folders
   - [project-folder]/frontend/* (frontend folder)
+  - [project-folder]/frontend/src/* (frontend source folder)
   - [project-folder]/backend/* (backend folder)
   - [project-folder]/backend/src/* (backend source folder)
-  
 
 ## frontend development guidelines
   - uses vite with react.js, esm javascript 
@@ -80,7 +80,10 @@ I want to build a fullstack trello style task management app
       (stream) => {
         //
         const resp = JSON.parse(stream)
-        console.log(resp)
+
+        // if (resp.type !== 'brain') {
+        //   console.log(resp)
+        // }
 
         if (resp.type === 'messages') {
           setContextMessages(resp.messages || [])

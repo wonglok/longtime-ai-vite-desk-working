@@ -177,40 +177,40 @@ You pick the right task to work on.
           }
         },
         reasoning_effort: 'none',
-        stream: true,
         temperature: 0
       },
       { signal }
     )
     .then(async (response) => {
-      function extractThinkingContent(response: string): string {
-        // // Regex to find content inside <think>...</think>
-        // // 's' flag allows '.' to match newlines
-        // const regex = /<think>(.*?)<\/think>/gs
-        // const match = regex.exec(response)
+      // function extractThinkingContent(response: string): string {
+      //   // // Regex to find content inside <think>...</think>
+      //   // // 's' flag allows '.' to match newlines
+      //   // const regex = /<think>(.*?)<\/think>/gs
+      //   // const match = regex.exec(response)
 
-        // // Return the content if found, otherwise return an empty string
-        // return match ? match[1].trim() : ''
+      //   // // Return the content if found, otherwise return an empty string
+      //   // return match ? match[1].trim() : ''
 
-        let result = response.replace('<think>', '').replace('</think>', '')
+      //   let result = response.replace('<think>', '').replace('</think>', '')
 
-        return result
-      }
+      //   return result
+      // }
 
-      // return JSON.parse(response.choices[0].message.content!) as ExecStep
-      //
-      let tt = ''
-      for await (let event of response) {
-        tt += event.choices[0]?.delta?.content || ''
+      // //
+      // let tt = ''
+      // for await (let event of response) {
+      //   tt += event.choices[0]?.delta?.content || ''
 
-        let extracted = `${extractThinkingContent(`${tt}`.trim())}`.trim()
-        onEvent({ type: 'brain', brain: extracted })
-      }
+      //   let extracted = `${extractThinkingContent(`${tt}`.trim())}`.trim()
+      //   onEvent({ type: 'brain', brain: extracted })
+      // }
 
-      let extracted = `${extractThinkingContent(`${tt}`.trim())}`.trim()
-      // console.log('extracted', extracted)
+      // let extracted = `${extractThinkingContent(`${tt}`.trim())}`.trim()
+      // // console.log('extracted', extracted)
 
-      return JSON.parse(extracted)
+      // return JSON.parse(extracted)
+
+      return JSON.parse(response.choices[0].message.content!) as ExecStep
     })
     .catch((r) => {
       console.error(r)
@@ -251,7 +251,8 @@ You pick the right task to work on.
           }
         )
 
-        console.log('running calls...', each.cmd)
+        console.log('Run Call...', each.cmd)
+        console.log('Result...', (each as any).result)
 
         onEvent({
           type: 'terminalCalls',
