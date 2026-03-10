@@ -40,8 +40,8 @@ export function Home() {
         appSpec: `
 I want to build a todo app.
 
-"[project-folder]/frontend" folder uses vite with reactjs, typescript and socket.io-client 
-"[project-folder]/backend" folder uses node.js backend with typescript, express, json database, socket.io, package.json "script" has commands such as "npm run build", "npm run start", "npm run dev" 
+"[project-folder]/frontend" folder uses vite with reactjs, esm javascript and socket.io-client 
+"[project-folder]/backend" folder uses node.js backend with esm javascript, express, json database, socket.io, package.json "script" has commands such as "npm run build", "npm run start", "npm run dev" 
         `
       },
       (stream) => {
