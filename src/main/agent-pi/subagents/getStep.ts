@@ -6,10 +6,6 @@ import { z } from 'zod'
 const WorkTask = z.object({
   thought: z.string().describe('thought of the agent and the current tasks'),
 
-  // currentThoughts: z
-  //   .string()
-  //   .describe(`Short term thought about the task that i'm currently inprogress on.`),
-
   todo: z
     .array(
       z.object({
@@ -69,8 +65,8 @@ ${step.thought}
       messages.push({
         role: 'user',
         content: `
-# Previous working step
-Previous working step (last 5 working step max):
+# Previous execution history
+(last 5 execution history step):
 ${last5
   .map((each) => {
     return JSON.stringify(each)
@@ -95,7 +91,7 @@ The [project-folder] name is called: ${JSON.stringify(inbound.folder)}
 Here's the app specification:
 ${inbound.appSpec.trim()}
 
-todo:
+## Todo:
 check to see if we need to update todo lists due to updated app specification.
 `.trim()
     })

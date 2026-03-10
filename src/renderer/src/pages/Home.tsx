@@ -42,17 +42,18 @@ export function Home() {
 
         appSpec: `
 ## app idea
-I want to build a fullstack todo kanban drag and drop ap 
+I want to build a fullstack todo task management app
+- trello style drag and drop UI
 - with realtime updates
 - showing mouse position of each page visitor
 
 ## folders
   - [project-folder]/frontend/* (frontend folder)
   - [project-folder]/backend/* (backend folder)
-  
+
 ## frontend requirements
   - uses vite with react.js, esm javascript, 
-  - zustand for global state management and 
+  - zustand for global state management
   - socket.io-client, 
   - cors support for rest api and socletio calls
 
