@@ -84,7 +84,7 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
   await loopRun({
     executionHistory: state.executionHistory || [],
     step: state.nextStep || {
-      memory: `let's get to work.`,
+      thought: `let's get to work.`,
       todo: [],
       terminalCalls: []
     }

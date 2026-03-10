@@ -4,15 +4,11 @@ import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
 import { z } from 'zod'
 
 const WorkTask = z.object({
-  memory: z
-    .string()
-    .describe(
-      'write a memory of task / tood for myself to read again, i output all i need to remember, so that i dont forget.'
-    ),
+  thought: z.string().describe('thought of the agent and the current tasks'),
 
   // currentThoughts: z
   //   .string()
-  //   .describe(`Short term memory about the task that i'm currently inprogress on.`),
+  //   .describe(`Short term thought about the task that i'm currently inprogress on.`),
 
   todo: z
     .array(
@@ -63,8 +59,8 @@ I love helping other poeple (user) to turn their app idea into software.
     messages.push({
       role: 'user',
       content: `
-    here's the latest memory of the agent:
-    ${step.memory}
+    here's the latest thought of the agent:
+    ${step.thought}
     `.trim()
     })
 
@@ -198,7 +194,7 @@ You pick the right task to work on.
               }
               // console.log(`stdout: ${stdout}`)
 
-              resolve(stdout)
+              resolve(`Successful: ${stdout}`)
             }
           )
         })
