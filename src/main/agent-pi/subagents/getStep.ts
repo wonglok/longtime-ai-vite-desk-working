@@ -204,7 +204,7 @@ You pick the right one to work on.
         })
 
         onEvent({
-          type: 'acitons',
+          type: 'actionsToTake',
           actionsToTake: nextStep.actionsToTake
         })
       }
