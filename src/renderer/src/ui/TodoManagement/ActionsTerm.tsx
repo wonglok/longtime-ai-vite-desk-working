@@ -7,14 +7,14 @@ export function ActionsTerm() {
   return (
     <>
       {/*  */}
-      <div className="w-full text-xs gap-4 rounded-2xl ">
+      <div className="w-full mt-2 text-xs gap-2   ">
         {terminalCalls.map((eachAction, idx) => {
           return (
-            <div className="p-2 m-2 border" key={`${eachAction.cmd}${idx}`}>
-              <div className="p-2 bg-gray-100 m-2 border whitespace-pre-wrap">
+            <div className="mb-2 border rounded-2xl" key={`${eachAction.cmd}${idx}`}>
+              <div className="p-2 bg-gray-100 m-2 border rounded-lg whitespace-pre-wrap">
                 {`${eachAction.cmd}`.trim()}
               </div>
-              <div className="p-2 bg-gray-100 m-2 border whitespace-pre-wrap">
+              <div className="p-2 bg-gray-100 m-2 border rounded-lg whitespace-pre-wrap">
                 {`${eachAction.result}`.trim()}
               </div>
             </div>
