@@ -50,21 +50,26 @@ export function Home() {
   - with realtime updates using socket.io
   - showing mouse position of each page visitor
 
-## folders
-  "~/frontend/*" (frontend folder for vite)
-  "~/frontend/src/App.jsx" (Frontend app entry point for App.jsx)
-  "~/backend/*" (backend folder for nodejs)
-  "~/backend/src/index.js" (backend source code entry point)
-  "~/backend/public" (public folder for static assets)
-  "~/backend/data" (data folder for json database)
+## app folders
+  - frontend
+    "~/frontend/*" (Frontend folder)
+    "~/frontend/src/App.jsx" (Frontend app entry point for App.jsx)
+
+  - backend
+    "~/backend/*" (Backend folder for nodejs)
+    "~/backend/src/index.js" (Backend source code entry point)
+    "~/backend/public/*" (Public folder for static assets)
+    "~/backend/data/*" (Data folder for json database)
 
 ## frontend guidelines
   - uses vite with react.js, esm javascript 
+  - port 5174
   - uses tailwindcss
   - socket.io-client
   - use @use-gesture/react for gesture / drag and drop code
-  - cors support for rest api and soclet.io-client calls
+  - cors support for fetch, rest api and soclet.io-client calls
   - no need to start frontend server at the end
+  - npm install
   - in the end, verify app idea is built into frontend code
 
 ## backend guidelines
@@ -73,10 +78,11 @@ export function Home() {
   - port 3001
   - json database with some sample data
   - socket.io
-  - cors support for all rest api and soclet.io
+  - cors support for all rest api response and soclet.io
   - "~/backend/package.json" "script" has commands such as "npm run build", "npm run start", "npm run dev"
   - the backend folder should also have .gitignore file to avoid commiting "node_modules" folder to git
   - no need to start backend server at the end
+  - npm install
   - in the end, verify app idea is built into backend code
 
   `,
