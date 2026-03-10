@@ -47,8 +47,8 @@ export function Home() {
         appSpec: `
 I want to build a todo app.
 
-"[project-folder]/" folder has a package.json with scripts support commands such as: "npm run dev", "npm run build", "npm run start" command
-"[project-folder]/frontend" folder uses vite with reactjs and socket.io-client 
+"[project-folder]/" folder has a package.json with scripts support commands such as: "npm run dev", "npm run build", "npm run start" command that starts both servers
+"[project-folder]/frontend" folder uses vite with reactjs, typescript and socket.io-client 
 "[project-folder]/backend" folder uses node.js backend with esm modules, typescript, express, json database, socket.io, package.json "script" has commands such as { "dev": "nodemon ./server.js",  "start": "node ./server.js" } 
         `
       },

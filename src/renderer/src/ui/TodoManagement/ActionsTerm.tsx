@@ -11,8 +11,8 @@ export function ActionsTerm() {
         {actionsToTake.map((eachAction, idx) => {
           return (
             <div className="p-2 m-2 border" key={`${eachAction.cmd}${idx}`}>
-              <div className="p-1 m-1 border">${eachAction.cmd}</div>
-              <div className="p-1 m-1 border">${eachAction.result}</div>
+              <div className="p-1 m-1 border whitespace-pre-wrap">${eachAction.cmd}</div>
+              <div className="p-1 m-1 border whitespace-pre-wrap">${eachAction.result}</div>
             </div>
           )
         })}
