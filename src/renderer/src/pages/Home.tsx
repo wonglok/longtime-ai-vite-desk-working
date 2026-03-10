@@ -36,7 +36,8 @@ export function Home() {
 
         route: 'runAgent',
 
-        model: `qwen/qwen3.5-35b-a3b`,
+        model: `qwen/qwen3-coder-30b`,
+        // model: `qwen/qwen3.5-35b-a3b`,
 
         folder: `todo-app`,
 
