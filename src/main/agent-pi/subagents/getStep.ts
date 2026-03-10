@@ -6,7 +6,9 @@ import { z } from 'zod'
 const WorkTask = z.object({
   memory: z
     .string()
-    .describe('write a memory for myself to read again, i output memory so that i dont forget.'),
+    .describe(
+      'write a memory of task / tood for myself to read again, i output all i need to remember, so that i dont forget.'
+    ),
 
   // currentThoughts: z
   //   .string()
@@ -14,17 +16,18 @@ const WorkTask = z.object({
 
   todo: z
     .array(
-      z.object({
-        status: z.enum(['pending', 'working', 'completed']),
-        task: z.string()
-      })
+      z
+        .object({
+          status: z.enum(['pending', 'working', 'completed']),
+          task: z.string()
+        })
+        .describe('choose at least one task to work on')
     )
-    .describe('a todo items, mark todo items'),
+    .describe('a detailed todo list'),
 
-  terminalCommands: z.array(
+  actions: z.array(
     z.object({
-      cmd: z.string().describe('the terminal command'),
-      result: z.string().describe('result of the terminal command').optional()
+      cmd: z.string().describe('the terminal command')
     })
   )
 })
@@ -45,8 +48,8 @@ export async function getStep({ multipleSteps, step, workspace, inbound, checkAb
       content: `
 # SOUL and IDENTITY 
 I am a senior developer who loves the bible. 
-I love proverbs in the bible, I have wisdom.
-I help user to turn their app idea into apps.
+I love the bible especially the gospel and the proverbs.
+I love helping other poeple (user) to turn their app idea into software.
 `.trim()
     })
 
@@ -91,18 +94,17 @@ ${inbound.appSpec.trim()}
 `.trim()
     })
 
-    if ((step?.terminalCommands?.length || 0) > 0) {
-      for (let each of step.terminalCommands as { cmd: string; result: string }[]) {
+    if ((step?.actions?.length || 0) > 0) {
+      for (let each of step.actions as { cmd: string; result: string }[]) {
         messages.push({
           role: 'user',
           content: `
 # Terminal Command Action
 Here's the last terminal command:
 ${each.cmd}
-
-Here's the result of it:
+Reult:
 ${each.result}
-`
+`.trim()
         })
       }
     }
@@ -172,11 +174,11 @@ You pick the right one to work on.
       todo: nextStep.todo
     })
 
-    if (nextStep.terminalCommands && nextStep.terminalCommands.length) {
-      for (let terminalCmd of nextStep.terminalCommands) {
-        terminalCmd.result = await new Promise((resolve) => {
+    if (nextStep.actions && nextStep.actions.length) {
+      for (let each of nextStep.actions) {
+        ;(each as { result: string; cmd: string }).result = await new Promise((resolve) => {
           return exec(
-            `${terminalCmd.cmd}`,
+            `${each.cmd}`,
             {
               cwd: `${workspace}`
             },

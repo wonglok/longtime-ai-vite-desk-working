@@ -48,8 +48,8 @@ export function Home() {
 I want to build a todo app.
 
 "[project-folder]/" folder has a package.json with scripts support commands such as: "npm run dev", "npm run build", "npm run start" command
-"[project-folder]/frontend" folder uses astro with reactjs and socket.io-client 
-"[project-folder]/backend" folder uses modules node.js, typescript, express js, json database, socket.io, package.json "script" has commands such as { "dev": "nodemon ./server.js",  "start": "node ./server.js" } 
+"[project-folder]/frontend" folder uses vite with reactjs and socket.io-client 
+"[project-folder]/backend" folder uses node.js backend with esm modules, typescript, express, json database, socket.io, package.json "script" has commands such as { "dev": "nodemon ./server.js",  "start": "node ./server.js" } 
         `
       },
       (stream) => {
