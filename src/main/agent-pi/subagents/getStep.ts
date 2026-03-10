@@ -20,10 +20,12 @@ const WorkTask = z.object({
   terminalCalls: z
     .array(
       z.object({
-        cmd: z.string().describe('current task command line action')
+        cmd: z.string().describe('command in terminal'),
+        reason: z.string().describe('reason of running this command in terminal')
       })
     )
-    .describe('current task command line calls')
+    .describe('terminal commands')
+    .min(1)
 })
 
 export type ExecStep = z.infer<typeof WorkTask>
@@ -99,14 +101,18 @@ check the latest app spec against the current todo list to see if we need to upd
     })
 
     if ((step?.terminalCalls?.length || 0) > 0) {
-      for (let each of step.terminalCalls as { cmd: string; result: string }[]) {
+      for (let each of step.terminalCalls as { reason: string; cmd: string; result: string }[]) {
         messages.push({
           role: 'user',
           content: `
 # Terminal Command & Result
-Here's the terminal command used:
+## Reason of the command:
+${each.reason}
+
+## The terminal command used:
 ${each.cmd}
-Result of command:
+
+## Result of command:
 ${each.result}
 `.trim()
         })
@@ -189,27 +195,29 @@ You pick the right task to work on.
 
     if (nextStep.terminalCalls && nextStep.terminalCalls.length) {
       for (let each of nextStep.terminalCalls) {
-        ;(each as { result: string; cmd: string }).result = await new Promise((resolve) => {
-          return exec(
-            `${each.cmd}`,
-            {
-              cwd: `${workspace}`
-            },
-            (error, stdout, stderr) => {
-              if (error) {
-                console.log('error', error)
-                return resolve(`error: ${error}`)
-              }
-              if (stderr) {
-                console.error(`stderr: ${stderr}`)
-                return resolve(`error: ${stderr}`)
-              }
-              // console.log(`stdout: ${stdout}`)
+        ;(each as { result: string; cmd: string; reason: string }).result = await new Promise(
+          (resolve) => {
+            return exec(
+              `${each.cmd}`,
+              {
+                cwd: `${workspace}`
+              },
+              (error, stdout, stderr) => {
+                if (error) {
+                  console.log('error', error)
+                  return resolve(`error: ${error}`)
+                }
+                if (stderr) {
+                  console.error(`stderr: ${stderr}`)
+                  return resolve(`error: ${stderr}`)
+                }
+                // console.log(`stdout: ${stdout}`)
 
-              resolve(`Successful: ${stdout}`)
-            }
-          )
-        })
+                resolve(`Successful: ${stdout}`)
+              }
+            )
+          }
+        )
 
         console.log('running calls...', each.cmd)
 
