@@ -22,6 +22,50 @@ import { ActionsTerm } from '@renderer/ui/TodoManagement/ActionsTerm'
 import { TodoManagement } from '@renderer/ui/TodoManagement/TodoManagement'
 import { useEffect, useState } from 'react'
 
+// const todo = `
+// ## app idea
+//   - build a todo task management app
+//   - kanban style UI drag and drop items similar to trello
+//   - with realtime updates using socket.io
+//   - showing mouse position of each page visitor
+
+// ## app folders
+//   - frontend
+//     "~/frontend/*" (Frontend folder)
+//     "~/frontend/src/App.jsx" (Frontend app entry point for App.jsx)
+
+//   - backend
+//     "~/backend/*" (Backend folder for nodejs)
+//     "~/backend/src/index.js" (Backend source code entry point)
+//     "~/backend/public/*" (Public folder for static assets)
+//     "~/backend/data/*" (Data folder for json database)
+
+// ## frontend guidelines
+//   - uses vite with react.js, esm javascript
+//   - port 5174
+//   - "npm install axios @tailwindcss/postcss socket.io-client"
+//   - don't use proxy in vite, enable cors for axios for REST APIs calls and soclet.io-client calls
+//   - no need to start frontend server at the end
+//   - in the end, run "npm install"
+//   - in the end, verify app idea is fully implemented in code
+
+// ## backend guidelines
+//   - uses node.js backend with esm javascript
+//   - port 3001
+//   - "npm install express socket.io"
+//   - json database with some sample data
+//   - cors support for all rest api response and soclet.io
+//   - "~/backend/package.json" "script" has commands such as "npm run build", "npm run start", "npm run dev"
+//   - the backend folder should also have .gitignore file to avoid commiting "node_modules" folder to git
+//   - no need to start backend server at the end
+//   - in the end, run "npm install"
+//   - in the end, verify app idea is fully implemented in code
+// `
+
+//
+//
+//
+
 export function Home() {
   //
 
@@ -37,11 +81,14 @@ export function Home() {
 
         route: 'runAgent',
 
-        // model: `qwen/qwen3-coder-30b`,
         model: `qwen/qwen3.5-35b-a3b`,
-        // model: `qwen/qwen3.5-9b`,
 
-        folder: `todo-app`,
+        // model: `qwen/qwen3-coder-30b`,
+        // model: `qwen/qwen3.5-9b`,
+        // model: `qwen/qwen3.5-4b`,
+        // model: `openai/gpt-oss-20b`,
+
+        folder: `reserach-idea`,
 
         soul: `
 # SOUL and IDENTITY 
@@ -50,48 +97,10 @@ I love helping other poeple (user) to turn their app idea into software.
 I love the bible especially the Gospel of Jesus Christ and the book of proverbs.
         `,
         appSpec: `
-## app idea
-  I want to build a todo task management app
-  - kanban style UI drag and drop items similar to trello
-  - with realtime updates using socket.io
-  - showing mouse position of each page visitor
+use playwright to visit effectnode.com and get some inspiration and run it for me.
 
-## app folders
-  - frontend
-    "~/frontend/*" (Frontend folder)
-    "~/frontend/src/App.jsx" (Frontend app entry point for App.jsx)
-
-  - backend
-    "~/backend/*" (Backend folder for nodejs)
-    "~/backend/src/index.js" (Backend source code entry point)
-    "~/backend/public/*" (Public folder for static assets)
-    "~/backend/data/*" (Data folder for json database)
-
-## frontend guidelines
-  - uses vite with react.js, esm javascript 
-  - port 5174
-  - uses @tailwindcss/postcss
-  - socket.io-client
-  - use "@atlaskit/pragmatic-drag-and-drop" for drag and drop code
-  - don't use proxy in vite, cors support for fetch, rest api and soclet.io-client calls
-  - no need to start frontend server at the end
-  - in the end, run "npm install"
-  - in the end, verify app idea is fully implemented in code
-
-## backend guidelines
-  - uses node.js backend with esm javascript
-  - install express
-  - install socket.io
-  - port 3001
-  - json database with some sample data
-  - cors support for all rest api response and soclet.io
-  - "~/backend/package.json" "script" has commands such as "npm run build", "npm run start", "npm run dev"
-  - the backend folder should also have .gitignore file to avoid commiting "node_modules" folder to git
-  - no need to start backend server at the end
-  - in the end, run "npm install"
-  - in the end, verify app idea is fully implemented in code
-
-  `,
+save the run command in package.json so that i can use it again.
+        `,
 
         errorMessage: `
         `

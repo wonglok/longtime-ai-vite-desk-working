@@ -138,7 +138,7 @@ You pick the right task to work on.
       })
     }
 
-    if (inbound.errorMessage) {
+    if (inbound.errorMessage.trim()) {
       messages.push({
         role: 'user',
         content: `
