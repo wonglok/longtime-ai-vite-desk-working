@@ -51,10 +51,11 @@ I want to build a fullstack trello style task management app
 - showing mouse position of each page visitor
 
 ## app's folders
-  - [project-folder]/frontend/* (frontend folder)
-  - [project-folder]/frontend/src/* (frontend source folder)
-  - [project-folder]/backend/* (backend folder)
-  - [project-folder]/backend/src/* (backend source folder)
+  - [project-folder]/frontend/ (frontend folder)
+  - [project-folder]/backend/ (backend folder)
+  - [project-folder]/backend/src/index.js (backend source code entry point)
+  - [project-folder]/backend/public (public folder for static assets)
+  - [project-folder]/backend/data (data folder for json database)
 
 ## frontend development guidelines
   - uses vite with react.js, esm javascript 
@@ -154,9 +155,7 @@ I want to build a fullstack trello style task management app
           <div className="flex">
             <TodoManagement></TodoManagement>
           </div>
-          <div className="w-full">
-            <Brain></Brain>
-          </div>
+          <div className="w-full">{/* <Brain></Brain> */}</div>
 
           <div className="w-full flex">
             <div className="w-2/3">

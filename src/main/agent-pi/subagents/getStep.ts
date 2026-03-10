@@ -182,34 +182,6 @@ You pick the right task to work on.
       { signal }
     )
     .then(async (response) => {
-      // function extractThinkingContent(response: string): string {
-      //   // // Regex to find content inside <think>...</think>
-      //   // // 's' flag allows '.' to match newlines
-      //   // const regex = /<think>(.*?)<\/think>/gs
-      //   // const match = regex.exec(response)
-
-      //   // // Return the content if found, otherwise return an empty string
-      //   // return match ? match[1].trim() : ''
-
-      //   let result = response.replace('<think>', '').replace('</think>', '')
-
-      //   return result
-      // }
-
-      // //
-      // let tt = ''
-      // for await (let event of response) {
-      //   tt += event.choices[0]?.delta?.content || ''
-
-      //   let extracted = `${extractThinkingContent(`${tt}`.trim())}`.trim()
-      //   onEvent({ type: 'brain', brain: extracted })
-      // }
-
-      // let extracted = `${extractThinkingContent(`${tt}`.trim())}`.trim()
-      // // console.log('extracted', extracted)
-
-      // return JSON.parse(extracted)
-
       return JSON.parse(response.choices[0].message.content!) as ExecStep
     })
     .catch((r) => {
