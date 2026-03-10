@@ -5,25 +5,6 @@ export function TodoManagement() {
   const todos = useTM((r) => r.todos)
   const status = useTM((r) => r.status)
 
-  useEffect(() => {
-    // todo
-    {
-      let lastTodo: any = []
-
-      let lastToddoStr = localStorage.getItem('todo')
-      if (typeof lastToddoStr === 'string' && lastToddoStr !== 'null') {
-        try {
-          lastTodo = JSON.parse(lastToddoStr)
-        } catch (e) {
-          console.error(e)
-        }
-
-        useTM.setState({
-          todos: lastTodo
-        })
-      }
-    }
-  }, [])
   return (
     <>
       {/*  */}

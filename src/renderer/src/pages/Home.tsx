@@ -26,22 +26,10 @@ export function Home() {
   let [stopFunc, setStop] = useState<any>(null)
 
   useEffect(() => {
-    let lastMultipleStep: any = []
-    let lastMultipleStepStr = localStorage.getItem('multipleSteps')
-    if (typeof lastMultipleStepStr === 'string' && lastMultipleStepStr !== 'null') {
-      try {
-        lastMultipleStep = JSON.parse(lastMultipleStepStr)
-      } catch (e) {
-        console.error(e)
-      }
-    }
-
     const controller = window.api.askAI(
       {
         baseURL: `http://localhost:1234/v1`,
         apiKey: 'N/A',
-
-        lastMultipleStep: lastMultipleStep,
 
         route: 'runAgent',
 
@@ -61,15 +49,10 @@ I want to build a todo app.
         const resp = JSON.parse(stream)
         console.log(resp)
 
-        if (resp.type === 'multipleSteps') {
-          localStorage.setItem('multipleSteps', JSON.stringify(resp.multipleSteps))
-        }
-
         if (resp.type === 'messages') {
           setContextMessages(resp.messages || [])
         }
         if (resp.type === 'todo') {
-          localStorage.setItem('todo', JSON.stringify(resp.todo))
           useTM.setState({ todos: resp.todo })
         }
         if (resp.type === 'actionsToTake') {
