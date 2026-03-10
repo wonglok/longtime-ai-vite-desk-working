@@ -2,8 +2,6 @@ import { exec } from 'child_process'
 import OpenAI from 'openai'
 import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
 import { z } from 'zod'
-import json2md from 'json2md'
-import { table } from 'console'
 
 const WorkTask = z.object({
   // memory: z
@@ -23,13 +21,19 @@ const WorkTask = z.object({
     )
     .describe('a todo items, mark todo items'),
 
-  terminalCMD: z.string().describe('terminal command').optional()
+  // terminalCMD: z.string().describe('terminal command').optional(),
+
+  terminalCommands: z
+    .array(
+      z.object({
+        cmd: z.string().describe('terminal command').optional(),
+        result: z.string().default('terminal result of the command').optional()
+      })
+    )
+    .optional()
 })
 
-export type ExecStep = z.infer<typeof WorkTask> & {
-  lastCommandResult?: string
-  lastCommandCall?: string
-}
+export type ExecStep = z.infer<typeof WorkTask>
 
 export async function getStep({ multipleSteps, step, workspace, inbound, checkAborted, onEvent }) {
   const openai = new OpenAI({
@@ -46,7 +50,9 @@ export async function getStep({ multipleSteps, step, workspace, inbound, checkAb
 # IDENTITY
 You are an AI senior developer. 
 You help user write their app idea.
-
+You are a person who cares for details.
+For example: 
+  1. You check files before writing to it, so that you dont overwrite working code.
 `.trim()
     })
 
@@ -83,22 +89,19 @@ ${inbound.appSpec.trim()}
 `.trim()
     })
 
-    if (step?.lastCommandCall) {
-      messages.push({
-        role: 'user',
-        content: `
+    if ((step?.terminalCommands?.length || 0) > 0) {
+      for (let each of step.terminalCommands as { cmd: string; result: string }[]) {
+        messages.push({
+          role: 'user',
+          content: `
 Here's the last terminal command:
-${step?.lastCommandCall}`
-      })
-    }
+${each.cmd}
 
-    if (step?.lastCommandResult) {
-      messages.push({
-        role: 'user',
-        content: `
-Here's the last terminal result:
-${step.lastCommandResult}`
-      })
+Here's the result of it:
+${each.result}
+`
+        })
+      }
     }
 
     if (step.todo) {
@@ -164,37 +167,63 @@ ${step.todo
       todo: nextStep!.todo
     })
 
-    if (nextStep?.terminalCMD) {
-      const terminalCmd = nextStep.terminalCMD
+    if (nextStep.terminalCommands && nextStep.terminalCommands.length) {
+      for (let terminalCmd of nextStep.terminalCommands) {
+        terminalCmd.result = await new Promise((resolve) => {
+          return exec(
+            `${terminalCmd.cmd}`,
+            {
+              cwd: `${workspace}`
+            },
+            (error, stdout, stderr) => {
+              if (error) {
+                console.log('error', error)
+                return resolve(`error: ${error}`)
+              }
+              if (stderr) {
+                console.error(`stderr: ${stderr}`)
+                return resolve(`error: ${stderr}`)
+              }
+              // console.log(`stdout: ${stdout}`)
 
-      const termianlResult = await new Promise((resolve) => {
-        return exec(
-          `${terminalCmd}`,
-          {
-            cwd: `${workspace}`
-          },
-          (error, stdout, stderr) => {
-            if (error) {
-              console.log('error', error)
-              return resolve(`error: ${error}`)
+              resolve(stdout)
             }
-            if (stderr) {
-              console.error(`stderr: ${stderr}`)
-              return resolve(`error: ${stderr}`)
-            }
-            // console.log(`stdout: ${stdout}`)
-
-            resolve(stdout)
-          }
-        )
-      })
-
-      nextStep.lastCommandCall = terminalCmd as string
-      nextStep.lastCommandResult = termianlResult as string
-    } else {
-      nextStep.lastCommandCall = ''
-      nextStep.lastCommandResult = ''
+          )
+        })
+      }
     }
+
+    // if (nextStep?.terminalCommands) {
+    //   const terminalCmd = nextStep.terminalCMD
+
+    //   const termianlResult = await new Promise((resolve) => {
+    //     return exec(
+    //       `${terminalCmd}`,
+    //       {
+    //         cwd: `${workspace}`
+    //       },
+    //       (error, stdout, stderr) => {
+    //         if (error) {
+    //           console.log('error', error)
+    //           return resolve(`error: ${error}`)
+    //         }
+    //         if (stderr) {
+    //           console.error(`stderr: ${stderr}`)
+    //           return resolve(`error: ${stderr}`)
+    //         }
+    //         // console.log(`stdout: ${stdout}`)
+
+    //         resolve(stdout)
+    //       }
+    //     )
+    //   })
+
+    //   nextStep.lastCommandCall = terminalCmd as string
+    //   nextStep.lastCommandResult = termianlResult as string
+    // } else {
+    //   nextStep.lastCommandCall = ''
+    //   nextStep.lastCommandResult = ''
+    // }
   }
 
   console.log(nextStep)
