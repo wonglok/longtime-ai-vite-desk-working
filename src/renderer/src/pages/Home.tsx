@@ -16,10 +16,12 @@ import {
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import { useTM } from '@renderer/store/useTM'
+import { TodoManagement } from '@renderer/ui/TodoManagement/TodoManagement'
 import { useEffect, useState } from 'react'
 
 export function Home() {
-  let [messages, setMessages] = useState([])
+  let [messages, setContextMessages] = useState([])
   let [stopFunc, setStop] = useState<any>(null)
 
   // let [workstep, setWorkstep] = useState(null)
@@ -35,44 +37,55 @@ export function Home() {
         baseURL: `http://localhost:1234/v1`,
         apiKey: 'N/A',
 
-        // model: `qwen/qwen3.5-35b-a3b`,
-        model: `qwen3.5-9b`,
+        model: `qwen/qwen3.5-35b-a3b`,
+        // model: `qwen3.5-9b`,
 
         folder: `my-app-001`,
 
         action: 'message',
 
-        appSpec: `I want to build a todo app with kanban ui with collaborative realtime update with drag and drop feature and mouse crusor of each visitor as well
+        appSpec: `
+I want to build a todo app.
 
-frontend uses vite reactjs, "@use-gesture/react"
-backend uses express.js, json db, and socketio with cors support
-          `
+"[project-folder]/" folder has a package.json with scripts support commands such as: "npm run dev", "npm run build", "npm run start" command
+"[project-folder]/frontend" folder uses astro with reactjs and socket.io-client 
+"[project-folder]/backend" folder uses modules node.js, typescript, express js, json database, socket.io, package.json "script" has commands such as { "dev": "nodemon ./server.js",  "start": "node ./server.js" } 
+        `
       },
       (stream) => {
         //
-        const data = JSON.parse(stream)
-        console.log(data)
+        const resp = JSON.parse(stream)
+        console.log(resp)
 
-        // if (data.type === 'workstep') {
-        //   setWorkstep(data.text)
+        //
+
+        // if (resp.type === 'workstep') {
+        //   setWorkstep(resp.text)
         // }
-        // if (data.type === 'side') {
-        //   setSide(data.text)
+        // if (resp.type === 'side') {
+        //   setSide(resp.text)
         // }
-        // if (data.type === 'think') {
-        //   setThink(data.text)
+        // if (resp.type === 'think') {
+        //   setThink(resp.text)
         // }
-        // if (data.type === 'workbox') {
-        //   setWorkbox(data.text)
+        // if (resp.type === 'workbox') {
+        //   setWorkbox(resp.text)
         // }
-        // if (data.type === 'notice') {
-        //   setNotice(data.text)
+        // if (resp.type === 'notice') {
+        //   setNotice(resp.text)
         // }
-        // if (data.type === 'terminal') {
-        //   setTerm(data.text)
+        // if (resp.type === 'terminal') {
+        //   setTerm(resp.text)
         // }
-        if (data.type === 'messages') {
-          setMessages(JSON.parse(data.text))
+
+        //
+
+        if (resp.type === 'messages') {
+          setContextMessages(resp.messages || [])
+        }
+        if (resp.type === 'todo') {
+          console.log(resp.todo)
+          useTM.setState({ todos: resp.todo })
         }
       }
     )
@@ -118,7 +131,9 @@ backend uses express.js, json db, and socketio with cors support
           </div>
         </header>
 
-        <div className="gap-4 p-4 pt-0  h-full">
+        <div className="gap-4 p-4 pt-0 h-full w-full">
+          <TodoManagement></TodoManagement>
+
           <div className="text-xs">
             {messages.map((msg: any, i) => {
               return (
@@ -127,7 +142,10 @@ backend uses express.js, json db, and socketio with cors support
                 </li>
               )
             })}
+
+            {/*  */}
             {/* <pre>{workstep}</pre> */}
+            {/*  */}
           </div>
           <div className="flex h-full">
             {stopFunc && (

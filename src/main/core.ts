@@ -31,14 +31,8 @@ export const setupIPCMain = async ({ ipcMain, mainWindow }) => {
           checkAborted: () => {
             return abortedFlags[randID] === true
           },
-          onEvent: ({ type, text }) => {
-            mainWindow.webContents.send(
-              `askAI-stream${randID}`,
-              JSON.stringify({
-                type: type,
-                text: text
-              })
-            )
+          onEvent: (ev) => {
+            mainWindow.webContents.send(`askAI-stream${randID}`, JSON.stringify(ev))
           }
         })
       }
