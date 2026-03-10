@@ -48,7 +48,7 @@ I want to build a fullstack todo task management app
 - with realtime updates
 - showing mouse position of each page visitor
 
-## folders
+## app's folder stucture
   - [project-folder]/frontend/* (frontend folder)
   - [project-folder]/backend/* (backend folder)
 
