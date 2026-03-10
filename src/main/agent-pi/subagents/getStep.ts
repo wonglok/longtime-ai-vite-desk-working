@@ -141,6 +141,18 @@ You pick the right task to work on.
       })
     }
 
+    if (inbound.errorMessage) {
+      messages.push({
+        role: 'user',
+        content: `
+Here's some debug message from user:
+${inbound.errorMessage}
+
+You pick the right task to work on.
+          `
+      })
+    }
+
     return messages
   }
 

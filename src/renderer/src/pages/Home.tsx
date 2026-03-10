@@ -45,8 +45,8 @@ export function Home() {
 
         appSpec: `
 ## app idea
-  I want to build a trello style task management app
-  - trello style UI drag and drop items
+  I want to build a kanban style task management app
+  - kanban style UI drag and drop items similar to trello
   - with realtime updates using socket.io
   - showing mouse position of each page visitor
 
@@ -63,7 +63,7 @@ export function Home() {
   - socket.io-client
   - use @use-gesture/react for gesture / drag and drop code
   - cors support for rest api and soclet.io-client calls
-  - no need to Test all features end-to-end
+  - no need to Test all features end-to-end or to start frontend server at the end
 
 ## backend guidelines
   - uses node.js backend with esm javascript
@@ -74,11 +74,11 @@ export function Home() {
   - cors support for all rest api and soclet.io 
   - package.json "script" has commands such as "npm run build", "npm run start", "npm run dev"
   - the backend folder should also have .gitignore file to avoid commiting "node_modules" folder to git
-  - no need to Test all features end-to-end
+  - no need to Test all features end-to-end or to start backend server at the end
   `,
 
         errorMessage: `
-
+Warning: NaN is an invalid value for the "left" css style property.
         `
       },
       (stream) => {
