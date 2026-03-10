@@ -103,9 +103,6 @@ I want to build a fullstack todo kanban drag and drop ap
     }
   }, [])
 
-  //
-  //
-
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -128,7 +125,18 @@ I want to build a fullstack todo kanban drag and drop ap
           </div>
         </header>
 
-        <div className="gap-4 p-4 pt-0 h-full w-full">
+        <div className="gap-4 p-4 pt-0 w-full">
+          {stopFunc && (
+            <Button
+              variant={'destructive'}
+              onClick={() => {
+                stopFunc()
+              }}
+            >
+              STOP PROCESS IMMEDIATELY
+            </Button>
+          )}
+
           <TodoManagement></TodoManagement>
           <ActionsTerm></ActionsTerm>
 
@@ -144,32 +152,6 @@ I want to build a fullstack todo kanban drag and drop ap
             {/*  */}
             {/* <pre>{workstep}</pre> */}
             {/*  */}
-          </div>
-          <div className="flex h-full">
-            {stopFunc && (
-              <Button
-                variant={'destructive'}
-                onClick={() => {
-                  stopFunc()
-                }}
-              >
-                STOP
-              </Button>
-            )}
-
-            {/* <div className="w-1/2  h-full">
-              <pre className="text-xs  w-full whitespace-pre-wrap">{notice}</pre>
-              <pre className="text-xs  w-full whitespace-pre-wrap">{think}</pre>
-              <pre className="text-xs  w-full whitespace-pre-wrap">{workbox}</pre>
-              <pre className="text-xs  w-full whitespace-pre-wrap">{terminal}</pre>
-            </div> */}
-            {/* <div className="w-1/2 h-full">
-              <pre className="text-xs  w-full whitespace-pre-wrap">
-                
-
-                <div>{side}</div>
-              </pre>
-            </div> */}
           </div>
         </div>
       </SidebarInset>

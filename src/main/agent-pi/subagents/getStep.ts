@@ -59,8 +59,8 @@ I love helping other poeple (user) to turn their app idea into software.
     messages.push({
       role: 'user',
       content: `
-    here's the latest thought of the agent:
-    ${step.thought}
+here's the latest thought of the agent:
+${step.thought}
     `.trim()
     })
 
@@ -92,8 +92,11 @@ The [project-folder] name is called: ${JSON.stringify(inbound.folder)}
     messages.push({
       role: 'user',
       content: `
-Here's the app idea:
+Here's the app specification:
 ${inbound.appSpec.trim()}
+
+todo:
+check to see if we need to update todo lists due to updated app specification.
 `.trim()
     })
 
