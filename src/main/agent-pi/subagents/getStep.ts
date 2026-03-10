@@ -4,7 +4,9 @@ import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
 import { z } from 'zod'
 
 const WorkTask = z.object({
-  thought: z.string().describe('thought of the agent and the current tasks'),
+  thought: z
+    .string()
+    .describe('thought of the agent and the current tasks for the agent to see again'),
 
   todo: z
     .array(

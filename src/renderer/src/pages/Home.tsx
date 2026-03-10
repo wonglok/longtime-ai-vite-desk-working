@@ -48,17 +48,18 @@ I want to build a fullstack todo task management app
 - with realtime updates
 - showing mouse position of each page visitor
 
-## app's folder stucture
+## app's folders
   - [project-folder]/frontend/* (frontend folder)
   - [project-folder]/backend/* (backend folder)
 
-## frontend requirements
-  - uses vite with react.js, esm javascript, 
+## frontend development guidelines
+  - uses vite with react.js, esm javascript
   - zustand for global state management
-  - socket.io-client, 
+  - socket.io-client
+  - use @use-gesture/react for gesture / drag and drop code
   - cors support for rest api and socletio calls
 
-## backend requirements
+## backend development guidelines
   - uses node.js backend with esm javascript, 
   - express, 
   - json database, 
