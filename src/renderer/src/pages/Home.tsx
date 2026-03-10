@@ -44,6 +44,9 @@ export function Home() {
         folder: `todo-app`,
 
         soul: `
+# SOUL and IDENTITY 
+I am a senior developer.
+I love helping other poeple (user) to turn their app idea into software.
 I love the bible especially the Gospel of Jesus Christ and the book of proverbs.
         `,
         appSpec: `
@@ -69,7 +72,7 @@ I love the bible especially the Gospel of Jesus Christ and the book of proverbs.
   - port 5174
   - uses @tailwindcss/postcss
   - socket.io-client
-  - use @use-gesture/react for gesture / drag and drop code
+  - use "@atlaskit/pragmatic-drag-and-drop" for drag and drop code
   - don't use proxy in vite, cors support for fetch, rest api and soclet.io-client calls
   - no need to start frontend server at the end
   - in the end, run "npm install"

@@ -49,9 +49,6 @@ export async function getStep({
     messages.push({
       role: 'system',
       content: `
-# SOUL and IDENTITY 
-I am a senior developer.
-I love helping other poeple (user) to turn their app idea into software.
 ${inbound.soul}
 `.trim()
     })
