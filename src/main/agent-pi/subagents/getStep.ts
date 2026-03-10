@@ -12,7 +12,7 @@ const WorkTask = z.object({
     .array(
       z.object({
         status: z.enum(['pending', 'in-progress', 'completed']),
-        task: z.string().describe('a task title')
+        task: z.string().describe('task description')
       })
     )
     .describe('a concise and succinct todo list'),
@@ -74,7 +74,6 @@ ${step.thought}
 ${last5
   .map((each) => {
     let cloned = { ...each }
-    delete cloned.todo
 
     return JSON.stringify({
       ...cloned
