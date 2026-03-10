@@ -208,7 +208,7 @@ You pick the right task to work on.
       }
 
       let extracted = `${extractThinkingContent(`${tt}`.trim())}`.trim()
-      console.log('extracted', extracted)
+      // console.log('extracted', extracted)
 
       return JSON.parse(extracted)
     })

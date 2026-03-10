@@ -38,7 +38,8 @@ export function Home() {
         route: 'runAgent',
 
         // model: `qwen/qwen3-coder-30b`,
-        model: `qwen/qwen3.5-35b-a3b`,
+        // model: `qwen/qwen3.5-35b-a3b`,
+        model: `nvidia/nemotron-3-nano`,
 
         folder: `todo-app`,
 
@@ -52,18 +53,19 @@ I want to build a fullstack trello style task management app
 ## app's folders
   - [project-folder]/frontend/* (frontend folder)
   - [project-folder]/backend/* (backend folder)
+  - [project-folder]/backend/src/* (backend source folder)
+  
 
 ## frontend development guidelines
   - uses vite with react.js, esm javascript 
   - uses tailwindcss
-  - zustand for state management
   - socket.io-client
   - use @use-gesture/react for gesture / drag and drop code
   - cors support for rest api and socletio calls
 
 ## backend development guidelines
   - uses node.js backend with esm javascript, 
-  - express, 
+  - express
   - json database, 
   - socket.io, 
   - cors support for all rest and socletio responses, 
