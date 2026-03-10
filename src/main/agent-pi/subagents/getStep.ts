@@ -208,6 +208,10 @@ You pick the right task to work on.
 
     if (nextStep.terminalCalls && nextStep.terminalCalls.length) {
       for (let each of nextStep.terminalCalls) {
+        onEvent({
+          type: 'terminalCalls',
+          terminalCalls: nextStep.terminalCalls
+        })
         ;(each as { result: string; cmd: string; reason: string }).result = await new Promise(
           (resolve) => {
             return exec(
