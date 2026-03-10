@@ -17,6 +17,7 @@ import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { useTM } from '@renderer/store/useTM'
+import { ActionsTerm } from '@renderer/ui/TodoManagement/ActionsTerm'
 import { TodoManagement } from '@renderer/ui/TodoManagement/TodoManagement'
 import { useEffect, useState } from 'react'
 
@@ -37,12 +38,11 @@ export function Home() {
         baseURL: `http://localhost:1234/v1`,
         apiKey: 'N/A',
 
+        route: 'runAgent',
+
         model: `qwen/qwen3.5-35b-a3b`,
-        // model: `qwen3.5-9b`,
 
         folder: `todo-app`,
-
-        action: 'message',
 
         appSpec: `
 I want to build a todo app.
@@ -56,8 +56,6 @@ I want to build a todo app.
         //
         const resp = JSON.parse(stream)
         console.log(resp)
-
-        //
 
         // if (resp.type === 'workstep') {
         //   setWorkstep(resp.text)
@@ -86,6 +84,10 @@ I want to build a todo app.
         if (resp.type === 'todo') {
           console.log(resp.todo)
           useTM.setState({ todos: resp.todo })
+        }
+        if (resp.type === 'actions') {
+          console.log(resp.actions)
+          useTM.setState({ actions: resp.actions })
         }
       }
     )
@@ -133,6 +135,7 @@ I want to build a todo app.
 
         <div className="gap-4 p-4 pt-0 h-full w-full">
           <TodoManagement></TodoManagement>
+          <ActionsTerm></ActionsTerm>
 
           <div className="text-xs">
             {messages.map((msg: any, i) => {

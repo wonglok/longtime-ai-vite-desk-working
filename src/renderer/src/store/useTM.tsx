@@ -1,13 +1,20 @@
 import { create } from 'zustand'
 
-type Todo = {
+export type Todo = {
   task: string
   status: 'pending' | 'working' | 'completed'
 }
+
+export type Action = {
+  cmd: string
+  result: string
+}
+
 const getInit = (set, get) => {
   return {
     //
     //
+    actions: [] as Action[],
     todos: [] as Todo[],
     status: ['pending', 'working', 'completed'] as any[]
     //
@@ -15,6 +22,6 @@ const getInit = (set, get) => {
   }
 }
 
-export type TMState = ReturnType<typeof getInit>
+export type TMState = Awaited<ReturnType<typeof getInit>>
 
 export const useTM = create<TMState>(getInit)

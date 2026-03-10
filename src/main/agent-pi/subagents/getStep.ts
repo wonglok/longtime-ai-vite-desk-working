@@ -204,6 +204,11 @@ You pick the right one to work on.
             console.error(r)
             return `${r}`
           })
+
+        onEvent({
+          type: 'acitons',
+          actions: nextStep.actions
+        })
       }
     }
   }

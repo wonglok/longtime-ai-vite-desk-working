@@ -25,7 +25,7 @@ export const setupIPCMain = async ({ ipcMain, mainWindow }) => {
 
   ipcMain.on('askAI-message', async (event, inbound, randID) => {
     try {
-      if (inbound.action === 'message') {
+      if (inbound.route === 'runAgent') {
         await runAgent({
           inbound,
           checkAborted: () => {
