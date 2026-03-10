@@ -199,6 +199,8 @@ You pick the right task to work on.
           )
         })
 
+        console.log('running calls...', each.cmd)
+
         onEvent({
           type: 'terminalCalls',
           terminalCalls: nextStep.terminalCalls
