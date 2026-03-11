@@ -68,40 +68,17 @@ ${step.thought}
     if (executionHistory) {
       let lastFew = executionHistory.slice().reverse().slice(0, 3).reverse()
 
-      let idx = 0
-      for (let each of lastFew) {
-        messages.push({
-          role: 'user',
-          content: `
-# Previous execution history
-
-## Thought: ${each.thought}
-
-## Todo: (${each.todo.length}): 
-${each.todo
-  .map((todo, idx) => {
-    return `
-- ${idx + 1} [${todo.status}]: ${todo.task} 
-    `.trim()
+      messages.push({
+        role: 'user',
+        content: `
+# Previous execution history (${lastFew.length})
+${lastFew
+  .map((item, idx) => {
+    return `[${idx + 1}]: ${JSON.stringify(item)}`
   })
   .join('\n')}
-
-## Terminal Calls (total: ${each.terminalCalls.length}): 
-${each.terminalCalls
-  .map((tcall, idx) => {
-    return `
-### Terminal Call ${idx + 1}:
-CMD: ${tcall.cmd}
-Reason: ${tcall.reason}
-Result: ${tcall.result}
-    `.trim()
-  })
-  .join('\n')}
-  
-`.trim()
-        })
-        idx++
-      }
+      `.trim()
+      })
     }
 
     messages.push({

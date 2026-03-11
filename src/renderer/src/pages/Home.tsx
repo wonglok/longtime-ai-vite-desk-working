@@ -93,7 +93,7 @@ I love emojis.
   - json-file-db has empty array as default data
   - entry page "[workspace]/src/app/page.tsx"
 
-## Verify
+## Verify Implementation
   - verify all featrues are being implemented correctly
 
 ## Finally when the app is built 
