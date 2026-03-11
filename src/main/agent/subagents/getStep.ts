@@ -27,7 +27,6 @@ const WorkTask = z.object({
       })
     )
     .describe('a list of terminal commands')
-    .min(1)
 })
 
 export type ExecStep = z.infer<typeof WorkTask>
@@ -69,7 +68,8 @@ ${step.thought}
       messages.push({
         role: 'user',
         content: `
-# Previous 3 execution history:
+      
+# Previous (total: ${lastFew.length}) execution history:
 ${lastFew
   .map((each, idx) => {
     return `
@@ -77,18 +77,17 @@ ExecutionID: ${idx + 1}
 
 Thought: ${each.thought}
 
-Previous Terminal Calls: 
+Terminal Calls (total: ${each.terminalCalls.length}): 
 ${each.terminalCalls
-  .map((tcall) => {
+  .map((tcall, idx) => {
     return `
+Terminal Call ${idx + 1}:
 CMD: ${tcall.cmd}
 Reason: ${tcall.reason}
 Result: ${tcall.result}
     `.trim()
   })
-  .join('\n')
-
-  .trim()}`.trim()
+  .join('\n')}`.trim()
   })
   .join('\n\n')}
 
@@ -104,14 +103,16 @@ Only work at the workspace folder: ${JSON.stringify(workspace)}
 The [workspace] name is called: ${JSON.stringify(inbound.folder)}
           `
     })
+    /*
+
+*/
 
     const summary = await scanFolder(workspace)
     messages.push({
       role: 'user',
-      content: `
-## Guideline: MUST write summary of each file
-  - whever we write a .js/.ts/.tsx/.jsx code file, we write a summary at the top of the file like this:
-  "//SUMMARY: [summary of the file...]"
+      content: `## Guideline: MUST write summary of each file
+- whever we write a .js/.ts/.tsx/.jsx code file, we write a summary at the top of the file like this:
+"//SUMMARY: [summary of the file...]"
 
 ${summary}
       `.trim()
