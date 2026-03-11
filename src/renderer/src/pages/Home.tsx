@@ -134,7 +134,7 @@ I love the bible especially the Gospel of Jesus Christ and the book of Proverbs.
 
 
 ## frontend techstack
-  - uses "npm create vite@latest my-react-app -- --template react" with react.js with esm javascript
+  - at "[workspace]" folder run "npm create vite@latest frontend -- --template react" with react.js with esm javascript
   - port 4001
   - "npm install axios @tailwindcss/postcss socket.io-client"
   - enable cors for "axios" for REST APIs calls and "soclet.io-client" calls
