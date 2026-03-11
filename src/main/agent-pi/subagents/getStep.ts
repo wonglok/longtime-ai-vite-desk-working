@@ -92,14 +92,26 @@ The [project-folder] name is called: ${JSON.stringify(inbound.folder)}
           `
     })
 
+    const summary = await scanFolder(workspace)
+    messages.push({
+      role: 'user',
+      content: `
+## Guideline: MUST write summary of each file
+  - whever we write a .js/.ts/.tsx/.jsx code file, we write a summary at the top of the file like this:
+  "//SUMMARY: [summary of the file...]"
+
+${summary}
+      `.trim()
+    })
+
     messages.push({
       role: 'user',
       content: `
 Here's the latest app specification:
 ${inbound.appSpec.trim()}
 
-## Todo:
-check the latest app spec against the current todo list to see if we need to update it todo list.
+## Sync todo list:
+check the latest app spec against the current todo list and current code files to see if we need to update it todo list.
 `.trim()
     })
 
@@ -122,19 +134,6 @@ ${each.result || ''}
         })
       }
     }
-
-    const summary = await scanFolder(workspace)
-    console.log(summary)
-    messages.push({
-      role: 'user',
-      content: `
-## guideline: MUST write summary of each file
-  - whever we write a .js/.ts/.tsx/.jsx code file, we write a summary at the top of the file like this:
-  "//SUMMARY: [summary of the file...]"
-
-${summary}
-      `.trim()
-    })
 
     if (step.todo?.length > 0) {
       messages.push({

@@ -85,10 +85,10 @@ and write the report of screenshots into "report.md"
 
 */
 export function Home() {
-  //
-
   let [messages, setContextMessages] = useState([])
   let [stopFunc, setStop] = useState<any>(null)
+
+  //
 
   useEffect(() => {
     const controller = window.api.askAI(
