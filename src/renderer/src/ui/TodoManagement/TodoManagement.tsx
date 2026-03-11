@@ -27,7 +27,7 @@ export function TodoManagement() {
               task: `bg-amber-400 text-white rounded-lg `
             }
           }
-          let classy = colorStyle[eStatus]
+          let currentColumn = colorStyle[eStatus]
 
           return (
             <div
@@ -35,10 +35,10 @@ export function TodoManagement() {
               key={`${eStatus}`}
             >
               <div
-                className={`mx-2 px-2 py-2 text-center  flex items-center justify-center text-xl ${classy?.title} shadow shadow-[#ffffff]`}
+                className={`mx-2 px-2 py-2 text-center  flex items-center justify-center text-xl ${currentColumn?.title} shadow shadow-[#ffffff]`}
                 style={{ height: `50px` }}
               >
-                {classy.displayName}
+                {currentColumn.displayName}
               </div>
               <div
                 className="overflow-y-scroll w-full rounded-2xl"
@@ -48,7 +48,7 @@ export function TodoManagement() {
                   .filter((e) => e.status === eStatus)
                   .map((todo, i) => {
                     return (
-                      <div className={`m-2 p-2 ${classy.task}`} key={todo.task + i}>
+                      <div className={`m-2 p-2 ${currentColumn.task}`} key={todo.task + i}>
                         {todo.task}
                       </div>
                     )

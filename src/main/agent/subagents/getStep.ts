@@ -8,7 +8,7 @@ const WorkTask = z.object({
   thought: z
     .string()
     .describe(
-      "thoughts related to the agent and the current tasks. It's written for the agent to see again. "
+      "thoughts related of the agent and of the current tasks. It's written for the agent to see again."
     ),
 
   todo: z

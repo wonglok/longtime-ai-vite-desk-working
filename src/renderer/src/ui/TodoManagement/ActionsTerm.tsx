@@ -34,6 +34,7 @@ export function ActionsTerm() {
   const terminalCalls = useTM((r: any) => r.terminalCalls) as Action[]
 
   console.log('terminalCalls', terminalCalls.map((r) => r.cmd).join('\n'))
+
   return (
     <>
       {/* <TerminalController></TerminalController> */}
