@@ -134,10 +134,10 @@ I love the bible especially the Gospel of Jesus Christ and the book of Proverbs.
 
 ## frontend techstack
   - go to "[workspace]" folder run "npm create vite@latest frontend -- --template react" with react.js with esm javascript
-  - port 4001
+  - use port 4001
   - "[workspace]/frontend" (Frontend folder, uses vite)
   - "[workspace]/frontend/src/App.jsx" (Frontend app entry point for App.jsx)
-  - "npm install axios @tailwindcss/postcss tailwindcss @tailwindcss/vite socket.io-client"
+  - "npm install axios tailwindcss @tailwindcss/vite socket.io-client"
   - enable cors for "axios" for REST APIs calls and "soclet.io-client" calls
   - no need to start frontend server at the end
   - must use "axios" with cors instead of fetch
@@ -150,6 +150,9 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [tailwindcss(), react()],
+  server: {
+    port: 4001
+  }
 });
 \`\`\`
   - in the end, run "npm install"
@@ -194,7 +197,6 @@ echo "🎉 app02 is now running! 🎉"
 echo "🌐 Frontend: http://localhost:4001"
 echo "⚙️ Backend: http://localhost:3001"
 echo "📊 Dashboard UI ready for collecting website inspiration!"
-
 \`\`\`
 
 
