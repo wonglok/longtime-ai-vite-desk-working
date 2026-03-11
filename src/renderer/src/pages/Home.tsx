@@ -102,13 +102,13 @@ export function Home() {
         // model: `qwen/qwen3.5-4b`,
         // model: `openai/gpt-oss-20b`,
 
-        folder: `inspiration`,
+        folder: `inspiration-001`,
 
         soul: `
 # SOUL and IDENTITY 
 I am a senior developer.
 I love helping other poeple (user) to turn their app idea into software.
-I love the bible especially the Gospel of Jesus Christ and the book of proverbs.
+I love the bible especially the Gospel of Jesus Christ and the book of Proverbs.
         `,
         appSpec: `
 ## App idea
@@ -117,7 +117,7 @@ I love the bible especially the Gospel of Jesus Christ and the book of proverbs.
 
 ## collect website page using "playwright":
   - set headless to false in playwright
-  - take screenshot into to a folder "~/backend/public/<website.com>/screenshots/*"
+  - take screenshot of the full page into to a folder "~/backend/public/<website.com>/screenshots/*"
   - collect main information in "~/backend/public/<website.com>/json/*"
   - use OpenAI nodejs SDK in npm "openai" to analyse the screenshots and collected json in the folder
   - save the screenshot to analytics
@@ -136,19 +136,20 @@ I love the bible especially the Gospel of Jesus Christ and the book of proverbs.
     "~/backend/*" (Backend folder for nodejs)
     "~/backend/src/index.js" (Backend source code entry point)
     "~/backend/public/*" (Public folder for static assets)
-    "~/backend/public/<website.com>/json" (Public folder for webiste collected json info)
-    "~/backend/public/<website.com>/screenshots" (Public folder for webiste collected screenshots)
+    "~/backend/public/public-data/<website.com>/json" (Public folder for webiste collected json info)
+    "~/backend/public/public-data/<website.com>/screenshots" (Public folder for webiste collected screenshots)
     "~/backend/data/*" (Data folder for json database)
 
 ## frontend guidelines
   - uses vite with react.js, esm javascript
-  - port 5174
+  - port 4001
   - "npm install axios @tailwindcss/postcss socket.io-client"
-  - don't use proxy in vite, enable cors for "axios" for REST APIs calls and "soclet.io-client" calls
+  - Use proxy route"/backend/*" for backend in vite config, enable cors for "axios" for REST APIs calls and "soclet.io-client" calls
   - no need to start frontend server at the end
   - must use "axios" with cors instead of fetch
   - in the end, run "npm install"
   - in the end, verify app idea is fully implemented in code
+  - in the end, generate a copy and paste script for the user to start server with emojis to celebrate the work
 
 ## backend guidelines
   - uses node.js backend with esm javascript
@@ -161,6 +162,7 @@ I love the bible especially the Gospel of Jesus Christ and the book of proverbs.
   - no need to start backend server at the end
   - in the end, run "npm install"
   - in the end, verify app idea is fully implemented in code
+  - in the end, generate a copy and paste script for the user to start server with emojis to celebrate the work
 
 
         `.trim(),

@@ -1,4 +1,34 @@
 import { type Action, useTM } from '@renderer/store/useTM'
+// import { useState } from 'react'
+
+// import Terminal, { ColorMode, TerminalOutput } from 'react-terminal-ui'
+
+// const TerminalController = () => {
+//   const terminalCalls = useTM((r: any) => r.terminalCalls) as Action[]
+
+//   return (
+//     <div className="container">
+//       <Terminal
+//         colorMode={ColorMode.Dark}
+//         // onInput={(terminalInput) => {
+//         //   // console.log(`New terminal input received: '${terminalInput}'`)
+//         // }}
+//       >
+//         {terminalCalls.map((eachAction, idx) => {
+//           return (
+//             <div className="" key={`${eachAction.cmd}${idx}`}>
+//               <TerminalOutput>{`${eachAction.cmd}`.trim()}</TerminalOutput>
+//               <div className="h-4"></div>
+//               <TerminalOutput>
+//                 {`${`${eachAction.result || ''}`.replace('Successful: ', '').replace('Error: ', '')}`.trim()}
+//               </TerminalOutput>
+//             </div>
+//           )
+//         })}
+//       </Terminal>
+//     </div>
+//   )
+// }
 
 export function ActionsTerm() {
   const terminalCalls = useTM((r: any) => r.terminalCalls) as Action[]
@@ -7,6 +37,9 @@ export function ActionsTerm() {
   return (
     <>
       {/*  */}
+
+      {/* <TerminalController></TerminalController> */}
+
       <div className="w-full mt-2 text-xs gap-2   ">
         {terminalCalls.map((eachAction, idx) => {
           return (
@@ -21,8 +54,6 @@ export function ActionsTerm() {
           )
         })}
       </div>
-
-      {/*  */}
     </>
   )
 }

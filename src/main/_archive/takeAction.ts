@@ -1,19 +1,29 @@
 import { Agent } from '@mariozechner/pi-agent-core'
 // import { AllModels } from '../model'
-import { readFileTool } from '../tool/readFileTool'
-import { writeFileTool } from '../tool/writeFileTool'
-import { listFilesTool } from '../tool/listFilesTool'
-import { getModelByInbound } from '../utils/getModel'
+import { readFileTool } from '../agent-pi/tool/readFileTool'
+import { writeFileTool } from '../agent-pi/tool/writeFileTool'
+import { listFilesTool } from '../agent-pi/tool/listFilesTool'
+import { terminal_tool } from '../agent-pi/tool/terminal_tool'
+import { getModelByInbound } from '../agent-pi/utils/getModel'
+import { work_schedule_tool } from '../agent-pi/tool/work_schedule_tool'
 
-export const gatherContext = async ({ workspace, checkAborted, inbound, onEvent }: any) => {
+export const takeAction = async ({ workspace, checkAborted, inbound, onEvent }: any) => {
+  //
+  const schedule = { scheduleWork: false }
+
   const agent = new Agent({
     initialState: {
       thinkingLevel: 'xhigh',
       tools: [
         //
+
         listFilesTool({ workspace: workspace }),
         readFileTool({ workspace: workspace }),
-        writeFileTool({ workspace: workspace })
+        writeFileTool({ workspace: workspace }),
+        terminal_tool({ workspace: workspace }),
+
+        work_schedule_tool({ schedule: schedule })
+        //
       ],
       systemPrompt: `
 You are an AI senior developer.
@@ -48,14 +58,16 @@ The current workspace is: ${workspace}
   })
 
   await agent.prompt(`
-${inbound.appSpec}
-
 Instruction:
 You only work at the workspace:  ${workspace}
 
-You read "todo.md"
-You gather related context information in the workspace.
+You read the "todo.md".
+You choose 2-3 todos to work on.
+You use "terminal_tool" to work on the chosen todos.
+You update "todo.md" by checking the finished todos.
 
-You output a todo list, and write to "todo.md"
+You schedule more work using "work_schedule_tool" if necessary.
 `)
+
+  return schedule
 }
