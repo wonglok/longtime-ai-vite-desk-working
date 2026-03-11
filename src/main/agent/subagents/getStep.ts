@@ -65,21 +65,33 @@ ${step.thought}
 
     if (executionHistory) {
       let lastFew = executionHistory.slice().reverse().slice(0, 3).reverse()
+
       messages.push({
         role: 'user',
         content: `
-# Previous execution history
-(last 3 execution history step):
-
+# Previous 3 execution history:
 ${lastFew
-  .map((each) => {
-    let cloned = { ...each }
+  .map((each, idx) => {
+    return `
+ExecutionID: ${idx + 1}
 
-    return JSON.stringify({
-      ...cloned
-    })
+Thought: ${each.thought}
+
+Previous Terminal Calls: 
+${each.terminalCalls
+  .map((tcall) => {
+    return `
+CMD: ${tcall.cmd}
+Reason: ${tcall.reason}
+Result: ${tcall.result}
+    `.trim()
   })
-  .join('\n')}
+  .join('\n')
+
+  .trim()}`.trim()
+  })
+  .join('\n\n')}
+
           `
       })
     }
@@ -252,7 +264,7 @@ ${inbound.modifyMessage}
                 }
                 // console.log(`stdout: ${stdout}`)
 
-                resolve(`${stdout}`)
+                resolve(`Successful Result: ${stdout}`)
               }
             )
           }
