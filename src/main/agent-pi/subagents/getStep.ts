@@ -150,7 +150,6 @@ ${inbound.errorMessage}
     }
 
     const summary = await scanFolder(workspace)
-
     console.log(summary)
     messages.push({
       role: 'user',

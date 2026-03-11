@@ -43,7 +43,7 @@ async function extractSummaryComments(rootDir) {
           results.push({
             file: path.relative(rootDir, filePath),
             lineNum: i + 1,
-            content: lines[i].trim()
+            content: lines[i].trim().replace('//SUMMARY: ', '')
           })
         }
       }
@@ -59,8 +59,8 @@ async function extractSummaryComments(rootDir) {
 export const scanFolder = async (targetFolder) => {
   return await extractSummaryComments(targetFolder)
     .then((results) => {
-      const csv = `File,Line Number,Summary\n${results
-        .map((r: any) => `"${r.file}",${r.lineNum},"${r.content.replace(/"/g, '""')}"`)
+      const csv = `File,Summary\n${results
+        .map((r: any) => `"~/${r.file}",${JSON.stringify(r.content)}`)
         .join('\n')}`
 
       return `
