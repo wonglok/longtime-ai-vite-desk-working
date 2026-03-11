@@ -106,7 +106,7 @@ export function Home() {
         // model: `qwen/qwen3.5-4b`,
         // model: `openai/gpt-oss-20b`,
 
-        folder: `app03`,
+        folder: `app01`,
 
         soul: `
 # SOUL and IDENTITY 
@@ -122,8 +122,8 @@ I love the bible especially the Gospel of Jesus Christ and the book of Proverbs.
 ## collect website page using "playwright":
   - set "headless" to "false" in playwright
   - set "waitUntil" parameter to "load" in playwright
-  - take screenshot of the full page into to a folder "~/backend/public/public-data/screenshots/*"
-  - collect main information in "~/backend/public/public-data/json/*"
+  - take screenshot of the full page into to a folder "[project-folder]/backend/public/public-data/screenshots/*"
+  - collect main information in "[project-folder]/backend/public/public-data/json/*"
   - use OpenAI nodejs SDK in npm "openai" to analyse the screenshots and collected json in the folder
   - save the screenshot and analytics to a json file, showing the web URL of file and the relative path of "OS folder location" to the json / the screenshot
 
@@ -134,16 +134,16 @@ I love the bible especially the Gospel of Jesus Christ and the book of Proverbs.
 
 ## app folders
   - frontend folder
-    "~/frontend/*" (Frontend folder)
-    "~/frontend/src/App.jsx" (Frontend app entry point for App.jsx)
+    "[project-folder]/frontend/*" (Frontend folder)
+    "[project-folder]/frontend/src/App.jsx" (Frontend app entry point for App.jsx)
 
   - backend folder
-    "~/backend/*" (Backend folder for nodejs)
-    "~/backend/src/index.js" (Backend source code entry point)
-    "~/backend/public/*" (Public folder for static assets)
-    "~/backend/public/public-data/json" (Public folder for webiste collected json info)
-    "~/backend/public/public-data/screenshots" (Public folder for webiste collected screenshots)
-    "~/backend/data/*" (Data folder for json database)
+    "[project-folder]/backend/*" (Backend folder for nodejs)
+    "[project-folder]/backend/src/index.js" (Backend source code entry point)
+    "[project-folder]/backend/public/*" (Public folder for static assets)
+    "[project-folder]/backend/public/public-data/json" (Public folder for webiste collected json info)
+    "[project-folder]/backend/public/public-data/screenshots" (Public folder for webiste collected screenshots)
+    "[project-folder]/backend/data/*" (Data folder for json database)
 
 ## frontend guidelines
   - uses vite with react.js, esm javascript
@@ -159,17 +159,17 @@ I love the bible especially the Gospel of Jesus Christ and the book of Proverbs.
   - uses node.js backend with esm javascript
   - port 3001
   - "npm install express socket.io"
-  - json database with some sample data
+  - json database at "[project-folder]/backend/data/json-db/*"
   - cors support for all rest api response and "soclet.io"
-  - implement "npm run build", "npm run start", "npm run dev" for "~/backend/package.json"
+  - implement "npm run build", "npm run start", "npm run dev" for "[project-folder]/backend/package.json"
   - the backend folder should also have .gitignore file to avoid commiting "node_modules" folder to git
   - no need to start backend server at the end
   - in the end, run "npm install"
   - in the end, verify app idea is fully implemented in code
 
 ## Startup Script
-  - in the end, implement a "~/run.sh" with "chmod +x run.sh". 
-  - run "npm install concurrently --save" at "~/"
+  - in the end, implement a "[project-folder]/run.sh" with "chmod +x run.sh". 
+  - run "npm install concurrently --save" at "[project-folder]/"
   - it starts both frontend backend servers in parallel using "concurrently" in npm
   - the script should output emojis in terminal to celebrate the finished work
   
@@ -177,7 +177,7 @@ I love the bible especially the Gospel of Jesus Christ and the book of Proverbs.
         `.trim(),
 
         modifyMessage: `
-        
+
         
         `,
 
