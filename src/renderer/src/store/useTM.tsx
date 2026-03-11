@@ -2,6 +2,7 @@ import { create } from 'zustand'
 
 export type Todo = {
   task: string
+  active: boolean
   status: 'pending' | 'in-progress' | 'completed'
 }
 

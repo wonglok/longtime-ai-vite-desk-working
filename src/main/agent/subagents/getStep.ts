@@ -5,20 +5,6 @@ import { z } from 'zod'
 import { scanFolder } from '../utils/getSummary'
 
 const WorkTask = z.object({
-  thought: z
-    .string()
-    .describe('thought of the agent and the current tasks for the agent to see again. '),
-
-  todo: z
-    .array(
-      z.object({
-        status: z.enum(['pending', 'in-progress', 'completed']),
-        task: z.string().describe('task description')
-      })
-    )
-    .describe('a todo list')
-    .min(1),
-
   terminalCalls: z
     .array(
       z.object({
@@ -27,6 +13,22 @@ const WorkTask = z.object({
       })
     )
     .describe('a list of terminal commands')
+    .min(3),
+
+  todo: z
+    .array(
+      z.object({
+        active: z.boolean(),
+        status: z.enum(['pending', 'in-progress', 'completed']),
+        task: z.string().describe('task description')
+      })
+    )
+    .describe('a todo list')
+    .min(1),
+
+  thought: z
+    .string()
+    .describe('thought of the agent and the current tasks, written for the agent to see again. ')
 })
 
 export type ExecStep = z.infer<typeof WorkTask>
@@ -74,6 +76,15 @@ ${step.thought}
 
 ## Thought: ${each.thought}
 
+## Todo: (${each.todo.length}): 
+${each.todo
+  .map((todo, idx) => {
+    return `
+- ${idx + 1} [${todo.status}]: ${todo.task} 
+    `.trim()
+  })
+  .join('\n')}
+
 ## Terminal Calls (total: ${each.terminalCalls.length}): 
 ${each.terminalCalls
   .map((tcall, idx) => {
@@ -84,7 +95,9 @@ Reason: ${tcall.reason}
 Result: ${tcall.result}
     `.trim()
   })
-  .join('\n')}`.trim()
+  .join('\n')}
+  
+`.trim()
         })
         idx++
       }
@@ -98,15 +111,12 @@ Only work at the workspace folder: ${JSON.stringify(workspace)}
 The [workspace] name is called: ${JSON.stringify(inbound.folder)}
           `
     })
-    /*
-
-*/
 
     const summary = await scanFolder(workspace)
     messages.push({
       role: 'user',
-      content: `## Guideline: MUST write summary of each file
-- whever we write a .js/.ts/.tsx/.jsx code file, we write a summary at the top of the file like this:
+      content: `# Instruction: MUST write summary of each code file
+- whever you write a .js/.ts/.tsx/.jsx code file, you write a summary at the top of the file like this format:
 "//SUMMARY: [summary of the file...]"
 
 ${summary}
@@ -148,7 +158,7 @@ ${each.result || ''}
       messages.push({
         role: 'user',
         content: `
-Here's todo list:
+Here's the latest todo list:
 ${step.todo
   .map((r) => {
     return `${`[${r.status}]`} ${r.task}`

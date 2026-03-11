@@ -8,6 +8,7 @@ import AIPicker from '@renderer/gui/AIPicker'
 import { Setup } from '@renderer/pages/Setup'
 import { Embeddings } from '@renderer/pages/Embeddings'
 import { Home } from '@renderer/pages/Home'
+import { RecursiveAI } from '@renderer/pages/RecursiveAI'
 
 export const AppRouter = () => (
   <>
@@ -22,6 +23,10 @@ export const AppRouter = () => (
 
       <Route path="/home">
         <Home></Home>
+      </Route>
+
+      <Route path="/recursive-ai">
+        <RecursiveAI></RecursiveAI>
       </Route>
 
       <Route path="/">

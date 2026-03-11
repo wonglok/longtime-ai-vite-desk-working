@@ -46,7 +46,7 @@ export function TodoManagement() {
                   .map((todo, i) => {
                     return (
                       <div className={`m-2 p-2 ${classy.task}`} key={todo.task + i}>
-                        {todo.task}
+                        {todo.task} {todo.active ? `[active]` : ``}
                       </div>
                     )
                   })}

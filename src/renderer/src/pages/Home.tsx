@@ -17,11 +17,11 @@ import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { useTM } from '@renderer/store/useTM'
-import { ActionsTerm } from '@renderer/ui/TodoManagement/ActionsTerm'
 import { ErrorMsg } from '@renderer/ui/TodoManagement/ErrorMsg'
-// import { Brain } from '@renderer/ui/TodoManagement/Brain'
 import { TodoManagement } from '@renderer/ui/TodoManagement/TodoManagement'
 import { useEffect, useState } from 'react'
+// import { ActionsTerm } from '@renderer/ui/TodoManagement/ActionsTerm'
+// import { Brain } from '@renderer/ui/TodoManagement/Brain'
 
 export function Home() {
   let [messages, setContextMessages] = useState([])
@@ -59,12 +59,15 @@ I love emojis.
   - at the top there is a input box of website url with a submit button
   - below tehre is a grid of inpiration posts with thumnails
 
-# Layout: Inspiration Post Page:
-  - title 
+## Layout: Inspiration Post Page:
+  - title (use the website domain as title)
   - image thumbnail
   - detailed findings
 
 ## How does it work: when i enter the url then click submit.
+  - install npm package "playwright" Browser Automation
+  - set "headless" to "false" in playwright
+  - set "waitUntil" parameter to "load" in "playwright"
   - use "playwright" to spin up a browser,
   - navigate to that website
   - take a few screenshots of the full page then save it to a public screenshot folder 
@@ -76,25 +79,26 @@ I love emojis.
   - showing the web URL of file and the relative path of "OS folder location" to the json / the screenshot
   - close or disconnnect the browser in "playwright"
 
-## NextJS TechStack
-  - "npx create-next-app@latest . --tailwind --ts --app --src-dir --webpack --use-npm --yes"
-  - the nextjs uses "app" router in typescript language 
-  - use a json-file-db in "[workspace]/database" folder
-  - json-file-db has empty array as default data
-  - entry page "[workspace]/src/app/page.js"
-
-## Tech Configuration: npm package "playwright" Browser Automation
-  - set "headless" to "false" in playwright
-  - set "waitUntil" parameter to "load" in "playwright"
-
-## Tech Configuration:  npm package: "openai" OpenAI SDK
+## Configuration for OpenAI: npm package: "openai" OpenAI SDK
   - let's use "openai" npm module.
   - the baseURL for openai would be http://localhost:1234/v1
   - use "qwen/qwen3.5-35b-a3b" model
 
-## Instruction: Finally when the app is built 
+## Init the nextjs app
+  - "npx create-next-app@latest . --tailwind --ts --app --src-dir --webpack --use-npm --yes"
+  - install all dependenceis needed by the app
+  - the nextjs uses "app" router in typescript language 
+  - use a json-file-db in "[workspace]/database" folder
+  - json-file-db has empty array as default data
+  - entry page "[workspace]/src/app/page.tsx"
+
+## Verify
+  - verify all featrues are being implemented correctly
+
+## Finally when the app is built 
   - run "npm run i" in the [workspace] folder
-  
+  - run "npm run dev" in the [workspace] folder
+
 `.trim(),
 
         modifyMessage: `
