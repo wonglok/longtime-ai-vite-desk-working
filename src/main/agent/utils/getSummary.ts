@@ -16,6 +16,9 @@ async function extractSummaryComments(rootDir) {
         if (fullPath.includes('node_modules')) {
           continue
         }
+        if (fullPath.includes('.next')) {
+          continue
+        }
 
         if (entry.isDirectory()) {
           await scanDirectory(fullPath) // Recurse into subdirectories
