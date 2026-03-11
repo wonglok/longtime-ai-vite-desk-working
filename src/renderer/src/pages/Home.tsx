@@ -38,7 +38,8 @@ export function Home() {
 
         // model: `qwen/qwen3.5-9b`,
 
-        model: `qwen/qwen3-coder-30b`,
+        model: `qwen/qwen3.5-35b-a3b`,
+        // model: `qwen/qwen3-coder-30b`,
         // model: `qwen/qwen3.5-9b`,
         // model: `qwen/qwen3.5-4b`,
         // model: `openai/gpt-oss-20b`,
@@ -58,21 +59,21 @@ I love emojis.
   - inside "my-app/database/*.json" is the location of the json local database
   - inside "my-app/public/screenshots/*.png" is the location of the screenshots
   - must use --save when it comes to "npm install [package-names] --save"
-  - install playwright
 
-## Home Page:
+## App Idea:
   - at the top there is a input box of website url with a submit button
   - There is a grid of inpiration posts with thumnails
 
   - when user click add website:
+    - use "playwright" to spin up a browser,
     - set "playwright" config "headless" to "false" in playwright
     - set "playwright" config "waitUntil" parameter to "load" in "playwright"
-    - use "playwright" to spin up a browser,
     - navigate to that website
     - take a few screenshots of the full page then save it to "my-app/public/screenshots/" folder 
     - collect main information from the webapge as well
     - use AI to process the collected image info and text info
     - close or disconnnect the browser in "playwright"
+    - npm "openai" sdk uses server: "http://localhost:1234/v1" with model: "qwen/qwen3.5-35b-a3b"
 
 ## Inspiration Post Page:
   - title (use the website domain as title)
