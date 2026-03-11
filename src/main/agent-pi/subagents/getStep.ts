@@ -89,7 +89,7 @@ ${lastFew
       content: `
 # MUST HAVE RULES:
 Only work at the workspace folder: ${JSON.stringify(workspace)}
-The [project-folder] name is called: ${JSON.stringify(inbound.folder)}
+The [workspace] name is called: ${JSON.stringify(inbound.folder)}
           `
     })
 
