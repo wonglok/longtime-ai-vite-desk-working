@@ -2,6 +2,7 @@ import { exec } from 'child_process'
 import OpenAI from 'openai'
 import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
 import { z } from 'zod'
+import { scanFolder } from '../utils/getSummary'
 
 const WorkTask = z.object({
   thought: z
@@ -144,8 +145,29 @@ You pick the right task to work on.
         content: `
 Here's some debug message from user:
 ${inbound.errorMessage}
+          `
+      })
+    }
 
-You pick the right task to work on.
+    const summary = await scanFolder(workspace)
+
+    messages.push({
+      role: 'user',
+      content: `
+## write summary of each file
+  - whever we write a js/ts code file, we write a summary at the top of the file like this:
+  "//SUMMARY: [summary of the file...]"
+
+${summary}
+      `.trim()
+    })
+
+    if ((inbound.modifyMessage || '').trim()) {
+      messages.push({
+        role: 'user',
+        content: `
+Here's a modification message from user:
+${inbound.modifyMessage}
           `
       })
     }
