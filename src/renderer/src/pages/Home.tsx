@@ -22,46 +22,64 @@ import { ActionsTerm } from '@renderer/ui/TodoManagement/ActionsTerm'
 import { TodoManagement } from '@renderer/ui/TodoManagement/TodoManagement'
 import { useEffect, useState } from 'react'
 
-// const todo = `
-// ## app idea
-//   - build a todo task management app
-//   - kanban style UI drag and drop items similar to trello
-//   - with realtime updates using socket.io
-//   - showing mouse position of each page visitor
+/*
 
-// ## app folders
-//   - frontend
-//     "~/frontend/*" (Frontend folder)
-//     "~/frontend/src/App.jsx" (Frontend app entry point for App.jsx)
+## app idea
+  - build a todo task management app
+  - kanban style UI drag and drop items similar to trello
+  - with realtime updates using socket.io
+  - showing mouse position of each page visitor
 
-//   - backend
-//     "~/backend/*" (Backend folder for nodejs)
-//     "~/backend/src/index.js" (Backend source code entry point)
-//     "~/backend/public/*" (Public folder for static assets)
-//     "~/backend/data/*" (Data folder for json database)
+## app folders
+  - frontend
+    "~/frontend/*" (Frontend folder)
+    "~/frontend/src/App.jsx" (Frontend app entry point for App.jsx)
 
-// ## frontend guidelines
-//   - uses vite with react.js, esm javascript
-//   - port 5174
-//   - "npm install axios @tailwindcss/postcss socket.io-client"
-//   - don't use proxy in vite, enable cors for axios for REST APIs calls and soclet.io-client calls
-//   - no need to start frontend server at the end
-//   - in the end, run "npm install"
-//   - in the end, verify app idea is fully implemented in code
+  - backend
+    "~/backend/*" (Backend folder for nodejs)
+    "~/backend/src/index.js" (Backend source code entry point)
+    "~/backend/public/*" (Public folder for static assets)
+    "~/backend/data/*" (Data folder for json database)
 
-// ## backend guidelines
-//   - uses node.js backend with esm javascript
-//   - port 3001
-//   - "npm install express socket.io"
-//   - json database with some sample data
-//   - cors support for all rest api response and soclet.io
-//   - "~/backend/package.json" "script" has commands such as "npm run build", "npm run start", "npm run dev"
-//   - the backend folder should also have .gitignore file to avoid commiting "node_modules" folder to git
-//   - no need to start backend server at the end
-//   - in the end, run "npm install"
-//   - in the end, verify app idea is fully implemented in code
-// `
+## frontend guidelines
+  - uses vite with react.js, esm javascript
+  - port 5174
+  - "npm install axios @tailwindcss/postcss socket.io-client"
+  - don't use proxy in vite, enable cors for axios for REST APIs calls and soclet.io-client calls
+  - no need to start frontend server at the end
+  - in the end, run "npm install"
+  - in the end, verify app idea is fully implemented in code
 
+## backend guidelines
+  - uses node.js backend with esm javascript
+  - port 3001
+  - "npm install express socket.io"
+  - json database with some sample data
+  - cors support for all rest api response and soclet.io
+  - "~/backend/package.json" "script" has commands such as "npm run build", "npm run start", "npm run dev"
+  - the backend folder should also have .gitignore file to avoid commiting "node_modules" folder to git
+  - no need to start backend server at the end
+  - in the end, run "npm install"
+  - in the end, verify app idea is fully implemented in code
+
+*/
+
+/*
+
+write a nodejs script site.js that uses npm package "playwright". install it via npm 
+and then use it to visit effectnode.com 
+and jott down some inspiration 
+and take a few screenshots.
+and read the screenshots and then save the data inside "content" folder.
+
+let's use "openai" npm module.
+the baseURL for openai would be http://localhost:1234/v1
+use model "qwen/qwen3.5-35b-a3b" model
+
+Analyse the "content" folder text file / json file / images with OpenAI SDK 
+and write the report of screenshots into "report.md"
+
+*/
 export function Home() {
   //
 
@@ -84,7 +102,7 @@ export function Home() {
         // model: `qwen/qwen3.5-4b`,
         // model: `openai/gpt-oss-20b`,
 
-        folder: `browser`,
+        folder: `inspiration`,
 
         soul: `
 # SOUL and IDENTITY 
@@ -93,19 +111,59 @@ I love helping other poeple (user) to turn their app idea into software.
 I love the bible especially the Gospel of Jesus Christ and the book of proverbs.
         `,
         appSpec: `
-write a nodejs script site.js that uses npm package "playwright". install it via npm 
-and then use it to visit effectnode.com 
-and jott down some inspiration 
-and take a few screenshots.
-and read the screenshots and then save the data inside "content" folder.
+## App idea
+  - build a fullstack app to collect inspiration from websites
+  - have a dashboard ui
 
-let's use "openai" npm module.
-the baseURL for openai would be http://localhost:1234/v1
-use model "qwen/qwen3.5-35b-a3b" model
+## collect website page using "playwright":
+  - set headless to false in playwright
+  - take screenshot into to a folder "~/backend/public/<website.com>/screenshots/*"
+  - collect main information in "~/backend/public/<website.com>/json/*"
+  - use OpenAI nodejs SDK in npm "openai" to analyse the screenshots and collected json in the folder
+  - save the screenshot to analytics
 
-Analyse the "content" folder text file / json file / images with OpenAI SDK 
-and write the report of screenshots into "report.md"
-        `,
+## How to configure OpenAI SDK npm moudle: "openai" 
+  let's use "openai" npm module.
+  the baseURL for openai would be http://localhost:1234/v1
+  use "qwen/qwen3.5-35b-a3b" model
+
+## app folders
+  - frontend folder
+    "~/frontend/*" (Frontend folder)
+    "~/frontend/src/App.jsx" (Frontend app entry point for App.jsx)
+
+  - backend folder
+    "~/backend/*" (Backend folder for nodejs)
+    "~/backend/src/index.js" (Backend source code entry point)
+    "~/backend/public/*" (Public folder for static assets)
+    "~/backend/public/<website.com>/json" (Public folder for webiste collected json info)
+    "~/backend/public/<website.com>/screenshots" (Public folder for webiste collected screenshots)
+    "~/backend/data/*" (Data folder for json database)
+
+## frontend guidelines
+  - uses vite with react.js, esm javascript
+  - port 5174
+  - "npm install axios @tailwindcss/postcss socket.io-client"
+  - don't use proxy in vite, enable cors for "axios" for REST APIs calls and "soclet.io-client" calls
+  - no need to start frontend server at the end
+  - must use "axios" with cors instead of fetch
+  - in the end, run "npm install"
+  - in the end, verify app idea is fully implemented in code
+
+## backend guidelines
+  - uses node.js backend with esm javascript
+  - port 3001
+  - "npm install express socket.io"
+  - json database with some sample data
+  - cors support for all rest api response and "soclet.io"
+  - implement "npm run build", "npm run start", "npm run dev" for "~/backend/package.json"
+  - the backend folder should also have .gitignore file to avoid commiting "node_modules" folder to git
+  - no need to start backend server at the end
+  - in the end, run "npm install"
+  - in the end, verify app idea is fully implemented in code
+
+
+        `.trim(),
 
         errorMessage: `
         `
