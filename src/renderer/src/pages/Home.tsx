@@ -106,7 +106,7 @@ export function Home() {
         // model: `qwen/qwen3.5-4b`,
         // model: `openai/gpt-oss-20b`,
 
-        folder: `app01`,
+        folder: `app02`,
 
         soul: `
 # SOUL and IDENTITY 
@@ -146,7 +146,7 @@ I love the bible especially the Gospel of Jesus Christ and the book of Proverbs.
     "[project-folder]/backend/data/*" (Data folder for json database)
 
 ## frontend guidelines
-  - uses vite with react.js, esm javascript
+  - uses vite with react.js with esm javascript
   - port 4001
   - "npm install axios @tailwindcss/postcss socket.io-client"
   - enable cors for "axios" for REST APIs calls and "soclet.io-client" calls
