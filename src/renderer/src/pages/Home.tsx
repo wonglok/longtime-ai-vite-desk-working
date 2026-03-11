@@ -175,9 +175,27 @@ export default defineConfig({
 
 ## Startup Script
   - in the end, implement a "[workspace]/run.sh" with "chmod +x run.sh". 
-  - run "npm install concurrently --save" at "[workspace]/"
-  - it starts both frontend backend servers in parallel using "concurrently" in npm
-  - the script should output emojis in terminal to celebrate the finished work
+\`\`\`
+#!/bin/bash
+
+echo "🚀 Starting app02 - Website Inspiration Collector..."
+echo "========================================="
+
+# Start both frontend and backend servers in parallel using concurrently
+npx concurrently \\
+  --names "FRONTEND,BACKEND" \\
+  --prefix-colors "bgBlue.bold,bgGreen.bold" \\
+  --kill-others-on-fail \\
+  "cd frontend; npm run dev" \\
+  "cd backend; npm run dev"
+
+echo "========================================="
+echo "🎉 app02 is now running! 🎉"
+echo "🌐 Frontend: http://localhost:4001"
+echo "⚙️ Backend: http://localhost:3001"
+echo "📊 Dashboard UI ready for collecting website inspiration!"
+
+\`\`\`
 
 
         `.trim(),
