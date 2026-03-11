@@ -12,14 +12,17 @@ export function TodoManagement() {
         {status.map((eStatus) => {
           let colorStyle = {
             pending: {
+              displayName: 'Pending Task',
               title: `bg-blue-500 text-white rounded-lg `,
               task: `bg-blue-400 text-white rounded-lg `
             },
-            ['activated']: {
+            ['active']: {
+              displayName: 'Active',
               title: `bg-green-500 text-white rounded-lg `,
               task: `bg-green-400 text-white rounded-lg `
             },
             completed: {
+              displayName: 'Completed',
               title: `bg-amber-500 text-white rounded-lg `,
               task: `bg-amber-400 text-white rounded-lg `
             }
@@ -35,7 +38,7 @@ export function TodoManagement() {
                 className={`mx-2 px-2 py-2 text-center  flex items-center justify-center text-xl ${classy?.title} shadow shadow-[#ffffff]`}
                 style={{ height: `50px` }}
               >
-                {eStatus}
+                {classy.displayName}
               </div>
               <div
                 className="overflow-y-scroll w-full rounded-2xl"
@@ -46,7 +49,7 @@ export function TodoManagement() {
                   .map((todo, i) => {
                     return (
                       <div className={`m-2 p-2 ${classy.task}`} key={todo.task + i}>
-                        {todo.task} {todo.active ? `[active]` : ``}
+                        {todo.task}
                       </div>
                     )
                   })}

@@ -2,8 +2,8 @@ import { create } from 'zustand'
 
 export type Todo = {
   task: string
-  active: boolean
-  status: 'pending' | 'completed'
+  // active: boolean
+  status: 'pending' | 'active' | 'completed'
 }
 
 export type Action = {
@@ -19,7 +19,7 @@ const getInit = (set, get) => {
     brain: '' as string,
     terminalCalls: [] as Action[],
     todos: [] as Todo[],
-    status: ['pending', 'completed'] as any[]
+    status: ['pending', 'active', 'completed'] as any[]
     //
     //
   }

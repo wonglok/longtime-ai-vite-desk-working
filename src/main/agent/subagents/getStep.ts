@@ -5,6 +5,22 @@ import { z } from 'zod'
 import { scanFolder } from '../utils/getSummary'
 
 const WorkTask = z.object({
+  thought: z
+    .string()
+    .describe(
+      "thoughts related to the agent and the current tasks. It's written for the agent to see again. "
+    ),
+
+  todo: z
+    .array(
+      z.object({
+        status: z.enum(['pending', 'active', 'completed']),
+        task: z.string().describe('task description')
+      })
+    )
+    .describe('a todo list')
+    .min(1),
+
   terminalCalls: z
     .array(
       z.object({
@@ -13,22 +29,7 @@ const WorkTask = z.object({
       })
     )
     .describe('a list of terminal commands')
-    .min(3),
-
-  todo: z
-    .array(
-      z.object({
-        active: z.boolean(),
-        status: z.enum(['pending', 'completed']),
-        task: z.string().describe('task description')
-      })
-    )
-    .describe('a todo list')
-    .min(1),
-
-  thought: z
-    .string()
-    .describe('thought of the agent and the current tasks, written for the agent to see again. ')
+    .min(1)
 })
 
 export type ExecStep = z.infer<typeof WorkTask>
@@ -109,7 +110,7 @@ Result: ${tcall.result}
 # MUST HAVE RULES:
 Only work at the workspace folder: ${JSON.stringify(workspace)}
 The [workspace] name is called: ${JSON.stringify(inbound.folder)}
-          `
+      `
     })
 
     const summary = await scanFolder(workspace)

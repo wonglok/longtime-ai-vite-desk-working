@@ -26,13 +26,11 @@ export const runAgent = async ({ checkAborted, onEvent, inbound, randID }) => {
     executionHistory: ExecStep[]
     step: ExecStep
   }) => {
-    //
-    if (checkAborted()) {
-      return
-    }
-
     if (FailCounter[randID] >= 50) {
       onEvent({ type: 'error', error: 'Failed too many times.' })
+      return
+    }
+    if (checkAborted()) {
       return
     }
 
