@@ -5,7 +5,10 @@ import { writeFile } from 'fs/promises'
 import path from 'path'
 import { readFile } from 'fs/promises'
 
-export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
+const FailCounter = {}
+export const runAgent = async ({ checkAborted, onEvent, inbound, randID }) => {
+  FailCounter[randID] = FailCounter[randID] || 0
+
   const docs = app.getPath('documents')
   const workspace = `${docs}/ai-home/${inbound.folder}`
   await makeDirectory(workspace)
@@ -41,7 +44,13 @@ export const runAgent = async ({ checkAborted, onEvent, inbound }) => {
       }
     })
 
+    if (FailCounter[randID] >= 50) {
+      onEvent({ type: 'error', error: 'Failed too many times.' })
+      return
+    }
+
     if (!nextStep) {
+      FailCounter[randID] = FailCounter[randID] + 1
       return await loopRun({ executionHistory, step: step })
     }
 

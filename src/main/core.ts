@@ -29,6 +29,7 @@ export const setupIPCMain = async ({ ipcMain, mainWindow }) => {
       if (inbound.route === 'runAgent') {
         await runAgent({
           inbound,
+          randID,
           checkAborted: () => {
             return abortedFlags[randID]
           },

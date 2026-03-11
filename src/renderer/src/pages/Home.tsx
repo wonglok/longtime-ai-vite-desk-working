@@ -18,9 +18,13 @@ import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { useTM } from '@renderer/store/useTM'
 import { ActionsTerm } from '@renderer/ui/TodoManagement/ActionsTerm'
+import { ErrorMsg } from '@renderer/ui/TodoManagement/ErrorMsg'
 // import { Brain } from '@renderer/ui/TodoManagement/Brain'
 import { TodoManagement } from '@renderer/ui/TodoManagement/TodoManagement'
 import { useEffect, useState } from 'react'
+
+/*
+ */
 
 /*
 
@@ -102,7 +106,7 @@ export function Home() {
         // model: `qwen/qwen3.5-4b`,
         // model: `openai/gpt-oss-20b`,
 
-        folder: `inspiration-001`,
+        folder: `app-1`,
 
         soul: `
 # SOUL and IDENTITY 
@@ -117,15 +121,19 @@ I love the bible especially the Gospel of Jesus Christ and the book of Proverbs.
 
 ## collect website page using "playwright":
   - set headless to false in playwright
+  - set waitUntil paramter to "load"
   - take screenshot of the full page into to a folder "~/backend/public/<website.com>/screenshots/*"
   - collect main information in "~/backend/public/<website.com>/json/*"
   - use OpenAI nodejs SDK in npm "openai" to analyse the screenshots and collected json in the folder
-  - save the screenshot to analytics
+  - save the screenshot and analytics to a json file, showing the web URL of file and the relative path of "OS folder location" to the json / the screenshot
 
 ## How to configure OpenAI SDK npm moudle: "openai" 
   let's use "openai" npm module.
   the baseURL for openai would be http://localhost:1234/v1
   use "qwen/qwen3.5-35b-a3b" model
+
+## Launcher Script
+  implement a nodejs script "~/run.sh" with "chmod +x run.sh", it includes insalling dependenciess for frontend & backend, "npm init -y; npm install concurrently" and starting both frontend backend servers in parallel using "concurrently" in npm
 
 ## app folders
   - frontend folder
@@ -144,7 +152,7 @@ I love the bible especially the Gospel of Jesus Christ and the book of Proverbs.
   - uses vite with react.js, esm javascript
   - port 4001
   - "npm install axios @tailwindcss/postcss socket.io-client"
-  - Use proxy route"/backend/*" for backend in vite config, enable cors for "axios" for REST APIs calls and "soclet.io-client" calls
+  - enable cors for "axios" for REST APIs calls and "soclet.io-client" calls
   - no need to start frontend server at the end
   - must use "axios" with cors instead of fetch
   - in the end, run "npm install"
@@ -183,6 +191,9 @@ I love the bible especially the Gospel of Jesus Christ and the book of Proverbs.
         }
         if (resp.type === 'todo') {
           useTM.setState({ todos: resp.todo })
+        }
+        if (resp.type === 'error') {
+          useTM.setState({ error: resp.error })
         }
         if (resp.type === 'brain') {
           useTM.setState({ brain: resp.brain })
@@ -233,16 +244,19 @@ I love the bible especially the Gospel of Jesus Christ and the book of Proverbs.
         </header>
 
         <div className="gap-4 p-4 pt-0 w-full">
-          {stopFunc && (
-            <Button
-              variant={'destructive'}
-              onClick={() => {
-                stopFunc()
-              }}
-            >
-              STOP PROCESS IMMEDIATELY
-            </Button>
-          )}
+          <div>
+            {stopFunc && (
+              <Button
+                variant={'destructive'}
+                onClick={() => {
+                  stopFunc()
+                }}
+              >
+                STOP PROCESS IMMEDIATELY
+              </Button>
+            )}
+            {<ErrorMsg></ErrorMsg>}
+          </div>
 
           <div className="flex">
             <TodoManagement></TodoManagement>

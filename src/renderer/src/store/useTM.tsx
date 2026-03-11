@@ -14,6 +14,7 @@ const getInit = (set, get) => {
   return {
     //
     //
+    error: '' as string,
     brain: '' as string,
     terminalCalls: [] as Action[],
     todos: [] as Todo[],
