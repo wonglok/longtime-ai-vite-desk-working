@@ -52,28 +52,29 @@ export function Home() {
 I am a senior developer.
 I love helping other poeple (user) to turn their app idea into software.
 I love the bible especially the Gospel of Jesus Christ and the book of Proverbs.
+I love emojis.
         `,
         appSpec: `
-## App Idea: Overall Intro
+## Idea: Overall Intro
   - build an app to collect inspiration from websites
   - it has a dashboard ui to show a grid of different inspiration with thumbnails
   - when i click it it shows a detailed page
 
-## App Idea: How to add inspiration 
+## Idea: How to add inspiration 
   - input box to 
   - npm i playwright --save
   - create a new inspiration entry with inspireID in jsondb. 
   - use "playwright" to spin up a browser, set "headless" to "false" in playwright, set "waitUntil" parameter to "load" in "playwright"
   - navigate to that website
   - take a few screenshots of the full page into to a folder "[workspace]/public/public-data/screenshots/[inspireID]/*"
-  - collect main information in "[workspace]/public/public-data/json/[inspireID]/*"
+  - collect main information from the webapge as well
 
-## App Idea:Analyse the information collected 
+## Idea: Analyse the information collected 
   - use OpenAI NodeJS SDK in npm "openai" to analyse the screenshots and collected json in the folder
   - showing the web URL of file and the relative path of "OS folder location" to the json / the screenshot
   - close or disconnnect the browser in "playwright"
 
-## App Idea: Feature of using OpenAI SDK npm moudle: "openai" 
+## AI Configuration: Feature of using OpenAI SDK npm moudle: "openai" 
   - let's use "openai" npm module.
   - the baseURL for openai would be http://localhost:1234/v1
   - use "qwen/qwen3.5-35b-a3b" model
@@ -86,9 +87,9 @@ I love the bible especially the Gospel of Jesus Christ and the book of Proverbs.
   - entry page "[workspace]/src/app/page.js"
 
 ## Instruction: Finally 
-- run "npm run i" in the [workspace] folder
-
-  `.trim(),
+  - run "npm run i" in the [workspace] folder
+  
+`.trim(),
 
         modifyMessage: `
 

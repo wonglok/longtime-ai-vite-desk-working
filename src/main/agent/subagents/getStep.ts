@@ -73,11 +73,11 @@ ${step.thought}
 ${lastFew
   .map((each, idx) => {
     return `
-ExecutionID: ${idx + 1}
+# ExecutionID: ${idx + 1}
 
-Thought: ${each.thought}
+## Thought: ${each.thought}
 
-Terminal Calls (total: ${each.terminalCalls.length}): 
+## Terminal Calls (total: ${each.terminalCalls.length}): 
 ${each.terminalCalls
   .map((tcall, idx) => {
     return `

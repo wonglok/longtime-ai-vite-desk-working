@@ -27,6 +27,8 @@ export const setupIPCMain = async ({ ipcMain, mainWindow }) => {
   ipcMain.on('askAI-message', async (event, inbound, randID) => {
     try {
       if (inbound.route === 'runAgent') {
+        //
+
         await runAgent({
           inbound,
           randID,
