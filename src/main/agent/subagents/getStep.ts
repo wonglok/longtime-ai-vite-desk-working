@@ -113,7 +113,12 @@ check the latest app spec against the current todo list and current code files t
     })
 
     if ((step?.terminalCalls?.length || 0) > 0) {
-      for (let each of step.terminalCalls as { reason: string; cmd: string; result: string }[]) {
+      for (let each of step.terminalCalls as {
+        reason: string
+        cmd: string
+        result: string
+        successful: boolean
+      }[]) {
         messages.push({
           role: 'user',
           content: `
@@ -124,6 +129,9 @@ ${each.cmd || ''}
 
 ## Reason of running this command:
 ${each.reason || ''}
+
+## Status of command result:
+${each.successful ? `Successful` : `Failed`}
 
 ## Result of command:
 ${each.result || ''}
@@ -226,36 +234,32 @@ ${inbound.modifyMessage}
 
     if (nextStep.terminalCalls && nextStep.terminalCalls.length) {
       for (let each of nextStep.terminalCalls) {
-        onEvent({
-          type: 'terminalCalls',
-          terminalCalls: nextStep.terminalCalls
-        })
-        ;(each as { result: string; cmd: string; reason: string }).result = await new Promise(
-          (resolve) => {
-            return exec(
-              `${each.cmd}`,
-              {
-                cwd: `${workspace}`
-              },
-              (error, stdout, stderr) => {
-                if (error) {
-                  console.log('error', error)
-                  return resolve(`error: ${error}`)
-                }
-                if (stderr) {
-                  console.error(`stderr: ${stderr}`)
-                  return resolve(`error: ${stderr}`)
-                }
-                // console.log(`stdout: ${stdout}`)
-
-                resolve(`Successful Result: ${stdout}`)
+        let res: any = await new Promise((resolve) => {
+          return exec(
+            `${each.cmd}`,
+            {
+              cwd: `${workspace}`
+            },
+            (error, stdout, stderr) => {
+              if (error) {
+                console.log('error', error)
+                return resolve({ successful: false, result: `${stderr}` })
               }
-            )
-          }
-        )
+              if (stderr) {
+                console.error(`error: ${stderr}`)
+                return resolve({ successful: false, result: `${stderr}` })
+              }
 
-        console.log('Run Call...', each.cmd)
-        console.log('Result...', (each as any).result)
+              resolve({ successful: true, result: `${stdout}` })
+            }
+          )
+        })
+
+        ;(each as any).successful = res.successful
+        ;(each as any).result = res.result
+
+        console.log(each.cmd)
+        console.log((each as any).result)
 
         onEvent({
           type: 'terminalCalls',

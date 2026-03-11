@@ -80,8 +80,8 @@ I love emojis.
   - detailed findings
 
 ## Finally when the app is built 
-  - run "npm run i --save" in the [workspace] folder
-  - run "npm run dev" in the [workspace] folder
+  - run "npm run i --save" in the "my-app" folder
+  - run "npm run dev" in the "my-app" folder
 
 `.trim(),
 
