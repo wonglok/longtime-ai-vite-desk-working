@@ -175,7 +175,10 @@ export default defineConfig({
   - no need to start backend server at the end
 
 # In the end: 
-  - in the end, verify app idea is fully implemented in frontend and backend code
+
+## Verify Development:
+  - in the end, verify app idea is fully implemented in frontend code
+  - in the end, verify app idea is fully implemented in backend code
 
 ## Startup Script
   - in the end, implement a "npm run dev" in "[workspace]/package.json" to start frontend backend servers easily.
