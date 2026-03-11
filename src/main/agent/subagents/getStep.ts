@@ -252,7 +252,7 @@ ${inbound.modifyMessage}
                 }
                 // console.log(`stdout: ${stdout}`)
 
-                resolve(`Successful: ${stdout}`)
+                resolve(`${stdout}`)
               }
             )
           }
