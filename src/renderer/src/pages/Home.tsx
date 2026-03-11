@@ -80,9 +80,8 @@ I love emojis.
   - close or disconnnect the browser in "playwright"
 
 ## Configuration for OpenAI: npm package: "openai" OpenAI SDK
-  - let's use "openai" npm module.
-  - the baseURL for openai would be http://localhost:1234/v1
-  - use "qwen/qwen3-coder-30b" model
+  - the "baseURL" for "openai" would be "http://localhost:1234/v1"
+  - the "model" for "openai" would be "qwen/qwen3-coder-30b" 
 
 ## Init the nextjs app
   - "npx create-next-app@latest --tailwind --ts --app --src-dir --webpack --use-npm --yes"
