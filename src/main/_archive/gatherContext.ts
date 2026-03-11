@@ -1,9 +1,9 @@
 import { Agent } from '@mariozechner/pi-agent-core'
 // import { AllModels } from '../model'
-import { readFileTool } from '../agent-pi/tool/readFileTool'
-import { writeFileTool } from '../agent-pi/tool/writeFileTool'
-import { listFilesTool } from '../agent-pi/tool/listFilesTool'
-import { getModelByInbound } from '../agent-pi/utils/getModel'
+import { readFileTool } from './tool/readFileTool'
+import { writeFileTool } from './tool/writeFileTool'
+import { listFilesTool } from './tool/listFilesTool'
+import { getModelByInbound } from './getModel'
 
 export const gatherContext = async ({ workspace, checkAborted, inbound, onEvent }: any) => {
   const agent = new Agent({

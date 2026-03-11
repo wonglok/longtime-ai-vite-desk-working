@@ -4,7 +4,7 @@
 // import { processPromptRequest } from './tools/processStack'
 // import { prepToolListFiles } from './tools/fsTools'
 
-import { runAgent } from './agent-pi/agent-sdk'
+import { runAgent } from './agent/agent-sdk'
 
 // import { utilityProcess, MessageChannelMain } from 'electron'
 // import { runAgent } from './agent-pi/runAgent'
