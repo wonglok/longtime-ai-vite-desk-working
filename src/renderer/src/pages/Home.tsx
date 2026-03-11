@@ -27,8 +27,6 @@ export function Home() {
   let [messages, setContextMessages] = useState([])
   let [stopFunc, setStop] = useState<any>(null)
 
-  //
-
   useEffect(() => {
     const controller = window.api.askAI(
       {
@@ -45,7 +43,7 @@ export function Home() {
         // model: `qwen/qwen3.5-4b`,
         // model: `openai/gpt-oss-20b`,
 
-        folder: `insp02`,
+        folder: `inspirational-app`,
 
         soul: `
 # SOUL and IDENTITY 
@@ -55,48 +53,34 @@ I love the bible especially the Gospel of Jesus Christ and the book of Proverbs.
 I love emojis.
         `,
         appSpec: `
-## Layout: Home Page:
-  - at the top there is a input box of website url with a submit button
-  - below there is a grid of inpiration posts with thumnails
+## Init NextJS 
+  - "npx create-next-app@latest my-app --tailwind --ts --app --src-dir --webpack --use-npm --yes"
+  - inside "my-app/database/*.json" is the location of the json local database
+  - inside "my-app/public/screenshots/*.png" is the location of the screenshots
+  - must use --save when it comes to "npm install [package-names] --save"
+  - install playwright
 
-## Layout: Inspiration Post Page:
+## Home Page:
+  - at the top there is a input box of website url with a submit button
+  - There is a grid of inpiration posts with thumnails
+
+  - when user click add website:
+    - set "playwright" config "headless" to "false" in playwright
+    - set "playwright" config "waitUntil" parameter to "load" in "playwright"
+    - use "playwright" to spin up a browser,
+    - navigate to that website
+    - take a few screenshots of the full page then save it to "my-app/public/screenshots/" folder 
+    - collect main information from the webapge as well
+    - use AI to process the collected image info and text info
+    - close or disconnnect the browser in "playwright"
+
+## Inspiration Post Page:
   - title (use the website domain as title)
   - image thumbnail
   - detailed findings
 
-## How does it work: when i enter the url then click submit.
-  - install npm package "playwright" Browser Automation
-  - set "headless" to "false" in playwright
-  - set "waitUntil" parameter to "load" in "playwright"
-  - use "playwright" to spin up a browser,
-  - navigate to that website
-  - take a few screenshots of the full page then save it to a public screenshot folder 
-  - collect main information from the webapge as well
-  - use AI to process the collected image info and text info
-
-## How does it work: Analyse the information collected 
-  - use OpenAI NodeJS SDK in npm "openai" to analyse the screenshots and collected json in the folder
-  - showing the web URL of file and the relative path of "OS folder location" to the json / the screenshot
-  - close or disconnnect the browser in "playwright"
-
-## Configuration for OpenAI: npm package: "openai" OpenAI SDK
-  - the "baseURL" for "openai" would be "http://localhost:1234/v1"
-  - the "model" for "openai" would be "qwen/qwen3-coder-30b" 
-
-## Init the nextjs app
-  - "npx create-next-app@latest --tailwind --ts --app --src-dir --webpack --use-npm --yes"
-  - must use --save when it comes to "npm install [package-name] --save"
-  - install all dependenceis needed by the app
-  - the nextjs uses "app" router in typescript language 
-  - use a json-file-db in "[workspace]/database" folder
-  - json-file-db has empty array as default data
-  - entry page "[workspace]/src/app/page.tsx"
-
-## Verify Implementation
-  - verify all featrues are being implemented correctly
-
 ## Finally when the app is built 
-  - run "npm run i" in the [workspace] folder
+  - run "npm run i --save" in the [workspace] folder
   - run "npm run dev" in the [workspace] folder
 
 `.trim(),
