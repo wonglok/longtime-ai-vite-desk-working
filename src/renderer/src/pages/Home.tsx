@@ -134,8 +134,10 @@ I love the bible especially the Gospel of Jesus Christ and the book of Proverbs.
 
 
 ## frontend techstack
-  - at "[workspace]" folder run "npm create vite@latest frontend -- --template react" with react.js with esm javascript
+  - go to "[workspace]" folder run "npm create vite@latest frontend -- --template react" with react.js with esm javascript
   - port 4001
+  - "[workspace]/frontend" (Frontend folder, uses vite)
+  - "[workspace]/frontend/src/App.jsx" (Frontend app entry point for App.jsx)
   - "npm install axios @tailwindcss/postcss socket.io-client"
   - enable cors for "axios" for REST APIs calls and "soclet.io-client" calls
   - no need to start frontend server at the end
@@ -143,7 +145,14 @@ I love the bible especially the Gospel of Jesus Christ and the book of Proverbs.
   - in the end, run "npm install"
   - in the end, verify app idea is fully implemented in code
 
+
 ## backend techstack
+  - "[workspace]/backend" (Backend folder, uses nodejs)
+  - "[workspace]/backend/src/index.js" (Backend source code entry point)
+  - "[workspace]/backend/public" (Public folder for static assets)
+  - "[workspace]/backend/public/public-data/json" (Public folder for webiste collected json info)
+  - "[workspace]/backend/public/public-data/screenshots" (Public folder for webiste collected screenshots)
+  - "[workspace]/backend/data" (Data folder for json database)
   - uses node.js backend with esm javascript
   - port 3001
   - "npm install express socket.io"
@@ -161,18 +170,6 @@ I love the bible especially the Gospel of Jesus Christ and the book of Proverbs.
   - it starts both frontend backend servers in parallel using "concurrently" in npm
   - the script should output emojis in terminal to celebrate the finished work
 
-  ## app folders
-  - frontend folder
-    "[workspace]/frontend" (Frontend folder, uses vite)
-    "[workspace]/frontend/src/App.jsx" (Frontend app entry point for App.jsx)
-
-  - backend folder
-    "[workspace]/backend" (Backend folder, uses nodejs)
-    "[workspace]/backend/src/index.js" (Backend source code entry point)
-    "[workspace]/backend/public" (Public folder for static assets)
-    "[workspace]/backend/public/public-data/json" (Public folder for webiste collected json info)
-    "[workspace]/backend/public/public-data/screenshots" (Public folder for webiste collected screenshots)
-    "[workspace]/backend/data" (Data folder for json database)
 
         `.trim(),
 
