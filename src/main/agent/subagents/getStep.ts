@@ -65,15 +65,12 @@ ${step.thought}
     if (executionHistory) {
       let lastFew = executionHistory.slice().reverse().slice(0, 3).reverse()
 
-      messages.push({
-        role: 'user',
-        content: `
-      
-# Previous (total: ${lastFew.length}) execution history:
-${lastFew
-  .map((each, idx) => {
-    return `
-# ExecutionID: ${idx + 1}
+      let idx = 0
+      for (let each of lastFew) {
+        messages.push({
+          role: 'user',
+          content: `
+# Previous execution history
 
 ## Thought: ${each.thought}
 
@@ -81,18 +78,16 @@ ${lastFew
 ${each.terminalCalls
   .map((tcall, idx) => {
     return `
-Terminal Call ${idx + 1}:
+### Terminal Call ${idx + 1}:
 CMD: ${tcall.cmd}
 Reason: ${tcall.reason}
 Result: ${tcall.result}
     `.trim()
   })
   .join('\n')}`.trim()
-  })
-  .join('\n\n')}
-
-          `
-      })
+        })
+        idx++
+      }
     }
 
     messages.push({

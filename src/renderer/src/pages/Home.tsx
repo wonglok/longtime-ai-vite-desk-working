@@ -45,7 +45,7 @@ export function Home() {
         // model: `qwen/qwen3.5-4b`,
         // model: `openai/gpt-oss-20b`,
 
-        folder: `app002`,
+        folder: `insp`,
 
         soul: `
 # SOUL and IDENTITY 
@@ -55,29 +55,26 @@ I love the bible especially the Gospel of Jesus Christ and the book of Proverbs.
 I love emojis.
         `,
         appSpec: `
-## Idea: Overall Intro
-  - build an app to collect inspiration from websites
-  - it has a dashboard ui to show a grid of different inspiration with thumbnails
-  - when i click it it shows a detailed page
+## Layout: Home Page:
+  - at the top there is a input box of website url with a submit button
+  - below tehre is a grid of inpiration posts with thumnails
 
-## Idea: How to add inspiration 
-  - input box to 
-  - npm i playwright --save
-  - create a new inspiration entry with inspireID in jsondb. 
-  - use "playwright" to spin up a browser, set "headless" to "false" in playwright, set "waitUntil" parameter to "load" in "playwright"
+# Layout: Inspiration Post Page:
+  - title 
+  - image thumbnail
+  - detailed findings
+
+## How does it work: when i enter the url then click submit.
+  - use "playwright" to spin up a browser,
   - navigate to that website
-  - take a few screenshots of the full page into to a folder "[workspace]/public/public-data/screenshots/[inspireID]/*"
+  - take a few screenshots of the full page then save it to a public screenshot folder 
   - collect main information from the webapge as well
+  - use AI to process the collected image info and text info
 
-## Idea: Analyse the information collected 
+## How does it work: Analyse the information collected 
   - use OpenAI NodeJS SDK in npm "openai" to analyse the screenshots and collected json in the folder
   - showing the web URL of file and the relative path of "OS folder location" to the json / the screenshot
   - close or disconnnect the browser in "playwright"
-
-## AI Configuration: Feature of using OpenAI SDK npm moudle: "openai" 
-  - let's use "openai" npm module.
-  - the baseURL for openai would be http://localhost:1234/v1
-  - use "qwen/qwen3.5-35b-a3b" model
 
 ## NextJS TechStack
   - "npx create-next-app@latest . --tailwind --ts --app --src-dir --webpack --use-npm --yes"
@@ -86,7 +83,16 @@ I love emojis.
   - json-file-db has empty array as default data
   - entry page "[workspace]/src/app/page.js"
 
-## Instruction: Finally 
+## Tech Configuration: npm package "playwright" Browser Automation
+  - set "headless" to "false" in playwright
+  - set "waitUntil" parameter to "load" in "playwright"
+
+## Tech Configuration:  npm package: "openai" OpenAI SDK
+  - let's use "openai" npm module.
+  - the baseURL for openai would be http://localhost:1234/v1
+  - use "qwen/qwen3.5-35b-a3b" model
+
+## Instruction: Finally when the app is built 
   - run "npm run i" in the [workspace] folder
   
 `.trim(),
@@ -180,15 +186,13 @@ I love emojis.
             {<ErrorMsg></ErrorMsg>}
           </div>
 
-          <div className="flex">
+          <div className="flex mb-3">
             <TodoManagement></TodoManagement>
           </div>
           <div className="w-full">{/* <Brain></Brain> */}</div>
 
           <div className="w-full flex">
-            <div className="w-2/3">
-              <ActionsTerm></ActionsTerm>
-            </div>
+            <div className="w-2/3">{/* <ActionsTerm></ActionsTerm> */}</div>
           </div>
 
           <div className="text-xs w-full overflow-x-scroll">
