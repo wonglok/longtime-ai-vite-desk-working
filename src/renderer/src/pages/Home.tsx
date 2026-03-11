@@ -57,7 +57,7 @@ I love emojis.
         appSpec: `
 ## Layout: Home Page:
   - at the top there is a input box of website url with a submit button
-  - below tehre is a grid of inpiration posts with thumnails
+  - below there is a grid of inpiration posts with thumnails
 
 ## Layout: Inspiration Post Page:
   - title (use the website domain as title)
