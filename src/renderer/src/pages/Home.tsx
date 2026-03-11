@@ -134,12 +134,28 @@ I love the bible especially the Gospel of Jesus Christ and the book of Proverbs.
   the baseURL for openai would be http://localhost:1234/v1
   use "qwen/qwen3.5-35b-a3b" model
 
+# Tech Stack / Development Guideline
+
+## backend techstack
+  - "[workspace]/backend" (Backend folder, uses nodejs)
+  - "[workspace]/backend/src/index.js" (Backend source code entry point)
+  - "[workspace]/backend/public" (Public folder for static assets)
+  - "[workspace]/backend/public/public-data/json" (Public folder for webiste collected json info)
+  - "[workspace]/backend/public/public-data/screenshots" (Public folder for webiste collected screenshots)
+  - "[workspace]/backend/data" (Data folder for json database)
+  - uses node.js backend with esm javascript
+  - port 3001
+  - "npm install express socket.io playwright openai cors --save"
+  - json database at "[workspace]/backend/data/json-db/*"
+  - cors support for all rest api response and "soclet.io"
+  - implement "npm run build", "npm run start", "npm run dev" for "[workspace]/backend/package.json"
+  - the backend folder should also have .gitignore file to avoid commiting "node_modules" folder to git
+  - no need to start backend server at the end
+
 ## frontend techstack
-  - "[workspace]/frontend" (Frontend folder, uses vite)
-  - go to "[workspace]" folder run "npm create vite@latest frontend -- --template react" with react.js with esm javascript and tailwindcss
+  - go to "[workspace]/frontend" folder then run "npm create vite@latest . -- --template react" with react.js with esm javascript and tailwindcss
   - use port 4001
-  - "[workspace]/frontend/src/App.jsx" (Frontend app entry point for App.jsx)
-  - "npm install axios tailwindcss @tailwindcss/vite socket.io-client"
+  - "npm install axios tailwindcss @tailwindcss/vite socket.io-client --save"
   - enable cors for "axios" for REST APIs calls and "soclet.io-client" calls
   - no need to start frontend server at the end
   - must use "axios" with cors instead of fetch
@@ -158,33 +174,18 @@ export default defineConfig({
 });
 \`\`\`
 
-## backend techstack
-  - "[workspace]/backend" (Backend folder, uses nodejs)
-  - "[workspace]/backend/src/index.js" (Backend source code entry point)
-  - "[workspace]/backend/public" (Public folder for static assets)
-  - "[workspace]/backend/public/public-data/json" (Public folder for webiste collected json info)
-  - "[workspace]/backend/public/public-data/screenshots" (Public folder for webiste collected screenshots)
-  - "[workspace]/backend/data" (Data folder for json database)
-  - uses node.js backend with esm javascript
-  - port 3001
-  - "npm install express socket.io"
-  - json database at "[workspace]/backend/data/json-db/*"
-  - cors support for all rest api response and "soclet.io"
-  - implement "npm run build", "npm run start", "npm run dev" for "[workspace]/backend/package.json"
-  - the backend folder should also have .gitignore file to avoid commiting "node_modules" folder to git
-  - no need to start backend server at the end
-
 # In the end: 
-
 ## Verify Development:
   - in the end, verify app idea is fully implemented in frontend code
   - in the end, verify app idea is fully implemented in backend code
 
 ## Startup Script
-  - in the end, implement a "npm run dev" in "[workspace]/package.json" to start frontend backend servers easily.
-  - in the end, run "npm i" in "[workspace]" folder
-  - in the end, run "npm i" in "[workspace]/frontend" folder
-  - in the end, run "npm i" in "[workspace]/backend" folder
+  - implement a "npm run dev" in "[workspace]/package.json" to start frontend backend servers easily.
+
+## Install Npm modules:
+  - run "npm i --save" in folder: "[workspace]" 
+  - run "npm i --save" in folder: "[workspace]/frontend" 
+  - run "npm i --save" in folder: "[workspace]/backend" 
 
         `.trim(),
 
