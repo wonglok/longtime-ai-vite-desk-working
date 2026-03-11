@@ -106,7 +106,7 @@ export function Home() {
         // model: `qwen/qwen3.5-4b`,
         // model: `openai/gpt-oss-20b`,
 
-        folder: `app02`,
+        folder: `inspiration`,
 
         soul: `
 # SOUL and IDENTITY 
@@ -136,7 +136,7 @@ I love the bible especially the Gospel of Jesus Christ and the book of Proverbs.
 
 ## frontend techstack
   - "[workspace]/frontend" (Frontend folder, uses vite)
-  - go to "[workspace]" folder run "npm create vite@latest frontend -- --template react" with react.js with esm javascript
+  - go to "[workspace]" folder run "npm create vite@latest frontend -- --template react" with react.js with esm javascript and tailwindcss
   - use port 4001
   - "[workspace]/frontend/src/App.jsx" (Frontend app entry point for App.jsx)
   - "npm install axios tailwindcss @tailwindcss/vite socket.io-client"
