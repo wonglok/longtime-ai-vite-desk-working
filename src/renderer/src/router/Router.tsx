@@ -44,11 +44,13 @@ export function Others() {
       <Link href="/about">About</Link>
       <Link href="/dashboard">Dash</Link>
       <Link href="/">Home</Link>
+
       {/*  */}
       {/*  */}
       {/* <SearchBar></SearchBar> */}
       {/*  */}
       {/*  */}
+
       <Route>
         <div>404: No such page!</div>
       </Route>

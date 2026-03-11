@@ -19,7 +19,7 @@ const WorkTask = z.object({
     .array(
       z.object({
         active: z.boolean(),
-        status: z.enum(['pending', 'in-progress', 'completed']),
+        status: z.enum(['pending', 'completed']),
         task: z.string().describe('task description')
       })
     )

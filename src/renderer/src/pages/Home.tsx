@@ -38,14 +38,14 @@ export function Home() {
 
         route: 'runAgent',
 
-        model: `m4-qwen3.5-35b-a3b`,
+        model: `qwen/qwen3.5-4b`,
 
         // model: `qwen/qwen3-coder-30b`,
         // model: `qwen/qwen3.5-9b`,
         // model: `qwen/qwen3.5-4b`,
         // model: `openai/gpt-oss-20b`,
 
-        folder: `insp`,
+        folder: `insp02`,
 
         soul: `
 # SOUL and IDENTITY 
@@ -82,10 +82,11 @@ I love emojis.
 ## Configuration for OpenAI: npm package: "openai" OpenAI SDK
   - let's use "openai" npm module.
   - the baseURL for openai would be http://localhost:1234/v1
-  - use "qwen/qwen3.5-35b-a3b" model
+  - use "qwen/qwen3.5-4b" model
 
 ## Init the nextjs app
-  - "npx create-next-app@latest . --tailwind --ts --app --src-dir --webpack --use-npm --yes"
+  - "npx create-next-app@latest --tailwind --ts --app --src-dir --webpack --use-npm --yes"
+  - must use --save when it comes to "npm install [package-name] --save"
   - install all dependenceis needed by the app
   - the nextjs uses "app" router in typescript language 
   - use a json-file-db in "[workspace]/database" folder
