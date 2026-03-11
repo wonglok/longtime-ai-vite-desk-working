@@ -132,19 +132,28 @@ I love the bible especially the Gospel of Jesus Christ and the book of Proverbs.
   the baseURL for openai would be http://localhost:1234/v1
   use "qwen/qwen3.5-35b-a3b" model
 
-
 ## frontend techstack
   - go to "[workspace]" folder run "npm create vite@latest frontend -- --template react" with react.js with esm javascript
   - port 4001
   - "[workspace]/frontend" (Frontend folder, uses vite)
   - "[workspace]/frontend/src/App.jsx" (Frontend app entry point for App.jsx)
-  - "npm install axios @tailwindcss/postcss socket.io-client"
+  - "npm install axios @tailwindcss/postcss tailwindcss @tailwindcss/vite socket.io-client"
   - enable cors for "axios" for REST APIs calls and "soclet.io-client" calls
   - no need to start frontend server at the end
   - must use "axios" with cors instead of fetch
+  - config viteconfig.js for frontend:
+\`\`\`javascript
+// vite.config.js
+import { defineConfig } from 'vite';
+import tailwindcss from '@tailwindcss/vite';
+import react from '@vitejs/plugin-react'
+
+export default defineConfig({
+  plugins: [tailwindcss(), react()],
+});
+\`\`\`
   - in the end, run "npm install"
   - in the end, verify app idea is fully implemented in code
-
 
 ## backend techstack
   - "[workspace]/backend" (Backend folder, uses nodejs)
