@@ -30,7 +30,7 @@ export const AppRouter = () => (
       </Route>
 
       <Route path="/">
-        <Redirect href="/home"></Redirect>
+        <Redirect href="/recursive-ai"></Redirect>
       </Route>
     </Switch>
   </>

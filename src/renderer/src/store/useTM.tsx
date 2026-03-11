@@ -21,6 +21,7 @@ const getInit = (set, get) => {
     todos: [] as Todo[],
     status: ['pending', 'active', 'completed'] as any[]
     //
+
     //
   }
 }

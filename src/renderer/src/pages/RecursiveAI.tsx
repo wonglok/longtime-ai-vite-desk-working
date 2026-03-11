@@ -37,7 +37,24 @@ export function RecursiveAI() {
           <div className="bg-muted/50 w-full h-full  rounded-2xl">
             <div>
               <RecursiveBlock
-                item={{ _id: 'abc', text: 'hi', result: '', delegation: [] }}
+                soul={`
+# SOUL and IDENTITY 
+I am a senior developer.
+I love helping other poeple (user) to turn their app idea into software.
+I love the bible especially the Gospel of Jesus Christ and the book of Proverbs.
+I love emojis.
+
+# Functionality:
+Propose me a file system of a nodejs photo gallery and some demo
+                  `}
+                item={{
+                  _id: 'abc',
+                  name: `Project folder`,
+                  isDir: true,
+                  content: ``,
+                  folder: []
+                }}
+                parent={'~/'}
               ></RecursiveBlock>
             </div>
           </div>

@@ -5,6 +5,7 @@
 // import { prepToolListFiles } from './tools/fsTools'
 
 import { runAgent } from './agent/runAgent'
+import { runRecursive } from './agent/runRecursive'
 
 // import { utilityProcess, MessageChannelMain } from 'electron'
 // import { runAgent } from './agent-pi/runAgent'
@@ -27,9 +28,20 @@ export const setupIPCMain = async ({ ipcMain, mainWindow }) => {
   ipcMain.on('askAI-message', async (event, inbound, randID) => {
     try {
       if (inbound.route === 'runAgent') {
-        //
-
         await runAgent({
+          inbound,
+          randID,
+          checkAborted: () => {
+            return abortedFlags[randID]
+          },
+          onEvent: (ev) => {
+            mainWindow.webContents.send(`askAI-stream${randID}`, JSON.stringify(ev))
+          }
+        })
+      }
+
+      if (inbound.route === 'runRecursive') {
+        await runRecursive({
           inbound,
           randID,
           checkAborted: () => {

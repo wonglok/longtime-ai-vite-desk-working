@@ -1,21 +1,136 @@
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
+import { useEffect, useState } from 'react'
 
-type Item = { _id: string; text: string; result: string; delegation: Item[] }
+type Item = {
+  //
+  _id: string
+  name: string
+  content: string
+  isDir: boolean
 
-export function RecursiveBlock({ item }: { item: Item }) {
+  folder?: Item[]
+}
+
+export function RecursiveBlock({
+  soul = '',
+  item,
+  auto = false,
+  parent = null
+}: {
+  soul: string
+  item: Item
+  auto?: boolean
+  parent?: string | null
+}) {
+  const [stopFunc, setStop] = useState<any>(() => {
+    return () => {}
+  })
+  const [myItem, setItem] = useState(item)
+
+  const onClick = async () => {
+    const controller = window.api.askAI(
+      {
+        baseURL: `http://localhost:1234/v1`,
+
+        apiKey: 'N/A',
+
+        route: 'runRecursive',
+
+        model: `qwen/qwen3.5-35b-a3b`,
+
+        // model: `qwen/qwen3-coder-30b`,
+        // model: `qwen/qwen3.5-9b`,
+        // model: `qwen/qwen3.5-9b`,
+        // model: `qwen/qwen3.5-4b`,
+        // model: `openai/gpt-oss-20b`,
+
+        folder: `good-morning-app`,
+
+        soul: `
+${soul}
+        `,
+        prompt: `
+path: ${`${parent}/${myItem.name}`}
+name:${myItem.name}
+content: ${myItem.content}
+        `
+      },
+      (stream) => {
+        //
+        const resp = JSON.parse(stream)
+
+        if (resp.type === 'json') {
+          console.log(resp.json)
+          setItem(resp.json)
+        }
+      }
+    )
+
+    setStop(() => {
+      return () => {
+        controller.abort()
+      }
+    })
+  }
+
+  useEffect(() => {
+    //
+    if (auto) {
+      onClick()
+    }
+    //
+  }, [])
   return (
     <>
       <div>
         <div className="p-2 mb-2 rounded-2xl border">
-          <Textarea defaultValue={item.text} className="mb-2"></Textarea>
-          <Button className="">Think</Button>
+          <Textarea
+            value={myItem.name}
+            onChange={(ev) => {
+              myItem.name = ev.target.value
+              setItem({ ...myItem })
+            }}
+            className="mb-2"
+          ></Textarea>
+
+          {!myItem.isDir && (
+            <Textarea
+              value={myItem.content}
+              onChange={(ev) => {
+                myItem.content = ev.target.value
+                setItem({ ...myItem })
+              }}
+              className="mb-2"
+            ></Textarea>
+          )}
+          <Button className="" onClick={onClick}>
+            Think
+          </Button>
+          <Button
+            className="ml-2"
+            variant={'destructive'}
+            onClick={() => {
+              stopFunc()
+            }}
+          >
+            Stop
+          </Button>
         </div>
 
-        <div>
-          {item.delegation.map((li) => {
-            return <RecursiveBlock key={li._id} item={li}></RecursiveBlock>
-          })}
+        <div className="ml-5">
+          {myItem.isDir &&
+            myItem?.folder?.map((li) => {
+              return (
+                <RecursiveBlock
+                  key={li._id}
+                  soul={soul}
+                  parent={parent}
+                  item={li}
+                  auto={true}
+                ></RecursiveBlock>
+              )
+            })}
         </div>
       </div>
     </>
