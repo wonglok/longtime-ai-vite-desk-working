@@ -36,8 +36,6 @@ export function ActionsTerm() {
   console.log('terminalCalls', terminalCalls.map((r) => r.cmd).join('\n'))
   return (
     <>
-      {/*  */}
-
       {/* <TerminalController></TerminalController> */}
 
       <div className="w-full mt-2 text-xs gap-2   ">

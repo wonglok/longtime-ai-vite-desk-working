@@ -123,6 +123,19 @@ ${each.result || ''}
       }
     }
 
+    const summary = await scanFolder(workspace)
+    console.log(summary)
+    messages.push({
+      role: 'user',
+      content: `
+## guideline: MUST write summary of each file
+  - whever we write a .js/.ts/.tsx/.jsx code file, we write a summary at the top of the file like this:
+  "//SUMMARY: [summary of the file...]"
+
+${summary}
+      `.trim()
+    })
+
     if (step.todo?.length > 0) {
       messages.push({
         role: 'user',
@@ -148,19 +161,6 @@ ${inbound.errorMessage}
           `
       })
     }
-
-    const summary = await scanFolder(workspace)
-    console.log(summary)
-    messages.push({
-      role: 'user',
-      content: `
-## write summary of each file
-  - whever we write a .js/.ts/.tsx/.jsx code file, we write a summary at the top of the file like this:
-  "//SUMMARY: [summary of the file...]"
-
-${summary}
-      `.trim()
-    })
 
     if ((inbound.modifyMessage || '').trim()) {
       messages.push({
