@@ -106,7 +106,7 @@ export function Home() {
         // model: `qwen/qwen3.5-4b`,
         // model: `openai/gpt-oss-20b`,
 
-        folder: `app02`,
+        folder: `app03`,
 
         soul: `
 # SOUL and IDENTITY 
