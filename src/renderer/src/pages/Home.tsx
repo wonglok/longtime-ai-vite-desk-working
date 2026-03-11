@@ -157,7 +157,6 @@ export default defineConfig({
   }
 });
 \`\`\`
-  - in the end, verify app idea is fully implemented in code
 
 ## backend techstack
   - "[workspace]/backend" (Backend folder, uses nodejs)
@@ -174,10 +173,12 @@ export default defineConfig({
   - implement "npm run build", "npm run start", "npm run dev" for "[workspace]/backend/package.json"
   - the backend folder should also have .gitignore file to avoid commiting "node_modules" folder to git
   - no need to start backend server at the end
-  - in the end, verify app idea is fully implemented in code
+
+# In the end: 
+  - in the end, verify app idea is fully implemented in frontend and backend code
 
 ## Startup Script
-  - in the end, implement a "npm run dev" in "[workspace]/package.json" to start frontend backend servers. 
+  - in the end, implement a "npm run dev" in "[workspace]/package.json" to start frontend backend servers easily.
   - in the end, run "npm i" in "[workspace]" folder
   - in the end, run "npm i" in "[workspace]/frontend" folder
   - in the end, run "npm i" in "[workspace]/backend" folder
