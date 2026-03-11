@@ -13,6 +13,10 @@ async function extractSummaryComments(rootDir) {
       for (const entry of entries) {
         const fullPath = path.join(dirPath, entry.name)
 
+        if (fullPath.includes('node_modules')) {
+          continue
+        }
+
         if (entry.isDirectory()) {
           await scanDirectory(fullPath) // Recurse into subdirectories
         } else if (entry.isFile() && isSupportedExtension(entry.name)) {
@@ -26,7 +30,7 @@ async function extractSummaryComments(rootDir) {
 
   function isSupportedExtension(filename) {
     const ext = path.extname(filename).toLowerCase()
-    return ['.js', '.ts', '.jsx', '.tsx', '.html', '.css', '.md'].includes(ext)
+    return ['.js', '.ts', '.jsx', '.tsx'].includes(ext)
   }
 
   async function extractFromFile(filePath, results) {
@@ -55,7 +59,7 @@ async function extractSummaryComments(rootDir) {
 export const scanFolder = async (targetFolder) => {
   return await extractSummaryComments(targetFolder)
     .then((results) => {
-      const csv = `File,Line Number,Content\n${results
+      const csv = `File,Line Number,Summary\n${results
         .map((r: any) => `"${r.file}",${r.lineNum},"${r.content.replace(/"/g, '""')}"`)
         .join('\n')}`
 

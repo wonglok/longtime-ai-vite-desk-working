@@ -151,11 +151,12 @@ ${inbound.errorMessage}
 
     const summary = await scanFolder(workspace)
 
+    console.log(summary)
     messages.push({
       role: 'user',
       content: `
 ## write summary of each file
-  - whever we write a js/ts code file, we write a summary at the top of the file like this:
+  - whever we write a .js/.ts/.tsx/.jsx code file, we write a summary at the top of the file like this:
   "//SUMMARY: [summary of the file...]"
 
 ${summary}

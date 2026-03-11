@@ -145,7 +145,6 @@ I love the bible especially the Gospel of Jesus Christ and the book of Proverbs.
     "~/backend/public/public-data/screenshots" (Public folder for webiste collected screenshots)
     "~/backend/data/*" (Data folder for json database)
 
-
 ## frontend guidelines
   - uses vite with react.js, esm javascript
   - port 4001
@@ -169,7 +168,9 @@ I love the bible especially the Gospel of Jesus Christ and the book of Proverbs.
   - in the end, verify app idea is fully implemented in code
 
 ## Startup Script
-  - in the end, implement a "~/run.sh" with "chmod +x run.sh", it includes insalling dependenciess for frontend & backend, "npm init -y; npm install concurrently" and starting both frontend backend servers in parallel using "concurrently" in npm
+  - in the end, implement a "~/run.sh" with "chmod +x run.sh". 
+  - run "npm install concurrently --save" at "~/"
+  - it starts both frontend backend servers in parallel using "concurrently" in npm
   - the script should output emojis in terminal to celebrate the finished work
   
 
