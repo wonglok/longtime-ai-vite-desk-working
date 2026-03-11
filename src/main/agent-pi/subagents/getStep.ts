@@ -16,7 +16,8 @@ const WorkTask = z.object({
         task: z.string().describe('task description')
       })
     )
-    .describe('a todo list'),
+    .describe('a todo list')
+    .min(1),
 
   terminalCalls: z
     .array(
