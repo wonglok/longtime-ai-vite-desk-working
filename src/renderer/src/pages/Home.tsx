@@ -118,14 +118,16 @@ I love the bible especially the Gospel of Jesus Christ and the book of Proverbs.
 ## App idea
   - build an vite + express app to collect inspiration from websites
   - have a dashboard ui
+  - show a grid of different inspiration like blog entries with thumbnails
 
 ## feature of collect website page using "playwright":
   - set "headless" to "false" in playwright
-  - set "waitUntil" parameter to "load" in playwright
+  - set "waitUntil" parameter to "load" in "playwright"
   - take screenshot of the full page into to a folder "[workspace]/backend/public/public-data/screenshots/*"
   - collect main information in "[workspace]/backend/public/public-data/json/*"
   - use OpenAI nodejs SDK in npm "openai" to analyse the screenshots and collected json in the folder
   - save the screenshot and analytics to a json file, showing the web URL of file and the relative path of "OS folder location" to the json / the screenshot
+  - close or disconnnect the browser in "playwright"
 
 ## feature of using OpenAI SDK npm moudle: "openai" 
   let's use "openai" npm module.
@@ -133,9 +135,9 @@ I love the bible especially the Gospel of Jesus Christ and the book of Proverbs.
   use "qwen/qwen3.5-35b-a3b" model
 
 ## frontend techstack
+  - "[workspace]/frontend" (Frontend folder, uses vite)
   - go to "[workspace]" folder run "npm create vite@latest frontend -- --template react" with react.js with esm javascript
   - use port 4001
-  - "[workspace]/frontend" (Frontend folder, uses vite)
   - "[workspace]/frontend/src/App.jsx" (Frontend app entry point for App.jsx)
   - "npm install axios tailwindcss @tailwindcss/vite socket.io-client"
   - enable cors for "axios" for REST APIs calls and "soclet.io-client" calls
@@ -155,7 +157,6 @@ export default defineConfig({
   }
 });
 \`\`\`
-  - in the end, run "npm install"
   - in the end, verify app idea is fully implemented in code
 
 ## backend techstack
@@ -173,32 +174,13 @@ export default defineConfig({
   - implement "npm run build", "npm run start", "npm run dev" for "[workspace]/backend/package.json"
   - the backend folder should also have .gitignore file to avoid commiting "node_modules" folder to git
   - no need to start backend server at the end
-  - in the end, run "npm install"
   - in the end, verify app idea is fully implemented in code
 
 ## Startup Script
-  - in the end, implement a "[workspace]/run.sh" with "chmod +x run.sh". 
-\`\`\`
-#!/bin/bash
-
-echo "🚀 Starting app02 - Website Inspiration Collector..."
-echo "========================================="
-
-# Start both frontend and backend servers in parallel using concurrently
-npx concurrently \\
-  --names "FRONTEND,BACKEND" \\
-  --prefix-colors "bgBlue.bold,bgGreen.bold" \\
-  --kill-others-on-fail \\
-  "cd frontend; npm run dev" \\
-  "cd backend; npm run dev"
-
-echo "========================================="
-echo "🎉 app02 is now running! 🎉"
-echo "🌐 Frontend: http://localhost:4001"
-echo "⚙️ Backend: http://localhost:3001"
-echo "📊 Dashboard UI ready for collecting website inspiration!"
-\`\`\`
-
+  - in the end, implement a "npm run dev" in "[workspace]/package.json" to start frontend backend servers. 
+  - in the end, run "npm i" in "[workspace]" folder
+  - in the end, run "npm i" in "[workspace]/frontend" folder
+  - in the end, run "npm i" in "[workspace]/backend" folder
 
         `.trim(),
 
