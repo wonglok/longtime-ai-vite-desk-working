@@ -23,67 +23,6 @@ import { ErrorMsg } from '@renderer/ui/TodoManagement/ErrorMsg'
 import { TodoManagement } from '@renderer/ui/TodoManagement/TodoManagement'
 import { useEffect, useState } from 'react'
 
-/*
- */
-
-/*
-
-## app idea
-  - build a todo task management app
-  - kanban style UI drag and drop items similar to trello
-  - with realtime updates using socket.io
-  - showing mouse position of each page visitor
-
-## app folders
-  - frontend
-    "~/frontend/*" (Frontend folder)
-    "~/frontend/src/App.jsx" (Frontend app entry point for App.jsx)
-
-  - backend
-    "~/backend/*" (Backend folder for nodejs)
-    "~/backend/src/index.js" (Backend source code entry point)
-    "~/backend/public/*" (Public folder for static assets)
-    "~/backend/data/*" (Data folder for json database)
-
-## frontend guidelines
-  - uses vite with react.js, esm javascript
-  - port 5174
-  - "npm install axios @tailwindcss/postcss socket.io-client"
-  - don't use proxy in vite, enable cors for axios for REST APIs calls and soclet.io-client calls
-  - no need to start frontend server at the end
-  - in the end, run "npm install"
-  - in the end, verify app idea is fully implemented in code
-
-## backend guidelines
-  - uses node.js backend with esm javascript
-  - port 3001
-  - "npm install express socket.io"
-  - json database with some sample data
-  - cors support for all rest api response and soclet.io
-  - "~/backend/package.json" "script" has commands such as "npm run build", "npm run start", "npm run dev"
-  - the backend folder should also have .gitignore file to avoid commiting "node_modules" folder to git
-  - no need to start backend server at the end
-  - in the end, run "npm install"
-  - in the end, verify app idea is fully implemented in code
-
-*/
-
-/*
-
-write a nodejs script site.js that uses npm package "playwright". install it via npm 
-and then use it to visit effectnode.com 
-and jott down some inspiration 
-and take a few screenshots.
-and read the screenshots and then save the data inside "content" folder.
-
-let's use "openai" npm module.
-the baseURL for openai would be http://localhost:1234/v1
-use model "qwen/qwen3.5-35b-a3b" model
-
-Analyse the "content" folder text file / json file / images with OpenAI SDK 
-and write the report of screenshots into "report.md"
-
-*/
 export function Home() {
   let [messages, setContextMessages] = useState([])
   let [stopFunc, setStop] = useState<any>(null)
@@ -136,7 +75,7 @@ I love the bible especially the Gospel of Jesus Christ and the book of Proverbs.
 
 # Tech Stack / Development Guideline
 
-## backend techstack
+## backend development guidelines
   - "[workspace]/backend" (Backend folder, uses nodejs)
   - "[workspace]/backend/src/index.js" (Backend source code entry point)
   - "[workspace]/backend/public" (Public folder for static assets)
@@ -152,8 +91,8 @@ I love the bible especially the Gospel of Jesus Christ and the book of Proverbs.
   - the backend folder should also have .gitignore file to avoid commiting "node_modules" folder to git
   - no need to start backend server at the end
 
-## frontend techstack
-  - go to "[workspace]/frontend" folder then run "npm create vite@latest . -- --template react" with react.js with esm javascript and tailwindcss
+## frontend development guidelines
+  - go to "[workspace]/frontend" folder then run "npm create vite@latest . -- --template react" with react.js with esm javascript and tailwindcss but dont run "npm run dev"
   - use port 4001
   - "npm install axios tailwindcss @tailwindcss/vite socket.io-client --save"
   - enable cors for "axios" for REST APIs calls and "soclet.io-client" calls
@@ -180,7 +119,7 @@ export default defineConfig({
   - in the end, verify app idea is fully implemented in backend code
 
 ## Startup Script
-  - implement a "npm run dev" in "[workspace]/package.json" to start frontend backend servers easily.
+  - implement a "npm run dev; echo \"🚀🚀🚀🚀\";" in "[workspace]/package.json" to start frontend backend servers easily.
 
 ## Install Npm modules:
   - run "npm i --save" in folder: "[workspace]" 
@@ -307,3 +246,65 @@ export default defineConfig({
     </SidebarProvider>
   )
 }
+
+/*
+ */
+
+/*
+
+## app idea
+  - build a todo task management app
+  - kanban style UI drag and drop items similar to trello
+  - with realtime updates using socket.io
+  - showing mouse position of each page visitor
+
+## app folders
+  - frontend
+    "~/frontend/*" (Frontend folder)
+    "~/frontend/src/App.jsx" (Frontend app entry point for App.jsx)
+
+  - backend
+    "~/backend/*" (Backend folder for nodejs)
+    "~/backend/src/index.js" (Backend source code entry point)
+    "~/backend/public/*" (Public folder for static assets)
+    "~/backend/data/*" (Data folder for json database)
+
+## frontend guidelines
+  - uses vite with react.js, esm javascript
+  - port 5174
+  - "npm install axios @tailwindcss/postcss socket.io-client"
+  - don't use proxy in vite, enable cors for axios for REST APIs calls and soclet.io-client calls
+  - no need to start frontend server at the end
+  - in the end, run "npm install"
+  - in the end, verify app idea is fully implemented in code
+
+## backend guidelines
+  - uses node.js backend with esm javascript
+  - port 3001
+  - "npm install express socket.io"
+  - json database with some sample data
+  - cors support for all rest api response and soclet.io
+  - "~/backend/package.json" "script" has commands such as "npm run build", "npm run start", "npm run dev"
+  - the backend folder should also have .gitignore file to avoid commiting "node_modules" folder to git
+  - no need to start backend server at the end
+  - in the end, run "npm install"
+  - in the end, verify app idea is fully implemented in code
+
+*/
+
+/*
+
+write a nodejs script site.js that uses npm package "playwright". install it via npm 
+and then use it to visit effectnode.com 
+and jott down some inspiration 
+and take a few screenshots.
+and read the screenshots and then save the data inside "content" folder.
+
+let's use "openai" npm module.
+the baseURL for openai would be http://localhost:1234/v1
+use model "qwen/qwen3.5-35b-a3b" model
+
+Analyse the "content" folder text file / json file / images with OpenAI SDK 
+and write the report of screenshots into "report.md"
+
+*/
