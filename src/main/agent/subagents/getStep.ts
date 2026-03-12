@@ -79,7 +79,7 @@ ${item.thought}
       // thought
       {
         let allCalls = ''
-        for (let item of latestFewSteps) {
+        for (let item of [latestOneStep]) {
           for (let each of item.terminalCalls as {
             reason: string
             cmd: string
@@ -88,7 +88,7 @@ ${item.thought}
             timestamp: string
           }[]) {
             allCalls += `
-----------Terminal Call BEGIN----------
+----------Terminal Call History BEGIN----------
 ### Timetamp: ${each.timestamp || new Date().toString()}
 
 ### Reason of running this command:
@@ -102,7 +102,7 @@ ${each.cmd || ''}
 
 ### Result of command:
 ${each.result.trim() || ''}
-----------Terminal Call END---------- 
+----------Terminal Call History END---------- 
 `
           }
         }
@@ -112,17 +112,14 @@ ${each.result.trim() || ''}
           content: allCalls
         })
       }
-
-      //
-      //
     }
 
     messages.push({
       role: 'user',
       content: `
 # MUST HAVE RULES:
-You only write code at this project folder: ${JSON.stringify(project)}
-The [project] folder name is: ${JSON.stringify(inbound.folder)}
+The [project] / [workspace] folder path is: ${JSON.stringify(project)}
+The project name is: ${JSON.stringify(inbound.folder)}
       `
     })
 
@@ -130,10 +127,10 @@ The [project] folder name is: ${JSON.stringify(inbound.folder)}
     messages.push({
       role: 'user',
       content: `# Instruction: MUST write summary of each code file
-    - whever you write a .js/.ts/.tsx/.jsx code file, you write a summary at the top of the file like this format:
-    "//SUMMARY: [summary of the file...]"
+- whever you write a .js/.ts/.tsx/.jsx code file, you write a summary at the top of the file like this format:
+"//SUMMARY: [summary of the file...]"
 
-    ${summary}
+${summary}
           `.trim()
     })
 
