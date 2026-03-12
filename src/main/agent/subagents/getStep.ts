@@ -87,13 +87,8 @@ ${lastFew
       successful: boolean
       timestamp: string
     }[]) {
-      str += `----------BEGIN----------
-Terminal Command & Result [${idx + 1}] BEGIN
-----------BEGIN----------
-Timetamp: ${each.timestamp || new Date().toString()}
-
-## The terminal command:
-${each.cmd || ''}
+      str += `----------Terminal Command & Result BEGIN----------
+## Timetamp: ${each.timestamp || new Date().toString()}
 
 ## Reason of running this command:
 ${each.reason || ''}
@@ -101,11 +96,12 @@ ${each.reason || ''}
 ## Status of command result:
 ${each.successful ? `Successful` : `Failed`}
 
+## The terminal command:
+${each.cmd || ''}
+
 ## Result of command:
 ${each.result.trim() || ''}
-----------END---------- 
-Terminal Command & Result [${idx + 1}] END
-----------END---------- 
+----------Terminal Command & Result END---------- 
 
 `
     }
