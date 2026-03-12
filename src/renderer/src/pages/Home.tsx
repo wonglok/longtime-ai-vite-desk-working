@@ -36,15 +36,15 @@ export function Home() {
 
         route: 'runAgent',
 
-        // model: `qwen/qwen3.5-9b`,
+        // model: `qwen/qwen3.5-4b`,
 
-        model: `qwen/qwen3.5-35b-a3b`,
+        model: `qwen/qwen3.5-4b`,
         // model: `qwen/qwen3-coder-30b`,
-        // model: `qwen/qwen3.5-9b`,
+        // model: `qwen/qwen3.5-4b`,
         // model: `qwen/qwen3.5-4b`,
         // model: `openai/gpt-oss-20b`,
 
-        folder: `inspirational-app`,
+        folder: `inspire-cmd`,
 
         soul: `
 # SOUL and IDENTITY 
@@ -54,35 +54,38 @@ I love the bible especially the Gospel of Jesus Christ and the book of Proverbs.
 I love emojis.
         `,
         appSpec: `
-## Init NextJS 
-  - "npx create-next-app@latest my-app --tailwind --ts --app --src-dir --webpack --use-npm --yes"
-  - inside "my-app/database/*.json" is the location of the json local database
-  - inside "my-app/public/screenshots/*.png" is the location of the screenshots
-  - must use --save when it comes to "npm install [package-names] --save"
+I want to write a nodejs cli script with the following capabilities:
 
-## App Idea:
-  - at the top there is a input box of website url with a submit button
-  - There is a grid of inpiration posts with thumnails
+node ./inspire.js --help
+node ./inspire.js --website http://effectnode.com
+node ./inspire.js --find-similar-inspiration "ocean"
 
-  - when user click add website:
-    - use "playwright" to spin up a browser,
-    - set "playwright" config "headless" to "false" in playwright
-    - set "playwright" config "waitUntil" parameter to "load" in "playwright"
-    - navigate to that website
-    - take a few screenshots of the full page then save it to "my-app/public/screenshots/" folder 
-    - collect main information from the webapge as well
-    - use AI to process the collected image info and text info
-    - close or disconnnect the browser in "playwright"
-    - npm "openai" sdk uses server: "http://localhost:1234/v1" with model: "qwen/qwen3.5-35b-a3b"
+please also write a "skill.md" for the ai to use, you should include all the examples above.
 
-## Inspiration Post Page:
-  - title (use the website domain as title)
-  - image thumbnail
-  - detailed findings
+## for example: node ./inspire.js --website http://effectnode.com
+- use "playwright" to spin up a browser,
+- set "playwright" config "headless" to "false" in playwright
+- set "playwright" config "waitUntil" parameter to "load" in "playwright"
+- navigate to that website
+- take a few screenshots of the full page then save it to "[workspace]/database/screenshots/*" folder 
+- collect main information from the webapge as well
+- close or disconnnect the browser in "playwright"
 
-## Finally when the app is built 
-  - run "npm run i --save" in the "my-app" folder
-  - run "npm run dev" in the "my-app" folder
+- use "openai" sdk to process the collected image info and text info
+- use "openai" sdk to generate embedding vector for the collected image info and text info
+- we store the embedding vectors in json db as well
+
+## for example: node ./inspire.js --find-similar-inspiration "ocean"
+- we can use openai emebedding api to embed the search query and then use cosine similarity to find similar inspiration.
+
+## Guidelines
+- must use "npm install --save ..." to install packages
+- use npm package "meow" for cli entry code
+- use npm package "openai" for ai calls sdk, sdk config: baseURL: "http://localhost:1234/v1" with model: "qwen/qwen3.5-4b"
+- use npm package "openai" for embeding, sdk config: baseURL: "http://localhost:1234/v1" with model: "qwen.qwen3-vl-embedding-2b"
+
+- "[workspace]/database/*.json" is the location of the json local database
+- "[workspace]/database/screenshots/*.png" is the location of the screenshots
 
 `.trim(),
 

@@ -60,21 +60,51 @@ ${inbound.soul}
     messages.push({
       role: 'user',
       content: `
-here's the latest thought of the agent:
+Here's the latest thought of the agent:
 ${step.thought}
     `.trim()
     })
 
     if (executionHistory) {
-      let lastFew = executionHistory.slice().reverse().slice(0, 3).reverse()
+      let lastFew = executionHistory
+        .slice()
+        .reverse()
+        .slice(0, 5)
+        .reverse()
+        .filter((r) => r.terminalCalls)
 
       messages.push({
         role: 'user',
         content: `
-# Previous execution history (${lastFew.length})
+# Previous terminal cli call execution history (${lastFew.length})
 ${lastFew
   .map((item, idx) => {
-    return `[${idx + 1}]: ${JSON.stringify(item)}`
+    console.log(item)
+    let str = ''
+    for (let each of item.terminalCalls as {
+      reason: string
+      cmd: string
+      result: string
+      successful: boolean
+    }[]) {
+      str += `
+# Terminal Command & Result [${idx}]
+
+## The terminal command:
+${each.cmd || ''}
+
+## Reason of running this command:
+${each.reason || ''}
+
+## Status of command result:
+${each.successful ? `Successful` : `Failed`}
+
+## Result of command:
+${each.result || ''}
+`.trim()
+    }
+
+    return `[${idx + 1}]: ${str}`
   })
   .join('\n')}
       `.trim()
@@ -90,16 +120,16 @@ The [workspace] name is called: ${JSON.stringify(inbound.folder)}
       `
     })
 
-    const summary = await scanFolder(workspace)
-    messages.push({
-      role: 'user',
-      content: `# Instruction: MUST write summary of each code file
-- whever you write a .js/.ts/.tsx/.jsx code file, you write a summary at the top of the file like this format:
-"//SUMMARY: [summary of the file...]"
+    //     const summary = await scanFolder(workspace)
+    //     messages.push({
+    //       role: 'user',
+    //       content: `# Instruction: MUST write summary of each code file
+    // - whever you write a .js/.ts/.tsx/.jsx code file, you write a summary at the top of the file like this format:
+    // "//SUMMARY: [summary of the file...]"
 
-${summary}
-      `.trim()
-    })
+    // ${summary}
+    //       `.trim()
+    //     })
 
     messages.push({
       role: 'user',
@@ -111,34 +141,6 @@ ${inbound.appSpec.trim()}
 check the latest app spec against the current todo list and current code files to see if we need to update it todo list.
 `.trim()
     })
-
-    if ((step?.terminalCalls?.length || 0) > 0) {
-      for (let each of step.terminalCalls as {
-        reason: string
-        cmd: string
-        result: string
-        successful: boolean
-      }[]) {
-        messages.push({
-          role: 'user',
-          content: `
-# Terminal Command & Result
-
-## The terminal command:
-${each.cmd || ''}
-
-## Reason of running this command:
-${each.reason || ''}
-
-## Status of command result:
-${each.successful ? `Successful` : `Failed`}
-
-## Result of command:
-${each.result || ''}
-`.trim()
-        })
-      }
-    }
 
     if (step.todo?.length > 0) {
       messages.push({
@@ -174,6 +176,34 @@ Here's a modification message from user:
 ${inbound.modifyMessage}
           `
       })
+    }
+
+    if ((step?.terminalCalls?.length || 0) > 0) {
+      for (let each of step.terminalCalls as {
+        reason: string
+        cmd: string
+        result: string
+        successful: boolean
+      }[]) {
+        messages.push({
+          role: 'user',
+          content: `
+# Latest Terminal Command & Result
+
+## The terminal command:
+${each.cmd || ''}
+
+## Reason of running this command:
+${each.reason || ''}
+
+## Status of command result:
+${each.successful ? `Successful` : `Failed`}
+
+## Result of command:
+${each.result || ''}
+`.trim()
+        })
+      }
     }
 
     return messages
