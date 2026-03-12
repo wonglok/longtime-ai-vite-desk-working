@@ -86,7 +86,7 @@ please also write a "skill.md" for the ai to use, you should include all the exa
 
 - "[project]/database/*.json" is the location of the json local database
 - "[project]/database/screenshots/*.png" is the location of the screenshots
-- always use relative pathname relative to the "[project]" as root
+- MUST use relative pathname relative to the "[project]" as baseURL
 `.trim(),
 
         modifyMessage: `

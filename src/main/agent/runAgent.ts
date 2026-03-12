@@ -10,7 +10,7 @@ export const runAgent = async ({ checkAborted, onEvent, inbound, randID }) => {
   FailCounter[randID] = FailCounter[randID] || 0
 
   const docs = app.getPath('documents')
-  const workspace = `${docs}/ai-home`
+  // const workspace = `${docs}/ai-home`
   const project = `${docs}/ai-home/${inbound.folder}`
   await makeDirectory(project)
 
@@ -41,7 +41,7 @@ export const runAgent = async ({ checkAborted, onEvent, inbound, randID }) => {
       step: step,
       executionHistory: executionHistory,
       checkAborted: checkAborted,
-      workspace: `${workspace}`,
+      // workspace: `${workspace}`,
       project: project,
       inbound: inbound,
       onEvent: (ev) => {
