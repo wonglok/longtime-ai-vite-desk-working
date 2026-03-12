@@ -50,19 +50,11 @@ ${inbound.soul}
 `.trim()
     })
 
-    messages.push({
-      role: 'user',
-      content: `
-Here's the latest thought of the agent:
-${step.thought}
-    `.trim()
-    })
-
     if (executionHistory) {
       let lastFew = executionHistory
         .slice()
         .reverse()
-        .slice(0, 5)
+        .slice(0, 3)
         .reverse()
         .filter((r) => r.terminalCalls)
 
@@ -154,7 +146,8 @@ ${step.todo
   })
   .join('\n')}
 
-You pick the right task to work on.
+Here's the latest thought of the agent:
+${step.thought}
           `
       })
     }
