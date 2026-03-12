@@ -54,8 +54,11 @@ ${inbound.soul}
       for (let item of lastFewSteps) {
         let time = item.timestamp ? `[${item.timestamp}]` : ``
         let content = `
-        
-# The Thought of that moment i was having ${time}:
+# The thought of that moment:
+
+## TimeStamp:
+${time}
+## Thought: 
 ${item.thought}
 
 `
