@@ -35,7 +35,7 @@ export const AppRouter = () => (
       </Route>
 
       <Route path="/">
-        <Redirect href="/skill"></Redirect>
+        <Redirect href="/home"></Redirect>
       </Route>
     </Switch>
   </>

@@ -62,10 +62,7 @@ node ./inspire.js --help
 node ./inspire.js --website http://effectnode.com
 node ./inspire.js --find-similar-inspiration "ocean"
 
-please also write a "skill.md" for the ai to use the "AI Skill", you should include all the examples above.
-please also implement "npm run help" in "package.json"
-please also implement "npm run add" in "package.json"
-please also implement "npm run find" in "package.json"
+write a "skill.md" for the ai to use the "AI Skill", you should include all the examples above.
 
 ## for example: node ./inspire.js --website http://effectnode.com
 - step 1: use "playwright" to spin up a browser,
@@ -87,7 +84,7 @@ please also implement "npm run find" in "package.json"
 - MUST use always use relative path instead of absolute path
 - "./database/*.json" is the location of the json local database
 - "./database/screenshots/*.png" is the location of the screenshots
-- MUST verify each todo code implementaion before saying that todo is finished
+
 - MUST use "npm install --save ..." to install packages
 - use npm package "meow" for cli entry code
 - use npm package "openai" for ai calls sdk, sdk config: baseURL: "http://localhost:1234/v1" with model: "qwen/qwen3.5-9b"

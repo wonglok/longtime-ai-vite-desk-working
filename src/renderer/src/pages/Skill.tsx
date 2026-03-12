@@ -45,7 +45,7 @@ export function Skill() {
                   isDir: false,
                   folder: []
                 }}
-                parent={'~/'}
+                parent={'./'}
               ></SkillBlock>
             </div>
           </div>

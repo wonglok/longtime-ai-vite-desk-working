@@ -33,7 +33,8 @@ export type ExecStep = z.infer<typeof WorkTask>
 export type TodoType = z.infer<typeof TodoSchema>
 
 export async function getStep({ project, executionHistory, inbound, checkAborted, onEvent }) {
-  let lastFewSteps = executionHistory.slice().reverse().slice(0, 3).reverse()
+  let latestFewSteps = executionHistory.slice().reverse().slice(0, 3).reverse()
+  let latestOneStep = latestFewSteps[latestFewSteps.length - 1]
 
   const openai = new OpenAI({
     baseURL: inbound.baseURL,
@@ -47,32 +48,47 @@ export async function getStep({ project, executionHistory, inbound, checkAborted
       role: 'system',
       content: `
 ${inbound.soul}
+
+# Here's the latest thought of the agent:
+${latestOneStep.thought}
 `.trim()
     })
 
-    if (lastFewSteps) {
-      for (let item of lastFewSteps) {
-        let time = item.timestamp ? `[${item.timestamp}]` : ``
-        let content = `
-# The thought and action of that moment:
-
+    if (latestFewSteps) {
+      // thought
+      {
+        let allThoughts = ''
+        for (let item of latestFewSteps) {
+          let time = item.timestamp ? `${item.timestamp}` : ``
+          let thought = `
+# The thought of that moment:
 ## TimeStamp:
 ${time}
 ## Thought: 
 ${item.thought}
-
 `
+          allThoughts += thought
+        }
 
-        for (let each of item.terminalCalls as {
-          reason: string
-          cmd: string
-          result: string
-          successful: boolean
-          timestamp: string
-        }[]) {
-          content += `
-## Action :
-----------Action BEGIN----------
+        messages.push({
+          role: 'user',
+          content: allThoughts
+        })
+      }
+
+      // thought
+      {
+        let allCalls = ''
+        for (let item of latestFewSteps) {
+          for (let each of item.terminalCalls as {
+            reason: string
+            cmd: string
+            result: string
+            successful: boolean
+            timestamp: string
+          }[]) {
+            allCalls += `
+----------Terminal Call BEGIN----------
 ### Timetamp: ${each.timestamp || new Date().toString()}
 
 ### Reason of running this command:
@@ -86,16 +102,18 @@ ${each.cmd || ''}
 
 ### Result of command:
 ${each.result.trim() || ''}
-----------Action END---------- 
+----------Terminal Call END---------- 
 `
+          }
         }
 
         messages.push({
           role: 'user',
-          content: content
+          content: allCalls
         })
       }
 
+      //
       //
     }
 
@@ -130,20 +148,16 @@ check the latest app spec against the current todo list and current code files t
 `.trim()
     })
 
-    let lastStep = lastFewSteps[lastFewSteps.length - 1]
-    if (lastStep.todo?.length > 0) {
+    if (latestOneStep.todo?.length > 0) {
       messages.push({
         role: 'user',
         content: `
 # Here's the latest todo list:
-${lastStep.todo
+${latestOneStep.todo
   .map((r) => {
     return `${`[${r.status}]`} ${r.task}`
   })
   .join('\n')}
-
-# Here's the latest thought of the agent:
-${lastStep.thought}
           `
       })
     }
