@@ -3,6 +3,10 @@ import OpenAI from 'openai'
 import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
 import { z } from 'zod'
 // import { scanFolder } from '../utils/getSummary'
+const TodoSchema = z.object({
+  status: z.enum(['pending', 'active', 'completed']),
+  task: z.string().describe('task description')
+})
 
 const WorkTask = z.object({
   thought: z
@@ -11,15 +15,7 @@ const WorkTask = z.object({
       "thoughts related of the agent and of the current tasks. It's written for the agent to see again."
     ),
 
-  todo: z
-    .array(
-      z.object({
-        status: z.enum(['pending', 'active', 'completed']),
-        task: z.string().describe('task description')
-      })
-    )
-    .describe('a todo list')
-    .min(1),
+  todo: z.array(TodoSchema).describe('a todo list').min(1),
 
   terminalCalls: z
     .array(
@@ -33,6 +29,7 @@ const WorkTask = z.object({
 })
 
 export type ExecStep = z.infer<typeof WorkTask>
+export type TodoType = z.infer<typeof TodoSchema>
 
 export async function getStep({ project, executionHistory, inbound, checkAborted, onEvent }) {
   const openai = new OpenAI({

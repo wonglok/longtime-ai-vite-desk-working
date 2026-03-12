@@ -1,6 +1,6 @@
 import { app } from 'electron'
 import { makeDirectory } from 'make-dir'
-import { getStep, ExecStep } from './subagents/getStep'
+import { getStep, ExecStep, TodoType } from './subagents/getStep'
 import { writeFile } from 'fs/promises'
 import path from 'path'
 import { readFile } from 'fs/promises'
@@ -81,8 +81,13 @@ export const runAgent = async ({ checkAborted, onEvent, inbound, randID }) => {
   let state = {
     executionHistory: [
       {
-        thought: `let's get to work.`,
-        todo: [],
+        thought: `good morning! let's see how we can help the user.`,
+        todo: [
+          {
+            task: `let figure out todo list.`,
+            status: 'active'
+          }
+        ] satisfies TodoType[],
         terminalCalls: []
       }
     ]
@@ -94,6 +99,11 @@ export const runAgent = async ({ checkAborted, onEvent, inbound, randID }) => {
   } catch (e) {
     console.error(e)
   }
+
+  onEvent({
+    type: 'todo',
+    todo: state.executionHistory[0].todo
+  })
 
   await loopRun({
     executionHistory: state.executionHistory
