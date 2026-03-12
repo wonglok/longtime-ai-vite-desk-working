@@ -14,9 +14,11 @@ export const runAgent = async ({ checkAborted, onEvent, inbound, randID }) => {
   const project = `${docs}/ai-home/${inbound.folder}`
   await makeDirectory(project)
 
-  onEvent({ type: 'notice', text: `Preparing Cotnext:\n${inbound.appSpec}` })
-
   if (checkAborted()) {
+    return
+  }
+  if (FailCounter[randID] >= 50) {
+    onEvent({ type: 'error', error: 'Failed too many times.' })
     return
   }
 
