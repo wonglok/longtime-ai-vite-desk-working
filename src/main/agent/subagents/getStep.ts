@@ -54,7 +54,7 @@ ${inbound.soul}
       for (let item of lastFewSteps) {
         let time = item.timestamp ? `[${item.timestamp}]` : ``
         let content = `
-# The thought of that moment:
+# The thought and action of that moment:
 
 ## TimeStamp:
 ${time}
@@ -70,25 +70,24 @@ ${item.thought}
           successful: boolean
           timestamp: string
         }[]) {
-          let eachHistory = `
-----------Terminal Command & Result BEGIN----------
-## Timetamp: ${each.timestamp || new Date().toString()}
+          content += `
+## Action :
+----------Action BEGIN----------
+### Timetamp: ${each.timestamp || new Date().toString()}
 
-## Reason of running this command:
+### Reason of running this command:
 ${each.reason || ''}
 
-## Status of command result:
+### Status of command result:
 ${each.successful ? `Successful` : `Failed`}
 
-## The terminal command:
+### The terminal command:
 ${each.cmd || ''}
 
-## Result of command:
+### Result of command:
 ${each.result.trim() || ''}
-----------Terminal Command & Result END---------- 
+----------Action END---------- 
 `
-
-          content += eachHistory
         }
 
         messages.push({
