@@ -2,6 +2,7 @@ import { exec } from 'child_process'
 import OpenAI from 'openai'
 import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
 import { z } from 'zod'
+import { scanFolder } from '../utils/getSummary'
 // import { scanFolder } from '../utils/getSummary'
 const TodoSchema = z.object({
   status: z.enum(['pending', 'active', 'completed']),
@@ -32,6 +33,8 @@ export type ExecStep = z.infer<typeof WorkTask>
 export type TodoType = z.infer<typeof TodoSchema>
 
 export async function getStep({ project, executionHistory, inbound, checkAborted, onEvent }) {
+  let lastFewSteps = executionHistory.slice().reverse().slice(0, 5).reverse()
+
   const openai = new OpenAI({
     baseURL: inbound.baseURL,
     apiKey: inbound.apiKey
@@ -47,34 +50,22 @@ ${inbound.soul}
 `.trim()
     })
 
-    if (executionHistory) {
-      let lastFew = executionHistory
-        .slice()
-        .reverse()
-        .slice(0, 3)
-        .reverse()
-        .filter((r) => r.terminalCalls)
+    if (lastFewSteps) {
+      let content = ''
+      for (let item of lastFewSteps) {
+        for (let each of item.terminalCalls as {
+          reason: string
+          cmd: string
+          result: string
+          successful: boolean
+          timestamp: string
+        }[]) {
+          let time = item.timestamp ? `[${item.timestamp}]` : ``
 
-      messages.push({
-        role: 'user',
-        content: `
-# Previous terminal cli call execution history (${lastFew.length})
-
-${lastFew
-  .map((item, idx) => {
-    let time = item.timestamp ? `[${item.timestamp}]` : ``
-    let str = `
+          let eachHistory = `
 # The Thought of that moment i was having ${time}:
 ${item.thought}
-`
-    for (let each of item.terminalCalls as {
-      reason: string
-      cmd: string
-      result: string
-      successful: boolean
-      timestamp: string
-    }[]) {
-      str += `
+
 ----------Terminal Command & Result BEGIN----------
 ## Timetamp: ${each.timestamp || new Date().toString()}
 
@@ -90,15 +81,18 @@ ${each.cmd || ''}
 ## Result of command:
 ${each.result.trim() || ''}
 ----------Terminal Command & Result END---------- 
-
 `
-    }
 
-    return `${str}`
-  })
-  .join('\n')}
-      `.trim()
+          content += eachHistory
+        }
+      }
+
+      messages.push({
+        role: 'user',
+        content: content
       })
+
+      //
     }
 
     messages.push({
@@ -110,16 +104,16 @@ The [project] folder name is: ${JSON.stringify(inbound.folder)}
       `
     })
 
-    //     const summary = await scanFolder(project)
-    //     messages.push({
-    //       role: 'user',
-    //       content: `# Instruction: MUST write summary of each code file
-    // - whever you write a .js/.ts/.tsx/.jsx code file, you write a summary at the top of the file like this format:
-    // "//SUMMARY: [summary of the file...]"
+    const summary = await scanFolder(project)
+    messages.push({
+      role: 'user',
+      content: `# Instruction: MUST write summary of each code file
+    - whever you write a .js/.ts/.tsx/.jsx code file, you write a summary at the top of the file like this format:
+    "//SUMMARY: [summary of the file...]"
 
-    // ${summary}
-    //       `.trim()
-    //     })
+    ${summary}
+          `.trim()
+    })
 
     messages.push({
       role: 'user',
@@ -132,7 +126,7 @@ check the latest app spec against the current todo list and current code files t
 `.trim()
     })
 
-    let lastStep = executionHistory[executionHistory.length - 1]
+    let lastStep = lastFewSteps[lastFewSteps.length - 1]
     if (lastStep.todo?.length > 0) {
       messages.push({
         role: 'user',
@@ -169,34 +163,6 @@ ${inbound.modifyMessage}
           `
       })
     }
-
-    //     if ((step?.terminalCalls?.length || 0) > 0) {
-    //       for (let each of step.terminalCalls as {
-    //         reason: string
-    //         cmd: string
-    //         result: string
-    //         successful: boolean
-    //       }[]) {
-    //         messages.push({
-    //           role: 'user',
-    //           content: `
-    // # Latest Terminal Command & Result
-
-    // ## The terminal command:
-    // ${each.cmd || ''}
-
-    // ## Reason of running this command:
-    // ${each.reason || ''}
-
-    // ## Status of command result:
-    // ${each.successful ? `Successful` : `Failed`}
-
-    // ## Result of command:
-    // ${each.result || ''}
-    // `.trim()
-    //         })
-    //       }
-    //     }
 
     return messages
   }
