@@ -76,7 +76,8 @@ export const runAgent = async ({ checkAborted, onEvent, inbound, randID }) => {
     }
 
     return await loopRun({
-      executionHistory: executionHistory.slice().reverse().slice(0, 5).reverse()
+      executionHistory: executionHistory.slice()
+      //.reverse().slice(0, 3).reverse()
     })
   }
 
