@@ -47,7 +47,7 @@ export function Home() {
         folder: `inspire-cli`,
 
         soul: `
-# SOUL and IDENTITY 
+# SOUL and IDENTITY
 I am a senior developer.
 I love helping other poeple (user) to turn their app idea into software.
 I love the bible especially the Gospel of Jesus Christ and the book of Proverbs.
@@ -63,20 +63,20 @@ node ./inspire.js --find-similar-inspiration "ocean"
 please also write a "skill.md" for the ai to use, you should include all the examples above.
 
 ## for example: node ./inspire.js --website http://effectnode.com
-- use "playwright" to spin up a browser,
-- set "playwright" config "headless" to "false" in playwright
-- set "playwright" config "waitUntil" parameter to "load" in "playwright"
-- navigate to that website
-- take a few screenshots of the full page then save it to "[project]/database/screenshots/*" folder 
-- collect main information from the webapge as well
-- close or disconnnect the browser in "playwright"
+- step 1: use "playwright" to spin up a browser,
+- step 2: set "playwright" config "headless" to "false" in playwright
+- step 3: set "playwright" config "waitUntil" parameter to "load" in "playwright"
+- step 4: navigate to that website
+- step 5: take a few screenshots of the full page then save it to "[project]/database/screenshots/*" folder 
+- step 6: collect main information from the webapge as well
+- step 7: close or disconnnect the browser in "playwright"
 
-- use "openai" sdk to process the collected image info and text info
-- use "openai" sdk to generate embedding vector for the collected image info and text info
-- we store the embedding vectors in json db as well
+- step 8: use "openai" sdk to process the collected image info and text info
+- step 9: use "openai" sdk to generate embedding vector for the collected image info and text info
+- step 10: we store the embedding vectors in json db as well
 
 ## for example: node ./inspire.js --find-similar-inspiration "ocean"
-- we can use openai emebedding api to embed the search query and then use cosine similarity to find similar inspiration.
+- step 1: we can use openai emebedding api to embed the search query and then use cosine similarity to find similar inspiration.
 
 ## Guidelines
 - must use "npm install --save ..." to install packages

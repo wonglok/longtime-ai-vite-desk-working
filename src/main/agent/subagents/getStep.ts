@@ -34,15 +34,7 @@ const WorkTask = z.object({
 
 export type ExecStep = z.infer<typeof WorkTask>
 
-export async function getStep({
-  project,
-  executionHistory,
-  step,
-  workspace,
-  inbound,
-  checkAborted,
-  onEvent
-}) {
+export async function getStep({ project, executionHistory, step, inbound, checkAborted, onEvent }) {
   const openai = new OpenAI({
     baseURL: inbound.baseURL,
     apiKey: inbound.apiKey
@@ -118,13 +110,12 @@ ${each.result.trim() || ''}
       role: 'user',
       content: `
 # MUST HAVE RULES:
-the root workspace folder: ${JSON.stringify(workspace)}
-You only write code at the project folder: ${JSON.stringify(project)}
-The [project] name is called: ${JSON.stringify(inbound.folder)}
+You only write code at this project folder: ${JSON.stringify(project)}
+The [project] folder name is: ${JSON.stringify(inbound.folder)}
       `
     })
 
-    //     const summary = await scanFolder(workspace)
+    //     const summary = await scanFolder(project)
     //     messages.push({
     //       role: 'user',
     //       content: `# Instruction: MUST write summary of each code file
@@ -272,7 +263,7 @@ ${inbound.modifyMessage}
           return exec(
             `${each.cmd}`,
             {
-              cwd: `${workspace}`
+              cwd: `${project}`
             },
             (error, stdout, stderr) => {
               if (error) {
