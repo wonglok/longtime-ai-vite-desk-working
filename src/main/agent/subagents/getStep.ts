@@ -79,8 +79,7 @@ ${step.thought}
 # Previous terminal cli call execution history (${lastFew.length})
 ${lastFew
   .map((item, idx) => {
-    let str = `
-    `
+    let str = ``
     for (let each of item.terminalCalls as {
       reason: string
       cmd: string
@@ -88,11 +87,10 @@ ${lastFew
       successful: boolean
       timestamp: string
     }[]) {
-      str += `
-# ===============================================
-# Terminal Command & Result [${idx + 1}] BEGIN
-# Timetamp: ${each.timestamp || new Date().toString()}
-# ===============================================
+      str += `----------BEGIN---------- 
+Terminal Command & Result [${idx + 1}] BEGIN
+----------BEGIN---------- 
+Timetamp: ${each.timestamp || new Date().toString()}
 
 ## The terminal command:
 ${each.cmd || ''}
@@ -105,12 +103,11 @@ ${each.successful ? `Successful` : `Failed`}
 
 ## Result of command:
 ${each.result || ''}
+----------END---------- 
+Terminal Command & Result [${idx + 1}] END
+----------END---------- 
 
-# ===============================================
-# Terminal Command & Result [${idx + 1}] END
-# ===============================================
-
-`.trimStart()
+`
     }
 
     return `${str}`
@@ -295,7 +292,7 @@ ${inbound.modifyMessage}
         })
 
         ;(each as any).successful = res.successful
-        ;(each as any).result = res.result
+        ;(each as any).result = res.result.trim()
         ;(each as any).timestamp = new Date().toString()
 
         console.log(each.cmd)
