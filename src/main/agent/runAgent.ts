@@ -10,8 +10,9 @@ export const runAgent = async ({ checkAborted, onEvent, inbound, randID }) => {
   FailCounter[randID] = FailCounter[randID] || 0
 
   const docs = app.getPath('documents')
-  const workspace = `${docs}/ai-home/${inbound.folder}`
-  await makeDirectory(workspace)
+  const workspace = `${docs}/ai-home`
+  const project = `${docs}/ai-home/${inbound.folder}`
+  await makeDirectory(project)
 
   onEvent({ type: 'notice', text: `Preparing Cotnext:\n${inbound.appSpec}` })
 
@@ -41,6 +42,7 @@ export const runAgent = async ({ checkAborted, onEvent, inbound, randID }) => {
       executionHistory: executionHistory,
       checkAborted: checkAborted,
       workspace: `${workspace}`,
+      project: project,
       inbound: inbound,
       onEvent: (ev) => {
         onEvent(ev)
@@ -61,7 +63,7 @@ export const runAgent = async ({ checkAborted, onEvent, inbound, randID }) => {
     onEvent({ type: 'executionHistory', executionHistory: executionHistory })
 
     await writeFile(
-      path.join(workspace, 'state.json'),
+      path.join(project, 'state.json'),
       JSON.stringify(
         {
           nextStep: nextStep,
@@ -95,7 +97,7 @@ export const runAgent = async ({ checkAborted, onEvent, inbound, randID }) => {
   }
 
   try {
-    let stateStr = await readFile(path.join(workspace, 'state.json'), 'utf-8')
+    let stateStr = await readFile(path.join(project, 'state.json'), 'utf-8')
     state = JSON.parse(stateStr)
   } catch (e) {
     console.error(e)

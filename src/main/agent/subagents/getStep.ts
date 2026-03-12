@@ -2,7 +2,7 @@ import { exec } from 'child_process'
 import OpenAI from 'openai'
 import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
 import { z } from 'zod'
-import { scanFolder } from '../utils/getSummary'
+// import { scanFolder } from '../utils/getSummary'
 
 const WorkTask = z.object({
   thought: z
@@ -35,6 +35,7 @@ const WorkTask = z.object({
 export type ExecStep = z.infer<typeof WorkTask>
 
 export async function getStep({
+  project,
   executionHistory,
   step,
   workspace,
@@ -117,8 +118,9 @@ ${each.result.trim() || ''}
       role: 'user',
       content: `
 # MUST HAVE RULES:
-Only work at the workspace folder: ${JSON.stringify(workspace)}
-The [workspace] name is called: ${JSON.stringify(inbound.folder)}
+the root workspace folder: ${JSON.stringify(workspace)}
+You only write code at the project folder: ${JSON.stringify(project)}
+The [project] name is called: ${JSON.stringify(inbound.folder)}
       `
     })
 

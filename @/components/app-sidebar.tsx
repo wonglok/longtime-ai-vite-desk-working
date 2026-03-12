@@ -26,10 +26,10 @@ import {
   MapIcon
 } from 'lucide-react'
 
-import electronSVG from '../../src/renderer/src/assets/electron.svg'
-import { AuraExample } from '@renderer/effects/AuraExample'
-import { AuraEffect } from '@renderer/effects/AuraEffect'
-import { SearchBar } from '@renderer/effects/SearchBar'
+// import electronSVG from '../../src/renderer/src/assets/electron.svg'
+// import { AuraExample } from '@renderer/effects/AuraExample'
+// import { AuraEffect } from '@renderer/effects/AuraEffect'
+// import { SearchBar } from '@renderer/effects/SearchBar'
 
 // This is sample data.
 const data = {
@@ -71,8 +71,8 @@ const data = {
           url: '/home'
         },
         {
-          title: 'Settings',
-          url: '#'
+          title: 'Use Skills',
+          url: '/skills'
         }
       ]
     },

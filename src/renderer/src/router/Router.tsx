@@ -9,6 +9,7 @@ import { Setup } from '@renderer/pages/Setup'
 import { Embeddings } from '@renderer/pages/Embeddings'
 import { Home } from '@renderer/pages/Home'
 import { RecursiveAI } from '@renderer/pages/RecursiveAI'
+import { Skill } from '@renderer/pages/Skill'
 
 export const AppRouter = () => (
   <>
@@ -25,12 +26,16 @@ export const AppRouter = () => (
         <Home></Home>
       </Route>
 
+      <Route path="/skill">
+        <Skill></Skill>
+      </Route>
+
       <Route path="/recursive-ai">
         <RecursiveAI></RecursiveAI>
       </Route>
 
       <Route path="/">
-        <Redirect href="/home"></Redirect>
+        <Redirect href="/skill"></Redirect>
       </Route>
     </Switch>
   </>

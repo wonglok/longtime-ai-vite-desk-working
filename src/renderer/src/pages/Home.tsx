@@ -44,7 +44,7 @@ export function Home() {
         // model: `qwen/qwen3.5-4b`,
         // model: `openai/gpt-oss-20b`,
 
-        folder: `inspire-cmd`,
+        folder: `inspire-cli`,
 
         soul: `
 # SOUL and IDENTITY 
@@ -67,7 +67,7 @@ please also write a "skill.md" for the ai to use, you should include all the exa
 - set "playwright" config "headless" to "false" in playwright
 - set "playwright" config "waitUntil" parameter to "load" in "playwright"
 - navigate to that website
-- take a few screenshots of the full page then save it to "[workspace]/database/screenshots/*" folder 
+- take a few screenshots of the full page then save it to "[project]/database/screenshots/*" folder 
 - collect main information from the webapge as well
 - close or disconnnect the browser in "playwright"
 
@@ -84,9 +84,9 @@ please also write a "skill.md" for the ai to use, you should include all the exa
 - use npm package "openai" for ai calls sdk, sdk config: baseURL: "http://localhost:1234/v1" with model: "qwen/qwen3.5-4b"
 - use npm package "openai" for embeding, sdk config: baseURL: "http://localhost:1234/v1" with model: "qwen.qwen3-vl-embedding-2b"
 
-- "[workspace]/database/*.json" is the location of the json local database
-- "[workspace]/database/screenshots/*.png" is the location of the screenshots
-
+- "[project]/database/*.json" is the location of the json local database
+- "[project]/database/screenshots/*.png" is the location of the screenshots
+- always use relative pathname relative to the "[project]" as root
 `.trim(),
 
         modifyMessage: `
