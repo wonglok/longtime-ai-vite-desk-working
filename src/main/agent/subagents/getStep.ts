@@ -33,7 +33,7 @@ export type ExecStep = z.infer<typeof WorkTask>
 export type TodoType = z.infer<typeof TodoSchema>
 
 export async function getStep({ project, executionHistory, inbound, checkAborted, onEvent }) {
-  let lastFewSteps = executionHistory.slice().reverse().slice(0, 5).reverse()
+  let lastFewSteps = executionHistory.slice().reverse().slice(0, 3).reverse()
 
   const openai = new OpenAI({
     baseURL: inbound.baseURL,
@@ -51,8 +51,15 @@ ${inbound.soul}
     })
 
     if (lastFewSteps) {
-      let content = ''
       for (let item of lastFewSteps) {
+        let time = item.timestamp ? `[${item.timestamp}]` : ``
+        let content = `
+        
+# The Thought of that moment i was having ${time}:
+${item.thought}
+
+`
+
         for (let each of item.terminalCalls as {
           reason: string
           cmd: string
@@ -60,12 +67,7 @@ ${inbound.soul}
           successful: boolean
           timestamp: string
         }[]) {
-          let time = item.timestamp ? `[${item.timestamp}]` : ``
-
           let eachHistory = `
-# The Thought of that moment i was having ${time}:
-${item.thought}
-
 ----------Terminal Command & Result BEGIN----------
 ## Timetamp: ${each.timestamp || new Date().toString()}
 
@@ -85,12 +87,12 @@ ${each.result.trim() || ''}
 
           content += eachHistory
         }
-      }
 
-      messages.push({
-        role: 'user',
-        content: content
-      })
+        messages.push({
+          role: 'user',
+          content: content
+        })
+      }
 
       //
     }
@@ -268,7 +270,7 @@ ${inbound.modifyMessage}
   //   text: JSON.stringify(nextStep, null, '\t')
   // })
 
-  return nextStep
+  return JSON.parse(JSON.stringify(nextStep))
 }
 
 //

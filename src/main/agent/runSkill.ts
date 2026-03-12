@@ -33,6 +33,7 @@ export const runSkill = async ({ checkAborted, onEvent, inbound, randID }) => {
       baseURL: inbound.baseURL,
       apiKey: inbound.apiKey
     })
+
     console.log(`${await getSkills(workspace)}`)
 
     const json = await openai.chat.completions

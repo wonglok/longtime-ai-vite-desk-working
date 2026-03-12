@@ -11,7 +11,7 @@ export const runAgent = async ({ checkAborted, onEvent, inbound, randID }) => {
 
   const docs = app.getPath('documents')
   // const workspace = `${docs}/ai-home`
-  const project = `${docs}/ai-home/${inbound.folder}`
+  const project = `${docs}/ai-home/cli/${inbound.folder}`
   await makeDirectory(project)
 
   if (checkAborted()) {
@@ -109,7 +109,7 @@ export const runAgent = async ({ checkAborted, onEvent, inbound, randID }) => {
   })
 
   await loopRun({
-    executionHistory: state.executionHistory
+    executionHistory: state.executionHistory.slice().reverse().slice(0, 3).reverse()
   })
 }
 
