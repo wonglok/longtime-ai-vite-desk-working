@@ -152,7 +152,7 @@ ${step.thought}
       })
     }
 
-    if (inbound.errorMessage.trim()) {
+    if ((inbound.errorMessage || '').trim()) {
       messages.push({
         role: 'user',
         content: `

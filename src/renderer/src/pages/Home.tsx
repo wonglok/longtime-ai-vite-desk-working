@@ -82,7 +82,7 @@ please also write a "skill.md" for the ai to use, you should include all the exa
 - MUST use always use relative path instead of absolute path
 - "./database/*.json" is the location of the json local database
 - "./database/screenshots/*.png" is the location of the screenshots
-- MUST verify each feature code implementaion before saying that feature is finished
+- MUST verify each todo code implementaion before saying that todo is finished
 - MUST use "npm install --save ..." to install packages
 - use npm package "meow" for cli entry code
 - use npm package "openai" for ai calls sdk, sdk config: baseURL: "http://localhost:1234/v1" with model: "qwen/qwen3.5-4b"
