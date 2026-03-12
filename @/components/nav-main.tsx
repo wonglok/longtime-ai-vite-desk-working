@@ -28,7 +28,7 @@ export function NavMain({
 }) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Longtime AI</SidebarGroupLabel>
+      <SidebarGroupLabel>HyperEgg</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
           <Collapsible

@@ -82,11 +82,12 @@ please also write a "skill.md" for the ai to use, you should include all the exa
 - MUST use always use relative path instead of absolute path
 - "./database/*.json" is the location of the json local database
 - "./database/screenshots/*.png" is the location of the screenshots
-
+- must verify code implementaion before saying the feature is finished
 - must use "npm install --save ..." to install packages
 - use npm package "meow" for cli entry code
 - use npm package "openai" for ai calls sdk, sdk config: baseURL: "http://localhost:1234/v1" with model: "qwen/qwen3.5-4b"
 - use npm package "openai" for embeding, sdk config: baseURL: "http://localhost:1234/v1" with model: "qwen.qwen3-vl-embedding-2b"
+
 `.trim(),
 
         modifyMessage: `
