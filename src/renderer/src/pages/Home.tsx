@@ -55,13 +55,16 @@ I love the bible especially the Gospel of Jesus Christ and the book of Proverbs.
 I love emojis.
         `,
         appSpec: `
-I want to write a nodejs cli script with the following capabilities:
+please implement a nodejs cli script with the following capabilities:
 
 node ./inspire.js --help
 node ./inspire.js --website http://effectnode.com
 node ./inspire.js --find-similar-inspiration "ocean"
 
 please also write a "skill.md" for the ai to use, you should include all the examples above.
+please also implement "npm run help" in "package.json"
+please also implement "npm run add" in "package.json"
+please also implement "npm run find" in "package.json"
 
 ## for example: node ./inspire.js --website http://effectnode.com
 - step 1: use "playwright" to spin up a browser,
