@@ -70,9 +70,14 @@ ${step.thought}
         role: 'user',
         content: `
 # Previous terminal cli call execution history (${lastFew.length})
+
 ${lastFew
   .map((item, idx) => {
-    let str = ``
+    let time = item.timestamp ? `[${item.timestamp}]` : ``
+    let str = `
+# The Thought of that moment i was having ${time}:
+${item.thought}
+`
     for (let each of item.terminalCalls as {
       reason: string
       cmd: string
@@ -80,7 +85,8 @@ ${lastFew
       successful: boolean
       timestamp: string
     }[]) {
-      str += `----------Terminal Command & Result BEGIN----------
+      str += `
+----------Terminal Command & Result BEGIN----------
 ## Timetamp: ${each.timestamp || new Date().toString()}
 
 ## Reason of running this command:
@@ -243,6 +249,11 @@ ${inbound.modifyMessage}
     )
     .then(async (response) => {
       return JSON.parse(response.choices[0].message.content!) as ExecStep
+    })
+    .then((data: any) => {
+      data.timestamp = new Date().toString()
+
+      return data
     })
     .catch((r) => {
       console.error(r)

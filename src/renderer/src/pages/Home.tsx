@@ -67,7 +67,7 @@ please also write a "skill.md" for the ai to use, you should include all the exa
 - step 2: set "playwright" config "headless" to "false" in playwright
 - step 3: set "playwright" config "waitUntil" parameter to "load" in "playwright"
 - step 4: navigate to that website
-- step 5: take a few screenshots of the full page then save it to "[project]/database/screenshots/*" folder 
+- step 5: take a few screenshots of the full page then save it to "./database/screenshots/*" folder 
 - step 6: collect main information from the webapge as well
 - step 7: close or disconnnect the browser in "playwright"
 
@@ -76,21 +76,20 @@ please also write a "skill.md" for the ai to use, you should include all the exa
 - step 10: we store the embedding vectors in json db as well
 
 ## for example: node ./inspire.js --find-similar-inspiration "ocean"
-- step 1: we can use openai emebedding api to embed the search query and then use cosine similarity to find similar inspiration.
+- step 1: we can use "openai" emebedding api to embed the search query and then use cosine similarity to find similar inspiration.
 
 ## Guidelines
+- MUST use always use relative path instead of absolute path
+- "./database/*.json" is the location of the json local database
+- "./database/screenshots/*.png" is the location of the screenshots
+
 - must use "npm install --save ..." to install packages
 - use npm package "meow" for cli entry code
 - use npm package "openai" for ai calls sdk, sdk config: baseURL: "http://localhost:1234/v1" with model: "qwen/qwen3.5-4b"
 - use npm package "openai" for embeding, sdk config: baseURL: "http://localhost:1234/v1" with model: "qwen.qwen3-vl-embedding-2b"
-
-- "[project]/database/*.json" is the location of the json local database
-- "[project]/database/screenshots/*.png" is the location of the screenshots
-- MUST use relative pathname relative to the "[project]" as baseURL
 `.trim(),
 
         modifyMessage: `
-
         
         `,
 
