@@ -62,9 +62,9 @@ ${latestOneStep.thought}
           let time = item.timestamp ? `${item.timestamp}` : ``
           let thought = `
 # The thought of that moment:
-## TimeStamp:
-${time}
-## Thought: 
+TimeStamp: ${time}
+
+Thought: 
 ${item.thought}
 `
           allThoughts += thought
@@ -78,7 +78,7 @@ ${item.thought}
 
       // thought
       {
-        let allCalls = ''
+        let allCalls = 'Most recent terminal call and result: \n\n\n'
         for (let item of [latestOneStep]) {
           for (let each of item.terminalCalls as {
             reason: string
@@ -88,21 +88,18 @@ ${item.thought}
             timestamp: string
           }[]) {
             allCalls += `
-----------Terminal Call History BEGIN----------
-### Timetamp: ${each.timestamp || new Date().toString()}
-
-### Reason of running this command:
+Timetamp: ${each.timestamp || new Date().toString()}
+Reason of running this command:
 ${each.reason || ''}
 
-### Status of command result:
+Status of command result:
 ${each.successful ? `Successful` : `Failed`}
 
-### The terminal command:
+The terminal command:
 ${each.cmd || ''}
 
-### Result of command:
+Result of command:
 ${each.result.trim() || ''}
-----------Terminal Call History END---------- 
 `
           }
         }

@@ -36,7 +36,7 @@ export function Home() {
 
         route: 'runAgent',
 
-        model: `qwen/qwen3.5-4b`,
+        model: `qwen/qwen3.5-9b`,
 
         // model: `qwen/qwen3.5-9b`,
         // model: `qwen/qwen3-coder-30b`,
