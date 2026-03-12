@@ -79,16 +79,20 @@ ${step.thought}
 # Previous terminal cli call execution history (${lastFew.length})
 ${lastFew
   .map((item, idx) => {
-    console.log(item)
-    let str = ''
+    let str = `
+    `
     for (let each of item.terminalCalls as {
       reason: string
       cmd: string
       result: string
       successful: boolean
+      timestamp: string
     }[]) {
       str += `
-# Terminal Command & Result [${idx}]
+# ===============================================
+# Terminal Command & Result [${idx + 1}] BEGIN
+# Timetamp: ${each.timestamp || new Date().toString()}
+# ===============================================
 
 ## The terminal command:
 ${each.cmd || ''}
@@ -101,10 +105,15 @@ ${each.successful ? `Successful` : `Failed`}
 
 ## Result of command:
 ${each.result || ''}
-`.trim()
+
+# ===============================================
+# Terminal Command & Result [${idx + 1}] END
+# ===============================================
+
+`.trimStart()
     }
 
-    return `[${idx + 1}]: ${str}`
+    return `${str}`
   })
   .join('\n')}
       `.trim()
@@ -178,33 +187,33 @@ ${inbound.modifyMessage}
       })
     }
 
-    if ((step?.terminalCalls?.length || 0) > 0) {
-      for (let each of step.terminalCalls as {
-        reason: string
-        cmd: string
-        result: string
-        successful: boolean
-      }[]) {
-        messages.push({
-          role: 'user',
-          content: `
-# Latest Terminal Command & Result
+    //     if ((step?.terminalCalls?.length || 0) > 0) {
+    //       for (let each of step.terminalCalls as {
+    //         reason: string
+    //         cmd: string
+    //         result: string
+    //         successful: boolean
+    //       }[]) {
+    //         messages.push({
+    //           role: 'user',
+    //           content: `
+    // # Latest Terminal Command & Result
 
-## The terminal command:
-${each.cmd || ''}
+    // ## The terminal command:
+    // ${each.cmd || ''}
 
-## Reason of running this command:
-${each.reason || ''}
+    // ## Reason of running this command:
+    // ${each.reason || ''}
 
-## Status of command result:
-${each.successful ? `Successful` : `Failed`}
+    // ## Status of command result:
+    // ${each.successful ? `Successful` : `Failed`}
 
-## Result of command:
-${each.result || ''}
-`.trim()
-        })
-      }
-    }
+    // ## Result of command:
+    // ${each.result || ''}
+    // `.trim()
+    //         })
+    //       }
+    //     }
 
     return messages
   }
@@ -287,6 +296,7 @@ ${each.result || ''}
 
         ;(each as any).successful = res.successful
         ;(each as any).result = res.result
+        ;(each as any).timestamp = new Date().toString()
 
         console.log(each.cmd)
         console.log((each as any).result)
