@@ -137,14 +137,14 @@ check the latest app spec against the current todo list and current code files t
       messages.push({
         role: 'user',
         content: `
-Here's the latest todo list:
+# Here's the latest todo list:
 ${lastStep.todo
   .map((r) => {
     return `${`[${r.status}]`} ${r.task}`
   })
   .join('\n')}
 
-Here's the latest thought of the agent:
+# Here's the latest thought of the agent:
 ${lastStep.thought}
           `
       })
@@ -154,7 +154,7 @@ ${lastStep.thought}
       messages.push({
         role: 'user',
         content: `
-Here's some debug message from user:
+# Here's some debug message from user:
 ${inbound.errorMessage}
           `
       })
@@ -164,7 +164,7 @@ ${inbound.errorMessage}
       messages.push({
         role: 'user',
         content: `
-Here's a modification message from user:
+# Here's a modification message from user:
 ${inbound.modifyMessage}
           `
       })
