@@ -87,9 +87,9 @@ ${lastFew
       successful: boolean
       timestamp: string
     }[]) {
-      str += `----------BEGIN---------- 
+      str += `----------BEGIN----------
 Terminal Command & Result [${idx + 1}] BEGIN
-----------BEGIN---------- 
+----------BEGIN----------
 Timetamp: ${each.timestamp || new Date().toString()}
 
 ## The terminal command:
@@ -102,7 +102,7 @@ ${each.reason || ''}
 ${each.successful ? `Successful` : `Failed`}
 
 ## Result of command:
-${each.result || ''}
+${each.result.trim() || ''}
 ----------END---------- 
 Terminal Command & Result [${idx + 1}] END
 ----------END---------- 
