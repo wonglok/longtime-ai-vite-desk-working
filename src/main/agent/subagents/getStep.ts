@@ -34,13 +34,13 @@ const WorkTask = z.object({
 
 export type ExecStep = z.infer<typeof WorkTask>
 
-export async function getStep({ project, executionHistory, step, inbound, checkAborted, onEvent }) {
+export async function getStep({ project, executionHistory, inbound, checkAborted, onEvent }) {
   const openai = new OpenAI({
     baseURL: inbound.baseURL,
     apiKey: inbound.apiKey
   })
 
-  let prepareMessages = async (step: ExecStep) => {
+  let prepareMessages = async () => {
     const messages: ChatCompletionMessageParam[] = []
 
     messages.push({
@@ -135,19 +135,20 @@ check the latest app spec against the current todo list and current code files t
 `.trim()
     })
 
-    if (step.todo?.length > 0) {
+    let lastStep = executionHistory[executionHistory.length - 1]
+    if (lastStep.todo?.length > 0) {
       messages.push({
         role: 'user',
         content: `
 Here's the latest todo list:
-${step.todo
+${lastStep.todo
   .map((r) => {
     return `${`[${r.status}]`} ${r.task}`
   })
   .join('\n')}
 
 Here's the latest thought of the agent:
-${step.thought}
+${lastStep.thought}
           `
       })
     }
@@ -203,14 +204,10 @@ ${inbound.modifyMessage}
     return messages
   }
 
-  let messages = await prepareMessages(step)
+  let messages = await prepareMessages()
   onEvent({
     type: 'messages',
     messages: messages
-  })
-  onEvent({
-    type: 'todo',
-    todo: step.todo
   })
 
   const controller = new AbortController()

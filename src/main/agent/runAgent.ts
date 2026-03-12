@@ -20,13 +20,7 @@ export const runAgent = async ({ checkAborted, onEvent, inbound, randID }) => {
     return
   }
 
-  const loopRun = async ({
-    executionHistory,
-    step
-  }: {
-    executionHistory: ExecStep[]
-    step: ExecStep
-  }) => {
+  const loopRun = async ({ executionHistory }: { executionHistory: ExecStep[] }) => {
     if (FailCounter[randID] >= 50) {
       onEvent({ type: 'error', error: 'Failed too many times.' })
       return
@@ -35,10 +29,7 @@ export const runAgent = async ({ checkAborted, onEvent, inbound, randID }) => {
       return
     }
 
-    executionHistory.push(step)
-
     const nextStep: ExecStep | null = await getStep({
-      step: step,
       executionHistory: executionHistory,
       checkAborted: checkAborted,
       // workspace: `${workspace}`,
@@ -56,8 +47,10 @@ export const runAgent = async ({ checkAborted, onEvent, inbound, randID }) => {
 
     if (!nextStep) {
       FailCounter[randID] = FailCounter[randID] + 1
-      return await loopRun({ executionHistory, step: step })
+      return await loopRun({ executionHistory })
     }
+
+    executionHistory.push(nextStep)
 
     onEvent({ type: 'todo', todo: nextStep.todo })
     onEvent({ type: 'executionHistory', executionHistory: executionHistory })
@@ -66,7 +59,6 @@ export const runAgent = async ({ checkAborted, onEvent, inbound, randID }) => {
       path.join(project, 'state.json'),
       JSON.stringify(
         {
-          nextStep: nextStep,
           executionHistory: executionHistory
         },
         null,
@@ -82,18 +74,18 @@ export const runAgent = async ({ checkAborted, onEvent, inbound, randID }) => {
     }
 
     return await loopRun({
-      executionHistory: executionHistory.slice().reverse().slice(0, 5).reverse(),
-      step: nextStep
+      executionHistory: executionHistory.slice().reverse().slice(0, 5).reverse()
     })
   }
 
   let state = {
-    executionHistory: [],
-    nextStep: {
-      thought: `let's get to work.`,
-      todo: [],
-      terminalCalls: []
-    }
+    executionHistory: [
+      {
+        thought: `let's get to work.`,
+        todo: [],
+        terminalCalls: []
+      }
+    ]
   }
 
   try {
@@ -104,8 +96,7 @@ export const runAgent = async ({ checkAborted, onEvent, inbound, randID }) => {
   }
 
   await loopRun({
-    executionHistory: state.executionHistory,
-    step: state.nextStep
+    executionHistory: state.executionHistory
   })
 }
 
