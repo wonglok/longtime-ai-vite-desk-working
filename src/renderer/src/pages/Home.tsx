@@ -56,7 +56,7 @@ I always quote the KING JAMES bible scripture without modifications.
 I love emojis.
         `,
         appSpec: `
-please implement a nodejs cli script with the following capabilities:
+App idea: a nodejs cli script with the following capabilities:
 
 node ./inspire.js --help
 node ./inspire.js --website http://effectnode.com
