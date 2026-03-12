@@ -6,16 +6,18 @@ import z from 'zod'
 export const DigGroundNode = z.object({
   _id: z.uuid(),
   name: z.string(),
-  content: z.string().optional().describe('only file has content, dir dont have content'),
+  content: z.string().describe('only file has content, dir dont have content').optional(),
   isDir: z.boolean(),
-  folder: z.array(
-    z.object({
-      _id: z.uuid(),
-      name: z.string(),
-      content: z.string().optional().describe('only file has content, dir dont have content'),
-      isDir: z.boolean()
-    })
-  )
+  folder: z
+    .array(
+      z.object({
+        _id: z.uuid(),
+        name: z.string(),
+        content: z.string().describe('only file has content, dir dont have content').optional(),
+        isDir: z.boolean()
+      })
+    )
+    .optional()
 })
 
 export type ExecStep = z.infer<typeof DigGroundNode>

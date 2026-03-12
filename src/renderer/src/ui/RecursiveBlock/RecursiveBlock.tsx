@@ -2,14 +2,14 @@ import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { useEffect, useState } from 'react'
 
-type Item = {
+export type ItemType = {
   //
   _id: string
   name: string
-  content: string
+  content?: string
   isDir: boolean
 
-  folder?: Item[]
+  folder?: ItemType[]
 }
 
 export function RecursiveBlock({
@@ -19,7 +19,7 @@ export function RecursiveBlock({
   parent = null
 }: {
   soul: string
-  item: Item
+  item: ItemType
   auto?: boolean
   parent?: string | null
 }) {
@@ -51,9 +51,7 @@ export function RecursiveBlock({
 ${soul}
         `,
         prompt: `
-path: ${`${parent}/${myItem.name}`}
-name:${myItem.name}
-content: ${myItem.content}
+${JSON.stringify(item)}
         `
       },
       (stream) => {

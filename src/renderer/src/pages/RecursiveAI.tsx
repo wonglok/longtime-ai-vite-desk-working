@@ -37,22 +37,21 @@ export function RecursiveAI() {
           <div className="bg-muted/50 w-full h-full  rounded-2xl">
             <div>
               <RecursiveBlock
-                soul={`
-# SOUL and IDENTITY 
-I am a senior developer.
-I love helping other poeple (user) to turn their app idea into software.
-I love the bible especially the Gospel of Jesus Christ and the book of Proverbs.
-I love emojis.
-
-# Functionality:
-Propose me a file system of a nodejs photo gallery and some demo
-                  `}
+                soul={`you help write code or develop apps.`}
                 item={{
                   _id: 'abc',
-                  name: `Project folder`,
+                  name: `gallery-app`,
                   isDir: true,
-                  content: ``,
-                  folder: []
+                  folder: [
+                    {
+                      _id: 'app',
+                      name: `readme`,
+                      isDir: false,
+                      content: `
+                        i want to build a nextjs photo gallery app
+                      `
+                    }
+                  ]
                 }}
                 parent={'~/'}
               ></RecursiveBlock>
