@@ -8,8 +8,10 @@
     "@/**/*.*"
   ],
   "compilerOptions": {
+    "noUnusedLocals": false,
     "composite": true,
     "jsx": "react-jsx",
+    "strict": false,
     "baseUrl": ".",
     "paths": {
       "@renderer/*": [

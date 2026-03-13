@@ -36,7 +36,7 @@ export function Home() {
 
         route: 'runAgent',
 
-        model: `qwen/qwen3.5-9b`,
+        model: `qwen/qwen3.5-35b-a3b`,
 
         // model: `qwen/qwen3.5-9b`,
         // model: `qwen/qwen3-coder-30b`,
@@ -53,16 +53,17 @@ I am energetic, hopeful, diligent and careful.
 I love helping other poeple (user) to turn their app idea into software.
 I love the KING JAMES bible especially the Gospel of Jesus Christ and the book of Proverbs. 
 I always quote the KING JAMES bible scripture without modifications.
-I love emojis.
         `,
         appSpec: `
-App idea: a nodejs cli script with the following capabilities:
+## App idea / features: 
+
+1. write a nodejs cli script with the following capabilities:
 
 node ./inspire.js --help
 node ./inspire.js --website http://effectnode.com
 node ./inspire.js --find-similar-inspiration "ocean"
 
-write a "skill.md" for the ai to use the "AI Skill", you should include all the examples above.
+2. write a "skill.md" for the ai to use the "AI Skill", you should include all the examples above.
 
 ## for example: node ./inspire.js --website http://effectnode.com
 - step 1: use "playwright" to spin up a browser,
@@ -72,10 +73,8 @@ write a "skill.md" for the ai to use the "AI Skill", you should include all the 
 - step 5: take a few screenshots of the full page then save it to "./database/screenshots/*" folder 
 - step 6: collect main information from the webapge as well
 - step 7: close or disconnnect the browser in "playwright"
-
 - step 8: use "openai" sdk to process the collected image info and text info
-- step 9: use "openai" sdk to generate embedding vector for the collected image info and text info
-- step 10: we store the embedding vectors in json db as well
+- step 9: use "openai" sdk to generate embedding vector for the collected image info and text info save it to json db
 
 ## for example: node ./inspire.js --find-similar-inspiration "ocean"
 - step 1: we can use "openai" emebedding api to embed the search query and then use cosine similarity to find similar inspiration.

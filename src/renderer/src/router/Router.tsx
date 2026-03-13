@@ -26,7 +26,7 @@ export const AppRouter = () => (
         <Home></Home>
       </Route>
 
-      <Route path="/skill">
+      <Route path="/skills">
         <Skill></Skill>
       </Route>
 
@@ -35,7 +35,7 @@ export const AppRouter = () => (
       </Route>
 
       <Route path="/">
-        <Redirect href="/home"></Redirect>
+        <Redirect href="/recursive-ai"></Redirect>
       </Route>
     </Switch>
   </>
@@ -93,7 +93,7 @@ export function Others() {
         <Home></Home>
       </Route>
       <Route path="/users/:name">
-        {(params) => (
+        {(params: any) => (
           <>
             <div>Home</div>
             <div>Hello, {params.name}!</div>

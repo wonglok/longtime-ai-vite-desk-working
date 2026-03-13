@@ -73,6 +73,10 @@ const data = {
         {
           title: 'Use Skills',
           url: '/skills'
+        },
+        {
+          title: 'Recursive AI',
+          url: '/recursive-ai'
         }
       ]
     },

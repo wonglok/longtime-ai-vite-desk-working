@@ -3,24 +3,83 @@ import { makeDirectory } from 'make-dir'
 import OpenAI from 'openai'
 import z from 'zod'
 
-export const DigGroundNode = z.object({
-  _id: z.uuid(),
-  name: z.string(),
-  content: z.string().describe('only file has content, dir dont have content').optional(),
-  isDir: z.boolean(),
-  folder: z
-    .array(
-      z.object({
-        _id: z.uuid(),
-        name: z.string(),
-        content: z.string().describe('only file has content, dir dont have content').optional(),
-        isDir: z.boolean()
-      })
-    )
-    .optional()
-})
+export const AICoderContextSchema = z
+  .object({
+    _id: z.uuid().describe('random-id-for-unique-object-id'),
+    filePath: z.string().describe('file path ./'),
+    systemPrompt: z
+      .string()
+      .describe(
+        'AI agent context: system prompt message for the code to be written, please also add thouht of the agent for that task'
+      ),
+    userPrompt: z
+      .string()
+      .describe(
+        'AI agent context: user message for the code file to be written, please also add thouht of the agent for that task'
+      )
+  })
+  .describe('a development plan for AI Coding Agent to generate that code file')
 
-export type ExecStep = z.infer<typeof DigGroundNode>
+export type AICoderContextType = z.infer<typeof AICoderContextSchema>
+
+const webapp = z
+  .object({
+    type: z.literal('personal_webapp').describe('personal small webapp'),
+    description: z.literal(
+      'you are a professional nextjs developer. you use file based json databas and sub-folder for other files.'
+    ),
+    codes: z.object({
+      frontend: z.object({
+        pages: z.array(AICoderContextSchema).describe('nextjs app rotuer frontend pages'),
+        components: z.array(AICoderContextSchema).describe('frontend react components'),
+        hooks: z.array(AICoderContextSchema).describe('frontend react hooks'),
+        clients: z.array(AICoderContextSchema).describe('frontend api client')
+      }),
+
+      backend: z.object({
+        endpoints: z
+          .array(AICoderContextSchema)
+          .describe('api endpoints. Nextjs App router API Routes'),
+        database: z
+          .array(AICoderContextSchema)
+          .describe('local json database modules using "db-local" npm package')
+      }),
+
+      global: z.object({
+        apiConfigData: z.array(AICoderContextSchema).describe('configuration data'),
+        typeFiles: z
+          .array(AICoderContextSchema)
+          .describe('typescript type of all data used with naming conventions')
+      })
+    })
+  })
+  .describe(
+    'small personal web app uses "nextjs" with file based json database and sub-folder for other files.'
+  )
+
+const commandLineTool = z
+  .object({
+    type: z.literal('cli_tool').describe('command line tool'),
+    code: z.object({
+      tool: z.object({
+        code: z.array(AICoderContextSchema).describe('command line entry point code'),
+        database: z
+          .array(AICoderContextSchema)
+          .describe('backend local json database modules using "db-local" npm package')
+      }),
+
+      global: z.object({
+        apiConfigData: z.array(AICoderContextSchema).describe('configuration data')
+      })
+    })
+  })
+  .describe(
+    'cli tool uses "meow" npm package with file based json database and sub-folder for other files.'
+  )
+
+export const ParallelDevelopmentPlanSchema = z.discriminatedUnion('type', [webapp, commandLineTool])
+
+export type ParallelDevelopmentPlanSchemaType = z.infer<typeof ParallelDevelopmentPlanSchema>
 
 export const runRecursive = async ({ checkAborted, onEvent, inbound, randID }) => {
   const docs = app.getPath('documents')
@@ -35,19 +94,19 @@ export const runRecursive = async ({ checkAborted, onEvent, inbound, randID }) =
       baseURL: inbound.baseURL,
       apiKey: inbound.apiKey
     })
-    const json = await openai.chat.completions
+    const plan = await openai.chat.completions
       .create(
         {
           model: inbound.model,
           messages: [
             {
               role: 'system',
-              content: `${inbound.soul}`
+              content: `${inbound.appSystemPrompt}`
             },
             {
               role: 'user',
               content: `
-                ${inbound.prompt}
+                ${inbound.appUserPrompt}
               `
             }
           ],
@@ -55,7 +114,7 @@ export const runRecursive = async ({ checkAborted, onEvent, inbound, randID }) =
             type: 'json_schema',
             json_schema: {
               name: 'tree',
-              schema: DigGroundNode.toJSONSchema()
+              schema: ParallelDevelopmentPlanSchema.toJSONSchema()
             }
           },
           reasoning_effort: 'none',
@@ -64,17 +123,31 @@ export const runRecursive = async ({ checkAborted, onEvent, inbound, randID }) =
         { signal }
       )
       .then(async (response) => {
-        return JSON.parse(response.choices[0].message.content!) as ExecStep
+        return JSON.parse(response.choices[0].message.content!) as ParallelDevelopmentPlanSchemaType
       })
       .catch((r) => {
         console.error(r)
         return null
       })
 
-    onEvent({ type: 'json', json: json })
+    onEvent({
+      type: 'plan',
+      plan: plan
+    })
   }
 
+  let tt = setInterval(() => {
+    if (checkAborted()) {
+      clearInterval(tt)
+      controller.abort()
+      return
+    }
+  })
+
   if (signal.aborted) {
+    return
+  }
+  if (checkAborted()) {
     return
   }
 
