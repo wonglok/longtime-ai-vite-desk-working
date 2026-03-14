@@ -118,16 +118,16 @@ export async function developCode({ plan, appFolder, inbound, checkAborted, onEv
     current backend folder: "${appFolder}/backend"
 
     MUST Check the frontend and backend folder recursively to check status of development and update user about progress, before begin development work. (exclude "node_modules/**")
-
+    MUST tell user about progress updates while building 
 ${plan}
     `
 
   const frontend = `
-please tell user about progress updates while building the frontend of the app until it is fully completed.
-    `
+please build the frontend of the app until it is fully completed.
+  `
   const backend = `
-please tell user about progress updates while building the backend of the app until it is fully completed.
-    `
+please build the backend of the app until it is fully completed.
+  `
 
   let develop = async ({ actionPrompt, agentName, subfolder }) => {
     await makeDirectory(join(appFolder, 'ai-memory'))
