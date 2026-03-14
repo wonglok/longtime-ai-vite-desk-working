@@ -10,6 +10,8 @@ import { makeDirectory } from 'make-dir'
 
 const failCounter = {}
 export async function developCode({ randID, plan, appFolder, inbound, checkAborted, onEvent }) {
+  failCounter[randID] = failCounter[randID] || 0
+
   const controller = new AbortController()
   const signal = controller.signal
 
@@ -139,7 +141,7 @@ please build the backend of the app until it is fully completed.
         url: `file:${join(appFolder, 'ai-memory', `${agentName}.db`)}`
       }),
       options: {
-        lastMessages: 10
+        lastMessages: 20
         // workingMemory: {
         //   enabled: true
         // }
@@ -201,7 +203,7 @@ please build the backend of the app until it is fully completed.
             return allDoneMarker.value === true
           },
 
-          maxSteps: Infinity,
+          maxSteps: 20,
           abortSignal: signal,
           memory: {
             thread: `${agentName}`,
@@ -243,14 +245,12 @@ please build the backend of the app until it is fully completed.
 
       if (!allDoneMarker.value && failCounter[randID] <= 50) {
         return await runTurn().catch(() => {
-          failCounter[randID] = failCounter[randID] || 0
           failCounter[randID] += 1
         })
       }
     }
 
     await runTurn().catch(() => {
-      failCounter[randID] = failCounter[randID] || 0
       failCounter[randID] += 1
     })
   }
