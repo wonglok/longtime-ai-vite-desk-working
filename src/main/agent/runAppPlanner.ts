@@ -17,6 +17,8 @@ export const runAppPlanner = async ({ checkAborted, onEvent, inbound, randID }) 
     onEvent: onEvent
   })
 
+  console.log(plan)
+
   await developCode({
     checkAborted: checkAborted,
     appFolder: appFolder,

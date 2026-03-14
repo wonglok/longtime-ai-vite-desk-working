@@ -94,13 +94,18 @@ export async function developCode({ plan, appFolder, inbound, checkAborted, onEv
     name: 'Assistant',
     model: inbound.model,
     instructions: `
-    
-    ${plan}
-    
+
     MUST HAVE GUIDELINES:
 
     current workspace path: "${appFolder}"
-    current current working directory (cwd): "${appFolder}"
+    current working directory (cwd): "${appFolder}"
+    current frontend folder: "${appFolder}/frontend"
+    current backend folder: "${appFolder}/backend"
+
+    
+    MUST Check the frontend and backend folder recursively to check status of development before begin development work. (exclude "node_modules/**")
+
+    ${plan}
     
     `,
 
