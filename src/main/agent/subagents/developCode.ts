@@ -145,7 +145,7 @@ please tell user about progress updates while building the backend of the app un
             apiKey: inbound.apiKey
           },
           observation: {
-            messageTokens: 30_000
+            messageTokens: 10_000
           }
         }
       }
