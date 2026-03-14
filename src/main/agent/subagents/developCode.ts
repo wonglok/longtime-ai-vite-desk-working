@@ -190,10 +190,10 @@ please tell user about progress updates while building the backend of the app un
           // { role: 'user', content: 'I take lunch between 12:30 and 13:30' },
         ],
         {
-          stopWhen: async () => {
-            return allDoneMarker.value === true
-          },
-          maxSteps: 10,
+          // stopWhen: async () => {
+          //   return allDoneMarker.value === true
+          // },
+          maxSteps: 50,
           abortSignal: signal,
           memory: {
             thread: `${agentName}id`,
