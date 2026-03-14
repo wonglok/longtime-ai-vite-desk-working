@@ -22,11 +22,11 @@ export async function developCode({ randID, plan, appFolder, inbound, checkAbort
     }
   }, 1)
 
+  //
   // const progressUpdateToolGen = async ({ agentName, allDoneMarker = { value: false } }) => {
   //   return createTool({
   //     id: 'progressUpdateTool',
   //     description: 'send progress update to user',
-
   //     inputSchema: z.object({
   //       todo: z.array(
   //         z.object({
@@ -45,18 +45,17 @@ export async function developCode({ randID, plan, appFolder, inbound, checkAbort
   //         agentName: agentName,
   //         todo: todo
   //       })
-
   //       if (
   //         todo.filter((r) => r.status === 'completed').length === todo.length &&
   //         todo.length > 5
   //       ) {
   //         allDoneMarker.value = true
   //       }
-
   //       return { success: true }
   //     }
   //   })
   // }
+  //
 
   const terminalToolGen = async ({ agentName, subfolder = '' }) => {
     return createTool({
@@ -142,7 +141,7 @@ please build the backend of the app until it is fully completed.
         url: `file:${join(appFolder, 'ai-memory', `${agentName}.db`)}`
       }),
       options: {
-        lastMessages: 10
+        lastMessages: 5
 
         // observationalMemory: {
         //   model: {
@@ -191,8 +190,7 @@ please build the backend of the app until it is fully completed.
         stopWhen: async () => {
           return allDoneMarker.value === true
         },
-
-        maxSteps: 10,
+        maxSteps: 2,
         abortSignal: signal,
         memory: {
           thread: `${agentName}`,
@@ -214,20 +212,7 @@ please build the backend of the app until it is fully completed.
             title: `${agentName}`,
             metadata: {}
           })
-        },
-        onIterationComplete: ({ iteration, toolCalls, text }) => {
-          if (iteration > 5) {
-            return {
-              continue: false,
-              feedback: 'Please wrap up and provide a summary.'
-            }
-          }
         }
-        //
-        // onChunk: (chunk) => {
-        //   console.log(chunk)
-        // }
-        //
       })
 
       let str = ''
@@ -238,6 +223,23 @@ please build the backend of the app until it is fully completed.
       }
       onEvent({ type: 'stream', agentName: agentName, stream: str })
 
+      // can run
+      if ((await stream.finishReason) === 'length') {
+        return await runTurn().catch(() => {
+          failCounter[randID] += 1
+        })
+      }
+
+      // can run
+      if ((await stream.finishReason) === 'tool-calls') {
+        return await runTurn().catch(() => {})
+      }
+
+      if ((await stream.finishReason) === 'stop') {
+        failCounter[randID] += 1
+        return
+      }
+
       if ((await stream.finishReason) === 'tripwire') {
         failCounter[randID] += 1
         return
@@ -247,10 +249,11 @@ please build the backend of the app until it is fully completed.
         return
       }
 
-      if (allDoneMarker.value) {
-        return
-      }
+      // if (allDoneMarker.value) {
+      //   return
+      // }
 
+      // can run
       return await runTurn().catch(() => {
         failCounter[randID] += 1
       })
