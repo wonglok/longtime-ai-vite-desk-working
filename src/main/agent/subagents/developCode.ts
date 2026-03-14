@@ -44,6 +44,7 @@ export async function developCode({ randID, plan, appFolder, inbound, checkAbort
       }),
       async execute({ todo }) {
         console.log('todo', todo)
+
         onEvent({
           type: 'todo',
           agentName: agentName,

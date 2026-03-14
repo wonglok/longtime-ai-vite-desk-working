@@ -30,10 +30,10 @@ You help the user to turn the app idea into system prompt for other AI Agents to
 You MUST NOT develop any code.
 
 Tech Stack:
-- we use "nextjs" for frontend
+- we use "vite" and "javascript esm modules" for frontend
 - we use "express" server "javascript esm modules, not commonjs" for backend
 
-- if we need to scaffold "nextjs" we use "npx create-next-app@latest --yes" 
+- if we need to scaffold "vite" we use "react@19.2.3" "react-dom@19.2.3"
 - if we need to build command line interface tool (cli-tool) we use "meow" package.
 - if we need AI: we use "lmstudio". the default baseURL is: "http://localhost:1234/v1", the default vision model is: "qwen/qwen3.5-4b", the default vision embedding model is: "qwen.qwen3-vl-embedding-2b"
 - if we need to use browser automation: we use "playwrite" npm package, config is: [headless: false], [waitUntil: load], if we take screenshots we put it into "./frontend/public/screenshots/[id].png", if we need to save text data we put it into json database
@@ -45,7 +45,7 @@ Tech Stack:
 - if we need to support realtime communicaton, we use "socket.io" npm package for backend and "scoket.io-frontend" npm package for frontend, we can make use of disconnect event to trigger leaving all rooms for that socket connection 
 - we use "npm run dev" with "concurrently" to start backend and frontend developemnt servers
 
-GUIDELINE: 
+GUIDELINE:
 MUST use "./frontend" and "./backend" folder to stay organised.
 
 OUTPUT: System Prompt for senior fullstack software engineering developer:
@@ -62,11 +62,7 @@ OUTPUT: System Prompt for senior fullstack software engineering developer:
     - database models
     - backend routes
     - api endpoints
-        - public api routes
-        - auth route?
-        - protected api routes?
-            - handle file upload?
-    
+        - handle file upload?
     - sockets (realtime communications)?
         ...
     - .env
@@ -77,16 +73,8 @@ OUTPUT: System Prompt for senior fullstack software engineering developer:
     - npm packages needed
     
     - support register and login?
-    - site map / pages list:
-        - public pages?
-        - auth pages?
-        - user protected pages?
-        - system dashbaord?
-        ...
-
     - router setup
         - page routes
-        ...
     - components
     - hooks
     - stores

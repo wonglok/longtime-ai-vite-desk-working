@@ -108,9 +108,7 @@ ${appUserPrompt}
     })
 
     window.onbeforeunload = () => {
-      setTimeout(() => {
-        controller.abort()
-      }, 1)
+      controller.abort()
       window.onbeforeunload = undefined
       return true
     }
