@@ -89,7 +89,7 @@ ${appUserPrompt}
               <div style={{ fontSize: '13px' }}>{resp['cmd_end']}</div>
             </>,
             {
-              duration: 200
+              duration: 1000
             }
           )
           nprogress.done()

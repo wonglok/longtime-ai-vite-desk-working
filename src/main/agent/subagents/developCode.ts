@@ -141,7 +141,7 @@ please build the backend of the app until it is fully completed.
         url: `file:${join(appFolder, 'ai-memory', `${agentName}.db`)}`
       }),
       options: {
-        lastMessages: 20
+        lastMessages: 10
         // workingMemory: {
         //   enabled: true
         // }
@@ -173,64 +173,54 @@ please build the backend of the app until it is fully completed.
           }
         }
       ],
-      memory: memory,
-      tools: {
-        terminalTool: await terminalToolGen({ subfolder: subfolder }),
-        progressUpdateTool: await progressUpdateToolGen({ agentName, allDoneMarker })
-      },
       model: {
         provider: 'OPENAI',
         url: inbound.baseURL,
         id: inbound.model,
         apiKey: inbound.apiKey
-        // headers: {
-        //   'X-Custom-Header': 'value'
-        // }
+      },
+      memory: memory,
+      tools: {
+        terminalTool: await terminalToolGen({ subfolder: subfolder }),
+        progressUpdateTool: await progressUpdateToolGen({ agentName, allDoneMarker })
       }
     })
 
     const runTurn = async () => {
       //
 
-      const stream = await developerAgent.stream(
-        [
-          { role: 'user', content: actionPrompt }
-          // { role: 'user', content: 'My day starts at 9am and finishes at 5.30pm' },
-          // { role: 'user', content: 'I take lunch between 12:30 and 13:30' },
-        ],
-        {
-          stopWhen: async () => {
-            return allDoneMarker.value === true
-          },
+      const stream = await developerAgent.stream([{ role: 'user', content: actionPrompt }], {
+        stopWhen: async () => {
+          return allDoneMarker.value === true
+        },
 
-          maxSteps: 20,
-          abortSignal: signal,
-          memory: {
-            thread: `${agentName}`,
-            resource: `${agentName}`
-          },
-          onStepFinish: async () => {
-            await memory.updateMessages({
-              messages: await memory
-                .listMessagesByResourceId({
-                  resourceId: `${agentName}`
-                })
-                .then((r) => {
-                  return r.messages
-                })
-            })
+        maxSteps: 20,
+        abortSignal: signal,
+        memory: {
+          thread: `${agentName}`,
+          resource: `${agentName}`
+        },
+        onStepFinish: async () => {
+          await memory.updateMessages({
+            messages: await memory
+              .listMessagesByResourceId({
+                resourceId: `${agentName}`
+              })
+              .then((r) => {
+                return r.messages
+              })
+          })
 
-            await memory.updateThread({
-              id: `${agentName}`,
-              title: `${agentName}`,
-              metadata: {}
-              // resourceId: `${agentName}resource`,
-              // createdAt: new Date(),
-              // updatedAt: new Date()
-            })
-          }
+          await memory.updateThread({
+            id: `${agentName}`,
+            title: `${agentName}`,
+            metadata: {}
+            // resourceId: `${agentName}resource`,
+            // createdAt: new Date(),
+            // updatedAt: new Date()
+          })
         }
-      )
+      })
 
       let str = ''
       for await (const chunk of await stream.textStream) {
@@ -239,15 +229,23 @@ please build the backend of the app until it is fully completed.
       }
       onEvent({ type: 'stream', agentName: agentName, stream: str })
 
-      console.log('stream.finishReason', await stream.finishReason)
-
+      // console.log('stream.finishReason', await stream.finishReason)
       // console.log(await stream.text)
 
-      if (!allDoneMarker.value && failCounter[randID] <= 50) {
-        return await runTurn().catch(() => {
-          failCounter[randID] += 1
-        })
+      if ((await stream.finishReason) === 'tripwire') {
+        failCounter[randID] += 1
+        return
       }
+
+      if (allDoneMarker.value) {
+        return
+      }
+
+      if (failCounter[randID] >= 10) {
+        return
+      }
+
+      return await runTurn()
     }
 
     await runTurn().catch(() => {
