@@ -214,7 +214,20 @@ please build the backend of the app until it is fully completed.
             title: `${agentName}`,
             metadata: {}
           })
+        },
+        onIterationComplete: ({ iteration, toolCalls, text }) => {
+          if (iteration > 5) {
+            return {
+              continue: false,
+              feedback: 'Please wrap up and provide a summary.'
+            }
+          }
         }
+        //
+        // onChunk: (chunk) => {
+        //   console.log(chunk)
+        // }
+        //
       })
 
       let str = ''
