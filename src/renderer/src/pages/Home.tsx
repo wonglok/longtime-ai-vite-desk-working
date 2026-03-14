@@ -42,15 +42,17 @@ export function Home() {
         <div className="px-4">
           <ArrayBlock></ArrayBlock>
 
-          <div className="flex mb-3">
+          <div className="flex mb-3 space-x-3">
             <TodoKanban agentName="frontend"></TodoKanban>
             <TodoKanban agentName="backend"></TodoKanban>
           </div>
 
-          <div className="flex mb-3">
+          <div className="flex mb-3 space-x-3">
             <Brain agentName="frontend"></Brain>
             <Brain agentName="backend"></Brain>
           </div>
+
+          {/*  */}
         </div>
       </SidebarInset>
     </SidebarProvider>

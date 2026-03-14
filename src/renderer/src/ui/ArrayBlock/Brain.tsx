@@ -8,14 +8,13 @@ export function Brain({ agentName = '' }) {
   useEffect(() => {
     if (ref.current && stream) {
       ref.current.scrollTop = ref.current.scrollHeight
-      window.scrollTo(0, 9999)
     }
   }, [stream])
 
   return (
     <>
       <div
-        className=" whitespace-pre-wrap text-xs p-3 w-full max-h-[500px] overflow-y-scroll"
+        className=" whitespace-pre-wrap text-xs p-3 w-full max-h-[350px] overflow-y-scroll"
         ref={ref}
       >
         {stream}

@@ -32,7 +32,7 @@ export function TodoKanban({ agentName = '' }) {
 
             return (
               <div
-                className="h-full rounded-2xl pt-3 bg-gray-100 shadow-[#585858] w-[300px] text-xs "
+                className="h-full rounded-2xl pt-3 bg-gray-100 shadow-[#585858] w-[33.33%] text-xs "
                 key={`${eStatus}`}
               >
                 <div
