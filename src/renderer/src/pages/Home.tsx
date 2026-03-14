@@ -14,6 +14,7 @@ import 'nprogress/nprogress.css'
 import { ArrayBlock } from '@renderer/ui/ArrayBlock/ArrayBlock'
 import { TodoKanban } from '@renderer/ui/ArrayBlock/TodoKanban'
 import { Brain } from '@renderer/ui/ArrayBlock/Brain'
+// import { SearchBar } from '@renderer/effects/SearchBar'
 
 export function Home() {
   return (
@@ -38,16 +39,14 @@ export function Home() {
           </div>
         </header>
 
-        <div className="gap-4 p-4 pt-0 w-full">
-          <div className="flex mb-3">
-            <ArrayBlock></ArrayBlock>
-          </div>
+        <div className="px-4">
+          <ArrayBlock></ArrayBlock>
 
           <div className="flex mb-3">
             <TodoKanban></TodoKanban>
           </div>
 
-          <div className="flex mb-3 w-full">
+          <div className="flex mb-3">
             <Brain></Brain>
           </div>
         </div>

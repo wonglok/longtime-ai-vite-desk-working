@@ -8,6 +8,7 @@ export function Brain() {
   useEffect(() => {
     if (ref.current) {
       ref.current.scrollTop = ref.current.scrollHeight
+      window.scrollTo(0, 9999)
     }
   }, [stream])
 

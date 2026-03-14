@@ -5,7 +5,7 @@ import { Agent, run, setDefaultOpenAIClient } from '@openai/agents'
 
 import { tool } from '@openai/agents'
 
-export async function getCodeDeveloped({ plan, appFolder, inbound, checkAborted, onEvent }) {
+export async function developCode({ plan, appFolder, inbound, checkAborted, onEvent }) {
   const controller = new AbortController()
   const signal = controller.signal
 
@@ -103,6 +103,7 @@ export async function getCodeDeveloped({ plan, appFolder, inbound, checkAborted,
     current current working directory (cwd): "${appFolder}"
     
     `,
+
     modelSettings: {
       temperature: 0,
       reasoning: {
@@ -119,7 +120,7 @@ export async function getCodeDeveloped({ plan, appFolder, inbound, checkAborted,
   const result = await run(
     agent,
     `
-    please update ther user with progress while building the frontend and backend of the app until it is fully completed
+please tell user about progress updates while building the frontend and backend of the app until it is fully completed.
     `,
     {
       stream: true,

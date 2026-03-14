@@ -1,151 +1,67 @@
 import { app } from 'electron'
 import { makeDirectory } from 'make-dir'
 import OpenAI from 'openai'
-import z from 'zod'
-import { getCodeDeveloped } from './subagents/getCodeDeveloped'
-
-export const CoderSchema = z
-  .object({
-    _id: z.string().describe('small-id-for-unique-object-id'),
-    filePath: z.string().describe('file location path'),
-    thought: z.string().describe(`thouht of the agent for that task`),
-    systemPrompt: z
-      .string()
-      .describe(
-        'AI agent context: system prompt message for the task and the code to be written. you need to follow the system prompt for this.'
-      ),
-
-    userPrompt: z
-      .string()
-      .describe(
-        'AI agent context: user prompt message for the task and the code file to be written and with file content summary'
-      )
-  })
-  .describe('a development plan for AI Coding Agent to generate that code file')
-
-export type CoderType = z.infer<typeof CoderSchema>
-
-export const ParallelDevelopmentPlanSchema = z.object({
-  folders: z.string().describe('folder structure'),
-  todo: z.array(
-    z.object({
-      //
-      task: z.string().describe('task'),
-      codes: z.array(CoderSchema)
-      //
-    })
-  )
-  // tasks: z.discriminatedUnion('type', [webapp, commandLineTool]),
-})
-
-export type ParallelDevelopmentPlanSchemaType = z.infer<typeof ParallelDevelopmentPlanSchema>
-
-function removeThinkTags(input) {
-  // The 'g' flag is for global, the 's' flag is for dotAll (allows '.' to match newlines)
-  const regex = /<think>[\s\S]*?<\/think>/gs
-  const result = input.replace(regex, '')
-  return result
-}
+// import z from 'zod'
+import { developCode } from './subagents/developCode'
+import { writePlan } from './subagents/writePlan'
 
 export const runAppPlanner = async ({ checkAborted, onEvent, inbound, randID }) => {
   const docs = app.getPath('documents')
   const appFolder = `${docs}/ai-home/apps/${inbound.appName}`
   await makeDirectory(appFolder)
 
-  const controller = new AbortController()
-  const signal = controller.signal
+  const plan = await writePlan({
+    appFolder: appFolder,
+    inbound,
+    checkAborted,
+    onEvent: onEvent
+  })
 
-  let run = async () => {
-    const openai = new OpenAI({
-      baseURL: inbound.baseURL,
-      apiKey: inbound.apiKey
-    })
-
-    const plan = await openai.chat.completions
-      .create(
-        {
-          model: inbound.model,
-          messages: [
-            {
-              role: 'system',
-              content: `
-              
-${inbound.appSystemPrompt}
-
-MUST HAVE GUIDELINES:
-
-current workspace path: "${appFolder}"
-current current working directory (cwd): "${appFolder}"
-
-              `
-            },
-            {
-              role: 'user',
-              content: `
-                ${inbound.appUserPrompt}
-              `
-            }
-          ],
-
-          stream: true,
-          reasoning_effort: 'high',
-          temperature: 0.2
-        },
-        { signal }
-      )
-      .then(async (response) => {
-        let text = ''
-        for await (let event of response) {
-          text += event.choices[0].delta.content || ''
-
-          onEvent({ type: 'stream', stream: removeThinkTags(text) })
-        }
-        onEvent({ type: 'stream', stream: removeThinkTags(text) })
-        return text
-      })
-      .catch((r) => {
-        console.error(r)
-        return null
-      })
-
-    //
-    //
-    //
-
-    onEvent({
-      type: 'plan',
-      plan: removeThinkTags(plan)
-    })
-
-    await getCodeDeveloped({
-      checkAborted: checkAborted,
-      appFolder: appFolder,
-      inbound: inbound,
-      plan: plan,
-      onEvent: (ev) => {
-        onEvent(ev)
-      }
-    })
-
-    //
-  }
-
-  let tt = setInterval(() => {
-    if (checkAborted()) {
-      clearInterval(tt)
-      controller.abort()
-      return
+  await developCode({
+    checkAborted: checkAborted,
+    appFolder: appFolder,
+    plan: plan,
+    inbound: inbound,
+    onEvent: (ev) => {
+      onEvent(ev)
     }
   })
 
-  if (signal.aborted) {
-    return
-  }
-  if (checkAborted()) {
-    return
-  }
-
-  await run()
-
   //
 }
+
+// export const CoderSchema = z
+//   .object({
+//     _id: z.string().describe('small-id-for-unique-object-id'),
+//     filePath: z.string().describe('file location path'),
+//     thought: z.string().describe(`thouht of the agent for that task`),
+//     systemPrompt: z
+//       .string()
+//       .describe(
+//         'AI agent context: system prompt message for the task and the code to be written. you need to follow the system prompt for this.'
+//       ),
+
+//     userPrompt: z
+//       .string()
+//       .describe(
+//         'AI agent context: user prompt message for the task and the code file to be written and with file content summary'
+//       )
+//   })
+//   .describe('a development plan for AI Coding Agent to generate that code file')
+
+// export type CoderType = z.infer<typeof CoderSchema>
+
+// export const ParallelDevelopmentPlanSchema = z.object({
+//   folders: z.string().describe('folder structure'),
+//   todo: z.array(
+//     z.object({
+//       //
+//       task: z.string().describe('task'),
+//       codes: z.array(CoderSchema)
+//       //
+//     })
+//   )
+//   // tasks: z.discriminatedUnion('type', [webapp, commandLineTool]),
+// })
+
+// export type ParallelDevelopmentPlanSchemaType = z.infer<typeof ParallelDevelopmentPlanSchema>

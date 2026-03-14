@@ -7,6 +7,8 @@ import { useArchApp } from './useArchApp'
 export function ArrayBlock({}) {
   //'
 
+  const [working, setWorking] = useState(false)
+
   const appSystemPrompt = useArchApp((r) => r.appSystemPrompt)
   const appUserPrompt = useArchApp((r) => r.appUserPrompt)
   // const plan = useArchApp((r) => r.plan)
@@ -23,6 +25,7 @@ export function ArrayBlock({}) {
   }, [stopFunc])
 
   const onClick = async () => {
+    setWorking(true)
     const controller = window.api.askAI(
       {
         baseURL: `http://localhost:1234/v1`,
@@ -70,6 +73,10 @@ ${appUserPrompt}
       }
     )
 
+    controller.getDataAsync().then(() => {
+      setWorking(false)
+    })
+
     setStop((oldStop) => {
       if (typeof oldStop === 'function') {
         oldStop()
@@ -81,7 +88,7 @@ ${appUserPrompt}
   }
   return (
     <>
-      <div>
+      <div className="flex">
         <div className="p-2 mb-2 rounded-2xl border">
           {/* <Textarea
             value={appSystemPrompt}
@@ -106,8 +113,15 @@ ${appUserPrompt}
           ></Textarea>
 
           <div>
-            <Button className="mr-3" onClick={onClick}>
-              Plan and Build
+            <Button
+              className="mr-3"
+              disabled={working}
+              style={{
+                backgroundColor: working ? `#17ac17` : ``
+              }}
+              onClick={onClick}
+            >
+              {working ? `Running` : `Plan and Build`}
             </Button>
             <Button
               className="mr-3"
