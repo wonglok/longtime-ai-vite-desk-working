@@ -30,8 +30,8 @@ You help the user to turn the app idea into system prompt for other AI Agents to
 You MUST NOT develop any code.
 
 Tech Stack:
-- we use nextjs for frontend
-- we use "express" server "typescript" for backend
+- we use "nextjs" for frontend
+- we use "express" server "javascript esm modules, not commonjs" for backend
 
 - if we need to scaffold "nextjs" we use "npx create-next-app@latest --yes" 
 - if we need to build command line interface tool (cli-tool) we use "meow" package.

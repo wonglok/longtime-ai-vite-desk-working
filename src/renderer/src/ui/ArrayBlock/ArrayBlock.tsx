@@ -79,12 +79,19 @@ ${appUserPrompt}
         }
 
         if (resp.type === 'cmd_begin') {
-          toast.info(resp['cmd_begin'])
+          // toast.info(resp['cmd_begin'])
           nprogress.start()
         }
 
         if (resp.type === 'cmd_end') {
-          toast.success(resp['cmd_end'])
+          toast.success(
+            <>
+              <div style={{ fontSize: '13px' }}>{resp['cmd_end']}</div>
+            </>,
+            {
+              duration: 200
+            }
+          )
           nprogress.done()
         }
       }
