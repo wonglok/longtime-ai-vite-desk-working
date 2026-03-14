@@ -232,7 +232,9 @@ please build the backend of the app until it is fully completed.
 
       // can run
       if ((await stream.finishReason) === 'tool-calls') {
-        return await runTurn().catch(() => {})
+        return await runTurn().catch(() => {
+          failCounter[randID] += 1
+        })
       }
 
       if ((await stream.finishReason) === 'stop') {
