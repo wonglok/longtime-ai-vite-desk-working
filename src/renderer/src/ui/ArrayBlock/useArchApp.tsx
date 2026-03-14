@@ -3,7 +3,7 @@ import { create } from 'zustand'
 export const useArchApp = create(() => {
   return {
     //
-    status: ['pending', 'active', 'completed'],
+    status: ['pending', 'in-progress', 'completed'],
     todo: [] as any[],
 
     appUserPrompt: `

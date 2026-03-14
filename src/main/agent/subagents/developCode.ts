@@ -1,7 +1,5 @@
 import { exec, spawn } from 'child_process'
-import OpenAI from 'openai'
-import { success, z } from 'zod'
-import { writeFile } from 'fs/promises'
+import { z } from 'zod'
 import { join } from 'path'
 
 import { Agent } from '@mastra/core/agent'
@@ -30,7 +28,7 @@ export async function developCode({ plan, appFolder, inbound, checkAborted, onEv
         todo: z.array(
           z.object({
             task: z.string(),
-            status: z.enum(['pending', 'active', 'completed'])
+            status: z.enum(['pending', 'in-progress', 'completed'])
           })
         )
       }),
@@ -45,7 +43,10 @@ export async function developCode({ plan, appFolder, inbound, checkAborted, onEv
           todo: todo
         })
 
-        if (todo.filter((r) => r.status === 'completed').length === todo.length) {
+        if (
+          todo.filter((r) => r.status === 'completed').length === todo.length &&
+          todo.length > 0
+        ) {
           allDoneMarker.value = true
         }
 
@@ -116,7 +117,7 @@ export async function developCode({ plan, appFolder, inbound, checkAborted, onEv
     current frontend folder: "${appFolder}/frontend"
     current backend folder: "${appFolder}/backend"
 
-    MUST Check the frontend and backend folder recursively to check status of development before begin development work. (exclude "node_modules/**")
+    MUST Check the frontend and backend folder recursively to check status of development and update user about progress, before begin development work. (exclude "node_modules/**")
 
 ${plan}
     `
@@ -137,7 +138,16 @@ please tell user about progress updates while building the backend of the app un
         url: `file:${join(appFolder, 'ai-memory', `${agentName}.db`)}`
       }),
       options: {
-        lastMessages: 24
+        observationalMemory: {
+          model: {
+            url: inbound.baseURL,
+            id: `lmstudio/${inbound.model}`,
+            apiKey: inbound.apiKey
+          },
+          observation: {
+            messageTokens: 30_000
+          }
+        }
       }
     })
 
@@ -183,8 +193,34 @@ please tell user about progress updates while building the backend of the app un
           stopWhen: async () => {
             return allDoneMarker.value === true
           },
-          maxSteps: Infinity,
-          abortSignal: signal
+          maxSteps: 10,
+          abortSignal: signal,
+          memory: {
+            thread: `${agentName}id`,
+            resource: `${agentName}resource`
+          },
+
+          onStepFinish: async () => {
+            await memory.saveMessages({
+              messages: await memory
+                .listMessagesByResourceId({
+                  resourceId: `${agentName}resource`
+                })
+                .then((r) => {
+                  console.log(r.messages.map((r) => r.content))
+                  return r.messages
+                })
+            })
+            await memory.saveThread({
+              thread: {
+                id: `${agentName}id`,
+                title: `${agentName}title`,
+                resourceId: `${agentName}resource`,
+                createdAt: new Date(),
+                updatedAt: new Date()
+              }
+            })
+          }
         }
       )
 
@@ -201,9 +237,9 @@ please tell user about progress updates while building the backend of the app un
 
       console.log('stream.finishReason', await stream.finishReason)
 
-      // if ((await stream.finishReason) === 'tool-calls') {
-      //   await runTurn()
-      // }
+      if ((await stream.finishReason) === 'tool-calls') {
+        await runTurn()
+      }
     }
 
     await runTurn()
