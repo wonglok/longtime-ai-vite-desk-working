@@ -22,38 +22,43 @@ export async function developCode({ randID, plan, appFolder, inbound, checkAbort
     }
   }, 1)
 
-  // const progressUpdateToolGen = async ({ agentName, allDoneMarker = { value: false } }) => {
-  //   return createTool({
-  //     id: 'progressUpdateTool',
-  //     description: 'send progress update to user',
-  //     inputSchema: z.object({
-  //       todo: z.array(
-  //         z.object({
-  //           task: z.string(),
-  //           status: z.enum(['pending', 'in-progress', 'completed'])
-  //         })
-  //       )
-  //     }),
-  //     outputSchema: z.object({
-  //       success: z.boolean()
-  //     }),
-  //     async execute({ todo }) {
-  //       console.log('todo', todo)
-  //       onEvent({
-  //         type: 'todo',
-  //         agentName: agentName,
-  //         todo: todo
-  //       })
-  //       if (
-  //         todo.filter((r) => r.status === 'completed').length === todo.length &&
-  //         todo.length > 5
-  //       ) {
-  //         allDoneMarker.value = true
-  //       }
-  //       return { success: true }
-  //     }
-  //   })
-  // }
+  const progressUpdateToolGen = async ({
+    agentName,
+    subfolder,
+    allDoneMarker = { value: false }
+  }) => {
+    //
+    return createTool({
+      id: 'progressUpdateTool',
+      description: 'send progress update to user',
+      inputSchema: z.object({
+        todo: z.array(
+          z.object({
+            task: z.string(),
+            status: z.enum(['pending', 'in-progress', 'completed'])
+          })
+        )
+      }),
+      outputSchema: z.object({
+        success: z.boolean()
+      }),
+      async execute({ todo }) {
+        console.log('todo', todo)
+        onEvent({
+          type: 'todo',
+          agentName: agentName,
+          todo: todo
+        })
+        if (
+          todo.filter((r) => r.status === 'completed').length === todo.length &&
+          todo.length > 5
+        ) {
+          allDoneMarker.value = true
+        }
+        return { success: true }
+      }
+    })
+  }
 
   const terminalToolGen = async ({ agentName, subfolder = '' }) => {
     return createTool({
@@ -178,8 +183,16 @@ please build the backend of the app until it is fully completed.
       },
       memory: memory,
       tools: {
-        terminalTool: await terminalToolGen({ agentName: agentName, subfolder: subfolder })
-        // progressUpdateTool: await progressUpdateToolGen({ agentName: agentName,, allDoneMarker })
+        terminalTool: await terminalToolGen({
+          //
+          agentName: agentName,
+          subfolder: subfolder
+        }),
+        progressUpdateTool: await progressUpdateToolGen({
+          agentName: agentName,
+          subfolder: subfolder,
+          allDoneMarker
+        })
       }
     })
 
@@ -190,7 +203,7 @@ please build the backend of the app until it is fully completed.
         stopWhen: async () => {
           return allDoneMarker.value === true
         },
-        maxSteps: 2,
+        maxSteps: 1,
         abortSignal: signal,
         memory: {
           thread: `${agentName}`,
