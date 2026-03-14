@@ -3,81 +3,38 @@ import { makeDirectory } from 'make-dir'
 import OpenAI from 'openai'
 import z from 'zod'
 
-export const AICoderContextSchema = z
+export const CoderSchema = z
   .object({
-    _id: z.uuid().describe('random-id-for-unique-object-id'),
-    filePath: z.string().describe('file path ./'),
+    _id: z.string().describe('small-id-for-unique-object-id'),
+    filePath: z.string().describe('file location path'),
+    thought: z.string().describe(`thouht of the agent for that task`),
     systemPrompt: z
       .string()
       .describe(
-        'AI agent context: system prompt message for the code to be written, please also add thouht of the agent for that task'
+        'AI agent context: system prompt message for the task and the code to be written. you need to follow the system prompt for this.'
       ),
     userPrompt: z
       .string()
       .describe(
-        'AI agent context: user message for the code file to be written, please also add thouht of the agent for that task'
+        'AI agent context: user prompt message for the task and the code file to be written and with file content summary'
       )
   })
   .describe('a development plan for AI Coding Agent to generate that code file')
 
-export type AICoderContextType = z.infer<typeof AICoderContextSchema>
+export type CoderType = z.infer<typeof CoderSchema>
 
-const webapp = z
-  .object({
-    type: z.literal('personal_webapp').describe('personal small webapp'),
-    description: z.literal(
-      'you are a professional nextjs developer. you use file based json databas and sub-folder for other files.'
-    ),
-    codes: z.object({
-      frontend: z.object({
-        pages: z.array(AICoderContextSchema).describe('nextjs app rotuer frontend pages'),
-        components: z.array(AICoderContextSchema).describe('frontend react components'),
-        hooks: z.array(AICoderContextSchema).describe('frontend react hooks'),
-        clients: z.array(AICoderContextSchema).describe('frontend api client')
-      }),
-
-      backend: z.object({
-        endpoints: z
-          .array(AICoderContextSchema)
-          .describe('api endpoints. Nextjs App router API Routes'),
-        database: z
-          .array(AICoderContextSchema)
-          .describe('local json database modules using "db-local" npm package')
-      }),
-
-      global: z.object({
-        apiConfigData: z.array(AICoderContextSchema).describe('configuration data'),
-        typeFiles: z
-          .array(AICoderContextSchema)
-          .describe('typescript type of all data used with naming conventions')
-      })
+export const ParallelDevelopmentPlanSchema = z.object({
+  folders: z.string().describe('folder structure'),
+  todo: z.array(
+    z.object({
+      //
+      task: z.string().describe('task'),
+      codes: z.array(CoderSchema)
+      //
     })
-  })
-  .describe(
-    'small personal web app uses "nextjs" with file based json database and sub-folder for other files.'
   )
-
-const commandLineTool = z
-  .object({
-    type: z.literal('cli_tool').describe('command line tool'),
-    code: z.object({
-      tool: z.object({
-        code: z.array(AICoderContextSchema).describe('command line entry point code'),
-        database: z
-          .array(AICoderContextSchema)
-          .describe('backend local json database modules using "db-local" npm package')
-      }),
-
-      global: z.object({
-        apiConfigData: z.array(AICoderContextSchema).describe('configuration data')
-      })
-    })
-  })
-  .describe(
-    'cli tool uses "meow" npm package with file based json database and sub-folder for other files.'
-  )
-
-export const ParallelDevelopmentPlanSchema = z.discriminatedUnion('type', [webapp, commandLineTool])
+  // tasks: z.discriminatedUnion('type', [webapp, commandLineTool]),
+})
 
 export type ParallelDevelopmentPlanSchemaType = z.infer<typeof ParallelDevelopmentPlanSchema>
 
@@ -94,6 +51,21 @@ export const runRecursive = async ({ checkAborted, onEvent, inbound, randID }) =
       baseURL: inbound.baseURL,
       apiKey: inbound.apiKey
     })
+    const isStream = true
+
+    //  async (response) => {
+    //     return JSON.parse(
+    //       response.choices[0].message.content!
+    //     ) as ParallelDevelopmentPlanSchemaType
+    //   }
+    // response_format: {
+    //   type: 'json_schema',
+    //   json_schema: {
+    //     name: 'tree',
+    //     schema: ParallelDevelopmentPlanSchema.toJSONSchema()
+    //   }
+    // },
+
     const plan = await openai.chat.completions
       .create(
         {
@@ -110,30 +82,38 @@ export const runRecursive = async ({ checkAborted, onEvent, inbound, randID }) =
               `
             }
           ],
-          response_format: {
-            type: 'json_schema',
-            json_schema: {
-              name: 'tree',
-              schema: ParallelDevelopmentPlanSchema.toJSONSchema()
-            }
-          },
-          reasoning_effort: 'none',
-          temperature: 0
+
+          stream: isStream,
+          reasoning_effort: 'high',
+          temperature: 0.2
         },
         { signal }
       )
       .then(async (response) => {
-        return JSON.parse(response.choices[0].message.content!) as ParallelDevelopmentPlanSchemaType
+        let text = ''
+        for await (let event of response) {
+          text += event.choices[0].delta.content || ''
+          onEvent({ type: 'stream', stream: text })
+        }
+        return text
       })
       .catch((r) => {
         console.error(r)
         return null
       })
 
+    //
+    //
+    //
+
     onEvent({
       type: 'plan',
       plan: plan
     })
+
+    //
+    //
+    //
   }
 
   let tt = setInterval(() => {

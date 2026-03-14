@@ -1,8 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 // @ts-ignore
-import type { ParallelDevelopmentPlanSchemaType } from '../../../../main/agent/runRecursive.txt'
 import { useArchApp } from './useArchApp'
 
 export function ArrayBlock({}) {
@@ -11,10 +10,17 @@ export function ArrayBlock({}) {
   const appSystemPrompt = useArchApp((r) => r.appSystemPrompt)
   const appUserPrompt = useArchApp((r) => r.appUserPrompt)
   const plan = useArchApp((r) => r.plan)
+  const stream = useArchApp((r) => r.stream)
 
   const [stopFunc, setStop] = useState<any>(() => {
     return () => {}
   })
+
+  useEffect(() => {
+    return () => {
+      stopFunc()
+    }
+  }, [stopFunc])
 
   const onClick = async () => {
     const controller = window.api.askAI(
@@ -27,8 +33,9 @@ export function ArrayBlock({}) {
 
         model: `qwen/qwen3.5-4b`,
 
-        // model: `qwen/qwen3-coder-30b`,
-        // model: `qwen/qwen3.5-9b`,
+        //
+        // model: `qwen/qwen3.5-35b-a3b`,
+        //
         // model: `qwen/qwen3.5-9b`,
         // model: `qwen/qwen3.5-4b`,
         // model: `openai/gpt-oss-20b`,
@@ -49,7 +56,16 @@ ${appUserPrompt}
         if (resp.type === 'plan') {
           if (resp.plan) {
             console.log(JSON.stringify(resp.plan, null, '\t'))
-            useArchApp.setState({ plan: resp.plan as ParallelDevelopmentPlanSchemaType })
+            useArchApp.setState({
+              plan: resp.plan
+            })
+          }
+        }
+        if (resp.type === 'stream') {
+          if (resp.stream) {
+            useArchApp.setState({
+              stream: resp.stream
+            })
           }
         }
       }
@@ -104,7 +120,7 @@ ${appUserPrompt}
               Stop
             </Button>
           </div>
-          <pre className="text-xs whitespace-pre-wrap">{JSON.stringify(plan, null, '\t')}</pre>
+          <pre className="text-xs whitespace-pre-wrap">{stream}</pre>
         </div>
       </div>
     </>
