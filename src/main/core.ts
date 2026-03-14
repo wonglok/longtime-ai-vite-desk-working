@@ -5,7 +5,7 @@
 // import { prepToolListFiles } from './tools/fsTools'
 
 import { runAgent } from './agent/runAgent'
-import { runRecursive } from './agent/runRecursive'
+import { runAppPlanner } from './agent/runAppPlanner'
 import { runSkill } from './agent/runSkill'
 
 // import { utilityProcess, MessageChannelMain } from 'electron'
@@ -28,8 +28,21 @@ export const setupIPCMain = async ({ ipcMain, mainWindow }) => {
 
   ipcMain.on('askAI-message', async (event, inbound, randID) => {
     try {
-      if (inbound.route === 'runAgent') {
-        await runAgent({
+      // if (inbound.route === 'runAgent') {
+      //   await runAgent({
+      //     inbound,
+      //     randID,
+      //     checkAborted: () => {
+      //       return abortedFlags[randID]
+      //     },
+      //     onEvent: (ev) => {
+      //       mainWindow.webContents.send(`askAI-stream${randID}`, JSON.stringify(ev))
+      //     }
+      //   })
+      // }
+
+      if (inbound.route === 'runAppPlanner') {
+        await runAppPlanner({
           inbound,
           randID,
           checkAborted: () => {
@@ -41,31 +54,18 @@ export const setupIPCMain = async ({ ipcMain, mainWindow }) => {
         })
       }
 
-      if (inbound.route === 'runRecursive') {
-        await runRecursive({
-          inbound,
-          randID,
-          checkAborted: () => {
-            return abortedFlags[randID]
-          },
-          onEvent: (ev) => {
-            mainWindow.webContents.send(`askAI-stream${randID}`, JSON.stringify(ev))
-          }
-        })
-      }
-
-      if (inbound.route === 'runSkill') {
-        await runSkill({
-          inbound,
-          randID,
-          checkAborted: () => {
-            return abortedFlags[randID]
-          },
-          onEvent: (ev) => {
-            mainWindow.webContents.send(`askAI-stream${randID}`, JSON.stringify(ev))
-          }
-        })
-      }
+      // if (inbound.route === 'runSkill') {
+      //   await runSkill({
+      //     inbound,
+      //     randID,
+      //     checkAborted: () => {
+      //       return abortedFlags[randID]
+      //     },
+      //     onEvent: (ev) => {
+      //       mainWindow.webContents.send(`askAI-stream${randID}`, JSON.stringify(ev))
+      //     }
+      //   })
+      // }
 
       event.reply(`${'askAI-reply'}${randID}`, { status: 'done' })
     } catch (e) {

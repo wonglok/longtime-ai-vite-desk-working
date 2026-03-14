@@ -5,7 +5,7 @@ import { Agent, run, setDefaultOpenAIClient } from '@openai/agents'
 
 import { tool } from '@openai/agents'
 
-export async function getStep({ project, inbound, checkAborted, onEvent }) {
+export async function getCodeDeveloped({ plan, appFolder, inbound, checkAborted, onEvent }) {
   const controller = new AbortController()
   const signal = controller.signal
 
@@ -57,7 +57,7 @@ export async function getStep({ project, inbound, checkAborted, onEvent }) {
         exec(
           `${command}`,
           {
-            cwd: `${project}`
+            cwd: `${appFolder}`
           },
           (error, stdout, stderr) => {
             if (error) {
@@ -95,10 +95,12 @@ export async function getStep({ project, inbound, checkAborted, onEvent }) {
     model: inbound.model,
     instructions: `
     
-    ${inbound.systemPrompt}
+    ${plan}
     
-    current workspace path: "${project}"
-    current current working directory (cwd): "${project}"
+    MUST HAVE GUIDELINES:
+
+    current workspace path: "${appFolder}"
+    current current working directory (cwd): "${appFolder}"
     
     `,
     modelSettings: {
@@ -117,7 +119,7 @@ export async function getStep({ project, inbound, checkAborted, onEvent }) {
   const result = await run(
     agent,
     `
-    please update ther user with progress while building the frontend and backend of the app. 
+    please update ther user with progress while building the frontend and backend of the app until it is fully completed
     `,
     {
       stream: true,

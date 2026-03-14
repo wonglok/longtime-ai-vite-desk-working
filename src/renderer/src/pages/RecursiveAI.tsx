@@ -9,7 +9,6 @@ import {
 } from '@/components/ui/breadcrumb'
 import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
-import { ArrayBlock } from '@renderer/ui/ArrayBlock/ArrayBlock'
 
 export function RecursiveAI() {
   return (
@@ -35,9 +34,7 @@ export function RecursiveAI() {
         </header>
         <div className="gap-4 p-4 pt-0 h-full rounded-2xl">
           <div className="bg-muted/50 w-full h-full  rounded-2xl">
-            <div>
-              <ArrayBlock></ArrayBlock>
-            </div>
+            <div></div>
           </div>
         </div>
       </SidebarInset>

@@ -1,9 +1,9 @@
-import { useTM } from '@renderer/store/useTM'
+import { useArchApp } from './useArchApp'
 // import { useEffect } from 'react'
 
-export function TodoManagement() {
-  const todo = useTM((r) => r.todo)
-  const status = useTM((r) => r.status)
+export function TodoKanban() {
+  const todo = useArchApp((r) => r.todo)
+  const status = useArchApp((r) => r.status)
 
   return (
     <>

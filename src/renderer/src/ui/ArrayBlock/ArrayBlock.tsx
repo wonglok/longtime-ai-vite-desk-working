@@ -3,14 +3,14 @@ import { Textarea } from '@/components/ui/textarea'
 import { useEffect, useState } from 'react'
 // @ts-ignore
 import { useArchApp } from './useArchApp'
-import copy from 'copy-to-clipboard'
+
 export function ArrayBlock({}) {
   //'
 
   const appSystemPrompt = useArchApp((r) => r.appSystemPrompt)
   const appUserPrompt = useArchApp((r) => r.appUserPrompt)
-  const plan = useArchApp((r) => r.plan)
-  const stream = useArchApp((r) => r.stream)
+  // const plan = useArchApp((r) => r.plan)
+  // const stream = useArchApp((r) => r.stream)
 
   const [stopFunc, setStop] = useState<any>(() => {
     return () => {}
@@ -29,7 +29,7 @@ export function ArrayBlock({}) {
 
         apiKey: 'N/A',
 
-        route: 'runRecursive',
+        route: 'runAppPlanner',
 
         model: `qwen/qwen3.5-4b`,
 
@@ -39,7 +39,7 @@ export function ArrayBlock({}) {
         // model: `qwen/qwen3.5-4b`,
         // model: `openai/gpt-oss-20b`,
 
-        folder: `recursive`,
+        appName: `inspiration-book`,
 
         appSystemPrompt: `
 ${appSystemPrompt}
@@ -52,18 +52,18 @@ ${appUserPrompt}
         //
         const resp = JSON.parse(stream)
 
-        if (resp.type === 'plan') {
-          if (resp.plan) {
-            console.log(JSON.stringify(resp.plan, null, '\t'))
-            useArchApp.setState({
-              plan: resp.plan
-            })
-          }
-        }
         if (resp.type === 'stream') {
           if (resp.stream) {
             useArchApp.setState({
               stream: resp.stream
+            })
+          }
+        }
+
+        if (resp.type === 'todo') {
+          if (resp.todo) {
+            useArchApp.setState({
+              todo: resp.todo
             })
           }
         }
@@ -107,7 +107,7 @@ ${appUserPrompt}
 
           <div>
             <Button className="mr-3" onClick={onClick}>
-              Think
+              Plan and Build
             </Button>
             <Button
               className="mr-3"
@@ -118,7 +118,7 @@ ${appUserPrompt}
             >
               Stop
             </Button>
-            <Button
+            {/* <Button
               className="mr-3"
               variant={'default'}
               onClick={() => {
@@ -126,10 +126,10 @@ ${appUserPrompt}
               }}
             >
               Copy
-            </Button>
+            </Button> */}
           </div>
 
-          <pre className="text-xs whitespace-pre-wrap">{stream}</pre>
+          {/* <pre className="text-xs whitespace-pre-wrap">{stream}</pre> */}
         </div>
       </div>
     </>

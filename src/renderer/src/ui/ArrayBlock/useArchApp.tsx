@@ -1,11 +1,29 @@
 import { create } from 'zustand'
 
-// @ts-ignore
-import type { ParallelDevelopmentPlanSchemaType } from '../../../../main/agent/runRecursive'
-
 export const useArchApp = create(() => {
   return {
     //
+    status: ['pending', 'active', 'completed'],
+    todo: [] as any[],
+
+    appUserPrompt: `
+I want to build an inspiration tool.
+
+For home page "/":
+- I can view featured inspirations
+
+For app page "/app":
+- I can enter a website URL to the inspiration entry box to "save inspiration". 
+    - When I click "save inspiration" button, we spin up a browser to take a fullpage screenshot, make a thumbnail and collect some essential text from the webpage. and then it will send to AI to generate inspirational notes. I want to use lmstudio and "uses qwen/qwen3.5-4b" AI model
+- There would be an emoji on my mouse cursor and i can see other visitor's emoji on the screen moving as well.
+
+For each inspiration post page "/inspire/[id]": 
+i can view inspiration items in the grid below the entry box.
+- There's a thumbnail header
+- Website name
+- Textual Analysis
+`.trim(),
+
     appSystemPrompt: `
 You are an AI senior developer agent.
 You help the user to turn the app idea into system prompt for other AI Agents to read.
@@ -80,27 +98,8 @@ OUTPUT: System Prompt for senior fullstack software engineering developer:
 
 ...
 `.trim(),
-    appUserPrompt: `
-I want to build an inspiration tool.
 
-For home page "/":
-- I can view featured inspirations
-
-For app page "/app":
-- I can enter a website URL to the inspiration entry box to "save inspiration". 
-    - When I click "save inspiration" button, we spin up a browser to take a fullpage screenshot, make a thumbnail and collect some essential text from the webpage. and then it will send to AI to generate inspirational notes. I want to use lmstudio and "uses qwen/qwen3.5-4b" AI model
-- There would be an emoji on my mouse cursor and i can see other visitor's emoji on the screen moving as well.
-
-For each inspiration post page "/inspire/[id]": 
-i can view inspiration items in the grid below the entry box.
-- There's a thumbnail header
-- Website name
-- Textual Analysis
-`.trim(),
-
-    stream: '',
-    files: [] as any[],
-    plan: {} as ParallelDevelopmentPlanSchemaType
+    stream: ''
   }
 })
 

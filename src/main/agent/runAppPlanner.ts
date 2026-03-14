@@ -2,6 +2,7 @@ import { app } from 'electron'
 import { makeDirectory } from 'make-dir'
 import OpenAI from 'openai'
 import z from 'zod'
+import { getCodeDeveloped } from './subagents/getCodeDeveloped'
 
 export const CoderSchema = z
   .object({
@@ -46,10 +47,10 @@ function removeThinkTags(input) {
   return result
 }
 
-export const runRecursive = async ({ checkAborted, onEvent, inbound, randID }) => {
+export const runAppPlanner = async ({ checkAborted, onEvent, inbound, randID }) => {
   const docs = app.getPath('documents')
-  const workspace = `${docs}/ai-home/${inbound.folder}`
-  await makeDirectory(workspace)
+  const appFolder = `${docs}/ai-home/apps/${inbound.appName}`
+  await makeDirectory(appFolder)
 
   const controller = new AbortController()
   const signal = controller.signal
@@ -59,20 +60,6 @@ export const runRecursive = async ({ checkAborted, onEvent, inbound, randID }) =
       baseURL: inbound.baseURL,
       apiKey: inbound.apiKey
     })
-    const isStream = true
-
-    //  async (response) => {
-    //     return JSON.parse(
-    //       response.choices[0].message.content!
-    //     ) as ParallelDevelopmentPlanSchemaType
-    //   }
-    // response_format: {
-    //   type: 'json_schema',
-    //   json_schema: {
-    //     name: 'tree',
-    //     schema: ParallelDevelopmentPlanSchema.toJSONSchema()
-    //   }
-    // },
 
     const plan = await openai.chat.completions
       .create(
@@ -81,7 +68,16 @@ export const runRecursive = async ({ checkAborted, onEvent, inbound, randID }) =
           messages: [
             {
               role: 'system',
-              content: `${inbound.appSystemPrompt}`
+              content: `
+              
+${inbound.appSystemPrompt}
+
+MUST HAVE GUIDELINES:
+
+current workspace path: "${appFolder}"
+current current working directory (cwd): "${appFolder}"
+
+              `
             },
             {
               role: 'user',
@@ -91,7 +87,7 @@ export const runRecursive = async ({ checkAborted, onEvent, inbound, randID }) =
             }
           ],
 
-          stream: isStream,
+          stream: true,
           reasoning_effort: 'high',
           temperature: 0.2
         },
@@ -121,8 +117,16 @@ export const runRecursive = async ({ checkAborted, onEvent, inbound, randID }) =
       plan: removeThinkTags(plan)
     })
 
-    //
-    //
+    await getCodeDeveloped({
+      checkAborted: checkAborted,
+      appFolder: appFolder,
+      inbound: inbound,
+      plan: plan,
+      onEvent: (ev) => {
+        onEvent(ev)
+      }
+    })
+
     //
   }
 
