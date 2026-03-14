@@ -10,8 +10,6 @@ export const runAppPlanner = async ({ checkAborted, onEvent, inbound, randID }) 
   const docs = app.getPath('documents')
   const appFolder = `${docs}/ai-home/apps/${inbound.appName}`
   await makeDirectory(appFolder)
-  await makeDirectory(`${appFolder}/frontend`)
-  await makeDirectory(`${appFolder}/backend`)
 
   const plan = await writePlan({
     appFolder: appFolder,
@@ -19,6 +17,9 @@ export const runAppPlanner = async ({ checkAborted, onEvent, inbound, randID }) 
     checkAborted,
     onEvent: onEvent
   })
+
+  await makeDirectory(`${appFolder}/frontend`)
+  await makeDirectory(`${appFolder}/backend`)
 
   const runner = async ({}) => {
     let res = await developCode({
