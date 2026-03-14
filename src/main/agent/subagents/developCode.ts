@@ -22,41 +22,41 @@ export async function developCode({ randID, plan, appFolder, inbound, checkAbort
     }
   }, 1)
 
-  const progressUpdateToolGen = async ({ agentName, allDoneMarker = { value: false } }) => {
-    return createTool({
-      id: 'progressUpdateTool',
-      description: 'send progress update to user',
+  // const progressUpdateToolGen = async ({ agentName, allDoneMarker = { value: false } }) => {
+  //   return createTool({
+  //     id: 'progressUpdateTool',
+  //     description: 'send progress update to user',
 
-      inputSchema: z.object({
-        todo: z.array(
-          z.object({
-            task: z.string(),
-            status: z.enum(['pending', 'in-progress', 'completed'])
-          })
-        )
-      }),
-      outputSchema: z.object({
-        success: z.boolean()
-      }),
-      async execute({ todo }) {
-        console.log('todo', todo)
-        onEvent({
-          type: 'todo',
-          agentName: agentName,
-          todo: todo
-        })
+  //     inputSchema: z.object({
+  //       todo: z.array(
+  //         z.object({
+  //           task: z.string(),
+  //           status: z.enum(['pending', 'in-progress', 'completed'])
+  //         })
+  //       )
+  //     }),
+  //     outputSchema: z.object({
+  //       success: z.boolean()
+  //     }),
+  //     async execute({ todo }) {
+  //       console.log('todo', todo)
+  //       onEvent({
+  //         type: 'todo',
+  //         agentName: agentName,
+  //         todo: todo
+  //       })
 
-        if (
-          todo.filter((r) => r.status === 'completed').length === todo.length &&
-          todo.length > 5
-        ) {
-          allDoneMarker.value = true
-        }
+  //       if (
+  //         todo.filter((r) => r.status === 'completed').length === todo.length &&
+  //         todo.length > 5
+  //       ) {
+  //         allDoneMarker.value = true
+  //       }
 
-        return { success: true }
-      }
-    })
-  }
+  //       return { success: true }
+  //     }
+  //   })
+  // }
 
   const terminalToolGen = async ({ subfolder = '' }) => {
     return createTool({
@@ -120,7 +120,6 @@ export async function developCode({ randID, plan, appFolder, inbound, checkAbort
     current backend folder: "${appFolder}/backend"
 
     MUST Check the frontend and backend folder recursively to check status of development and update user about progress, before begin development work. (exclude "node_modules/**")
-    MUST tell user about progress updates after there's a new terminal call
     
 ${plan}
     `
@@ -141,7 +140,7 @@ please build the backend of the app until it is fully completed.
         url: `file:${join(appFolder, 'ai-memory', `${agentName}.db`)}`
       }),
       options: {
-        lastMessages: 10
+        lastMessages: 20
         // workingMemory: {
         //   enabled: true
         // }
@@ -181,8 +180,8 @@ please build the backend of the app until it is fully completed.
       },
       memory: memory,
       tools: {
-        terminalTool: await terminalToolGen({ subfolder: subfolder }),
-        progressUpdateTool: await progressUpdateToolGen({ agentName, allDoneMarker })
+        terminalTool: await terminalToolGen({ subfolder: subfolder })
+        // progressUpdateTool: await progressUpdateToolGen({ agentName, allDoneMarker })
       }
     })
 
@@ -194,7 +193,7 @@ please build the backend of the app until it is fully completed.
           return allDoneMarker.value === true
         },
 
-        maxSteps: 20,
+        maxSteps: 10,
         abortSignal: signal,
         memory: {
           thread: `${agentName}`,
@@ -227,11 +226,12 @@ please build the backend of the app until it is fully completed.
       }
       onEvent({ type: 'stream', agentName: agentName, stream: str })
 
-      // console.log('stream.finishReason', await stream.finishReason)
-      // console.log(await stream.text)
-
       if ((await stream.finishReason) === 'tripwire') {
         failCounter[randID] += 1
+        return
+      }
+
+      if (failCounter[randID] >= 50) {
         return
       }
 
@@ -239,11 +239,9 @@ please build the backend of the app until it is fully completed.
         return
       }
 
-      if (failCounter[randID] >= 10) {
-        return
-      }
-
-      return await runTurn()
+      return await runTurn().catch(() => {
+        failCounter[randID] += 1
+      })
     }
 
     await runTurn().catch(() => {
