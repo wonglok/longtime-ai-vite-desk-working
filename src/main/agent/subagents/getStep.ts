@@ -1,173 +1,11 @@
-import { exec } from 'child_process'
+import { exec, spawn } from 'child_process'
 import OpenAI from 'openai'
-import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
 import { z } from 'zod'
-import { scanFolder } from '../utils/getSummary'
-// import { scanFolder } from '../utils/getSummary'
-const TodoSchema = z.object({
-  status: z.enum(['pending', 'active', 'completed']),
-  task: z.string().describe('task')
-})
+import { Agent, run, setDefaultOpenAIClient } from '@openai/agents'
 
-const WorkTask = z.object({
-  currentThought: z
-    .string()
-    .describe(
-      "thoughts related of the agent and of the current tasks. It's written for the agent to see again."
-    ),
+import { tool } from '@openai/agents'
 
-  todo: z.array(TodoSchema),
-
-  terminalCalls: z
-    .array(
-      z.object({
-        cmd: z.string().describe('command for terminal'),
-        reason: z.string().describe('reason of running this command ')
-      })
-    )
-    .describe('a list of terminal commands')
-    .min(1),
-
-  nextStep: z.string().describe('next step')
-})
-
-export type ExecStep = z.infer<typeof WorkTask>
-export type TodoType = z.infer<typeof TodoSchema>
-
-export async function getStep({ project, executionHistory, inbound, checkAborted, onEvent }) {
-  let latestOneStep = executionHistory[executionHistory.length - 1]
-
-  const openai = new OpenAI({
-    baseURL: inbound.baseURL,
-    apiKey: inbound.apiKey
-  })
-
-  let prepareMessages = async () => {
-    const messages: ChatCompletionMessageParam[] = []
-
-    messages.push({
-      role: 'system',
-      content: `
-${inbound.systemPrompt}
-`.trim()
-    })
-
-    if (latestOneStep) {
-      // thought
-      {
-        let allCalls = `Last Thought: ${latestOneStep.currentThought}\n\n\n Last terminal calls, status and results: \n\n`
-        for (let item of [latestOneStep]) {
-          for (let each of item.terminalCalls as {
-            reason: string
-            cmd: string
-            result: string
-            successful: boolean
-            timestamp: string
-          }[]) {
-            allCalls += `
-Timetamp: ${each.timestamp || new Date().toString()}
-
-The terminal command:
-${each.cmd || ''}
-
-Status of command result:
-${each.successful ? `Successful` : `Failed`}
-
-Result of command:
-${each.result.trim() || ''}
-`
-          }
-        }
-
-        messages.push({
-          role: 'user',
-          content: allCalls
-        })
-      }
-    }
-
-    messages.push({
-      role: 'user',
-      content: `
-# MUST HAVE RULES:
-The [project] / [workspace] folder path is: ${JSON.stringify(project)}
-The project name is: ${JSON.stringify(inbound.folder)}
-      `
-    })
-
-    const summary = await scanFolder(project)
-    messages.push({
-      role: 'user',
-      content: `# Instruction: MUST write summary of each code file
-- whever you write a .js/.ts/.tsx/.jsx code file, you write a summary at the top of the file like this format:
-"//SUMMARY: [summary of the file...]"
-
-${summary}
-          `.trim()
-    })
-
-    messages.push({
-      role: 'user',
-      content: `
-Here's the original user app idea input:
-${inbound.appIdea.trim()}
-`.trim()
-    })
-
-    if ((inbound.errorMessage || '').trim()) {
-      messages.push({
-        role: 'user',
-        content: `
-# Here's some debug message from user:
-${inbound.errorMessage}
-          `
-      })
-    }
-
-    if ((inbound.modifyMessage || '').trim()) {
-      messages.push({
-        role: 'user',
-        content: `
-# Here's a modification message from user:
-${inbound.modifyMessage}
-          `
-      })
-    }
-
-    if (latestOneStep.todo?.length > 0) {
-      messages.push({
-        role: 'user',
-        content: `
-# Here's the latest todo list:
-${latestOneStep.todo
-  .map((r) => {
-    return `${`[${r.status}]`} ${r.task}`
-  })
-  .join('\n')}
-
-  `
-      })
-    }
-
-    messages.push({
-      role: 'user',
-      content: `
-
-What should we do in this step:
-${latestOneStep.nextStep}
-
-      `
-    })
-
-    return messages
-  }
-
-  let messages = await prepareMessages()
-  onEvent({
-    type: 'messages',
-    messages: messages
-  })
-
+export async function getStep({ project, inbound, checkAborted, onEvent }) {
   const controller = new AbortController()
   const signal = controller.signal
 
@@ -178,100 +16,134 @@ ${latestOneStep.nextStep}
     }
   }, 1)
 
-  const nextStep = await openai.chat.completions
-    .create(
-      {
-        model: inbound.model,
-        messages: messages,
-        response_format: {
-          type: 'json_schema',
-          json_schema: {
-            name: 'worktask',
-            schema: WorkTask.toJSONSchema()
-          }
-        },
-        reasoning_effort: 'none',
-        temperature: 0
-      },
-      { signal }
-    )
-    .then(async (response) => {
-      return JSON.parse(response.choices[0].message.content!) as ExecStep
-    })
-    .then((data: any) => {
-      data.timestamp = new Date().toString()
-
-      return data
-    })
-    .catch((r) => {
-      console.error(r)
-      return null
-    })
-
-  clearInterval(intrv)
-
-  if (nextStep) {
-    onEvent({
-      type: 'todo',
-      todo: nextStep.todo
-    })
-
-    if (nextStep.terminalCalls && nextStep.terminalCalls.length) {
-      for (let each of nextStep.terminalCalls) {
-        onEvent({
-          type: 'cmd_running',
-          cmd_running: each.cmd
+  const progressUpdateTool = tool({
+    name: 'progressUpdateTool',
+    description: 'send progress update to user',
+    parameters: z.object({
+      todo: z.array(
+        z.object({
+          task: z.string(),
+          status: z.enum(['pending', 'active', 'completed'])
         })
+      )
+    }),
+    async execute({ todo }) {
+      //
 
-        let res: any = await new Promise((resolve) => {
-          return exec(
-            `${each.cmd}`,
-            {
-              cwd: `${project}`
-            },
-            (error, stdout, stderr) => {
-              if (error) {
-                console.log('error', error)
-                return resolve({ successful: false, result: `${stderr}` })
-              }
-              if (stderr) {
-                console.error(`error: ${stderr}`)
-                return resolve({ successful: false, result: `${stderr}` })
-              }
+      console.log('todo', todo)
 
-              resolve({ successful: true, result: `${stdout}` })
-            }
-          )
-        })
-        onEvent({
-          type: 'cmd_done',
-          cmd_done: each.cmd
-        })
-        ;(each as any).successful = res.successful
-        ;(each as any).result = res.result.trim()
-        ;(each as any).timestamp = new Date().toString()
+      onEvent({
+        type: 'todo',
+        todo: todo
+      })
 
-        console.log(each.cmd)
-        console.log((each as any).result)
-
-        onEvent({
-          type: 'terminalCalls',
-          terminalCalls: nextStep.terminalCalls
-        })
-      }
+      return ''
     }
-  } else {
-    return null
+  })
+
+  const terminalTool = tool({
+    name: 'terminalTool',
+    description: 'run command in terminal',
+    parameters: z.object({ command: z.string() }),
+    async execute({ command }) {
+      console.log('command', command)
+
+      onEvent({
+        type: 'cmd_begin',
+        cmd_begin: command
+      })
+
+      let res: any = await new Promise((resolve) => {
+        exec(
+          `${command}`,
+          {
+            cwd: `${project}`
+          },
+          (error, stdout, stderr) => {
+            if (error) {
+              console.log('error', error)
+              return resolve({ successful: false, result: `${stderr}` })
+            }
+            if (stderr) {
+              console.error(`error: ${stderr}`)
+
+              return resolve({ successful: false, result: `${stderr}` })
+            }
+            return resolve({ successful: true, result: `${stdout}` })
+          }
+        )
+      })
+
+      onEvent({
+        type: 'cmd_end',
+        cmd_end: command
+      })
+
+      return res
+    }
+  })
+
+  const openai = new OpenAI({
+    baseURL: inbound.baseURL,
+    apiKey: inbound.apiKey
+  })
+
+  setDefaultOpenAIClient(openai as any)
+
+  const agent = new Agent({
+    name: 'Assistant',
+    model: inbound.model,
+    instructions: `
+    
+    ${inbound.systemPrompt}
+    
+    current workspace path: "${project}"
+    current current working directory (cwd): "${project}"
+    
+    `,
+    modelSettings: {
+      temperature: 0,
+      reasoning: {
+        effort: 'high'
+      }
+    },
+    tools: [
+      //
+      terminalTool,
+      progressUpdateTool
+    ]
+  })
+
+  const result = await run(
+    agent,
+    `
+    please update ther user with progress while building the frontend and backend of the app. 
+    `,
+    {
+      stream: true,
+      signal: signal
+    }
+  )
+
+  let str = ''
+  for await (const event of result) {
+    // these are the raw events from the model
+    if (event.type === 'raw_model_stream_event') {
+      let fragment = (event as any).data?.event?.delta || ''
+      str += fragment
+
+      onEvent({ type: 'stream', stream: str })
+    }
+    // agent updated events
+    if (event.type === 'agent_updated_stream_event') {
+      console.log(`${event.type} %s`, event.agent.name)
+    }
+    // Agent SDK specific events
+    if (event.type === 'run_item_stream_event') {
+      str = ''
+      console.log(`${event.type} %o`, event.item.toJSON())
+    }
   }
-
-  // console.log(nextStep)
-
-  // onEvent({
-  //   type: 'nextStep',
-  //   text: JSON.stringify(nextStep, null, '\t')
-  // })
-
-  return JSON.parse(JSON.stringify(nextStep))
 }
 
 //

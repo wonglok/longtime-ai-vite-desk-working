@@ -18,7 +18,8 @@ import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { useTM } from '@renderer/store/useTM'
 import { ErrorMsg } from '@renderer/ui/TodoManagement/ErrorMsg'
-import { TodoManagement } from '@renderer/ui/TodoManagement/TodoManagement'
+// import { TodoManagement } from '@renderer/ui/TodoManagement/TodoManagement'
+
 import { useEffect, useState } from 'react'
 
 // @ts-ignore
@@ -26,12 +27,16 @@ import systemPt from '../prompts/system.md?raw'
 import { toast } from 'sonner'
 import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
+import { Brain } from '@renderer/ui/TodoManagement/Brain'
+import { resolve } from 'path'
+import { TodoManagement } from '@renderer/ui/TodoManagement/TodoManagement'
 
+// import { TodoManagement } from '@renderer/ui/TodoManagement/TodoManagement'
 // import { ActionsTerm } from '@renderer/ui/TodoManagement/ActionsTerm'
 // import { Brain } from '@renderer/ui/TodoManagement/Brain'
 
 export function Home() {
-  let [messages, setContextMessages] = useState([])
+  // let [messages, setContextMessages] = useState([])
   let [stopFunc, setStop] = useState<any>(null)
 
   useEffect(() => {
@@ -56,28 +61,11 @@ export function Home() {
         systemPrompt: `
 ${systemPt}
 `,
-        appIdea: `
 
-I want to build an inspiration tool.
-
-For home page "/":
-- I can view featured inspirations
-
-For app page "/app":
-- I can enter a website URL to the inspiration entry box to "save inspiration". 
-    - When I click "save inspiration" button, we spin up a browser to take a fullpage screenshot, make a thumbnail and collect some essential text from the webpage. and then it will send to AI to generate inspirational notes. I want to use lmstudio and "uses qwen/qwen3.5-4b" AI model
-- There would be an emoji on my mouse cursor and i can see other visitor's emoji on the screen moving as well.
-
-For each inspiration post page "/inspire/[id]": 
-i can view inspiration items in the grid below the entry box.
-- There's a thumbnail header
-- Website name
-- Textual Analysis
-
-        `.trim(),
+        appIdea: ``.trim(),
 
         modifyMessage: `
-        
+
         `,
 
         errorMessage: `
@@ -92,11 +80,11 @@ i can view inspiration items in the grid below the entry box.
         //   console.log(resp)
         // }
 
-        if (resp.type === 'messages') {
-          setContextMessages(resp.messages || [])
-        }
+        // if (resp.type === 'messages') {
+        //   setContextMessages(resp.messages || [])
+        // }
         if (resp.type === 'todo') {
-          useTM.setState({ todos: resp.todo })
+          useTM.setState({ todo: resp.todo })
         }
         if (resp.type === 'error') {
           useTM.setState({ error: resp.error })
@@ -105,12 +93,18 @@ i can view inspiration items in the grid below the entry box.
           useTM.setState({ brain: resp.brain })
         }
 
-        if (resp.type === 'cmd_running') {
-          toast(resp.cmd_running)
+        if (resp.type === 'cmd_begin') {
+          toast(resp.cmd_begin)
           nprogress.start()
         }
-        if (resp.type === 'cmd_done') {
+        if (resp.type === 'cmd_end') {
           nprogress.done()
+        }
+
+        if (resp.type === 'stream') {
+          console.log(resp.stream)
+
+          useTM.setState({ stream: resp.stream })
         }
 
         if (resp.type === 'terminalCalls') {
@@ -118,6 +112,15 @@ i can view inspiration items in the grid below the entry box.
         }
       }
     )
+
+    window.onbeforeunload = () => {
+      controller.abort()
+      setTimeout(() => {
+        window.location.reload()
+      })
+      window.onbeforeunload = undefined
+      return false
+    }
 
     setStop(() => {
       return () => {
@@ -175,14 +178,17 @@ i can view inspiration items in the grid below the entry box.
           <div className="flex mb-3">
             <TodoManagement></TodoManagement>
           </div>
-          <div className="w-full">{/* <Brain></Brain> */}</div>
+
+          <div className="w-full">
+            <Brain></Brain>
+          </div>
 
           <div className="w-full flex">
             <div className="w-2/3">{/* <ActionsTerm></ActionsTerm> */}</div>
           </div>
 
           <div className="text-xs w-full overflow-x-scroll">
-            {messages.map((msg: any, i) => {
+            {/* {messages.map((msg: any, i) => {
               return (
                 <li key={'k' + i} className="border p-2 mb-2 rounded-2xl">
                   <div className="text-xs whitespace-pre-wrap p-2 bg-gray-100 border rounded-lg">
@@ -190,7 +196,7 @@ i can view inspiration items in the grid below the entry box.
                   </div>
                 </li>
               )
-            })}
+            })} */}
 
             {/*  */}
             {/* <pre>{workstep}</pre> */}

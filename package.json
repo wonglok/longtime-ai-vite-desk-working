@@ -34,7 +34,7 @@
     "@lmstudio/sdk": "^1.5.0",
     "@mariozechner/pi-agent-core": "^0.56.1",
     "@mariozechner/pi-ai": "^0.56.1",
-    "@openai/agents": "^0.5.3",
+    "@openai/agents": "^0.7.1",
     "@radix-ui/react-use-controllable-state": "^1.2.2",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.5.0",

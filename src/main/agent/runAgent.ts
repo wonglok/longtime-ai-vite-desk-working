@@ -1,16 +1,12 @@
 import { app } from 'electron'
 import { makeDirectory } from 'make-dir'
-import { getStep, ExecStep, TodoType } from './subagents/getStep'
-import { writeFile } from 'fs/promises'
-import path from 'path'
-import { readFile } from 'fs/promises'
+import { getStep } from './subagents/getStep'
 
 const FailCounter = {}
 export const runAgent = async ({ checkAborted, onEvent, inbound, randID }) => {
   FailCounter[randID] = FailCounter[randID] || 0
 
   const docs = app.getPath('documents')
-  // const workspace = `${docs}/ai-home`
   const project = `${docs}/ai-home/apps/${inbound.folder}`
   await makeDirectory(project)
 
@@ -22,89 +18,13 @@ export const runAgent = async ({ checkAborted, onEvent, inbound, randID }) => {
     return
   }
 
-  const loopRun = async ({ executionHistory }: { executionHistory: ExecStep[] }) => {
-    if (FailCounter[randID] >= 50) {
-      onEvent({ type: 'error', error: 'Failed too many times.' })
-      return
+  await getStep({
+    checkAborted: checkAborted,
+    project: project,
+    inbound: inbound,
+    onEvent: (ev) => {
+      onEvent(ev)
     }
-    if (checkAborted()) {
-      return
-    }
-
-    const nextStep: ExecStep | null = await getStep({
-      executionHistory: executionHistory,
-      checkAborted: checkAborted,
-      // workspace: `${workspace}`,
-      project: project,
-      inbound: inbound,
-      onEvent: (ev) => {
-        onEvent(ev)
-      }
-    })
-
-    if (FailCounter[randID] >= 50) {
-      onEvent({ type: 'error', error: 'Failed too many times.' })
-      return
-    }
-
-    if (!nextStep) {
-      FailCounter[randID] = FailCounter[randID] + 1
-      return await loopRun({ executionHistory })
-    }
-
-    executionHistory.push(nextStep)
-
-    onEvent({ type: 'todo', todo: nextStep.todo })
-    onEvent({ type: 'executionHistory', executionHistory: executionHistory })
-
-    await writeFile(
-      path.join(project, 'state.json'),
-      JSON.stringify(
-        {
-          executionHistory: executionHistory
-        },
-        null,
-        '\t'
-      )
-    )
-
-    if (
-      nextStep?.todo.filter((r) => r.status === 'completed').length === nextStep?.todo.length &&
-      nextStep.todo.length > 0
-    ) {
-      return
-    }
-
-    return await loopRun({
-      executionHistory: executionHistory
-      //.reverse().slice(0, 3).reverse()
-    })
-  }
-
-  let state = {
-    executionHistory: [
-      {
-        todo: [] satisfies TodoType[],
-        terminalCalls: [],
-        nextStep: `let figure out todo list.`
-      }
-    ] as ExecStep[]
-  }
-
-  try {
-    let stateStr = await readFile(path.join(project, 'state.json'), 'utf-8')
-    state = JSON.parse(stateStr)
-  } catch (e) {
-    console.error(e)
-  }
-
-  onEvent({
-    type: 'todo',
-    todo: state.executionHistory[0].todo
-  })
-
-  await loopRun({
-    executionHistory: state.executionHistory
   })
 }
 

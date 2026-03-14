@@ -2,7 +2,7 @@ import { useTM } from '@renderer/store/useTM'
 // import { useEffect } from 'react'
 
 export function TodoManagement() {
-  const todos = useTM((r) => r.todos)
+  const todo = useTM((r) => r.todo)
   const status = useTM((r) => r.status)
 
   return (
@@ -44,11 +44,11 @@ export function TodoManagement() {
                 className="overflow-y-scroll w-full rounded-2xl"
                 style={{ height: `calc(100% - 50px - 20px)`, marginTop: '10px' }}
               >
-                {todos
+                {todo
                   .filter((e) => e.status === eStatus)
                   .map((todo, i) => {
                     return (
-                      <div className={`m-2 p-2 ${currentColumn.task}`} key={todo.task + i}>
+                      <div className={`m-2 p-2 ${currentColumn.goal}`} key={todo.task + i}>
                         {todo.task}
                       </div>
                     )

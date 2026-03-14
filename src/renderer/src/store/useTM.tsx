@@ -18,9 +18,10 @@ const getInit = (set, get) => {
     error: '' as string,
     brain: '' as string,
     terminalCalls: [] as Action[],
-    todos: [] as Todo[],
-    status: ['pending', 'active', 'completed'] as any[]
+    status: ['pending', 'active', 'completed'] as any[],
     //
+    stream: '' as string,
+    todo: [] as Todo[]
 
     //
   }

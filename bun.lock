@@ -12,7 +12,7 @@
         "@lmstudio/sdk": "^1.5.0",
         "@mariozechner/pi-agent-core": "^0.56.1",
         "@mariozechner/pi-ai": "^0.56.1",
-        "@openai/agents": "^0.5.3",
+        "@openai/agents": "^0.7.1",
         "@radix-ui/react-use-controllable-state": "^1.2.2",
         "@react-three/drei": "^10.7.7",
         "@react-three/fiber": "^9.5.0",
@@ -446,13 +446,13 @@
 
     "@open-draft/until": ["@open-draft/until@2.1.0", "https://registry.npmmirror.com/@open-draft/until/-/until-2.1.0.tgz", {}, "sha512-U69T3ItWHvLwGg5eJ0n3I62nWuE6ilHlmz7zM0npLBRvPRd7e6NYmg54vvRtP5mZG7kZqZCFVdsTWo7BPtBujg=="],
 
-    "@openai/agents": ["@openai/agents@0.5.3", "https://registry.npmmirror.com/@openai/agents/-/agents-0.5.3.tgz", { "dependencies": { "@openai/agents-core": "0.5.3", "@openai/agents-openai": "0.5.3", "@openai/agents-realtime": "0.5.3", "debug": "^4.4.0", "openai": "^6.20.0" }, "peerDependencies": { "zod": "^4.0.0" } }, "sha512-zYZ2EQopvhGe7ljxKtIqLgfSIcVlasH577f7tuITvHu5/39/9VUh9XDCqZwPr+F+jKP6ZqakYWO0CusUtbxFBg=="],
+    "@openai/agents": ["@openai/agents@0.7.1", "https://registry.npmmirror.com/@openai/agents/-/agents-0.7.1.tgz", { "dependencies": { "@openai/agents-core": "0.7.1", "@openai/agents-openai": "0.7.1", "@openai/agents-realtime": "0.7.1", "debug": "^4.4.0", "openai": "^6.26.0" }, "peerDependencies": { "zod": "^4.0.0" } }, "sha512-c/t9h/ydtpPBcbfwQlk6wPZxGc+J01blrfxgDxSECD71gKPjXec/PfNTnPzuagD2Xc1mBGU8ZOKaqRrTz7+19g=="],
 
-    "@openai/agents-core": ["@openai/agents-core@0.5.3", "https://registry.npmmirror.com/@openai/agents-core/-/agents-core-0.5.3.tgz", { "dependencies": { "debug": "^4.4.0", "openai": "^6.20.0" }, "optionalDependencies": { "@modelcontextprotocol/sdk": "^1.26.0" }, "peerDependencies": { "zod": "^4.0.0" }, "optionalPeers": ["zod"] }, "sha512-k7zoeBZXHZsszpTN6VJFUlJiHBqGYJPZuSeUW54i9uvVu6jE8caMJYzAuco8XZSMBo2XH0d4bf0Tl3Jglo/Hgg=="],
+    "@openai/agents-core": ["@openai/agents-core@0.7.1", "https://registry.npmmirror.com/@openai/agents-core/-/agents-core-0.7.1.tgz", { "dependencies": { "debug": "^4.4.0", "openai": "^6.26.0" }, "optionalDependencies": { "@modelcontextprotocol/sdk": "^1.26.0" }, "peerDependencies": { "zod": "^4.0.0" }, "optionalPeers": ["zod"] }, "sha512-GdYK9g03t4UCTnsd+nA7/YjXj3lk2e2TaWbo9Vs1btkSlqOguJA8maVwadypBGAdDIvr2LUp/H8jbMP3rv5t5Q=="],
 
-    "@openai/agents-openai": ["@openai/agents-openai@0.5.3", "https://registry.npmmirror.com/@openai/agents-openai/-/agents-openai-0.5.3.tgz", { "dependencies": { "@openai/agents-core": "0.5.3", "debug": "^4.4.0", "openai": "^6.20.0" }, "peerDependencies": { "zod": "^4.0.0" } }, "sha512-3U81v/vtNVaKx6JmbkPUpCjxeAJ4wBnJvn/KF+YnXhMypTYes/nwp8nLIhVVVqzk+qR/vxgo5KACYfipDeJFAA=="],
+    "@openai/agents-openai": ["@openai/agents-openai@0.7.1", "https://registry.npmmirror.com/@openai/agents-openai/-/agents-openai-0.7.1.tgz", { "dependencies": { "@openai/agents-core": "0.7.1", "debug": "^4.4.0", "openai": "^6.26.0" }, "peerDependencies": { "zod": "^4.0.0" } }, "sha512-tYfT5bNmh1XVtpQ43QevcCHpXn2aaxq9D3jvHzuhMMJIThMOtuck/ZoS+axyeXhR/4m8UfDEuehDFeYspSfxDg=="],
 
-    "@openai/agents-realtime": ["@openai/agents-realtime@0.5.3", "https://registry.npmmirror.com/@openai/agents-realtime/-/agents-realtime-0.5.3.tgz", { "dependencies": { "@openai/agents-core": "0.5.3", "@types/ws": "^8.18.1", "debug": "^4.4.0", "ws": "^8.18.1" }, "peerDependencies": { "zod": "^4.0.0" } }, "sha512-ZLPpxYGXah1WkbYflHQ0gdzCXqWko63gEa54Jt/OyBvNxYIF8mXgV/OQBC5eJssD+9/u24LQ6GEzyworpJH98w=="],
+    "@openai/agents-realtime": ["@openai/agents-realtime@0.7.1", "https://registry.npmmirror.com/@openai/agents-realtime/-/agents-realtime-0.7.1.tgz", { "dependencies": { "@openai/agents-core": "0.7.1", "@types/ws": "^8.18.1", "debug": "^4.4.0", "ws": "^8.18.1" }, "peerDependencies": { "zod": "^4.0.0" } }, "sha512-CNDvQe1fZqoiuhFjxAXFaV2xQoQKNmm8QQD2YzS7uiOE3oOFrAwBySzBDx/BLdt5Xg7NvshNkwsGBru2rytVYw=="],
 
     "@opentelemetry/api": ["@opentelemetry/api@1.9.0", "https://registry.npmmirror.com/@opentelemetry/api/-/api-1.9.0.tgz", {}, "sha512-3giAOQvZiH5F9bMlMiv8+GSPMeqg0dbaeo58/0SlA9sxSqZhnUtxzX9/2FzyhS9sWQf5S0GJE0AKBrFqjpeYcg=="],
 
@@ -2943,6 +2943,12 @@
     "@npmcli/agent/lru-cache": ["lru-cache@10.4.3", "https://registry.npmmirror.com/lru-cache/-/lru-cache-10.4.3.tgz", {}, "sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ=="],
 
     "@npmcli/fs/semver": ["semver@7.7.4", "https://registry.npmmirror.com/semver/-/semver-7.7.4.tgz", { "bin": { "semver": "bin/semver.js" } }, "sha512-vFKC2IEtQnVhpT78h1Yp8wzwrf8CM+MzKMHGJZfBtzhZNycRFnXsHk6E5TxIkkMsgNS7mdX3AGB7x2QM2di4lA=="],
+
+    "@openai/agents/openai": ["openai@6.29.0", "https://registry.npmmirror.com/openai/-/openai-6.29.0.tgz", { "peerDependencies": { "ws": "^8.18.0", "zod": "^3.25 || ^4.0" }, "optionalPeers": ["ws", "zod"], "bin": { "openai": "bin/cli" } }, "sha512-YxoArl2BItucdO89/sN6edksV0x47WUTgkgVfCgX7EuEMhbirENsgYe5oO4LTjBL9PtdKtk2WqND1gSLcTd2yw=="],
+
+    "@openai/agents-core/openai": ["openai@6.29.0", "https://registry.npmmirror.com/openai/-/openai-6.29.0.tgz", { "peerDependencies": { "ws": "^8.18.0", "zod": "^3.25 || ^4.0" }, "optionalPeers": ["ws", "zod"], "bin": { "openai": "bin/cli" } }, "sha512-YxoArl2BItucdO89/sN6edksV0x47WUTgkgVfCgX7EuEMhbirENsgYe5oO4LTjBL9PtdKtk2WqND1gSLcTd2yw=="],
+
+    "@openai/agents-openai/openai": ["openai@6.29.0", "https://registry.npmmirror.com/openai/-/openai-6.29.0.tgz", { "peerDependencies": { "ws": "^8.18.0", "zod": "^3.25 || ^4.0" }, "optionalPeers": ["ws", "zod"], "bin": { "openai": "bin/cli" } }, "sha512-YxoArl2BItucdO89/sN6edksV0x47WUTgkgVfCgX7EuEMhbirENsgYe5oO4LTjBL9PtdKtk2WqND1gSLcTd2yw=="],
 
     "@sindresorhus/df/execa": ["execa@2.1.0", "https://registry.npmmirror.com/execa/-/execa-2.1.0.tgz", { "dependencies": { "cross-spawn": "^7.0.0", "get-stream": "^5.0.0", "is-stream": "^2.0.0", "merge-stream": "^2.0.0", "npm-run-path": "^3.0.0", "onetime": "^5.1.0", "p-finally": "^2.0.0", "signal-exit": "^3.0.2", "strip-final-newline": "^2.0.0" } }, "sha512-Y/URAVapfbYy2Xp/gb6A0E7iR8xeqOCXsuuaoMn7A5PzrXUK84E1gyiEfq0wQd/GHA6GsoHWwhNq8anb0mleIw=="],
 
