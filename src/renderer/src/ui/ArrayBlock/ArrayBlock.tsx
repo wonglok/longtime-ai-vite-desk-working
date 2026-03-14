@@ -94,11 +94,12 @@ ${appUserPrompt}
         if (resp.type === 'cmd_end') {
           toast.success(
             <>
-              <div style={{ fontSize: '12px' }} className=" whitespace-pre-wrap">
+              <div style={{ fontSize: '12px' }} className=" whitespace-pre-wrap min-w-[450px]">
                 {resp['cmd_end']}
               </div>
             </>,
             {
+              richColors: true,
               duration: 1000
             }
           )
