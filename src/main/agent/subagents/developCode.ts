@@ -109,7 +109,6 @@ export async function developCode({ plan, appFolder, inbound, checkAborted, onEv
   }
 
   const systemPrompt = `
-
     MUST HAVE GUIDELINES:
 
     current workspace path: "${appFolder}"
