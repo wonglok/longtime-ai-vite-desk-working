@@ -11,7 +11,7 @@ export const runAgent = async ({ checkAborted, onEvent, inbound, randID }) => {
 
   const docs = app.getPath('documents')
   // const workspace = `${docs}/ai-home`
-  const project = `${docs}/ai-home/cli/${inbound.folder}`
+  const project = `${docs}/ai-home/apps/${inbound.folder}`
   await makeDirectory(project)
 
   if (checkAborted()) {
