@@ -18,7 +18,7 @@ export function TodoKanban({ agentName = '' }) {
                 task: `bg-blue-400 text-white rounded-lg `
               },
               ['in-progress']: {
-                displayName: 'Active',
+                displayName: 'In Progress',
                 title: `bg-green-500 text-white rounded-lg `,
                 task: `bg-green-400 text-white rounded-lg `
               },

@@ -3,6 +3,8 @@ import { Textarea } from '@/components/ui/textarea'
 import { useEffect, useState } from 'react'
 // @ts-ignore
 import { useArchApp } from './useArchApp'
+import nprogress from 'nprogress'
+import { toast } from 'sonner'
 
 export function ArrayBlock({}) {
   //'
@@ -56,19 +58,34 @@ ${appUserPrompt}
         const resp = JSON.parse(stream)
 
         if (resp.type === 'stream') {
-          if (resp.stream) {
+          if (resp.stream && resp.agentName) {
             useArchApp.setState({
               [`stream${resp.agentName}`]: resp.stream
+            })
+          }
+          if (!resp.agentName) {
+            useArchApp.setState({
+              [`stream`]: resp.stream
             })
           }
         }
 
         if (resp.type === 'todo') {
-          if (resp.todo) {
+          if (resp.todo && resp.agentName) {
             useArchApp.setState({
               [`todo${resp.agentName}`]: resp.todo
             })
           }
+        }
+
+        if (resp.type === 'cmd_begin') {
+          toast.info(resp['cmd_begin'])
+          nprogress.start()
+        }
+
+        if (resp.type === 'cmd_end') {
+          toast.success(resp['cmd_end'])
+          nprogress.done()
         }
       }
     )
@@ -76,6 +93,14 @@ ${appUserPrompt}
     controller.getDataAsync().then(() => {
       setWorking(false)
     })
+
+    window.onbeforeunload = () => {
+      setTimeout(() => {
+        controller.abort()
+      }, 1)
+      window.onbeforeunload = undefined
+      return true
+    }
 
     setStop((oldStop) => {
       if (typeof oldStop === 'function') {

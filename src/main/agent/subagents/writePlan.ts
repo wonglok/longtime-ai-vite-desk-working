@@ -67,8 +67,13 @@ MUST always use backend folder for backend code
         return null
       })
 
-    //
-    //
+    onEvent({
+      type: 'plan',
+      plan: removeThinkTags(plan)
+    })
+
+    whichPlan = removeThinkTags(plan)
+
     //
 
     let tt = setInterval(() => {
@@ -85,13 +90,6 @@ MUST always use backend folder for backend code
     if (checkAborted()) {
       throw new Error('')
     }
-
-    onEvent({
-      type: 'plan',
-      plan: removeThinkTags(plan)
-    })
-
-    whichPlan = removeThinkTags(plan)
 
     try {
       await writeFile(join(appFolder, 'system-plan.md'), whichPlan, 'utf8')

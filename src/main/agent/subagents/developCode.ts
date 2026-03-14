@@ -43,12 +43,12 @@ export async function developCode({ plan, appFolder, inbound, checkAborted, onEv
           todo: todo
         })
 
-        // if (
-        //   todo.filter((r) => r.status === 'completed').length === todo.length &&
-        //   todo.length > 0
-        // ) {
-        //   allDoneMarker.value = true
-        // }
+        if (
+          todo.filter((r) => r.status === 'completed').length === todo.length &&
+          todo.length > 5
+        ) {
+          allDoneMarker.value = true
+        }
 
         return { success: true }
       }
@@ -138,17 +138,21 @@ please tell user about progress updates while building the backend of the app un
         url: `file:${join(appFolder, 'ai-memory', `${agentName}.db`)}`
       }),
       options: {
-        lastMessages: 20,
-        observationalMemory: {
-          model: {
-            url: inbound.baseURL,
-            id: `lmstudio/${inbound.model}`,
-            apiKey: inbound.apiKey
-          },
-          observation: {
-            messageTokens: 10_000
-          }
-        }
+        lastMessages: 10
+        // workingMemory: {
+        //   enabled: true
+        // }
+
+        // observationalMemory: {
+        //   model: {
+        //     url: inbound.baseURL,
+        //     id: `lmstudio/${inbound.model}`,
+        //     apiKey: inbound.apiKey
+        //   },
+        //   observation: {
+        //     messageTokens: 30_000
+        //   }
+        // }
       }
     })
 
@@ -172,6 +176,7 @@ please tell user about progress updates while building the backend of the app un
         progressUpdateTool: await progressUpdateToolGen({ agentName, allDoneMarker })
       },
       model: {
+        provider: 'OPENAI',
         url: inbound.baseURL,
         id: inbound.model,
         apiKey: inbound.apiKey
@@ -194,30 +199,26 @@ please tell user about progress updates while building the backend of the app un
           stopWhen: async () => {
             return allDoneMarker.value === true
           },
-          maxSteps: 15,
+          maxSteps: 5,
           abortSignal: signal,
           memory: {
-            thread: `${agentName}id`,
-            resource: `${agentName}resource`
+            thread: `${agentName}`,
+            resource: `${agentName}`
           },
-          onFinish: () => {
-            allDoneMarker.value === true
-          },
-          onIterationComplete: async () => {
+          onStepFinish: async () => {
             await memory.updateMessages({
               messages: await memory
                 .listMessagesByResourceId({
-                  resourceId: `${agentName}resource`
+                  resourceId: `${agentName}`
                 })
                 .then((r) => {
-                  console.log(r.messages.map((r) => r.content))
                   return r.messages
                 })
             })
 
             await memory.updateThread({
-              id: `${agentName}id`,
-              title: `${agentName}title`,
+              id: `${agentName}`,
+              title: `${agentName}`,
               metadata: {}
               // resourceId: `${agentName}resource`,
               // createdAt: new Date(),
@@ -228,22 +229,25 @@ please tell user about progress updates while building the backend of the app un
       )
 
       let str = ''
-      for await (const chunk of stream.textStream) {
+      for await (const chunk of await stream.textStream) {
         str += chunk
         onEvent({ type: 'stream', agentName: agentName, stream: str })
       }
       onEvent({ type: 'stream', agentName: agentName, stream: str })
 
-      console.log(str)
       console.log('stream.finishReason', await stream.finishReason)
 
-      if (!allDoneMarker.value) {
-        await runTurn()
+      // console.log(await stream.text)
+
+      if (!allDoneMarker.value && (await stream.finishReason) === 'tool_calls') {
+        return await runTurn()
       }
     }
 
     await runTurn()
   }
+
+  onEvent({ type: 'stream', stream: '' })
 
   await Promise.all([
     //
@@ -260,6 +264,8 @@ please tell user about progress updates while building the backend of the app un
       actionPrompt: backend
     })
   ])
+
+  clearInterval(intrv)
 }
 
 //
