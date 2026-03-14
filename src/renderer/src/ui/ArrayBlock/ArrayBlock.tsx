@@ -36,7 +36,8 @@ export function ArrayBlock({}) {
 
         route: 'runAppPlanner',
 
-        model: `qwen/qwen3.5-4b`,
+        // model: `qwen/qwen3.5-4b`,
+        model: `qwen/qwen3.5-9b`,
 
         // model: `qwen/qwen3.5-35b-a3b`,
         //
@@ -52,6 +53,7 @@ ${appSystemPrompt}
         appUserPrompt: `
 ${appUserPrompt}
         `
+        //
       },
       (stream) => {
         //
@@ -92,7 +94,9 @@ ${appUserPrompt}
         if (resp.type === 'cmd_end') {
           toast.success(
             <>
-              <div style={{ fontSize: '12px' }}>{resp['cmd_end']}</div>
+              <div style={{ fontSize: '12px' }} className=" whitespace-pre-wrap">
+                {resp['cmd_end']}
+              </div>
             </>,
             {
               duration: 1000

@@ -6,9 +6,20 @@ export async function writePlan({ appFolder, inbound, checkAborted, onEvent }) {
   let whichPlan = ''
 
   try {
-    whichPlan = await readFile(join(appFolder, 'system-plan.md'), 'utf8')
+    const oldPlan = await readFile(join(appFolder, 'system-plan.md'), 'utf8').catch(() => {
+      throw new Error('no old plan found')
+    })
+    const appIdea = await readFile(join(appFolder, 'app-idea.md'), 'utf8').catch(() => {
+      throw new Error('no app idea found')
+    })
+
+    if (appIdea !== inbound.appUserPrompt.trim()) {
+      throw new Error('idea updated')
+    } else {
+      whichPlan = oldPlan
+    }
   } catch (e) {
-    console.log('no old plan found')
+    console.log(e.message)
 
     const controller = new AbortController()
     const signal = controller.signal
@@ -92,6 +103,7 @@ MUST always use backend folder for backend code
     }
 
     try {
+      await writeFile(join(appFolder, 'app-idea.md'), inbound.appUserPrompt.trim(), 'utf8')
       await writeFile(join(appFolder, 'system-plan.md'), whichPlan, 'utf8')
     } catch (e) {
       console.error('cannot write plan file')

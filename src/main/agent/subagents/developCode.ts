@@ -116,8 +116,6 @@ export async function developCode({ randID, plan, appFolder, inbound, checkAbort
     })
   }
 
-  // MUST Check the frontend and backend folder recursively to check status of development, before begin development work. (exclude "node_modules/**")
-
   const systemPrompt = `
 MUST HAVE GUIDELINES:
 
@@ -126,6 +124,7 @@ current working directory (cwd): "${appFolder}"
 current frontend folder: "${appFolder}/frontend"
 current backend folder: "${appFolder}/backend"
 
+MUST check the latest files in the workspace before development work.
 ${plan}
 `
 
@@ -177,7 +176,7 @@ please build the backend code.
       model: {
         provider: 'OPENAI',
         url: inbound.baseURL,
-        id: inbound.model,
+        id: `lmstudio/${inbound.model}`,
         apiKey: inbound.apiKey
       },
       memory: memory,
