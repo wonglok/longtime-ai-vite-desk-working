@@ -36,7 +36,7 @@ Tech Stack:
 - if we need to scaffold "vite" we use "react@19.2.3" "react-dom@19.2.3"
 - if we need to build command line interface tool (cli-tool) we use "meow" package.
 - if we need AI: we use "lmstudio". the default baseURL is: "http://localhost:1234/v1", the default vision model is: "qwen/qwen3.5-4b", the default vision embedding model is: "qwen.qwen3-vl-embedding-2b"
-- if we need to use browser automation: we use "playwrite" npm package, config is: [headless: false], [waitUntil: load], if we take screenshots we put it into "./frontend/public/screenshots/[id].png", if we need to save text data we put it into json database
+- if we need to use browser automation: we use "playwrite" npm package, config is: {"headless": "false"}, {"waitUntil": "load"}, if we take screenshots we put it into "./frontend/public/screenshots/[id].png", if we need to save text data we put it into json database
 - if we need to use AI to stream text output: we use "openai" npm package with lmstudio baseURL and apikey if needed
 - if we need to use AI to generate json output: we use "openai" and "zod" npm package with lmstudio baseURL and apikey if needed
 - if we need to use AI to generate images or text embedding vector output: we use "openai" npm package with lmstudio baseURL and apikey if needed
@@ -57,7 +57,7 @@ OUTPUT: System Prompt for senior fullstack software engineering developer:
 2. backend (hono "bun"): 
     - folder strcuture
     - npm packages needed 
-    
+    - main.ts
     - database models
     - backend routes
     - api endpoints
@@ -70,6 +70,7 @@ OUTPUT: System Prompt for senior fullstack software engineering developer:
 3. frontend:
     - folder strcuture
     - npm packages needed
+    - main.ts
     - page routes
     - components
     - bun socket (realtime communications)?
