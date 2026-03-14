@@ -67,9 +67,7 @@ Development Plan (DO NOT write code / development schedule):
     - .env
     ...
 
-3. System prompt for AI engineer
-
-4. Gantt Chart for allowing parallel ai coding development
+3. System prompt for AI development engineer
 
 ...
 
