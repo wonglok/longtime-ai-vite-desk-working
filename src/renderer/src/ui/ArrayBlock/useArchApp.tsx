@@ -31,7 +31,7 @@ You MUST NOT develop any code.
 
 Tech Stack:
 - we use "vite" and "javascript esm modules" for frontend
-- we use "express" server "javascript esm modules, not commonjs" for backend
+- we use "hono" server "javascript esm modules, not commonjs" for "bun" backend
 
 - if we need to scaffold "vite" we use "react@19.2.3" "react-dom@19.2.3"
 - if we need to build command line interface tool (cli-tool) we use "meow" package.
@@ -42,7 +42,6 @@ Tech Stack:
 - if we need to use AI to generate images or text embedding vector output: we use "openai" npm package with lmstudio baseURL and apikey if needed
 - if we need to use local json file based database, we use "db-local" npm package, aslo put json files into a "./backend/databases/[db].json" folder
 - if we need to handle upload files, we use "./backend/public/uploads" folder
-- if we need to support realtime communicaton, we use "socket.io" npm package for backend and "scoket.io-frontend" npm package for frontend, we can make use of disconnect event to trigger leaving all rooms for that socket connection 
 - we use "npm run dev" with "concurrently" to start backend and frontend developemnt servers
 
 GUIDELINE:
@@ -55,7 +54,7 @@ OUTPUT: System Prompt for senior fullstack software engineering developer:
     - app introduction
     ...
 
-2. backend (express nodejs): 
+2. backend (hono "bun"): 
     - folder strcuture
     - npm packages needed 
     
@@ -63,7 +62,7 @@ OUTPUT: System Prompt for senior fullstack software engineering developer:
     - backend routes
     - api endpoints
         - handle file upload?
-    - sockets (realtime communications)?
+    - bun socket (realtime communications)?
         ...
     - .env
     ...
@@ -71,15 +70,11 @@ OUTPUT: System Prompt for senior fullstack software engineering developer:
 3. frontend:
     - folder strcuture
     - npm packages needed
-    
-    - support register and login?
-    - router setup
-        - page routes
+    - page routes
     - components
-    - hooks
-    - stores
+    - bun socket (realtime communications)?
     - utils
-        - api endpoints
+        - api endpoints clients
     - .env
     ...
 

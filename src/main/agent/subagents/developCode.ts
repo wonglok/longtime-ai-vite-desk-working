@@ -126,16 +126,14 @@ current working directory (cwd): "${appFolder}"
 current frontend folder: "${appFolder}/frontend"
 current backend folder: "${appFolder}/backend"
 
-
 ${plan}
-
 `
 
   const frontend = `
-please build the frontend of the app until it is fully completed.
+please build the frontend code.
   `
   const backend = `
-please build the backend of the app until it is fully completed.
+please build the backend code.
   `
 
   let develop = async ({ actionPrompt, agentName, subfolder }) => {
@@ -198,13 +196,11 @@ please build the backend of the app until it is fully completed.
     })
 
     const runTurn = async () => {
-      //
-
       const stream = await developerAgent.stream([{ role: 'user', content: actionPrompt }], {
         stopWhen: async () => {
           return allDoneMarker.value === true
         },
-        maxSteps: 1,
+        maxSteps: 5,
         abortSignal: signal,
         memory: {
           thread: `${agentName}`,
