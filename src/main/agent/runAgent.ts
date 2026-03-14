@@ -76,7 +76,7 @@ export const runAgent = async ({ checkAborted, onEvent, inbound, randID }) => {
     }
 
     return await loopRun({
-      executionHistory: executionHistory.slice()
+      executionHistory: executionHistory
       //.reverse().slice(0, 3).reverse()
     })
   }
@@ -84,16 +84,11 @@ export const runAgent = async ({ checkAborted, onEvent, inbound, randID }) => {
   let state = {
     executionHistory: [
       {
-        thought: `good morning! let's see how we can help the user.`,
-        todo: [
-          {
-            task: `let figure out todo list.`,
-            status: 'active'
-          }
-        ] satisfies TodoType[],
-        terminalCalls: []
+        todo: [] satisfies TodoType[],
+        terminalCalls: [],
+        nextStep: `let figure out todo list.`
       }
-    ]
+    ] as ExecStep[]
   }
 
   try {
@@ -109,7 +104,7 @@ export const runAgent = async ({ checkAborted, onEvent, inbound, randID }) => {
   })
 
   await loopRun({
-    executionHistory: state.executionHistory.slice().reverse().slice(0, 3).reverse()
+    executionHistory: state.executionHistory
   })
 }
 
