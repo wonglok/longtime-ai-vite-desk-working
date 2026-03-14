@@ -58,7 +58,7 @@ ${appUserPrompt}
         if (resp.type === 'stream') {
           if (resp.stream) {
             useArchApp.setState({
-              stream: resp.stream
+              [`stream${resp.agentName}`]: resp.stream
             })
           }
         }
@@ -66,7 +66,7 @@ ${appUserPrompt}
         if (resp.type === 'todo') {
           if (resp.todo) {
             useArchApp.setState({
-              todo: resp.todo
+              [`todo${resp.agentName}`]: resp.todo
             })
           }
         }

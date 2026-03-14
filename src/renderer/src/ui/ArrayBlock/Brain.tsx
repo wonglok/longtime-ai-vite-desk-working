@@ -1,12 +1,12 @@
 import { useEffect, useRef } from 'react'
 import { useArchApp } from './useArchApp'
 
-export function Brain() {
-  const stream = useArchApp((r) => r.stream)
+export function Brain({ agentName = '' }) {
+  const stream = useArchApp((r) => r['stream' + agentName]) || ''
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (ref.current) {
+    if (ref.current && stream) {
       ref.current.scrollTop = ref.current.scrollHeight
       window.scrollTo(0, 9999)
     }

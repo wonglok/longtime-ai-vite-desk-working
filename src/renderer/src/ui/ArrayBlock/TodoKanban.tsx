@@ -1,8 +1,8 @@
 import { useArchApp } from './useArchApp'
 // import { useEffect } from 'react'
 
-export function TodoKanban() {
-  const todo = useArchApp((r) => r.todo)
+export function TodoKanban({ agentName = '' }) {
+  const todo = useArchApp((r) => r['todo' + agentName]) || []
   const status = useArchApp((r) => r.status)
 
   return (
