@@ -120,7 +120,7 @@ export async function developCode({ randID, plan, appFolder, inbound, checkAbort
     current backend folder: "${appFolder}/backend"
 
     MUST Check the frontend and backend folder recursively to check status of development and update user about progress, before begin development work. (exclude "node_modules/**")
-    MUST tell user about progress updates when there's any completed features
+    MUST tell user about progress updates after there's a new terminal call
     
 ${plan}
     `
@@ -215,9 +215,6 @@ please build the backend of the app until it is fully completed.
             id: `${agentName}`,
             title: `${agentName}`,
             metadata: {}
-            // resourceId: `${agentName}resource`,
-            // createdAt: new Date(),
-            // updatedAt: new Date()
           })
         }
       })
@@ -225,6 +222,7 @@ please build the backend of the app until it is fully completed.
       let str = ''
       for await (const chunk of await stream.textStream) {
         str += chunk
+
         onEvent({ type: 'stream', agentName: agentName, stream: str })
       }
       onEvent({ type: 'stream', agentName: agentName, stream: str })
