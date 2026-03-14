@@ -81,12 +81,18 @@ ${appUserPrompt}
         if (resp.type === 'cmd_begin') {
           // toast.info(resp['cmd_begin'])
           nprogress.start()
+
+          // if (resp.cmd_begin && resp.agentName) {
+          //   useArchApp.setState({
+          //     [`cmd_begin${resp.agentName}`]: resp.cmd_begin
+          //   })
+          // }
         }
 
         if (resp.type === 'cmd_end') {
           toast.success(
             <>
-              <div style={{ fontSize: '13px' }}>{resp['cmd_end']}</div>
+              <div style={{ fontSize: '12px' }}>{resp['cmd_end']}</div>
             </>,
             {
               duration: 1000

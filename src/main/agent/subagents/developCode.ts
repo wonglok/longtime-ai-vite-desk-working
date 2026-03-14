@@ -58,7 +58,7 @@ export async function developCode({ randID, plan, appFolder, inbound, checkAbort
   //   })
   // }
 
-  const terminalToolGen = async ({ subfolder = '' }) => {
+  const terminalToolGen = async ({ agentName, subfolder = '' }) => {
     return createTool({
       id: 'terminalTool',
       description: 'run command in terminal',
@@ -69,6 +69,7 @@ export async function developCode({ randID, plan, appFolder, inbound, checkAbort
       outputSchema: z.object({
         //
         successful: z.boolean(),
+        //
         result: z.string()
         //
       }),
@@ -77,6 +78,7 @@ export async function developCode({ randID, plan, appFolder, inbound, checkAbort
 
         onEvent({
           type: 'cmd_begin',
+          agentName: agentName,
           cmd_begin: command
         })
 
@@ -140,10 +142,7 @@ please build the backend of the app until it is fully completed.
         url: `file:${join(appFolder, 'ai-memory', `${agentName}.db`)}`
       }),
       options: {
-        lastMessages: 20
-        // workingMemory: {
-        //   enabled: true
-        // }
+        lastMessages: 10
 
         // observationalMemory: {
         //   model: {
@@ -180,8 +179,8 @@ please build the backend of the app until it is fully completed.
       },
       memory: memory,
       tools: {
-        terminalTool: await terminalToolGen({ subfolder: subfolder })
-        // progressUpdateTool: await progressUpdateToolGen({ agentName, allDoneMarker })
+        terminalTool: await terminalToolGen({ agentName: agentName, subfolder: subfolder })
+        // progressUpdateTool: await progressUpdateToolGen({ agentName: agentName,, allDoneMarker })
       }
     })
 
