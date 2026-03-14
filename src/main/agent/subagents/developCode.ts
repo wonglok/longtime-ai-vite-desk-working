@@ -117,7 +117,8 @@ export async function developCode({ plan, appFolder, inbound, checkAborted, onEv
     current backend folder: "${appFolder}/backend"
 
     MUST Check the frontend and backend folder recursively to check status of development and update user about progress, before begin development work. (exclude "node_modules/**")
-    MUST tell user about progress updates while building 
+    MUST tell user about progress updates when there's any completed features
+    
 ${plan}
     `
 
@@ -238,7 +239,7 @@ please build the backend of the app until it is fully completed.
 
       // console.log(await stream.text)
 
-      if (!allDoneMarker.value && (await stream.finishReason) === 'tool_calls') {
+      if (!allDoneMarker.value && (await stream.finishReason) === 'tool-calls') {
         return await runTurn()
       }
     }
