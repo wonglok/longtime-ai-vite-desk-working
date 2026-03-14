@@ -8,7 +8,8 @@ import { Memory } from '@mastra/memory'
 import { LibSQLStore } from '@mastra/libsql'
 import { makeDirectory } from 'make-dir'
 
-export async function developCode({ plan, appFolder, inbound, checkAborted, onEvent }) {
+const failCounter = {}
+export async function developCode({ randID, plan, appFolder, inbound, checkAborted, onEvent }) {
   const controller = new AbortController()
   const signal = controller.signal
 
@@ -186,7 +187,7 @@ please build the backend of the app until it is fully completed.
       }
     })
 
-    let runTurn = async () => {
+    const runTurn = async () => {
       //
 
       const stream = await developerAgent.stream(
@@ -199,7 +200,8 @@ please build the backend of the app until it is fully completed.
           stopWhen: async () => {
             return allDoneMarker.value === true
           },
-          maxSteps: 5,
+
+          maxSteps: Infinity,
           abortSignal: signal,
           memory: {
             thread: `${agentName}`,
@@ -239,12 +241,18 @@ please build the backend of the app until it is fully completed.
 
       // console.log(await stream.text)
 
-      if (!allDoneMarker.value && (await stream.finishReason) === 'tool-calls') {
-        return await runTurn()
+      if (!allDoneMarker.value && failCounter[randID] <= 50) {
+        return await runTurn().catch(() => {
+          failCounter[randID] = failCounter[randID] || 0
+          failCounter[randID] += 1
+        })
       }
     }
 
-    await runTurn()
+    await runTurn().catch(() => {
+      failCounter[randID] = failCounter[randID] || 0
+      failCounter[randID] += 1
+    })
   }
 
   onEvent({ type: 'stream', stream: '' })
