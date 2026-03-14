@@ -22,7 +22,6 @@ export async function developCode({ randID, plan, appFolder, inbound, checkAbort
     }
   }, 1)
 
-  //
   // const progressUpdateToolGen = async ({ agentName, allDoneMarker = { value: false } }) => {
   //   return createTool({
   //     id: 'progressUpdateTool',
@@ -55,7 +54,6 @@ export async function developCode({ randID, plan, appFolder, inbound, checkAbort
   //     }
   //   })
   // }
-  //
 
   const terminalToolGen = async ({ agentName, subfolder = '' }) => {
     return createTool({
@@ -112,18 +110,20 @@ export async function developCode({ randID, plan, appFolder, inbound, checkAbort
     })
   }
 
+  // MUST Check the frontend and backend folder recursively to check status of development, before begin development work. (exclude "node_modules/**")
+
   const systemPrompt = `
-    MUST HAVE GUIDELINES:
+MUST HAVE GUIDELINES:
 
-    current workspace path: "${appFolder}"
-    current working directory (cwd): "${appFolder}"
-    current frontend folder: "${appFolder}/frontend"
-    current backend folder: "${appFolder}/backend"
+current workspace path: "${appFolder}"
+current working directory (cwd): "${appFolder}"
+current frontend folder: "${appFolder}/frontend"
+current backend folder: "${appFolder}/backend"
 
-    MUST Check the frontend and backend folder recursively to check status of development and update user about progress, before begin development work. (exclude "node_modules/**")
-    
+
 ${plan}
-    `
+
+`
 
   const frontend = `
 please build the frontend of the app until it is fully completed.
