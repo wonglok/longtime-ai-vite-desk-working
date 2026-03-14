@@ -8,8 +8,8 @@ export const useArchApp = create(() => {
     //
     appSystemPrompt: `
 You are an AI senior developer agent.
-You help the user to turn the app idea into execution plan for other AI Agents to read.
-You dont develop code but you plan the execution task.
+You help the user to turn the app idea into execution plan and system prompt for other AI Agents to read.
+You MUST NOT develop code but you write system prompt for other agents to execute upon the todo list.
 
 Tech Stack:
 - we use "vite" react (v19.2.3) "typescript" for frontend
@@ -27,7 +27,10 @@ Tech Stack:
 - if we need to support realtime communicaton, we use "socket.io" npm package for backend and "scoket.io-frontend" npm package for frontend, we can make use of disconnect event to trigger leaving all rooms for that socket connection 
 - we use "npm run dev" with "concurrently" to start backend and frontend developemnt servers
 
-Development Plan (DO NOT write code / development schedule):
+OUTPUT: System Prompt for senior fullstack software engineering developer:
+**please infuse the wisdom found in thinking tag into it**
+**DO NOT write code / development schedule**
+
 1. frontend:
     - folder strcuture (vite)
     - npm packages needed
@@ -67,8 +70,6 @@ Development Plan (DO NOT write code / development schedule):
     - .env
     ...
 
-3. System prompt for AI development engineer
-
 ...
 
 `.trim(),
@@ -76,6 +77,9 @@ Development Plan (DO NOT write code / development schedule):
 I want to build an inspiration tool.
 
 For home page "/":
+- I can view featured inspirations
+
+For app page "/app":
 - I can enter a website URL to the inspiration entry box to "save inspiration". 
     - When I click "save inspiration" button, we spin up a browser to take a fullpage screenshot, make a thumbnail and collect some essential text from the webpage. and then it will send to AI to generate inspirational notes. I want to use lmstudio and "uses qwen/qwen3.5-4b" AI model
 - There would be an emoji on my mouse cursor and i can see other visitor's emoji on the screen moving as well.
@@ -84,7 +88,7 @@ For each inspiration post page "/inspire/[id]":
 i can view inspiration items in the grid below the entry box.
 - There's a thumbnail header
 - Website name
-- Text Analysis
+- Textual Analysis
 `.trim(),
 
     stream: '',

@@ -20,13 +20,6 @@ import { useTM } from '@renderer/store/useTM'
 import { ErrorMsg } from '@renderer/ui/TodoManagement/ErrorMsg'
 import { TodoManagement } from '@renderer/ui/TodoManagement/TodoManagement'
 import { useEffect, useState } from 'react'
-
-// @ts-ignore
-import systemPt from '../prompts/system.md?raw'
-import { toast } from 'sonner'
-import nprogress from 'nprogress'
-import 'nprogress/nprogress.css'
-
 // import { ActionsTerm } from '@renderer/ui/TodoManagement/ActionsTerm'
 // import { Brain } from '@renderer/ui/TodoManagement/Brain'
 
@@ -43,7 +36,7 @@ export function Home() {
 
         route: 'runAgent',
 
-        model: `qwen/qwen3.5-4b`,
+        model: `qwen/qwen3.5-35b-a3b`,
 
         // model: `qwen/qwen3.5-9b`,
         // model: `qwen/qwen3-coder-30b`,
@@ -51,30 +44,52 @@ export function Home() {
         // model: `qwen/qwen3.5-9b`,
         // model: `openai/gpt-oss-20b`,
 
-        folder: `inspire-book`,
+        folder: `inspire-cli`,
 
-        systemPrompt: `
-${systemPt}
-`,
+        soul: `
+# SOUL and IDENTITY
+I am a senior developer.
+I am energetic, hopeful, diligent and careful.
+I love helping other poeple (user) to turn their app idea into software.
+I love the KING JAMES bible especially the Gospel of Jesus Christ and the book of Proverbs. 
+I always quote the KING JAMES bible scripture without modifications.
+        `,
         appIdea: `
+## App idea / features: 
 
-I want to build an inspiration tool.
+1. write a nodejs cli script with the following capabilities:
 
-For home page "/":
-- I can view featured inspirations
+node ./inspire.js --help
+node ./inspire.js --website http://effectnode.com
+node ./inspire.js --find-similar-inspiration "ocean"
 
-For app page "/app":
-- I can enter a website URL to the inspiration entry box to "save inspiration". 
-    - When I click "save inspiration" button, we spin up a browser to take a fullpage screenshot, make a thumbnail and collect some essential text from the webpage. and then it will send to AI to generate inspirational notes. I want to use lmstudio and "uses qwen/qwen3.5-4b" AI model
-- There would be an emoji on my mouse cursor and i can see other visitor's emoji on the screen moving as well.
+2. write a "skill.md" for the ai to use the "AI Skill", you should include all the examples above.
 
-For each inspiration post page "/inspire/[id]": 
-i can view inspiration items in the grid below the entry box.
-- There's a thumbnail header
-- Website name
-- Textual Analysis
+## for example: node ./inspire.js --website http://effectnode.com
+- step 1: use "playwright" to spin up a browser,
+- step 2: set "playwright" config "headless" to "false" in playwright
+- step 3: set "playwright" config "waitUntil" parameter to "load" in "playwright"
+- step 4: navigate to that website
+- step 5: take a few screenshots of the full page then save it to "./database/screenshots/*" folder 
+- step 6: collect main information from the webapge as well
+- step 7: close or disconnnect the browser in "playwright"
+- step 8: use "openai" sdk to process the collected image info and text info
+- step 9: use "openai" sdk to generate embedding vector for the collected image info and text info save it to json db
 
-        `.trim(),
+## for example: node ./inspire.js --find-similar-inspiration "ocean"
+- step 1: we can use "openai" emebedding api to embed the search query and then use cosine similarity to find similar inspiration.
+
+## MUST HAVE Guidelines
+- MUST use always use relative path instead of absolute path
+- "./database/*.json" is the location of the json local database
+- "./database/screenshots/*.png" is the location of the screenshots
+
+- MUST use "npm install --save ..." to install packages
+- use npm package "meow" for cli entry code
+- use npm package "openai" for ai calls sdk, sdk config: baseURL: "http://localhost:1234/v1" with model: "qwen/qwen3.5-9b"
+- use npm package "openai" for embeding, sdk config: baseURL: "http://localhost:1234/v1" with model: "qwen.qwen3-vl-embedding-2b"
+
+`.trim(),
 
         modifyMessage: `
         
@@ -103,14 +118,6 @@ i can view inspiration items in the grid below the entry box.
         }
         if (resp.type === 'brain') {
           useTM.setState({ brain: resp.brain })
-        }
-
-        if (resp.type === 'cmd_running') {
-          toast(resp.cmd_running)
-          nprogress.start()
-        }
-        if (resp.type === 'cmd_done') {
-          nprogress.done()
         }
 
         if (resp.type === 'terminalCalls') {

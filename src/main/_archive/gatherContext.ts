@@ -48,7 +48,7 @@ The current workspace is: ${workspace}
   })
 
   await agent.prompt(`
-${inbound.appSpec}
+${inbound.appIdea}
 
 Instruction:
 You only work at the workspace:  ${workspace}

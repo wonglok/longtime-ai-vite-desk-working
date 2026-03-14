@@ -27,7 +27,7 @@ export const messageRoute = async ({ mainWindow, event, randID, inbound }) => {
   // }
 
   // const agent = await createAgent({
-  //   appSpec: inbound.appSpec,
+  //   appIdea: inbound.appIdea,
   //   workspace: workspace,
   //   apiKey: inbound.apiKey,
   //   baseURL: inbound.baseURL,

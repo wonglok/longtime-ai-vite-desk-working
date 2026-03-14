@@ -69,7 +69,7 @@ export const estimateTokenCountFromObject = (theobject: string) =>
 // ============================================================================
 
 export const createAgent = async ({
-  appSpec = '',
+  appIdea = '',
   workspace = '',
   apiKey = '',
   baseURL = 'http://localhost:1234/v1',
@@ -79,7 +79,7 @@ export const createAgent = async ({
   onProgress = () => {}
   // contextWindow = 4096,
 }: {
-  appSpec: string
+  appIdea: string
   workspace: string
   model: string
   temperature: number
@@ -145,7 +145,7 @@ User's Prompt:
 
 navigate to: ${workspace}
 
-${appSpec}
+${appIdea}
 
               `
             }

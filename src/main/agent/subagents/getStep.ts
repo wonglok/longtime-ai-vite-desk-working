@@ -6,17 +6,17 @@ import { scanFolder } from '../utils/getSummary'
 // import { scanFolder } from '../utils/getSummary'
 const TodoSchema = z.object({
   status: z.enum(['pending', 'active', 'completed']),
-  task: z.string().describe('task description')
+  task: z.string().describe('task')
 })
 
 const WorkTask = z.object({
-  thought: z
+  currentThought: z
     .string()
     .describe(
       "thoughts related of the agent and of the current tasks. It's written for the agent to see again."
     ),
 
-  todo: z.array(TodoSchema).describe('a todo list').min(1),
+  todo: z.array(TodoSchema),
 
   terminalCalls: z
     .array(
@@ -26,15 +26,16 @@ const WorkTask = z.object({
       })
     )
     .describe('a list of terminal commands')
-    .min(1)
+    .min(1),
+
+  nextStep: z.string().describe('next step')
 })
 
 export type ExecStep = z.infer<typeof WorkTask>
 export type TodoType = z.infer<typeof TodoSchema>
 
 export async function getStep({ project, executionHistory, inbound, checkAborted, onEvent }) {
-  let latestFewSteps = executionHistory.slice().reverse().slice(0, 3).reverse()
-  let latestOneStep = latestFewSteps[latestFewSteps.length - 1]
+  let latestOneStep = executionHistory[executionHistory.length - 1]
 
   const openai = new OpenAI({
     baseURL: inbound.baseURL,
@@ -47,38 +48,14 @@ export async function getStep({ project, executionHistory, inbound, checkAborted
     messages.push({
       role: 'system',
       content: `
-${inbound.soul}
-
-# Here's the latest thought of the agent:
-${latestOneStep.thought}
+${inbound.systemPrompt}
 `.trim()
     })
 
-    if (latestFewSteps) {
+    if (latestOneStep) {
       // thought
       {
-        let allThoughts = ''
-        for (let item of latestFewSteps) {
-          let time = item.timestamp ? `${item.timestamp}` : ``
-          let thought = `
-# The thought of that moment:
-TimeStamp: ${time}
-
-Thought: 
-${item.thought}
-`
-          allThoughts += thought
-        }
-
-        messages.push({
-          role: 'user',
-          content: allThoughts
-        })
-      }
-
-      // thought
-      {
-        let allCalls = 'Most recent terminal call and result: \n\n\n'
+        let allCalls = `Last Thought: ${latestOneStep.currentThought}\n\n\n Last terminal calls, status and results: \n\n`
         for (let item of [latestOneStep]) {
           for (let each of item.terminalCalls as {
             reason: string
@@ -89,14 +66,12 @@ ${item.thought}
           }[]) {
             allCalls += `
 Timetamp: ${each.timestamp || new Date().toString()}
-Reason of running this command:
-${each.reason || ''}
-
-Status of command result:
-${each.successful ? `Successful` : `Failed`}
 
 The terminal command:
 ${each.cmd || ''}
+
+Status of command result:
+${each.successful ? `Successful` : `Failed`}
 
 Result of command:
 ${each.result.trim() || ''}
@@ -134,27 +109,10 @@ ${summary}
     messages.push({
       role: 'user',
       content: `
-Here's the latest app specification:
-${inbound.appSpec.trim()}
-
-## Sync todo list:
-check the latest app spec against the current todo list and current code files to see if we need to update it todo list.
+Here's the original user app idea input:
+${inbound.appIdea.trim()}
 `.trim()
     })
-
-    if (latestOneStep.todo?.length > 0) {
-      messages.push({
-        role: 'user',
-        content: `
-# Here's the latest todo list:
-${latestOneStep.todo
-  .map((r) => {
-    return `${`[${r.status}]`} ${r.task}`
-  })
-  .join('\n')}
-          `
-      })
-    }
 
     if ((inbound.errorMessage || '').trim()) {
       messages.push({
@@ -175,6 +133,31 @@ ${inbound.modifyMessage}
           `
       })
     }
+
+    if (latestOneStep.todo?.length > 0) {
+      messages.push({
+        role: 'user',
+        content: `
+# Here's the latest todo list:
+${latestOneStep.todo
+  .map((r) => {
+    return `${`[${r.status}]`} ${r.task}`
+  })
+  .join('\n')}
+
+  `
+      })
+    }
+
+    messages.push({
+      role: 'user',
+      content: `
+
+What should we do in this step:
+${latestOneStep.nextStep}
+
+      `
+    })
 
     return messages
   }
@@ -235,6 +218,11 @@ ${inbound.modifyMessage}
 
     if (nextStep.terminalCalls && nextStep.terminalCalls.length) {
       for (let each of nextStep.terminalCalls) {
+        onEvent({
+          type: 'cmd_running',
+          cmd_running: each.cmd
+        })
+
         let res: any = await new Promise((resolve) => {
           return exec(
             `${each.cmd}`,
@@ -255,7 +243,10 @@ ${inbound.modifyMessage}
             }
           )
         })
-
+        onEvent({
+          type: 'cmd_done',
+          cmd_done: each.cmd
+        })
         ;(each as any).successful = res.successful
         ;(each as any).result = res.result.trim()
         ;(each as any).timestamp = new Date().toString()

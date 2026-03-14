@@ -3,7 +3,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { useEffect, useState } from 'react'
 // @ts-ignore
 import { useArchApp } from './useArchApp'
-
+import copy from 'copy-to-clipboard'
 export function ArrayBlock({}) {
   //'
 
@@ -33,7 +33,6 @@ export function ArrayBlock({}) {
 
         model: `qwen/qwen3.5-4b`,
 
-        //
         // model: `qwen/qwen3.5-35b-a3b`,
         //
         // model: `qwen/qwen3.5-9b`,
@@ -119,7 +118,17 @@ ${appUserPrompt}
             >
               Stop
             </Button>
+            <Button
+              className="mr-3"
+              variant={'default'}
+              onClick={() => {
+                copy(stream)
+              }}
+            >
+              Copy
+            </Button>
           </div>
+
           <pre className="text-xs whitespace-pre-wrap">{stream}</pre>
         </div>
       </div>

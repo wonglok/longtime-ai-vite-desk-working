@@ -38,6 +38,13 @@ export const ParallelDevelopmentPlanSchema = z.object({
 
 export type ParallelDevelopmentPlanSchemaType = z.infer<typeof ParallelDevelopmentPlanSchema>
 
+function removeThinkTags(input) {
+  // The 'g' flag is for global, the 's' flag is for dotAll (allows '.' to match newlines)
+  const regex = /<think>[\s\S]*?<\/think>/gs
+  const result = input.replace(regex, '')
+  return result
+}
+
 export const runRecursive = async ({ checkAborted, onEvent, inbound, randID }) => {
   const docs = app.getPath('documents')
   const workspace = `${docs}/ai-home/${inbound.folder}`
@@ -93,8 +100,10 @@ export const runRecursive = async ({ checkAborted, onEvent, inbound, randID }) =
         let text = ''
         for await (let event of response) {
           text += event.choices[0].delta.content || ''
-          onEvent({ type: 'stream', stream: text })
+
+          onEvent({ type: 'stream', stream: removeThinkTags(text) })
         }
+        onEvent({ type: 'stream', stream: removeThinkTags(text) })
         return text
       })
       .catch((r) => {
@@ -108,7 +117,7 @@ export const runRecursive = async ({ checkAborted, onEvent, inbound, randID }) =
 
     onEvent({
       type: 'plan',
-      plan: plan
+      plan: removeThinkTags(plan)
     })
 
     //
