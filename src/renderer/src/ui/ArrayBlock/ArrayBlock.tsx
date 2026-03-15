@@ -88,14 +88,16 @@ ${appUserPrompt}
         if (resp.type === 'cmd_end') {
           toast.success(
             <>
-              <div style={{ fontSize: '12px' }} className=" whitespace-pre-wrap">
+              <div style={{ fontSize: '12px' }} className=" whitespace-pre-wrap py-3 ">
                 {resp['cmd_end']}
               </div>
             </>,
             {
               duration: 1000,
               style: {
-                width: `750px`
+                width: `750px`,
+                maxHeight: '300px',
+                overflow: 'scroll'
               }
             }
           )
