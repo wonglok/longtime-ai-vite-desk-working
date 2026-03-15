@@ -18,10 +18,10 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
   }
 
   const loopRun = async ({
-    executionHistory,
+    // executionHistory,
     step
   }: {
-    executionHistory: ExecStep[]
+    // executionHistory: ExecStep[]
     step: ExecStep
   }) => {
     if (FailCounter[randID] >= 50) {
@@ -32,12 +32,12 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
       return
     }
 
-    executionHistory.push(step)
+    // executionHistory.push(step)
 
     const nextStep: ExecStep | null = await getStep({
       plan: plan,
       step: step,
-      executionHistory: executionHistory,
+      // executionHistory: executionHistory,
       checkAborted: checkAborted,
       workspace: `${workspace}`,
       inbound: inbound,
@@ -53,15 +53,14 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
 
     if (!nextStep) {
       FailCounter[randID] = FailCounter[randID] + 1
-      return await loopRun({ executionHistory, step: step })
+      return await loopRun({ step: step })
     }
 
     await writeFile(
       path.join(workspace, 'ai-memory', 'state.json'),
       JSON.stringify(
         {
-          nextStep: nextStep,
-          executionHistory: executionHistory
+          nextStep: nextStep
         },
         null,
         '\t'
@@ -76,7 +75,7 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
     }
 
     return await loopRun({
-      executionHistory: executionHistory.slice().reverse().slice(0, 5).reverse(),
+      // executionHistory: executionHistory.slice().reverse().slice(0, 5).reverse(),
       step: nextStep
     })
   }
@@ -99,7 +98,7 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
   }
 
   await loopRun({
-    executionHistory: state.executionHistory,
+    // executionHistory: state.executionHistory,
     step: state.nextStep
   })
 }

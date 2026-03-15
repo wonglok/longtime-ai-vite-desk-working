@@ -46,14 +46,15 @@ export type ExecStep = z.infer<typeof WorkTask>
 
 export async function getStep({
   plan,
-  executionHistory,
+  // executionHistory,
   step,
   workspace,
   inbound,
   checkAborted,
   onEvent
+  //
 }) {
-  const appFolder = inbound.appFolder
+  // const appFolder = inbound.appFolder
   const openai = new OpenAI({
     baseURL: inbound.baseURL,
     apiKey: inbound.apiKey
@@ -106,21 +107,25 @@ ${each.result || ''}
       }
     }
 
-    messages.push({
-      role: 'user',
-      content: `
+    if (step.currentThought) {
+      messages.push({
+        role: 'user',
+        content: `
     Here's the previous thought:
     ${step.currentThought}
         `.trim()
-    })
+      })
+    }
 
-    messages.push({
-      role: 'user',
-      content: `
+    if (step.futureThought) {
+      messages.push({
+        role: 'user',
+        content: `
     Here's the current thought:
     ${step.futureThought}
         `.trim()
-    })
+      })
+    }
 
     if (step?.todo?.length > 0) {
       messages.push({
