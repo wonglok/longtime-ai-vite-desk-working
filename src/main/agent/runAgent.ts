@@ -12,6 +12,7 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
   const docs = app.getPath('documents')
   const workspace = `${docs}/ai-home/apps/${inbound.appName}`
   await makeDirectory(workspace)
+  await makeDirectory(`${workspace}/nextjs`)
 
   if (checkAborted()) {
     return
