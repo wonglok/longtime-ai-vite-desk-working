@@ -17,31 +17,27 @@ const WorkTask = z
 
     todo: z
       .array(
-        z
-          .discriminatedUnion('status', [
-            z
-              .object({
-                status: z.literal('pending'),
-                task: z.string().describe('task description')
-              })
-              .describe('pending task'),
-            z
-              .object({
-                status: z.literal('in-progress'),
-                task: z.string().describe('task description')
-              })
-              .describe('in-progress task'),
-            z
-              .object({
-                status: z.literal('completed'),
-                task: z.string().describe('task description')
-              })
-              .describe('completed task')
-          ])
-          .describe('todo task')
+        z.discriminatedUnion('status', [
+          z.object({
+            status: z.literal('pending'),
+            task: z.string().describe('task description')
+          })
+
+          // z
+          //   .object({
+          //     status: z.literal('in-progress'),
+          //     task: z.string().describe('task description')
+          //   })
+          //   .describe('in-progress task'),
+          // z
+          //   .object({
+          //     status: z.literal('completed'),
+          //     task: z.string().describe('task description')
+          //   })
+          //   .describe('completed task')
+        ])
       )
-      .describe('a todo list')
-      .min(1),
+      .describe('remaining task'),
 
     theNextThought: z
       .string()
@@ -82,15 +78,16 @@ ${plan}
 current workspace path: "${workspace}"
 current working directory (cwd): "${workspace}"
 
-always put "nextjs" code into this folder: "${workspace}/nextjs"
+always put "astro" code into this folder: "${workspace}/astro"
 
 MUST avoid duplicated export of same code modules
 MUST avoid duplicated import of npm modules
 
-If there's no "nextjs folder": "mkdir -p "${workspace}/nextjs"; npx create-next-app@latest nextjs --no-linter --js --tailwind --app --src-dir --webpack --use-npm"
+If there's no "astro folder": "mkdir -p "${workspace}/astro"; npx npm create astro@latest  -- --add react"
 
 You are an Autnomous AI senior developer agent.
 You dont need to wait for the human feedback.
+
 `.trim()
     })
 

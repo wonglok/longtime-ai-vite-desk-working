@@ -53,7 +53,7 @@ MUST HAVE GUIDELINES:
 current workspace path: "${workspace}"
 current current working directory (cwd): "${workspace}"
 
-MUST always use "./nextjs" folder for nextjs code
+MUST always use "./astro" folder for astro code
               `
             },
             {
