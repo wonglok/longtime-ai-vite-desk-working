@@ -101,19 +101,17 @@ You dont need to wait for the human feedback.
         successful: boolean
       }[]) {
         messages.push({
-          role: 'user',
+          role: 'assistant',
           content: `
-# Here's the last Terminal Call
-
 ## The terminal command:
 ${each.command || ''}
-
 ## Status of command result:
 ${each.successful ? `Successful` : `Failed`}
-
-## Result of command:
-${each.result || ''}
     `.trim()
+        })
+        messages.push({
+          role: 'user',
+          content: each.result
         })
       }
     }
@@ -146,12 +144,15 @@ ${each.result || ''}
       })
     }
 
+    messages.push({
+      role: 'user',
+      content: 'keep going.'
+    })
+
     return messages
   }
 
   let messages = await prepareMessages(step)
-
-  console.log(messages)
 
   onEvent({
     type: 'messages',
@@ -185,8 +186,8 @@ ${each.result || ''}
             schema: WorkTask.toJSONSchema()
           }
         },
-        reasoning_effort: 'none',
-        temperature: 0
+        reasoning_effort: 'high',
+        temperature: 0.5
       },
       { signal }
     )
