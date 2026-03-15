@@ -57,7 +57,7 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
     }
 
     await writeFile(
-      path.join(workspace, 'state.json'),
+      path.join(workspace, 'ai-memory', 'state.json'),
       JSON.stringify(
         {
           nextStep: nextStep,
@@ -84,14 +84,15 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
   let state = {
     executionHistory: [],
     nextStep: {
-      thought: `let's get to work.`,
+      currentThought: ``,
+      futureThought: `let's consider checking the files to see what you need to work on and generate the todo list.`,
       todo: [],
       terminalCalls: []
-    }
+    } satisfies ExecStep
   }
 
   try {
-    let stateStr = await readFile(path.join(workspace, 'state.json'), 'utf-8')
+    let stateStr = await readFile(path.join(workspace, 'ai-memory', 'state.json'), 'utf-8')
     state = JSON.parse(stateStr)
   } catch (e) {
     console.error(e)

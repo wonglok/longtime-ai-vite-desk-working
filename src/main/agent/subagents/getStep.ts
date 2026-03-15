@@ -8,7 +8,13 @@ const WorkTask = z.object({
   futureThought: z
     .string()
     .describe(
-      "future thoughts related of the agent and of the current tasks. It's written for the agent to see again."
+      "future thoughts related of the agent and of the current tasks. It's written for the agent to see again. In thrid person speech."
+    ),
+
+  currentThought: z
+    .string()
+    .describe(
+      "current thoughts related of the agent and of the current tasks. It's written for the agent to see again. In thrid person speech."
     ),
 
   todo: z
@@ -199,6 +205,14 @@ ${each.result || ''}
         })
       }
     }
+
+    messages.push({
+      role: 'user',
+      content: `
+Here's what you considered before:
+${step.currentThought}
+    `.trim()
+    })
 
     messages.push({
       role: 'user',

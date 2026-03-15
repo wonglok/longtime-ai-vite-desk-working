@@ -19,8 +19,8 @@ export const runAppPlanner = async ({ checkAborted, onEvent, inbound, randID }) 
     onEvent: onEvent
   })
 
-  await makeDirectory(`${workspace}/frontend`)
-  await makeDirectory(`${workspace}/backend`)
+  // await makeDirectory(`${workspace}/frontend`)
+  // await makeDirectory(`${workspace}/backend`)
 
   const runner = async ({}) => {
     // let res = await developCode({
