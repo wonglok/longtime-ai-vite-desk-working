@@ -57,7 +57,7 @@ OUTPUT: System Prompt for senior fullstack software engineering developer:
 2. backend ("express" "nodejs"): 
     - folder strcuture
     - npm packages needed 
-    - main.ts
+    - ./src/main.js
     - api endpoints
     - database models
     - utils
@@ -66,7 +66,7 @@ OUTPUT: System Prompt for senior fullstack software engineering developer:
 3. frontend (vite "reactjs"):
     - folder strcuture
     - npm packages needed
-    - main.ts
+    - ./src/main.js
     - api endpoints client
     - page routes
     - ui components
