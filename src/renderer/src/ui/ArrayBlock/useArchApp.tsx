@@ -25,7 +25,7 @@ export const useArchApp = create(() => {
     // - Textual Analysis
     // `.trim(),
 
-    appUserPrompt: `i want to build a hello world app.
+    appUserPrompt: `i want to build a todo app.
 `.trim(),
 
     appSystemPrompt: `
