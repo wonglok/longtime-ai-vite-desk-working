@@ -213,7 +213,7 @@ please continue or begin building the backend code. thank you!
         stopWhen: async () => {
           return allDoneMarker.value === true
         },
-        maxSteps: Infinity,
+        maxSteps: 5,
         providerOptions: {
           openai: { reasoningEffort: 'high' } // OpenAI's reasoning models
         },
@@ -230,19 +230,27 @@ please continue or begin building the backend code. thank you!
               })
               .then((r) => {
                 return r.messages
-              })
+              }),
+            memoryConfig: {
+              lastMessages: 5
+            }
           })
 
           await memory.updateThread({
             id: `${agentName}`,
             title: `${agentName}`,
-            metadata: {}
+            metadata: {},
+            memoryConfig: {
+              lastMessages: 5
+            }
           })
         }
       })
-
       let str = ''
       for await (const chunk of await stream.textStream) {
+        let totalTokens = (await stream.usage).totalTokens
+        console.log('totalTokens', totalTokens)
+
         str += chunk
 
         onEvent({ type: 'stream', agentName: agentName, stream: str })

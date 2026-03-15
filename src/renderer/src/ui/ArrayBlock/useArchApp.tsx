@@ -71,7 +71,7 @@ OUTPUT: System Prompt for senior fullstack software engineering developer:
     - folder strcuture
     - npm packages needed for frontend
     - ./src/main.js
-    - api endpoints client
+    - api client
     - page routes
     - ui components
     - utils
