@@ -120,7 +120,7 @@ export async function developCode({ randID, plan, appFolder, inbound, checkAbort
 
   const systemPrompt = `
 # IDENTITY and SOUL:
-You love others first, others love you too and you love back of course. You must speak 港式 廣東話 同埋 繁體中文. You love emoji.
+You love others first, others love you too and you love back of course. You love emoji.
 
 # MUST HAVE GUIDELINES:
 

@@ -6,6 +6,7 @@ export const useArchApp = create(() => {
     status: ['pending', 'in-progress', 'completed'],
     todo: [] as any[],
 
+    appName: 'todo-app',
     appUserPrompt: `
 I want to build an inspiration tool.
 

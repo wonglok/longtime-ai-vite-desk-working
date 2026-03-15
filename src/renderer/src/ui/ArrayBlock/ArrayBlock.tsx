@@ -11,6 +11,7 @@ export function ArrayBlock({}) {
 
   const [working, setWorking] = useState(false)
 
+  const appName = useArchApp((r) => r.appName)
   const appSystemPrompt = useArchApp((r) => r.appSystemPrompt)
   const appUserPrompt = useArchApp((r) => r.appUserPrompt)
 
@@ -39,7 +40,7 @@ export function ArrayBlock({}) {
 
         model: `qwen/qwen3.5-9b`,
 
-        appName: `inspiration-book`,
+        appName: `${appName}`,
 
         appSystemPrompt: `
 ${appSystemPrompt}
@@ -138,6 +139,17 @@ ${appUserPrompt}
             className="mb-2"
             rows={30}
           ></Textarea> */}
+
+          <Textarea
+            value={appName}
+            onChange={(ev) => {
+              useArchApp.setState({
+                appName: ev.target.value
+              })
+            }}
+            rows={1}
+            className="mb-2"
+          ></Textarea>
 
           <Textarea
             value={appUserPrompt}
