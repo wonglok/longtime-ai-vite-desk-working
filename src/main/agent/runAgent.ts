@@ -82,7 +82,7 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
     let stateStr = await readFile(path.join(workspace, 'ai-memory', 'state.json'), 'utf-8')
     state = JSON.parse(stateStr)
   } catch (e) {
-    console.error(e)
+    // console.error(e)
   }
 
   await loopRun({
