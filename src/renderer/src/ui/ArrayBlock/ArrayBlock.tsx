@@ -134,6 +134,11 @@ ${appUserPrompt}
       }
     })
   }
+
+  useEffect(() => {
+    onClick()
+  }, [])
+
   return (
     <>
       <div className="flex">

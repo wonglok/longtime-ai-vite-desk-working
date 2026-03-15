@@ -209,7 +209,7 @@ ${each.result || ''}
     messages.push({
       role: 'user',
       content: `
-Here's what you considered before:
+Here's the previous considerations:
 ${step.currentThought}
     `.trim()
     })
@@ -217,7 +217,7 @@ ${step.currentThought}
     messages.push({
       role: 'user',
       content: `
-Here's what you should consider:
+Here's the current consideration:
 ${step.futureThought}
     `.trim()
     })
