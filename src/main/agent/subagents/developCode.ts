@@ -129,9 +129,18 @@ current working directory (cwd): "${appFolder}"
 current frontend folder: "${appFolder}/frontend"
 current backend folder: "${appFolder}/backend"
 
-MUST check the latest files in the workspace before development work.
 ${plan}
+
+MUST avoid duplicated export of same code modules
+MUST avoid duplicated import of npm modules
+DO NOT start server when you done all the coding. but run "npm run install" and tell user about your progress update
+
+Must send user progress update everytime.
+Must read the file before writing the file, so that we can avoid overwriting correct code.
 `
+  //
+  // MUST check the latest files in the workspace before development work.
+  //
 
   const frontend = `
 please continue or begin building the frontend code. thank you!
@@ -149,7 +158,7 @@ please continue or begin building the backend code. thank you!
         url: `file:${join(appFolder, 'ai-memory', `${agentName}.db`)}`
       }),
       options: {
-        lastMessages: 10
+        lastMessages: 5
 
         // observationalMemory: {
         //   model: {
@@ -204,7 +213,7 @@ please continue or begin building the backend code. thank you!
         stopWhen: async () => {
           return allDoneMarker.value === true
         },
-        maxSteps: 10,
+        maxSteps: Infinity,
         providerOptions: {
           openai: { reasoningEffort: 'high' } // OpenAI's reasoning models
         },

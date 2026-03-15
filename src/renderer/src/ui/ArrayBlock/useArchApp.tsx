@@ -7,22 +7,25 @@ export const useArchApp = create(() => {
     todo: [] as any[],
 
     appName: 'todo-app',
-    appUserPrompt: `
-I want to build an inspiration tool.
+    //     appUserPrompt: `
+    // I want to build an inspiration tool.
 
-For home page "/":
-- I can view featured inspirations
+    // For home page "/":
+    // - I can view featured inspirations
 
-For app page "/app":
-- I can enter a website URL to the inspiration entry box to "save inspiration". 
-    - When I click "save inspiration" button, we spin up a browser to take a fullpage screenshot, make a thumbnail and collect some essential text from the webpage. and then it will send to AI to generate inspirational notes. I want to use lmstudio and "uses qwen/qwen3.5-9b" AI model
-- There would be an emoji on my mouse cursor and i can see other visitor's emoji on the screen moving as well.
+    // For app page "/app":
+    // - I can enter a website URL to the inspiration entry box to "save inspiration".
+    //     - When I click "save inspiration" button, we spin up a browser to take a fullpage screenshot, make a thumbnail and collect some essential text from the webpage. and then it will send to AI to generate inspirational notes. I want to use lmstudio and "uses qwen/qwen3.5-9b" AI model
+    // - There would be an emoji on my mouse cursor and i can see other visitor's emoji on the screen moving as well.
 
-For each inspiration post page "/inspire/[id]": 
-i can view inspiration items in the grid below the entry box.
-- There's a thumbnail header
-- Website name
-- Textual Analysis
+    // For each inspiration post page "/inspire/[id]":
+    // i can view inspiration items in the grid below the entry box.
+    // - There's a thumbnail header
+    // - Website name
+    // - Textual Analysis
+    // `.trim(),
+
+    appUserPrompt: `i want to build a hello world app.
 `.trim(),
 
     appSystemPrompt: `
@@ -57,7 +60,7 @@ OUTPUT: System Prompt for senior fullstack software engineering developer:
 
 2. backend ("express" "nodejs"): 
     - folder strcuture
-    - npm packages needed 
+    - npm packages needed for backend
     - ./src/main.js
     - api endpoints
     - database models
@@ -66,7 +69,7 @@ OUTPUT: System Prompt for senior fullstack software engineering developer:
 
 3. frontend (vite "reactjs"):
     - folder strcuture
-    - npm packages needed
+    - npm packages needed for frontend
     - ./src/main.js
     - api endpoints client
     - page routes
