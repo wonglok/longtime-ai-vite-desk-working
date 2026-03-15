@@ -12,35 +12,44 @@ const WorkTask = z
           command: z.string().describe('command for terminal')
         })
       )
-      .describe('a list of terminal commands'),
+      .describe('a list of terminal commands')
+      .min(1),
 
-    todo: z.array(z.object({})).max(0),
+    todo: z
+      .array(
+        z
+          .discriminatedUnion('status', [
+            z
+              .object({
+                status: z.literal('pending'),
+                task: z.string().describe('task description')
+              })
+              .describe('pending task'),
+            z
+              .object({
+                status: z.literal('in-progress'),
+                task: z.string().describe('task description')
+              })
+              .describe('in-progress task'),
+            z
+              .object({
+                status: z.literal('completed'),
+                task: z.string().describe('task description')
+              })
+              .describe('completed task')
+          ])
+          .describe('todo task')
+      )
+      .describe('a todo list')
+      .min(1),
 
-    // todo: z
-    //   .array(
-    //     z
-    //       .object({
-    //         status: z.enum(['pending', 'in-progress', 'completed']),
-    //         task: z.string().describe('task description')
-    //       })
-    //       .describe('todo task')
-    //   )
-    //   .describe('a todo list')
-    //   .min(1),
-
-    currentThought: z
+    theNextThought: z
       .string()
       .describe(
-        "current thoughts related of the agent and of the current tasks. It's written for the agent to see again. Begin sentences with the 'The Agent ...' instead of 'I'."
-      ),
-
-    futureThought: z
-      .string()
-      .describe(
-        "future thoughts related of the agent and of the current tasks. It's written for the agent to see again. Begin sentences with the 'The Agent ...' instead of 'I'."
+        "future thoughts related of the agent and of the future tasks. It's written for the agent to see again. Begin sentences with the 'The Agent ...' instead of 'I'."
       )
   })
-  .describe('memory dump of the agent and the todo status as well as the logs of terminal calls')
+  .describe('memory and actions log')
 
 export type ExecStep = z.infer<typeof WorkTask>
 
@@ -73,13 +82,15 @@ ${plan}
 current workspace path: "${workspace}"
 current working directory (cwd): "${workspace}"
 
-current "next folder": "${workspace}/nextjs"
+always put "nextjs" code into this folder: "${workspace}/nextjs"
 
 MUST avoid duplicated export of same code modules
 MUST avoid duplicated import of npm modules
-DO NOT start server when you done all the coding. but run "npm run install" and tell user about your progress update
 
-If there's no "nextjs folder": "npx create-next-app@latest nextjs --no-linter --js --tailwind --app --src-dir --webpack --use-npm"
+If there's no "nextjs folder": "mkdir -p "${workspace}/nextjs"; npx create-next-app@latest nextjs --no-linter --js --tailwind --app --src-dir --webpack --use-npm"
+
+You are an Autnomous AI senior developer agent.
+You dont need to wait for the human feedback.
 `.trim()
     })
 
@@ -107,40 +118,31 @@ ${each.result || ''}
       }
     }
 
-    if (step.currentThought) {
-      messages.push({
-        role: 'user',
-        content: `
-    Here's the previous thought:
-    ${step.currentThought}
-        `.trim()
-      })
-    }
-
-    if (step.futureThought) {
+    if (step.theNextThought) {
       messages.push({
         role: 'user',
         content: `
     Here's the current thought:
-    ${step.futureThought}
+    ${step.theNextThought}
         `.trim()
       })
     }
 
-    if (step?.todo?.length > 0) {
+    // todo list
+    if (typeof step.todo !== 'undefined' && step?.todo?.length > 0) {
       messages.push({
         role: 'user',
         content: `
-# Todo list:
-${step.todo
-  .map((r) => {
-    return `${`[${r.status}]`} ${r.task}`
-  })
-  .join('\n')}
+    # Todo list:
+    ${step.todo
+      .map((r) => {
+        return `${`[${r.status}]`} ${r.task}`
+      })
+      .join('\n')}
 
-# Instruction
-1. when there's no in-progress task, pick the first task to work on and mark it as "in-progress".
-          `
+    # Instruction
+    1. when there's no in-progress task, pick the first task to work on and mark it as "in-progress".
+              `
       })
     }
 
@@ -206,6 +208,11 @@ ${step.todo
 
     if (nextStep.terminalCalls && nextStep.terminalCalls.length) {
       for (let each of nextStep.terminalCalls) {
+        onEvent({
+          type: 'cmd_begin',
+          cmd_begin: each.command
+        })
+
         let res: any = await new Promise((resolve) => {
           return exec(
             `${each.command}`,
@@ -233,6 +240,11 @@ ${step.todo
 
         console.log(each.command)
         console.log((each as any).result)
+
+        onEvent({
+          type: 'cmd_end',
+          cmd_end: each.command
+        })
 
         onEvent({
           type: 'terminalCalls',

@@ -71,7 +71,7 @@ ${appUserPrompt}
           }
         }
 
-        if (resp.type === 'todo') {
+        if (resp.type === 'todo' && resp.todo instanceof Array) {
           if (resp.todo && resp.agentName) {
             useArchApp.setState({
               [`todo${resp.agentName}`]: resp.todo

@@ -17,13 +17,7 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
     return
   }
 
-  const loopRun = async ({
-    // executionHistory,
-    step
-  }: {
-    // executionHistory: ExecStep[]
-    step: ExecStep
-  }) => {
+  const loopRun = async ({ step }: { step: ExecStep }) => {
     if (FailCounter[randID] >= 50) {
       onEvent({ type: 'error', error: 'Failed too many times.' })
       return
@@ -32,12 +26,9 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
       return
     }
 
-    // executionHistory.push(step)
-
     const nextStep: ExecStep | null = await getStep({
       plan: plan,
       step: step,
-      // executionHistory: executionHistory,
       checkAborted: checkAborted,
       workspace: `${workspace}`,
       inbound: inbound,
@@ -67,25 +58,24 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
       )
     )
 
-    if (
-      nextStep?.todo.filter((r) => r.status === 'completed').length === nextStep?.todo.length &&
-      nextStep.todo.length > 0
-    ) {
-      return
-    }
+    // if (
+    //   nextStep?.todo.filter((r) => r.status === 'completed').length === nextStep?.todo.length &&
+    //   nextStep.todo.length > 0
+    // ) {
+    //   return
+    // }
 
     return await loopRun({
-      // executionHistory: executionHistory.slice().reverse().slice(0, 5).reverse(),
       step: nextStep
     })
   }
 
   let state = {
-    executionHistory: [],
     nextStep: {
+      lastThought: '',
       currentThought: ``,
-      futureThought: `let's consider checking the files to see what you need to work on and generate the todo list.`,
-      todo: [],
+      futureThought: `let's get to work!`,
+      // todo: [],
       terminalCalls: []
     } satisfies ExecStep
   }
@@ -98,7 +88,6 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
   }
 
   await loopRun({
-    // executionHistory: state.executionHistory,
     step: state.nextStep
   })
 }

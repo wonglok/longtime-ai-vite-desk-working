@@ -8,7 +8,7 @@ export function TodoKanban({ agentName = '' }) {
   return (
     <>
       {/*  */}
-      {todo.length > 0 && (
+      {todo?.length > 0 && (
         <div className="flex flex-row w-full h-[500px] gap-4 rounded-2xl ">
           {status.map((eStatus) => {
             let colorStyle = {
