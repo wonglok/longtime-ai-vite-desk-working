@@ -6,37 +6,39 @@ import { z } from 'zod'
 
 const WorkTask = z
   .object({
-    futureThought: z
-      .string()
-      .describe(
-        "future thoughts related of the agent and of the current tasks. It's written for the agent to see again. Begin sentences with the 'Agent ...' instead of 'I'."
-      ),
+    terminalCalls: z
+      .array(
+        z.object({
+          command: z.string().describe('command for terminal')
+        })
+      )
+      .describe('a list of terminal commands'),
+
+    todo: z.array(z.object({})).max(0),
+
+    // todo: z
+    //   .array(
+    //     z
+    //       .object({
+    //         status: z.enum(['pending', 'in-progress', 'completed']),
+    //         task: z.string().describe('task description')
+    //       })
+    //       .describe('todo task')
+    //   )
+    //   .describe('a todo list')
+    //   .min(1),
 
     currentThought: z
       .string()
       .describe(
-        "current thoughts related of the agent and of the current tasks. It's written for the agent to see again. Begin sentences with the 'Agent ...' instead of 'I'."
+        "current thoughts related of the agent and of the current tasks. It's written for the agent to see again. Begin sentences with the 'The Agent ...' instead of 'I'."
       ),
 
-    todo: z
-      .array(
-        z.object({
-          status: z.enum(['pending', 'active', 'completed']),
-          task: z.string().describe('task description')
-        })
+    futureThought: z
+      .string()
+      .describe(
+        "future thoughts related of the agent and of the current tasks. It's written for the agent to see again. Begin sentences with the 'The Agent ...' instead of 'I'."
       )
-      .describe('a todo list')
-      .min(1),
-
-    terminalCalls: z
-      .array(
-        z.object({
-          cmd: z.string().describe('command for terminal')
-          // reason: z.string().describe('reason of running this command ')
-        })
-      )
-      .describe('a list of terminal commands')
-      .min(1)
   })
   .describe('memory dump of the agent and the todo status as well as the logs of terminal calls')
 
@@ -44,7 +46,6 @@ export type ExecStep = z.infer<typeof WorkTask>
 
 export async function getStep({
   plan,
-
   executionHistory,
   step,
   workspace,
@@ -66,112 +67,24 @@ export async function getStep({
       content: `
 ${plan}
 
-# MUST HAVE GUIDELINES:
+# MUST FOLLOW GUIDELINES:
 
 current workspace path: "${workspace}"
 current working directory (cwd): "${workspace}"
 
-current next folder: "${workspace}/nextjs"
+current "next folder": "${workspace}/nextjs"
 
 MUST avoid duplicated export of same code modules
 MUST avoid duplicated import of npm modules
 DO NOT start server when you done all the coding. but run "npm run install" and tell user about your progress update
+
+If there's no "nextjs folder": "npx create-next-app@latest nextjs --no-linter --js --tailwind --app --src-dir --webpack --use-npm"
 `.trim()
     })
 
-    //     if (executionHistory) {
-    //       let lastFew = executionHistory
-    //         .slice()
-    //         .reverse()
-    //         .slice(0, 5)
-    //         .reverse()
-    //         .filter((r) => r.terminalCalls)
-
-    //       messages.push({
-    //         role: 'user',
-    //         content: `
-    // # Previous terminal cli call execution history (${lastFew.length})
-
-    // ${lastFew
-    //   .map((item, idx) => {
-    //     let str = ``
-    //     for (let each of item.terminalCalls as {
-    //       reason: string
-    //       cmd: string
-    //       result: string
-    //       successful: boolean
-    //       timestamp: string
-    //     }[]) {
-    //       str += `----------Terminal Command & Result BEGIN----------
-    // ## Timetamp: ${each.timestamp || new Date().toString()}
-
-    // ## Reason of running this command:
-    // ${each.reason || ''}
-
-    // ## Status of command result:
-    // ${each.successful ? `Successful` : `Failed`}
-
-    // ## The terminal command:
-    // ${each.cmd || ''}
-
-    // ## Result of command:
-    // ${each.result.trim() || ''}
-    // ----------Terminal Command & Result END----------
-
-    // `
-    //     }
-
-    //     return `${str}`
-    //   })
-    //   .join('\n')}
-    //       `.trim()
-    //       })
-    //     }
-
-    //     messages.push({
-    //       role: 'user',
-    //       content: `# Instruction: MUST write summary of each code file
-    // - whever you write a .js/.ts/.tsx/.jsx code file, you write a summary at the top of the file like this format:
-    // "//SUMMARY: [summary of the file...]"
-
-    // ${summary}
-    //       `.trim()
-    //     })
-
-    //     messages.push({
-    //       role: 'user',
-    //       content: `
-    // Here's the latest app specification:
-    // ${inbound.appSpec.trim()}
-
-    // ## Sync todo list:
-    // check the latest app spec against the current todo list and current code files to see if we need to update it todo list.
-    // `.trim()
-    //     })
-
-    //     if (inbound.errorMessage.trim()) {
-    //       messages.push({
-    //         role: 'user',
-    //         content: `
-    // Here's some debug message from user:
-    // ${inbound.errorMessage}
-    //           `
-    //       })
-    //     }
-
-    //     if ((inbound.modifyMessage || '').trim()) {
-    //       messages.push({
-    //         role: 'user',
-    //         content: `
-    // Here's a modification message from user:
-    // ${inbound.modifyMessage}
-    //           `
-    //       })
-    //     }
-
     if ((step?.terminalCalls?.length || 0) > 0) {
       for (let each of step.terminalCalls as {
-        cmd: string
+        command: string
         result: string
         successful: boolean
       }[]) {
@@ -181,7 +94,7 @@ DO NOT start server when you done all the coding. but run "npm run install" and 
 # Here's the last Terminal Call
 
 ## The terminal command:
-${each.cmd || ''}
+${each.command || ''}
 
 ## Status of command result:
 ${each.successful ? `Successful` : `Failed`}
@@ -196,31 +109,32 @@ ${each.result || ''}
     messages.push({
       role: 'user',
       content: `
-Here's the previous considerations:
-${step.currentThought}
-    `.trim()
+    Here's the previous thought:
+    ${step.currentThought}
+        `.trim()
     })
 
     messages.push({
       role: 'user',
       content: `
-Here's the current consideration:
-${step.futureThought}
-    `.trim()
+    Here's the current thought:
+    ${step.futureThought}
+        `.trim()
     })
 
-    if (step.todo?.length > 0) {
+    if (step?.todo?.length > 0) {
       messages.push({
         role: 'user',
         content: `
-Here's the latest todo list:
+# Todo list:
 ${step.todo
   .map((r) => {
     return `${`[${r.status}]`} ${r.task}`
   })
   .join('\n')}
 
-Please pick the right task to work on based on above considerations.
+# Instruction
+1. when there's no in-progress task, pick the first task to work on and mark it as "in-progress".
           `
       })
     }
@@ -289,7 +203,7 @@ Please pick the right task to work on based on above considerations.
       for (let each of nextStep.terminalCalls) {
         let res: any = await new Promise((resolve) => {
           return exec(
-            `${each.cmd}`,
+            `${each.command}`,
             {
               cwd: `${workspace}`
             },
@@ -312,7 +226,7 @@ Please pick the right task to work on based on above considerations.
         ;(each as any).result = res.result.trim()
         ;(each as any).timestamp = new Date().toString()
 
-        console.log(each.cmd)
+        console.log(each.command)
         console.log((each as any).result)
 
         onEvent({

@@ -58,7 +58,6 @@ OUTPUT: System Prompt for senior fullstack software engineering developer:
     - npm packages needed
     - api endpoints
     - database models
-    - utils
     - .env
 
 `.trim(),
