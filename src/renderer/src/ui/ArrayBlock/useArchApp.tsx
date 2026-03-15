@@ -68,6 +68,9 @@ OUTPUT: System Prompt for senior fullstack software engineering developer:
     - database models needed
     - .env
 
+3. Features list
+
+
 `.trim(),
 
     stream: ''
