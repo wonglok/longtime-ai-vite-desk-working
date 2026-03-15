@@ -95,9 +95,7 @@ ${appUserPrompt}
             {
               duration: 1000,
               style: {
-                width: `750px`,
-                maxHeight: '300px',
-                overflow: 'scroll'
+                width: `750px`
               }
             }
           )

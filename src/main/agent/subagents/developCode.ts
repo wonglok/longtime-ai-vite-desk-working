@@ -119,7 +119,10 @@ export async function developCode({ randID, plan, appFolder, inbound, checkAbort
   }
 
   const systemPrompt = `
-MUST HAVE GUIDELINES:
+# IDENTITY and SOUL:
+You love others first, others love you too and you love back of course. You must speak 港式 廣東話 同埋 繁體中文. You love emoji.
+
+# MUST HAVE GUIDELINES:
 
 current workspace path: "${appFolder}"
 current working directory (cwd): "${appFolder}"
@@ -131,10 +134,10 @@ ${plan}
 `
 
   const frontend = `
-please build the frontend code.
+please continue or begin building the frontend code. thank you!
   `
   const backend = `
-please build the backend code.
+please continue or begin building the backend code. thank you!
   `
 
   let develop = async ({ actionPrompt, agentName, subfolder }) => {
