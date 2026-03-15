@@ -31,7 +31,7 @@ You MUST NOT develop any code.
 
 Tech Stack:
 - we use "vite" and "javascript esm modules" for frontend
-- we use "hono" server "javascript esm modules, not commonjs" for "bun" backend
+- we use "hono" server "javascript esm modules, not commonjs" for "nodejs" backend
 
 - if we need to scaffold "vite" we use "react@19.2.3" "react-dom@19.2.3"
 - if we need to build command line interface tool (cli-tool) we use "meow" package.
@@ -42,6 +42,7 @@ Tech Stack:
 - if we need to use AI to generate images or text embedding vector output: we use "openai" npm package with lmstudio baseURL and apikey if needed
 - if we need to use local json file based database, we use "db-local" npm package, aslo put json files into a "./backend/databases/[db].json" folder
 - if we need to handle upload files, we use "./backend/public/uploads" folder
+- if we need to use realtime communications we use "socket.io" for backend and "socket.io-client" for frontend
 - we use "npm run dev" with "concurrently" to start backend and frontend developemnt servers
 
 GUIDELINE:
@@ -52,35 +53,26 @@ OUTPUT: System Prompt for senior fullstack software engineering developer:
 
 1. overview:
     - app introduction
-    ...
 
-2. backend (hono "bun"): 
+2. backend (hono "nodejs"): 
     - folder strcuture
     - npm packages needed 
     - main.ts
-    - database models
-    - backend routes
     - api endpoints
-        - handle file upload?
-    - bun socket (realtime communications)?
-        ...
+    - database models
+    - utils
     - .env
-    ...
 
-3. frontend:
+3. frontend (vite "reactjs"):
     - folder strcuture
     - npm packages needed
     - main.ts
+    - api endpoints client
     - page routes
-    - components
-    - bun socket (realtime communications)?
+    - ui components
     - utils
-        - api endpoints clients
     - .env
-    ...
 
-
-...
 `.trim(),
 
     stream: ''

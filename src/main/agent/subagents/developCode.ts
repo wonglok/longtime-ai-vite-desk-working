@@ -61,6 +61,8 @@ export async function developCode({ randID, plan, appFolder, inbound, checkAbort
     })
   }
 
+  //
+
   const terminalToolGen = async ({ agentName, subfolder = '' }) => {
     return createTool({
       id: 'terminalTool',
