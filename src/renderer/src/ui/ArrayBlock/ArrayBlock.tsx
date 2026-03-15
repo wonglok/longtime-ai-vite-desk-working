@@ -87,6 +87,22 @@ ${appUserPrompt}
           // toast.info(resp['cmd_begin'])
           nprogress.start()
 
+          if (resp.cmd_begin.includes('npm install')) {
+            toast.success(
+              <>
+                <div style={{ fontSize: '12px' }} className=" whitespace-pre-wrap py-3 ">
+                  {resp['cmd_begin']}
+                </div>
+              </>,
+              {
+                position: 'bottom-center',
+                duration: 1000 * 10000,
+                style: {
+                  width: `750px`
+                }
+              }
+            )
+          }
           // if (resp.cmd_begin && resp.agentName) {
           //   useArchApp.setState({
           //     [`cmd_begin${resp.agentName}`]: resp.cmd_begin
