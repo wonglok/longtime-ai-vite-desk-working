@@ -107,11 +107,9 @@ You dont need to wait for the human feedback.
 ${each.command || ''}
 ## Status of command result:
 ${each.successful ? `Successful` : `Failed`}
+## Detail of command result:
+${each.result || ''}
     `.trim()
-        })
-        messages.push({
-          role: 'user',
-          content: each.result || ''
         })
       }
     }
