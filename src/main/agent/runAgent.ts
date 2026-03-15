@@ -72,10 +72,8 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
 
   let state = {
     nextStep: {
-      lastThought: '',
-      currentThought: ``,
-      futureThought: `let's get to work!`,
-      // todo: [],
+      theNextThought: '',
+      todo: [],
       terminalCalls: []
     } satisfies ExecStep
   }

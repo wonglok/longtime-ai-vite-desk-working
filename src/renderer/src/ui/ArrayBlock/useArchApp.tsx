@@ -61,10 +61,9 @@ OUTPUT: System Prompt for senior fullstack software engineering developer:
     - app introduction
 
 2. nextjs: 
-    - folder strcuture
     - npm packages needed for nextjs
     - pages needed
-    - api endpoints needed 
+    - rest api endpoints needed 
     - database models needed
     - .env
 
