@@ -198,10 +198,6 @@ node ./inspire.js --find-similar-inspiration "ocean"
                 </li>
               )
             })}
-
-            {/*  */}
-            {/* <pre>{workstep}</pre> */}
-            {/*  */}
           </div>
         </div>
       </SidebarInset>

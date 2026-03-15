@@ -1,0 +1,18 @@
+import { useArchApp } from './useArchApp'
+
+export function MsgBlock({}) {
+  const messages = useArchApp((r) => r.messages)
+  return (
+    <div className="text-xs w-full overflow-x-scroll">
+      {messages.map((msg: any, i) => {
+        return (
+          <li key={'k' + i} className="border p-2 mb-2 rounded-2xl">
+            <div className="text-xs whitespace-pre-wrap p-2 bg-gray-100 border rounded-lg">
+              {msg?.content.trim()}
+            </div>
+          </li>
+        )
+      })}
+    </div>
+  )
+}

@@ -54,6 +54,10 @@ ${appUserPrompt}
         //
         const resp = JSON.parse(stream)
 
+        if (resp.type === 'messages') {
+          useArchApp.setState({ messages: resp.messages })
+        }
+
         if (resp.type === 'stream') {
           if (resp.stream && resp.agentName) {
             useArchApp.setState({
@@ -71,6 +75,10 @@ ${appUserPrompt}
           if (resp.todo && resp.agentName) {
             useArchApp.setState({
               [`todo${resp.agentName}`]: resp.todo
+            })
+          } else {
+            useArchApp.setState({
+              [`todo`]: resp.todo
             })
           }
         }
@@ -94,6 +102,7 @@ ${appUserPrompt}
               </div>
             </>,
             {
+              position: 'bottom-center',
               duration: 1000,
               style: {
                 width: `750px`
@@ -106,7 +115,7 @@ ${appUserPrompt}
     )
 
     controller.getDataAsync().then(() => {
-      setWorking(false)
+      // setWorking(false)
     })
 
     window.onbeforeunload = () => {

@@ -3,10 +3,11 @@ import { create } from 'zustand'
 export const useArchApp = create(() => {
   return {
     //
+    messages: [],
     status: ['pending', 'in-progress', 'completed'],
     todo: [] as any[],
 
-    appName: 'todo-app-2',
+    appName: 'hello-01',
     //     appUserPrompt: `
     // I want to build an inspiration tool.
 
@@ -25,7 +26,7 @@ export const useArchApp = create(() => {
     // - Textual Analysis
     // `.trim(),
 
-    appUserPrompt: `i want to build a todo app.
+    appUserPrompt: `i want to build a hello world app.
 `.trim(),
 
     appSystemPrompt: `

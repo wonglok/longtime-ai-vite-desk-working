@@ -52,7 +52,7 @@ export async function developCode({ randID, plan, appFolder, inbound, checkAbort
         })
         if (
           todo.filter((r) => r.status === 'completed').length === todo.length &&
-          todo.length > 5
+          todo.length >= 5
         ) {
           allDoneMarker.value = true
         }
@@ -119,34 +119,30 @@ export async function developCode({ randID, plan, appFolder, inbound, checkAbort
   }
 
   const systemPrompt = `
-# IDENTITY and SOUL:
-You love others first, others love you too and you love back of course. You love emoji.
+${plan}
 
 # MUST HAVE GUIDELINES:
 
 current workspace path: "${appFolder}"
 current working directory (cwd): "${appFolder}"
+
+current cli folder: "${appFolder}/cli"
 current frontend folder: "${appFolder}/frontend"
 current backend folder: "${appFolder}/backend"
-
-${plan}
 
 MUST avoid duplicated export of same code modules
 MUST avoid duplicated import of npm modules
 DO NOT start server when you done all the coding. but run "npm run install" and tell user about your progress update
-
-Must send user progress update everytime.
-Must read the file before writing the file, so that we can avoid overwriting correct code.
 `
   //
   // MUST check the latest files in the workspace before development work.
   //
 
   const frontend = `
-please continue or begin building the frontend code. thank you!
+continue with building the frontend code
   `
   const backend = `
-please continue or begin building the backend code. thank you!
+continue with building the backend code
   `
 
   let develop = async ({ actionPrompt, agentName, subfolder }) => {
@@ -158,7 +154,7 @@ please continue or begin building the backend code. thank you!
         url: `file:${join(appFolder, 'ai-memory', `${agentName}.db`)}`
       }),
       options: {
-        lastMessages: 5
+        lastMessages: 10
 
         // observationalMemory: {
         //   model: {
@@ -208,65 +204,86 @@ please continue or begin building the backend code. thank you!
       }
     })
 
-    const runTurn = async () => {
-      const stream = await developerAgent.stream([{ role: 'user', content: actionPrompt }], {
-        stopWhen: async () => {
-          return allDoneMarker.value === true
-        },
-        maxSteps: 5,
-        providerOptions: {
-          openai: { reasoningEffort: 'high' } // OpenAI's reasoning models
-        },
-        abortSignal: signal,
-        memory: {
-          thread: `${agentName}`,
-          resource: `${agentName}`
-        },
-        onStepFinish: async () => {
-          await memory.updateMessages({
-            messages: await memory
-              .listMessagesByResourceId({
-                resourceId: `${agentName}`
-              })
-              .then((r) => {
-                return r.messages
-              }),
-            memoryConfig: {
-              lastMessages: 5
-            }
-          })
+    const runTurn = async ({ todo = '' }) => {
+      const stream = await developerAgent.stream(
+        [
+          {
+            role: 'user',
+            content: `
+${actionPrompt}
 
-          await memory.updateThread({
-            id: `${agentName}`,
-            title: `${agentName}`,
-            metadata: {},
-            memoryConfig: {
-              lastMessages: 5
+here's the last todo list: please help update it
+${todo}
+        `
+          }
+        ],
+        {
+          stopWhen: async () => {
+            return allDoneMarker.value === true
+          },
+          maxSteps: 10,
+          providerOptions: {
+            openai: { reasoningEffort: 'high' } // OpenAI's reasoning models
+          },
+          abortSignal: signal,
+          memory: {
+            thread: `${agentName}`,
+            resource: `${agentName}`
+          },
+
+          onStepFinish: async ({ stepType, usage }) => {
+            console.log(usage)
+
+            // tool-result
+            if (stepType === 'tool-result') {
+              await memory.updateMessages({
+                messages: await memory
+                  .listMessagesByResourceId({
+                    resourceId: `${agentName}`
+                  })
+                  .then((r) => {
+                    return r.messages
+                  }),
+                memoryConfig: {
+                  lastMessages: 3
+                }
+              })
+
+              await memory.updateThread({
+                id: `${agentName}`,
+                title: `${agentName}`,
+                metadata: {},
+                memoryConfig: {
+                  lastMessages: 3
+                }
+              })
             }
-          })
+          }
         }
-      })
+      )
+
       let str = ''
       for await (const chunk of await stream.textStream) {
-        let totalTokens = (await stream.usage).totalTokens
-        console.log('totalTokens', totalTokens)
-
         str += chunk
-
         onEvent({ type: 'stream', agentName: agentName, stream: str })
       }
       onEvent({ type: 'stream', agentName: agentName, stream: str })
 
+      let msg = (await stream.getFullOutput()).messages
+      let input = {
+        todo: `${msg[msg.length - 1].content}`
+      }
+
       // can run
       if ((await stream.finishReason) === 'length') {
-        return await runTurn().catch(() => {
+        return await runTurn(input).catch(() => {
           failCounter[randID] += 1
         })
       }
 
       // can run
       if ((await stream.finishReason) === 'tool-calls') {
-        return await runTurn().catch(() => {
+        return await runTurn(input).catch(() => {
           failCounter[randID] += 1
         })
       }
@@ -290,12 +307,12 @@ please continue or begin building the backend code. thank you!
       // }
 
       // can run
-      return await runTurn().catch(() => {
+      return await runTurn(input).catch(() => {
         failCounter[randID] += 1
       })
     }
 
-    await runTurn().catch(() => {
+    await runTurn({ todo: '[] generate a todo list' }).catch(() => {
       failCounter[randID] += 1
     })
   }
@@ -320,5 +337,3 @@ please continue or begin building the backend code. thank you!
 
   clearInterval(intrv)
 }
-
-//

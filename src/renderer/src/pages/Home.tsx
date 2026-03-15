@@ -14,6 +14,7 @@ import 'nprogress/nprogress.css'
 import { ArrayBlock } from '@renderer/ui/ArrayBlock/ArrayBlock'
 import { TodoKanban } from '@renderer/ui/ArrayBlock/TodoKanban'
 import { Brain } from '@renderer/ui/ArrayBlock/Brain'
+import { MsgBlock } from '@renderer/ui/ArrayBlock/MsgBlock'
 // import { SearchBar } from '@renderer/effects/SearchBar'
 
 export function Home() {
@@ -41,6 +42,9 @@ export function Home() {
 
         <div className="px-4">
           <ArrayBlock></ArrayBlock>
+
+          <TodoKanban agentName=""></TodoKanban>
+          <MsgBlock></MsgBlock>
 
           <div className="flex mb-3 space-x-3">
             <TodoKanban agentName="frontend"></TodoKanban>

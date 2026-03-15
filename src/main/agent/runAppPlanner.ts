@@ -3,6 +3,7 @@ import { makeDirectory } from 'make-dir'
 // import z from 'zod'
 import { developCode } from './subagents/developCode'
 import { writePlan } from './subagents/writePlan'
+import { runAgent } from './runAgent'
 // import { readFile, writeFile } from 'fs/promises'
 // import { join } from 'path'
 
@@ -22,13 +23,21 @@ export const runAppPlanner = async ({ checkAborted, onEvent, inbound, randID }) 
   await makeDirectory(`${appFolder}/backend`)
 
   const runner = async ({}) => {
-    let res = await developCode({
-      randID: randID,
-      checkAborted: checkAborted,
-      appFolder: appFolder,
+    // let res = await developCode({
+    //   randID: randID,
+    //   checkAborted: checkAborted,
+    //   appFolder: appFolder,
+    //   plan: plan,
+    //   inbound: inbound,
+    //   onEvent: onEvent
+    // })
+
+    await runAgent({
       plan: plan,
-      inbound: inbound,
-      onEvent: onEvent
+      checkAborted,
+      onEvent,
+      inbound,
+      randID
     })
 
     //
