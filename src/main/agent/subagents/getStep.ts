@@ -5,10 +5,10 @@ import { z } from 'zod'
 // import { scanFolder } from '../utils/getSummary'
 
 const WorkTask = z.object({
-  thought: z
+  futureThought: z
     .string()
     .describe(
-      "thoughts related of the agent and of the current tasks. It's written for the agent to see again."
+      "future thoughts related of the agent and of the current tasks. It's written for the agent to see again."
     ),
 
   todo: z
@@ -36,7 +36,7 @@ export type ExecStep = z.infer<typeof WorkTask>
 
 export async function getStep({
   plan,
-  project,
+
   executionHistory,
   step,
   workspace,
@@ -60,25 +60,15 @@ ${plan}
 
 # MUST HAVE GUIDELINES:
 
-current workspace path: "${appFolder}"
-current working directory (cwd): "${appFolder}"
+current workspace path: "${workspace}"
+current working directory (cwd): "${workspace}"
 
-current cli folder: "${appFolder}/cli"
-current frontend folder: "${appFolder}/frontend"
-current backend folder: "${appFolder}/backend"
+current cli folder: "${workspace}/cli"
 
 MUST avoid duplicated export of same code modules
 MUST avoid duplicated import of npm modules
 DO NOT start server when you done all the coding. but run "npm run install" and tell user about your progress update
 `.trim()
-    })
-
-    messages.push({
-      role: 'user',
-      content: `
-Here's the latest thought of the agent:
-${step.thought}
-    `.trim()
     })
 
     if (executionHistory) {
@@ -129,17 +119,6 @@ ${each.result.trim() || ''}
       })
     }
 
-    messages.push({
-      role: 'user',
-      content: `
-# MUST HAVE RULES:
-the root workspace folder: ${JSON.stringify(workspace)}
-You only write code at the project folder: ${JSON.stringify(project)}
-The [project] name is called: ${JSON.stringify(inbound.folder)}
-      `
-    })
-
-    //     const summary = await scanFolder(workspace)
     //     messages.push({
     //       role: 'user',
     //       content: `# Instruction: MUST write summary of each code file
@@ -220,6 +199,14 @@ ${each.result || ''}
         })
       }
     }
+
+    messages.push({
+      role: 'user',
+      content: `
+Here's what you should consider:
+${step.futureThought}
+    `.trim()
+    })
 
     return messages
   }

@@ -10,9 +10,8 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
   FailCounter[randID] = FailCounter[randID] || 0
 
   const docs = app.getPath('documents')
-  const workspace = `${docs}/ai-home/apps`
-  const project = `${docs}/ai-home/apps/${inbound.appName}`
-  await makeDirectory(project)
+  const workspace = `${docs}/ai-home/apps/${inbound.appName}`
+  await makeDirectory(workspace)
 
   if (checkAborted()) {
     return
@@ -41,7 +40,6 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
       executionHistory: executionHistory,
       checkAborted: checkAborted,
       workspace: `${workspace}`,
-      project: project,
       inbound: inbound,
       onEvent: (ev) => {
         onEvent(ev)
@@ -59,7 +57,7 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
     }
 
     await writeFile(
-      path.join(project, 'state.json'),
+      path.join(workspace, 'state.json'),
       JSON.stringify(
         {
           nextStep: nextStep,
@@ -93,7 +91,7 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
   }
 
   try {
-    let stateStr = await readFile(path.join(project, 'state.json'), 'utf-8')
+    let stateStr = await readFile(path.join(workspace, 'state.json'), 'utf-8')
     state = JSON.parse(stateStr)
   } catch (e) {
     console.error(e)

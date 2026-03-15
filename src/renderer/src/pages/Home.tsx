@@ -45,13 +45,13 @@ export function Home() {
 
           <TodoKanban agentName=""></TodoKanban>
           <MsgBlock></MsgBlock>
+          {/* <Brain agentName=""></Brain> */}
 
           <div className="flex mb-3 space-x-3">
             <TodoKanban agentName="frontend"></TodoKanban>
             <TodoKanban agentName="backend"></TodoKanban>
           </div>
 
-          <Brain agentName=""></Brain>
           <div className="flex mb-3 space-x-3">
             <Brain agentName="frontend"></Brain>
             <Brain agentName="backend"></Brain>

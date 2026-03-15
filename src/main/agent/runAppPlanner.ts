@@ -9,24 +9,24 @@ import { runAgent } from './runAgent'
 
 export const runAppPlanner = async ({ checkAborted, onEvent, inbound, randID }) => {
   const docs = app.getPath('documents')
-  const appFolder = `${docs}/ai-home/apps/${inbound.appName}`
-  await makeDirectory(appFolder)
+  const workspace = `${docs}/ai-home/apps/${inbound.appName}`
+  await makeDirectory(workspace)
 
   const plan = await writePlan({
-    appFolder: appFolder,
+    workspace: workspace,
     inbound,
     checkAborted,
     onEvent: onEvent
   })
 
-  await makeDirectory(`${appFolder}/frontend`)
-  await makeDirectory(`${appFolder}/backend`)
+  await makeDirectory(`${workspace}/frontend`)
+  await makeDirectory(`${workspace}/backend`)
 
   const runner = async ({}) => {
     // let res = await developCode({
     //   randID: randID,
     //   checkAborted: checkAborted,
-    //   appFolder: appFolder,
+    //   workspace: workspace,
     //   plan: plan,
     //   inbound: inbound,
     //   onEvent: onEvent
@@ -46,7 +46,7 @@ export const runAppPlanner = async ({ checkAborted, onEvent, inbound, randID }) 
     // })
   }
 
-  // const sessionItems = await readFile(join(appFolder, 'session.json'), 'utf8')
+  // const sessionItems = await readFile(join(workspace, 'session.json'), 'utf8')
   //   .then((STR) => {
   //     return JSON.parse(STR)
   //   })

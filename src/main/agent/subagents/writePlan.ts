@@ -3,18 +3,18 @@ import { readFile, writeFile } from 'fs/promises'
 import { join } from 'path'
 import { makeDirectory } from 'make-dir'
 
-export async function writePlan({ appFolder, inbound, checkAborted, onEvent }) {
-  await makeDirectory(join(appFolder, 'ai-memory'))
+export async function writePlan({ workspace, inbound, checkAborted, onEvent }) {
+  await makeDirectory(join(workspace, 'ai-memory'))
 
   let whichPlan = ''
 
   try {
-    const oldPlan = await readFile(join(appFolder, 'ai-memory', 'system-plan.md'), 'utf8').catch(
+    const oldPlan = await readFile(join(workspace, 'ai-memory', 'system-plan.md'), 'utf8').catch(
       () => {
         throw new Error('no old plan found')
       }
     )
-    const appIdea = await readFile(join(appFolder, 'ai-memory', 'app-idea.md'), 'utf8').catch(
+    const appIdea = await readFile(join(workspace, 'ai-memory', 'app-idea.md'), 'utf8').catch(
       () => {
         throw new Error('no app idea found')
       }
@@ -50,11 +50,10 @@ ${inbound.appSystemPrompt}
 
 MUST HAVE GUIDELINES:
 
-current workspace path: "${appFolder}"
-current current working directory (cwd): "${appFolder}"
+current workspace path: "${workspace}"
+current current working directory (cwd): "${workspace}"
 
-MUST always use "./frontend" folder for frontend code
-MUST always use "./backend" folder for backend code
+MUST always use "./nextjs" folder for nextjs code
               `
             },
             {
@@ -112,11 +111,11 @@ MUST always use "./backend" folder for backend code
 
     try {
       await writeFile(
-        join(appFolder, 'ai-memory', 'app-idea.md'),
+        join(workspace, 'ai-memory', 'app-idea.md'),
         inbound.appUserPrompt.trim(),
         'utf8'
       )
-      await writeFile(join(appFolder, 'ai-memory', 'system-plan.md'), whichPlan, 'utf8')
+      await writeFile(join(workspace, 'ai-memory', 'system-plan.md'), whichPlan, 'utf8')
     } catch (e) {
       console.error('cannot write plan file')
     }
