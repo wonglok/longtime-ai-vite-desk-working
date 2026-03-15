@@ -4,39 +4,41 @@ import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
 import { z } from 'zod'
 // import { scanFolder } from '../utils/getSummary'
 
-const WorkTask = z.object({
-  futureThought: z
-    .string()
-    .describe(
-      "future thoughts related of the agent and of the current tasks. It's written for the agent to see again. In thrid person speech."
-    ),
+const WorkTask = z
+  .object({
+    futureThought: z
+      .string()
+      .describe(
+        "future thoughts related of the agent and of the current tasks. It's written for the agent to see again. Begin sentences with the 'Agent ...' instead of 'I'."
+      ),
 
-  currentThought: z
-    .string()
-    .describe(
-      "current thoughts related of the agent and of the current tasks. It's written for the agent to see again. In thrid person speech."
-    ),
+    currentThought: z
+      .string()
+      .describe(
+        "current thoughts related of the agent and of the current tasks. It's written for the agent to see again. Begin sentences with the 'Agent ...' instead of 'I'."
+      ),
 
-  todo: z
-    .array(
-      z.object({
-        status: z.enum(['pending', 'active', 'completed']),
-        task: z.string().describe('task description')
-      })
-    )
-    .describe('a todo list')
-    .min(1),
+    todo: z
+      .array(
+        z.object({
+          status: z.enum(['pending', 'active', 'completed']),
+          task: z.string().describe('task description')
+        })
+      )
+      .describe('a todo list')
+      .min(1),
 
-  terminalCalls: z
-    .array(
-      z.object({
-        cmd: z.string().describe('command for terminal')
-        // reason: z.string().describe('reason of running this command ')
-      })
-    )
-    .describe('a list of terminal commands')
-    .min(1)
-})
+    terminalCalls: z
+      .array(
+        z.object({
+          cmd: z.string().describe('command for terminal')
+          // reason: z.string().describe('reason of running this command ')
+        })
+      )
+      .describe('a list of terminal commands')
+      .min(1)
+  })
+  .describe('memory dump of the agent and the todo status as well as the logs of terminal calls')
 
 export type ExecStep = z.infer<typeof WorkTask>
 
@@ -69,7 +71,7 @@ ${plan}
 current workspace path: "${workspace}"
 current working directory (cwd): "${workspace}"
 
-current cli folder: "${workspace}/cli"
+current next folder: "${workspace}/nextjs"
 
 MUST avoid duplicated export of same code modules
 MUST avoid duplicated import of npm modules
@@ -77,53 +79,54 @@ DO NOT start server when you done all the coding. but run "npm run install" and 
 `.trim()
     })
 
-    if (executionHistory) {
-      let lastFew = executionHistory
-        .slice()
-        .reverse()
-        .slice(0, 5)
-        .reverse()
-        .filter((r) => r.terminalCalls)
+    //     if (executionHistory) {
+    //       let lastFew = executionHistory
+    //         .slice()
+    //         .reverse()
+    //         .slice(0, 5)
+    //         .reverse()
+    //         .filter((r) => r.terminalCalls)
 
-      messages.push({
-        role: 'user',
-        content: `
-# Previous terminal cli call execution history (${lastFew.length})
-${lastFew
-  .map((item, idx) => {
-    let str = ``
-    for (let each of item.terminalCalls as {
-      reason: string
-      cmd: string
-      result: string
-      successful: boolean
-      timestamp: string
-    }[]) {
-      str += `----------Terminal Command & Result BEGIN----------
-## Timetamp: ${each.timestamp || new Date().toString()}
+    //       messages.push({
+    //         role: 'user',
+    //         content: `
+    // # Previous terminal cli call execution history (${lastFew.length})
 
-## Reason of running this command:
-${each.reason || ''}
+    // ${lastFew
+    //   .map((item, idx) => {
+    //     let str = ``
+    //     for (let each of item.terminalCalls as {
+    //       reason: string
+    //       cmd: string
+    //       result: string
+    //       successful: boolean
+    //       timestamp: string
+    //     }[]) {
+    //       str += `----------Terminal Command & Result BEGIN----------
+    // ## Timetamp: ${each.timestamp || new Date().toString()}
 
-## Status of command result:
-${each.successful ? `Successful` : `Failed`}
+    // ## Reason of running this command:
+    // ${each.reason || ''}
 
-## The terminal command:
-${each.cmd || ''}
+    // ## Status of command result:
+    // ${each.successful ? `Successful` : `Failed`}
 
-## Result of command:
-${each.result.trim() || ''}
-----------Terminal Command & Result END---------- 
+    // ## The terminal command:
+    // ${each.cmd || ''}
 
-`
-    }
+    // ## Result of command:
+    // ${each.result.trim() || ''}
+    // ----------Terminal Command & Result END----------
 
-    return `${str}`
-  })
-  .join('\n')}
-      `.trim()
-      })
-    }
+    // `
+    //     }
+
+    //     return `${str}`
+    //   })
+    //   .join('\n')}
+    //       `.trim()
+    //       })
+    //     }
 
     //     messages.push({
     //       role: 'user',
@@ -145,22 +148,6 @@ ${each.result.trim() || ''}
     // check the latest app spec against the current todo list and current code files to see if we need to update it todo list.
     // `.trim()
     //     })
-
-    if (step.todo?.length > 0) {
-      messages.push({
-        role: 'user',
-        content: `
-Here's the latest todo list:
-${step.todo
-  .map((r) => {
-    return `${`[${r.status}]`} ${r.task}`
-  })
-  .join('\n')}
-
-You pick the right task to work on.
-          `
-      })
-    }
 
     //     if (inbound.errorMessage.trim()) {
     //       messages.push({
@@ -221,6 +208,22 @@ Here's the current consideration:
 ${step.futureThought}
     `.trim()
     })
+
+    if (step.todo?.length > 0) {
+      messages.push({
+        role: 'user',
+        content: `
+Here's the latest todo list:
+${step.todo
+  .map((r) => {
+    return `${`[${r.status}]`} ${r.task}`
+  })
+  .join('\n')}
+
+Please pick the right task to work on based on above considerations.
+          `
+      })
+    }
 
     return messages
   }
