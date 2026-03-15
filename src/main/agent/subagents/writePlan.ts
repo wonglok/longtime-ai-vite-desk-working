@@ -1,8 +1,11 @@
 import OpenAI from 'openai'
 import { readFile, writeFile } from 'fs/promises'
 import { join } from 'path'
+import { makeDirectory } from 'make-dir'
 
 export async function writePlan({ appFolder, inbound, checkAborted, onEvent }) {
+  await makeDirectory(join(appFolder, 'ai-memory'))
+
   let whichPlan = ''
 
   try {
@@ -17,12 +20,14 @@ export async function writePlan({ appFolder, inbound, checkAborted, onEvent }) {
       }
     )
 
-    if (appIdea !== inbound.appUserPrompt.trim()) {
-      throw new Error('idea updated')
-    } else {
+    if (appIdea === inbound.appUserPrompt.trim()) {
       whichPlan = oldPlan
+    } else {
+      throw new Error('idea updated')
     }
   } catch (e) {
+    //
+
     console.log(e.message)
 
     const controller = new AbortController()
@@ -48,9 +53,8 @@ MUST HAVE GUIDELINES:
 current workspace path: "${appFolder}"
 current current working directory (cwd): "${appFolder}"
 
-MUST always use frontend folder for frontend code
-MUST always use backend folder for backend code
-
+MUST always use "./frontend" folder for frontend code
+MUST always use "./backend" folder for backend code
               `
             },
             {
