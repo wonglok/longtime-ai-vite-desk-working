@@ -36,14 +36,7 @@ export function ArrayBlock({}) {
 
         route: 'runAppPlanner',
 
-        // model: `qwen/qwen3.5-4b`,
         model: `qwen/qwen3.5-9b`,
-
-        // model: `qwen/qwen3.5-35b-a3b`,
-        //
-        // model: `qwen/qwen3.5-9b`,
-        // model: `qwen/qwen3.5-4b`,
-        // model: `openai/gpt-oss-20b`,
 
         appName: `inspiration-book`,
 

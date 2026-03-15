@@ -14,7 +14,7 @@ For home page "/":
 
 For app page "/app":
 - I can enter a website URL to the inspiration entry box to "save inspiration". 
-    - When I click "save inspiration" button, we spin up a browser to take a fullpage screenshot, make a thumbnail and collect some essential text from the webpage. and then it will send to AI to generate inspirational notes. I want to use lmstudio and "uses qwen/qwen3.5-4b" AI model
+    - When I click "save inspiration" button, we spin up a browser to take a fullpage screenshot, make a thumbnail and collect some essential text from the webpage. and then it will send to AI to generate inspirational notes. I want to use lmstudio and "uses qwen/qwen3.5-9b" AI model
 - There would be an emoji on my mouse cursor and i can see other visitor's emoji on the screen moving as well.
 
 For each inspiration post page "/inspire/[id]": 
@@ -35,7 +35,7 @@ Tech Stack:
 
 - if we need to scaffold "vite" we use "react@19.2.3" "react-dom@19.2.3"
 - if we need to build command line interface tool (cli-tool) we use "meow" package.
-- if we need AI: we use "lmstudio". the default baseURL is: "http://localhost:1234/v1", the default vision model is: "qwen/qwen3.5-4b", the default vision embedding model is: "qwen.qwen3-vl-embedding-2b"
+- if we need AI: we use "lmstudio". the default baseURL is: "http://localhost:1234/v1", the default vision model is: "qwen/qwen3.5-9b", the default vision embedding model is: "qwen.qwen3-vl-embedding-2b"
 - if we need to use browser automation: we use "playwrite" npm package, config is: {"headless": "false"}, {"waitUntil": "load"}, if we take screenshots we put it into "./frontend/public/screenshots/[id].png", if we need to save text data we put it into json database
 - if we need to use AI to stream text output: we use "openai" npm package with lmstudio baseURL and apikey if needed
 - if we need to use AI to generate json output: we use "openai" and "zod" npm package with lmstudio baseURL and apikey if needed

@@ -27,7 +27,7 @@ export async function generateJSON({
       [`Authorization`]: `Bearer ${apiKey || 'na'}`
     }),
     body: JSON.stringify({
-      model: `qwen3.5-4b`,
+      model: `qwen3.5-9b`,
       messages: messages,
       response_format: {
         type: 'json_schema',
@@ -81,7 +81,7 @@ export async function streamText({
       [`Authorization`]: `Bearer ${apiKey || 'na'}`
     }),
     body: JSON.stringify({
-      model: `qwen3.5-4b`,
+      model: `qwen3.5-9b`,
       messages: messages,
       temperature: temperature,
       stream: true,

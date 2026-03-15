@@ -74,7 +74,7 @@ export const createAgent = async ({
   apiKey = '',
   baseURL = 'http://localhost:1234/v1',
   tools = [],
-  model = 'qwen3.5-4b',
+  model = 'qwen3.5-9b',
   temperature = 0.1,
   onProgress = () => {}
   // contextWindow = 4096,

@@ -37,13 +37,7 @@ export function SkillBlock({
 
         route: 'runSkill',
 
-        model: `qwen/qwen3.5-4b`,
-
-        // model: `qwen/qwen3-coder-30b`,
-        // model: `qwen/qwen3.5-9b`,
-        // model: `qwen/qwen3.5-9b`,
-        // model: `qwen/qwen3.5-4b`,
-        // model: `openai/gpt-oss-20b`,
+        model: `qwen/qwen3.5-9b`,
 
         folder: `./`,
 
