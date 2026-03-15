@@ -149,7 +149,7 @@ please continue or begin building the backend code. thank you!
         url: `file:${join(appFolder, 'ai-memory', `${agentName}.db`)}`
       }),
       options: {
-        lastMessages: 5
+        lastMessages: 10
 
         // observationalMemory: {
         //   model: {
@@ -204,7 +204,10 @@ please continue or begin building the backend code. thank you!
         stopWhen: async () => {
           return allDoneMarker.value === true
         },
-        maxSteps: 5,
+        maxSteps: 10,
+        providerOptions: {
+          openai: { reasoningEffort: 'high' } // OpenAI's reasoning models
+        },
         abortSignal: signal,
         memory: {
           thread: `${agentName}`,
