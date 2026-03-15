@@ -31,7 +31,7 @@ You MUST NOT develop any code.
 
 Tech Stack:
 - we use "vite" and "javascript esm modules" for frontend
-- we use "hono" server "javascript esm modules, not commonjs" for "nodejs" backend
+- we use "express" server "javascript esm modules, not commonjs" for "nodejs" backend
 
 - if we need to scaffold "vite" we use "react@19.2.3" "react-dom@19.2.3"
 - if we need to build command line interface tool (cli-tool) we use "meow" package.
@@ -54,7 +54,7 @@ OUTPUT: System Prompt for senior fullstack software engineering developer:
 1. overview:
     - app introduction
 
-2. backend (hono "nodejs"): 
+2. backend ("express" "nodejs"): 
     - folder strcuture
     - npm packages needed 
     - main.ts

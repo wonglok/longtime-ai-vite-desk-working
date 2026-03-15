@@ -13,6 +13,7 @@ export function ArrayBlock({}) {
 
   const appSystemPrompt = useArchApp((r) => r.appSystemPrompt)
   const appUserPrompt = useArchApp((r) => r.appUserPrompt)
+
   // const plan = useArchApp((r) => r.plan)
   // const stream = useArchApp((r) => r.stream)
 
@@ -116,6 +117,7 @@ ${appUserPrompt}
         oldStop()
       }
       return () => {
+        setWorking(false)
         controller.abort()
       }
     })
@@ -157,6 +159,7 @@ ${appUserPrompt}
             >
               {working ? `Running` : `Plan and Build`}
             </Button>
+
             <Button
               className="mr-3"
               variant={'destructive'}
@@ -166,6 +169,7 @@ ${appUserPrompt}
             >
               Stop
             </Button>
+
             {/* <Button
               className="mr-3"
               variant={'default'}
