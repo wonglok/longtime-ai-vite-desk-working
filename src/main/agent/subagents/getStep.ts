@@ -101,7 +101,7 @@ You dont need to wait for the human feedback.
         successful: boolean
       }[]) {
         messages.push({
-          role: 'assistant',
+          role: 'user',
           content: `
 ## The terminal command:
 ${each.command || ''}
@@ -111,7 +111,7 @@ ${each.successful ? `Successful` : `Failed`}
         })
         messages.push({
           role: 'user',
-          content: each.result
+          content: each.result || ''
         })
       }
     }
