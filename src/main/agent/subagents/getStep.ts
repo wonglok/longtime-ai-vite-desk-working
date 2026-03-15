@@ -209,8 +209,13 @@ ${each.result || ''}
       for (let each of nextStep.terminalCalls) {
         onEvent({
           type: 'cmd_begin',
-          cmd_begin: each.command
+          cmd_begin: `${each.command}`
         })
+
+        if (`${each.command}`.includes('npm run dev')) {
+          checkAborted()
+          return null
+        }
 
         let res: any = await new Promise((resolve) => {
           return exec(

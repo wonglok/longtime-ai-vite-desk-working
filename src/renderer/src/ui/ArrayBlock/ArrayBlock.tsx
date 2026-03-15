@@ -39,6 +39,7 @@ export function ArrayBlock({}) {
         route: 'runAppPlanner',
 
         model: `qwen/qwen3.5-9b`,
+        // model: `qwen/qwen3.5-35b-a3b`,
 
         appName: `${appName}`,
 
