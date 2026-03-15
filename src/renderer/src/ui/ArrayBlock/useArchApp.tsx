@@ -35,6 +35,7 @@ You MUST NOT develop any code.
 
 Handling for "nextjs":
 - we use "nextjs" with "javascript esm modules and no eslint" for fullstack
+- always enable cors support
 
 Handling for "cli":
 - if we need to build command line interface tool (cli-tool) we use "meow" package.
