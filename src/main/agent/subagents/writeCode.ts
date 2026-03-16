@@ -4,18 +4,7 @@ import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
 import { z } from 'zod'
 import { scanFolder } from '../utils/getSummary'
 
-const WorkTask = z.object({
-  // think: z.string().describe(`Think 1-2 sentences about what to do now.`),
-
-  terminalCalls: z
-    .array(
-      z.object({
-        command: z.string().describe('command for terminal')
-      })
-    )
-    .describe('a list of terminal commands')
-    .min(1),
-
+const ReviewTask = z.object({
   todo: z.array(
     z.discriminatedUnion('status', [
       z
@@ -40,13 +29,23 @@ const WorkTask = z.object({
         })
         .describe('in-progress task')
     ])
-  ),
+  )
+})
+export type ReviewTaskStep = z.infer<typeof ReviewTask>
 
-  theNextThought: z
-    .string()
-    .describe(
-      'think 1-2 sentences about what todo next, you can consider tasks that are in-progress'
+const WorkTask = z.object({
+  whatToDoNow: z.string().describe(`Think 1-2 sentences about what to do now.`),
+
+  terminalCalls: z
+    .array(
+      z.object({
+        command: z.string().describe('command for terminal')
+      })
     )
+    .describe('a list of terminal commands')
+    .min(1),
+
+  whatTodoNext: z.string().describe('think 1-2 sentences about what todo next')
 })
 
 export type ExecStep = z.infer<typeof WorkTask>
@@ -119,33 +118,33 @@ ${each.result || ''}
       }
     }
 
-    if (step.theNextThought) {
+    if (step.whatTodoNext) {
       messages.push({
         role: 'user',
         content: `
     Here's the current thought:
-    ${step.theNextThought}
+    ${step.whatTodoNext}
         `.trim()
       })
     }
 
-    // todo list
-    if (typeof step.todo !== 'undefined' && step?.todo?.length > 0) {
-      messages.push({
-        role: 'user',
-        content: `
-# Todo list:
-${step.todo
-  .map((r) => {
-    return `${`[${r.status}]`} ${r.task}`
-  })
-  .join('\n')}
+    //     // todo list
+    //     if (typeof step.todo !== 'undefined' && step?.todo?.length > 0) {
+    //       messages.push({
+    //         role: 'user',
+    //         content: `
+    // # Todo list:
+    // ${step.todo
+    //   .map((r) => {
+    //     return `${`[${r.status}]`} ${r.task}`
+    //   })
+    //   .join('\n')}
 
-# Instruction
-1. when there's no in-progress task, pick the first task to work on and mark it as "in-progress".
-        `
-      })
-    }
+    // # Instruction
+    // 1. when there's no in-progress task, pick the first task to work on and mark it as "in-progress".
+    //         `
+    //       })
+    //     }
 
     messages.push({
       role: 'user',
@@ -164,7 +163,7 @@ ${step.todo
 
   onEvent({
     type: 'todo',
-    todo: step.todo
+    todo: step.todo || []
   })
 
   const controller = new AbortController()
@@ -217,7 +216,7 @@ ${step.todo
   if (nextStep) {
     onEvent({
       type: 'todo',
-      todo: nextStep.todo
+      todo: nextStep.todo || []
     })
 
     onEvent({
