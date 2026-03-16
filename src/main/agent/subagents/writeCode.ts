@@ -20,8 +20,14 @@ const WorkTask = z
         z.discriminatedUnion('status', [
           z.object({
             status: z.literal('pending'),
-            task: z.string().describe('task description')
-          })
+            task: z.string().describe('feature description')
+          }),
+          z
+            .object({
+              status: z.literal('completed'),
+              task: z.string().describe('feature description')
+            })
+            .describe('completed feature')
 
           // z
           //   .object({
@@ -29,27 +35,21 @@ const WorkTask = z
           //     task: z.string().describe('task description')
           //   })
           //   .describe('in-progress task'),
-          // z
-          //   .object({
-          //     status: z.literal('completed'),
-          //     task: z.string().describe('task description')
-          //   })
-          //   .describe('completed task')
         ])
       )
-      .describe('remaining task'),
+      .describe('Features Checklist'),
 
     theNextThought: z
       .string()
       .describe(
-        "future thoughts related of the agent and of the future tasks. It's written for the agent to see again. Begin sentences with the 'The Agent ...' instead of 'I'."
+        "future thoughts related of the agent and of the future operation. It's written for the agent to see again. Begin sentences with the 'The Agent ...' instead of 'I'."
       )
   })
   .describe('memory and actions log')
 
 export type ExecStep = z.infer<typeof WorkTask>
 
-export async function getStep({
+export async function writeCode({
   plan,
   // executionHistory,
   step,
@@ -78,12 +78,12 @@ ${plan}
 current workspace path: "${workspace}"
 current working directory (cwd): "${workspace}"
 
-always put "astro" code into this folder: "${workspace}/astro"
+always put "nextjs" code into this folder: "${workspace}/nextjs"
 
 MUST avoid duplicated export of same code modules
 MUST avoid duplicated import of npm modules
 
-If there's no "astro folder": "mkdir -p "${workspace}/astro"; npx npm create astro@latest  -- --add react"
+If there's no "nextjs folder": "mkdir -p "${workspace}/nextjs"; npx npm create nextjs@latest  -- --add react"
 
 You are an Autnomous AI senior developer agent.
 You dont need to wait for the human feedback.

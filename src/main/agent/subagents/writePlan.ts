@@ -2,6 +2,7 @@ import OpenAI from 'openai'
 import { readFile, writeFile } from 'fs/promises'
 import { join } from 'path'
 import { makeDirectory } from 'make-dir'
+import z from 'zod'
 
 export async function writePlan({ workspace, inbound, checkAborted, onEvent }) {
   await makeDirectory(join(workspace, 'ai-memory'))
@@ -27,7 +28,6 @@ export async function writePlan({ workspace, inbound, checkAborted, onEvent }) {
     }
   } catch (e) {
     //
-
     console.log(e.message)
 
     const controller = new AbortController()
@@ -46,14 +46,84 @@ export async function writePlan({ workspace, inbound, checkAborted, onEvent }) {
             {
               role: 'system',
               content: `
-${inbound.appSystemPrompt}
+# My Knowledge of handlgin different thigns:
 
-MUST HAVE GUIDELINES:
+Handling for "nextjs":
+- we use "nextjs" with "javascript esm modules and no eslint" for fullstack
+- always enable cors support
+- use this "tsconfig.json" config:
+\`\`\`json
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
+}
+\`\`\`
 
-current workspace path: "${workspace}"
-current current working directory (cwd): "${workspace}"
+Handling for "cli-tool":
+- if we need to build command line interface tool (cli-tool) we use "meow" package.
 
-MUST always use "./astro" folder for astro code
+Handling for "browser":
+- if we need to use browser automation: we use "playwrite" npm package, config is: {"headless": "false"}, {"waitUntil": "load"}, if we take screenshots we put it into "./nextjs/public/screenshots/[id].png", if we need to save text data we put it into json database
+
+Handling for "LLM":
+- if we need to connect to LLM: we use "lmstudio". the default baseURL is: "http://localhost:1234/v1", the default vision model is: "qwen/qwen3.5-9b", the default vision embedding model is: "qwen.qwen3-vl-embedding-2b"
+- if we need to use LLM to stream text output: we use "openai" npm package with lmstudio baseURL and apikey if needed
+- if we need to use LLM to generate json output: we use "openai" and "zod" npm package with lmstudio baseURL and apikey if needed
+
+Handling for "generating embedding":
+- if we need to use using LLM to make text embedding vector output: we use "openai" npm package with lmstudio baseURL and apikey if needed
+- if we need to use using LLM to make image embedding vector output: we use "openai" npm package with lmstudio baseURL and apikey if needed
+
+Handling for "database":
+- if we need to use local json file based database, we use "db-local" npm package, aslo put json files into a "./nextjs/databases/[db].json" folder
+
+Handling for "upload":
+- if we need to handle upload files, we use "./nextjs/public/uploads" folder
+
+# Instruction, write about diffrent kinds of system prompt:
+
+Please write shared system prompt for both frotnend and backend:
+  - app introduction
+  - object keys naming convention
+  - rest API Routes and Interface
+
+Please write frontend system prompt:
+    - Pages
+    - Components
+    ...
+
+Please write backend system prompt:
+    - Rest APIs
+    - DB models
+    ...
+
+MUST HAVE GUIDELINE: 
+You MUST NOT develop any code.
+
               `
             },
             {
@@ -66,19 +136,37 @@ MUST always use "./astro" folder for astro code
 
           stream: true,
           reasoning_effort: 'high',
-          temperature: 0.2
+          temperature: 0.5
+          // response_format: {
+          //   type: 'json_schema',
+          //   json_schema: {
+          //     name: 'output',
+          //     schema: FinalOutput.toJSONSchema()
+          //   }
+          // }
         },
         { signal }
       )
       .then(async (response) => {
-        let text = ''
+        let plan = ''
         for await (let event of response) {
-          text += event.choices[0].delta.content || ''
+          plan += event.choices[0].delta.content || ''
 
-          onEvent({ type: 'stream', stream: removeThinkTags(text) })
+          onEvent({ type: 'stream', stream: removeThinkTags(plan) })
         }
-        onEvent({ type: 'stream', stream: removeThinkTags(text) })
-        return text
+
+        onEvent({ type: 'stream', stream: removeThinkTags(plan) })
+
+        console.log(plan)
+
+        return removeThinkTags(plan)
+
+        //
+        //
+        // const content = response.choices[0].message.content || '{}'
+        // const json = JSON.parse(content)
+        // onEvent({ type: 'stream', stream: JSON.stringify(json) })
+        // return JSON.stringify(json)
       })
       .catch((r) => {
         console.error(r)
@@ -87,12 +175,10 @@ MUST always use "./astro" folder for astro code
 
     onEvent({
       type: 'plan',
-      plan: removeThinkTags(plan)
+      plan: plan
     })
 
-    whichPlan = removeThinkTags(plan)
-
-    //
+    whichPlan = plan
 
     let tt = setInterval(() => {
       if (checkAborted()) {

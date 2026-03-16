@@ -12,7 +12,6 @@ export function ArrayBlock({}) {
   const [working, setWorking] = useState(false)
 
   const appName = useArchApp((r) => r.appName)
-  const appSystemPrompt = useArchApp((r) => r.appSystemPrompt)
   const appUserPrompt = useArchApp((r) => r.appUserPrompt)
 
   // const plan = useArchApp((r) => r.plan)
@@ -43,9 +42,6 @@ export function ArrayBlock({}) {
 
         appName: `${appName}`,
 
-        appSystemPrompt: `
-${appSystemPrompt}
-        `,
         appUserPrompt: `
 ${appUserPrompt}
         `
@@ -104,6 +100,7 @@ ${appUserPrompt}
               }
             )
           }
+
           // if (resp.cmd_begin && resp.agentName) {
           //   useArchApp.setState({
           //     [`cmd_begin${resp.agentName}`]: resp.cmd_begin
@@ -160,17 +157,6 @@ ${appUserPrompt}
     <>
       <div className="flex">
         <div className="p-2 mb-2 rounded-2xl border">
-          {/* <Textarea
-            value={appSystemPrompt}
-            onChange={(ev) => {
-              useArchApp.setState({
-                appSystemPrompt: ev.target.value
-              })
-            }}
-            className="mb-2"
-            rows={30}
-          ></Textarea> */}
-
           <Textarea
             value={appName}
             onChange={(ev) => {

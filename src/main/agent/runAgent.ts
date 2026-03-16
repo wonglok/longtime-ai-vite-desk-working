@@ -1,6 +1,6 @@
 import { app } from 'electron'
 import { makeDirectory } from 'make-dir'
-import { getStep, ExecStep } from './subagents/getStep'
+import { writeCode, ExecStep } from './subagents/writeCode'
 import { writeFile } from 'fs/promises'
 import path from 'path'
 import { readFile } from 'fs/promises'
@@ -26,7 +26,7 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
       return
     }
 
-    const nextStep: ExecStep | null = await getStep({
+    const nextStep: ExecStep | null = await writeCode({
       plan: plan,
       step: step,
       checkAborted: checkAborted,
