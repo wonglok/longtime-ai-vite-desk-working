@@ -127,15 +127,16 @@ ${each.result || ''}
       messages.push({
         role: 'user',
         content: `
-    # Todo list:
-    ${step.todo
-      .map((r) => {
-        return `${`[${r.status}]`} ${r.task}`
-      })
-      .join('\n')}
 
-    # Instruction
-    1. when there's no in-progress task, pick the first task to work on and mark it as "in-progress".
+# Todo list:
+${step.todo
+  .map((r) => {
+    return `${`[${r.status}]`} ${r.task}`
+  })
+  .join('\n')}
+
+# Instruction
+1. when there's no in-progress task, pick the first task to work on and mark it as "in-progress".
               `
       })
     }
