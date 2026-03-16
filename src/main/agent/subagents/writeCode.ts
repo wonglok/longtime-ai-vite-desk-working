@@ -3,6 +3,7 @@ import OpenAI from 'openai'
 import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
 import { z } from 'zod'
 import { scanFolder } from '../utils/getSummary'
+import { writeFile } from 'fs/promises'
 
 const ReviewTask = z.object({
   todo: z.array(
@@ -36,22 +37,22 @@ export type ReviewTaskStep = z.infer<typeof ReviewTask>
 const WorkTask = z.object({
   whatToDoNow: z.string(),
 
-  developmentTerminalCalls: z
+  filesToBeWritten: z
+    .array(
+      z.object({
+        path: z.string(),
+        content: z.string()
+      })
+    )
+    .describe('what codes needs to be written now'),
+
+  terminalCalls: z
     .array(
       z.object({
         command: z.string().describe('command for terminal')
       })
     )
     .describe('What to do now')
-    .min(1),
-
-  reviewTerminalCalls: z
-    .array(
-      z.object({
-        command: z.string().describe('command for terminal')
-      })
-    )
-    .describe('What to terminal call should run after running the command')
     .min(1),
 
   whatTodoNext: z.string().describe('think 1-2 sentences about what todo next')
@@ -101,12 +102,16 @@ When we need to init the nextjs, MUST run command line: "cd ${workspace}"; npx c
 `.trim()
     })
 
-    messages.push({
-      role: 'user',
-      content: `
-${await scanFolder(workspace)}
+    let files = await (await scanFolder(workspace)).trim()
+
+    if (files) {
+      messages.push({
+        role: 'user',
+        content: `
+${files}
     `.trim()
-    })
+      })
+    }
 
     if (memory?.length > 0) {
       for (let each of memory
@@ -130,8 +135,8 @@ ${await scanFolder(workspace)}
       }
     }
 
-    if ((step?.developmentTerminalCalls?.length || 0) > 0) {
-      for (let each of step.developmentTerminalCalls as {
+    if ((step?.terminalCalls?.length || 0) > 0) {
+      for (let each of step.terminalCalls as {
         command: string
         result: string
         timestamp: string
@@ -253,12 +258,27 @@ ${step.whatTodoNext}
 
     onEvent({
       type: 'beforeRun',
-      beforeRun: nextStep.developmentTerminalCalls
+      beforeRun: nextStep.terminalCalls
     })
 
-    if (nextStep.developmentTerminalCalls && nextStep.developmentTerminalCalls.length) {
+    if (nextStep.filesToBeWritten && nextStep.filesToBeWritten.length > 0) {
+      for await (let file of nextStep.filesToBeWritten) {
+        //
+        let path = file.path
+        let content = file.content
+
+        console.log(path, content)
+
+        await writeFile(path, content, 'utf8').catch((er) => {
+          console.error(er)
+        })
+
+        //
+      }
+    }
+    if (nextStep.terminalCalls && nextStep.terminalCalls.length) {
       //
-      for (let each of [...nextStep.developmentTerminalCalls, ...nextStep.reviewTerminalCalls]) {
+      for (let each of [...nextStep.terminalCalls]) {
         onEvent({
           type: 'cmd_begin',
           cmd_begin: `${each.command}`
@@ -310,7 +330,7 @@ ${step.whatTodoNext}
 
         onEvent({
           type: 'duringRun',
-          duringRun: nextStep.developmentTerminalCalls
+          duringRun: nextStep.terminalCalls
         })
       }
     }

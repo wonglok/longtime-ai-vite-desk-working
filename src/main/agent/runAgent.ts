@@ -77,9 +77,9 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
     memory: [],
     step: {
       whatToDoNow: '',
-      developmentTerminalCalls: [],
+      terminalCalls: [],
       whatTodoNext: '',
-      reviewTerminalCalls: []
+      filesToBeWritten: []
     } satisfies ExecStep
   }
 
