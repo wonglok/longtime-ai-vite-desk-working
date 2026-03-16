@@ -178,6 +178,11 @@ ${step.todo
     }
   }, 1)
 
+  onEvent({
+    type: 'nProgressStart',
+    nProgressStart: ``
+  })
+
   const nextStep = await openai.chat.completions
     .create(
       {
@@ -202,6 +207,11 @@ ${step.todo
       console.error(r)
       return null
     })
+
+  onEvent({
+    type: 'nProgressEnd',
+    nProgressEnd: ``
+  })
 
   clearInterval(intrv)
 
@@ -265,8 +275,8 @@ ${step.todo
     }
 
     onEvent({
-      type: 'beforeRun',
-      beforeRun: []
+      type: 'afterRun',
+      afterRun: []
     })
   } else {
     return null

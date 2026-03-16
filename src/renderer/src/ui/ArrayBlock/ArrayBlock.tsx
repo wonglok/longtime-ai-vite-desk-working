@@ -25,6 +25,7 @@ export function ArrayBlock({}) {
 
   const onClick = async () => {
     setWorking(true)
+
     const controller = window.api.askAI(
       {
         baseURL: `http://localhost:1234/v1`,
@@ -48,7 +49,12 @@ ${appUserPrompt}
         const resp = JSON.parse(stream)
 
         if (resp.beforeRun) {
+          nprogress.start()
           useArchApp.setState({ beforeRun: resp.beforeRun })
+        }
+        if (resp.afterRun) {
+          nprogress.done()
+          useArchApp.setState({ beforeRun: resp.afterRun })
         }
 
         if (resp.type === 'messages') {
@@ -78,6 +84,13 @@ ${appUserPrompt}
               [`todo`]: resp.todo
             })
           }
+        }
+
+        if (resp.type === 'nProgressStart') {
+          nprogress.start()
+        }
+        if (resp.type === 'nProgressEnd') {
+          nprogress.done()
         }
 
         if (resp.type === 'cmd_begin') {
