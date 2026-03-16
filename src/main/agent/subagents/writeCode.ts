@@ -4,6 +4,7 @@ import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
 import { z } from 'zod'
 import { scanFolder } from '../utils/getSummary'
 import { writeFile } from 'fs/promises'
+import moment from 'moment'
 
 const WorkTask = z.object({
   // whatToDoNow: z.string(),
@@ -100,7 +101,7 @@ ${files}
         timestamp: string
       }[]) {
         let msg = `
-Time: ${each.timestamp || ''}
+Time: (${moment(each.timestamp).fromNow()})
 ${each.actionLog || ''}
     `.trim()
 
