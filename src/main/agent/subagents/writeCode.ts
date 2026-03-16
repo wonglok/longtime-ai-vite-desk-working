@@ -78,7 +78,7 @@ MUST NOT run "npm run dev"
 `.trim()
     })
 
-    let files = await (await scanFolder(workspace)).trim()
+    let files = await (await scanFolder(`${workspace}/next`)).trim()
 
     if (files) {
       messages.push({

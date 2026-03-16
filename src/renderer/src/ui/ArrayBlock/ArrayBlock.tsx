@@ -7,12 +7,11 @@ import nprogress from 'nprogress'
 import { toast } from 'sonner'
 
 export function ArrayBlock({}) {
-  //'
   const appName = useArchApp((r) => r.appName)
   const appUserPrompt = useArchApp((r) => r.appUserPrompt)
+  const appModel = useArchApp((r) => r.appModel)
 
   const [working, setWorking] = useState(false)
-
   const [stopFunc, setStop] = useState<any>(() => {
     return () => {}
   })
@@ -34,15 +33,14 @@ export function ArrayBlock({}) {
 
         route: 'runAppPlanner',
 
-        model: `qwen/qwen3.5-4b`,
-        // model: `qwen/qwen3.5-35b-a3b`,
+        // model: `qwen/qwen3.5-4b`,
+        model: `${appModel}`,
 
         appName: `${appName}`,
 
         appUserPrompt: `
 ${appUserPrompt}
         `
-        //
       },
       (stream) => {
         //

@@ -45,8 +45,8 @@ export function Home() {
           <ArrayBlock></ArrayBlock>
 
           <TodoKanban agentName=""></TodoKanban>
-          <MsgBlock></MsgBlock>
           <Term></Term>
+          <MsgBlock></MsgBlock>
 
           {/* <Brain agentName=""></Brain> */}
 
