@@ -122,7 +122,7 @@ ${each.result || ''}
       messages.push({
         role: 'user',
         content: `
-    Here's the current thought:
+    What to do now:
     ${step.whatTodoNext}
         `.trim()
       })
@@ -148,7 +148,7 @@ ${each.result || ''}
 
     messages.push({
       role: 'user',
-      content: 'keep going.'
+      content: 'keep going. thank you!'
     })
 
     return messages
