@@ -34,15 +34,24 @@ const ReviewTask = z.object({
 export type ReviewTaskStep = z.infer<typeof ReviewTask>
 
 const WorkTask = z.object({
-  whatToDoNow: z.string().describe(`Think 1-2 sentences about what to do now.`),
+  whatToDoNow: z.string(),
 
-  terminalCalls: z
+  developmentTerminalCalls: z
     .array(
       z.object({
         command: z.string().describe('command for terminal')
       })
     )
-    .describe('a list of terminal commands')
+    .describe('What to do now')
+    .min(1),
+
+  reviewTerminalCalls: z
+    .array(
+      z.object({
+        command: z.string().describe('command for terminal')
+      })
+    )
+    .describe('What to terminal call should run after running the command')
     .min(1),
 
   whatTodoNext: z.string().describe('think 1-2 sentences about what todo next')
@@ -101,7 +110,6 @@ ${await scanFolder(workspace)}
 
     if (memory?.length > 0) {
       for (let each of memory.slice(0, memory.length - 1 - 1) as {
-        note: string
         command: string
         timestamp: string
         successful: boolean
@@ -117,21 +125,20 @@ ${await scanFolder(workspace)}
       }
     }
 
-    if ((step?.terminalCalls?.length || 0) > 0) {
-      for (let each of step.terminalCalls as {
+    if ((step?.developmentTerminalCalls?.length || 0) > 0) {
+      for (let each of step.developmentTerminalCalls as {
         command: string
-        note: string
         result: string
+        timestamp: string
         successful: boolean
       }[]) {
         messages.push({
           role: 'user',
           content: `
-## The terminal command:
-${each.command || ''}
-## Status of command result:
-${each.successful ? `Successful` : `Failed`}
-## Detail of command result:
+## Timestmap: ${each.timestamp || ''}
+## Execution Status: [${each.successful ? `Successful` : `Failed`}]
+## Command: ${each.command || ''}
+## Result: 
 ${each.result || ''}
     `.trim()
         })
@@ -142,8 +149,8 @@ ${each.result || ''}
       messages.push({
         role: 'user',
         content: `
-    What to do now:
-    ${step.whatTodoNext}
+What to do now:
+${step.whatTodoNext}
         `.trim()
       })
     }
@@ -201,7 +208,7 @@ ${each.result || ''}
     nProgressStart: ``
   })
 
-  const nextStep = await openai.chat.completions
+  const nextStep: ExecStep = await openai.chat.completions
     .create(
       {
         model: inbound.model,
@@ -234,19 +241,19 @@ ${each.result || ''}
   clearInterval(intrv)
 
   if (nextStep) {
-    onEvent({
-      type: 'todo',
-      todo: nextStep.todo || []
-    })
+    // onEvent({
+    //   type: 'todo',
+    //   todo: nextStep.todo || []
+    // })
 
     onEvent({
       type: 'beforeRun',
-      beforeRun: nextStep.terminalCalls
+      beforeRun: nextStep.developmentTerminalCalls
     })
 
-    if (nextStep.terminalCalls && nextStep.terminalCalls.length) {
+    if (nextStep.developmentTerminalCalls && nextStep.developmentTerminalCalls.length) {
       //
-      for (let each of nextStep.terminalCalls) {
+      for (let each of [...nextStep.developmentTerminalCalls, ...nextStep.reviewTerminalCalls]) {
         onEvent({
           type: 'cmd_begin',
           cmd_begin: `${each.command}`
@@ -285,7 +292,6 @@ ${each.result || ''}
         memory.push({
           timestamp: new Date().toString(),
           command: each.command,
-          note: each.note,
           successful: res.successful
         })
 
@@ -299,7 +305,7 @@ ${each.result || ''}
 
         onEvent({
           type: 'duringRun',
-          duringRun: nextStep.terminalCalls
+          duringRun: nextStep.developmentTerminalCalls
         })
       }
     }
