@@ -40,7 +40,7 @@ const WorkTask = z.object({
   actionLog: z
     .string()
     .describe(
-      'short action log 1-2 sentences for AI agent to follow up the progress of the current coding todo task'
+      'short action log 1-2 short sentences for AI agent to follow up the progress of the current coding todo task'
     )
 })
 
