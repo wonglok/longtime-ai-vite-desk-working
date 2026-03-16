@@ -19,28 +19,30 @@ const WorkTask = z
     todo: z
       .array(
         z.discriminatedUnion('status', [
-          z.object({
-            status: z.literal('pending'),
-            task: z.string().describe('feature description')
-          }),
+          z
+            //
+            .object({
+              status: z.literal('pending'),
+              task: z.string().describe('task description')
+            }),
           z
             .object({
               status: z.literal('completed'),
-              task: z.string().describe('feature description')
+              task: z.string().describe('task description')
             })
-            .describe('completed feature')
+            .describe('completed task'),
 
-          // z
-          //   .object({
-          //     status: z.literal('in-progress'),
-          //     task: z.string().describe('task description')
-          //   })
-          //   .describe('in-progress task'),
+          z
+            .object({
+              status: z.literal('in-progress'),
+              task: z.string().describe('task description')
+            })
+            .describe('in-progress task')
         ])
       )
       .describe('Features Checklist'),
 
-    theNextThought: z.string().describe('what should be the next step')
+    theNextThought: z.string().describe('thoughts related to next step')
   })
   .describe('memory and actions log')
 
