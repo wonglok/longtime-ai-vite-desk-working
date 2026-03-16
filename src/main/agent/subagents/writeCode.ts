@@ -5,35 +5,6 @@ import { z } from 'zod'
 import { scanFolder } from '../utils/getSummary'
 import { writeFile } from 'fs/promises'
 
-const ReviewTask = z.object({
-  todo: z.array(
-    z.discriminatedUnion('status', [
-      z
-        //
-        .object({
-          status: z.literal('pending'),
-          task: z.string().describe('task description')
-        })
-        .describe('pending task'),
-      z
-        //
-        .object({
-          status: z.literal('completed'),
-          task: z.string().describe('task description')
-        })
-        .describe('completed task'),
-      z
-        //
-        .object({
-          status: z.literal('in-progress'),
-          task: z.string().describe('task description')
-        })
-        .describe('in-progress task')
-    ])
-  )
-})
-export type ReviewTaskStep = z.infer<typeof ReviewTask>
-
 const WorkTask = z.object({
   // whatToDoNow: z.string(),
 
@@ -46,6 +17,15 @@ const WorkTask = z.object({
     )
     .describe('what codes needs to be written for the current task, max 3 files.')
     .max(3),
+
+  // fileToRead: z
+  //   .array(
+  //     z.object({
+  //       path: z.string()
+  //     })
+  //   )
+  //   .describe('what codes needs to be read for the current task, max 3 files.')
+  //   .max(3),
 
   whatTodoNext: z.string().describe('think 1-2 sentences about what todo next'),
 
@@ -83,15 +63,13 @@ export async function writeCode({
 ${plan}
 
 # MUST FOLLOW GUIDELINES:
-MUST NOT Manually create nextjs folders.
-When we need to init the nextjs, MUST run command line: "cd ${workspace}"; npx create-next-app@latest nextjs --ts --tailwind --no-linter --src-dir --webpack --use-npm --skip-install --yes"
-
 current workspace path: "${workspace}/nextjs"
 current working directory (cwd): "${workspace}/nextjs"
 
 MUST avoid duplicated export of same code modules
-MUST avoid duplicated import of npm modules
-MUST use --save when you use "npm install"
+MUST avoid duplicated import of node modules
+
+
 `.trim()
     })
 
@@ -111,7 +89,7 @@ ${files}
         .slice(0, memory.length - 1 - 1)
         .slice()
         .reverse()
-        .slice(0, 25)
+        // .slice(0, 25)
         .reverse() as {
         command: string
         timestamp: string
@@ -120,9 +98,9 @@ ${files}
         messages.push({
           role: 'user',
           content: `
-## Timestmap: ${each.timestamp || ''}
+## Time: ${each.timestamp || ''}
 ## Command: ${each.command || ''}
-## Status: ${each.successful ? `Successful` : `Failed`}
+## Result: ${each.successful ? `Successful` : `Failed`}
     `.trim()
         })
       }
@@ -138,10 +116,10 @@ ${files}
         messages.push({
           role: 'user',
           content: `
-## Timestmap: ${each.timestamp || ''}
+## Time: ${each.timestamp || ''}
 ## Command: ${each.command || ''}
-## Status: ${each.successful ? `Successful` : `Failed`}
-## Result: 
+## Result: ${each.successful ? `Successful` : `Failed`}
+## Return Content: 
 ${each.result || ''}
     `.trim()
         })
@@ -235,6 +213,31 @@ ${step.whatTodoNext}
       return null
     })
 
+  // const review: ReviewTaskStep = await openai.chat.completions
+  //   .create(
+  //     {
+  //       model: inbound.model,
+  //       messages: messages,
+  //       response_format: {
+  //         type: 'json_schema',
+  //         json_schema: {
+  //           name: 'reviewtask',
+  //           schema: ReviewTask.toJSONSchema()
+  //         }
+  //       },
+  //       reasoning_effort: 'low',
+  //       temperature: 0.2
+  //     },
+  //     { signal }
+  //   )
+  //   .then(async (response) => {
+  //     return JSON.parse(response.choices[0].message.content!) as ExecStep
+  //   })
+  //   .catch((r) => {
+  //     console.error(r)
+  //     return null
+  //   })
+
   onEvent({
     type: 'nProgressEnd',
     nProgressEnd: ``
@@ -276,7 +279,10 @@ ${step.whatTodoNext}
           cmd_begin: `${each.command}`
         })
 
-        if (`${each.command}`.includes('npm run dev')) {
+        if (
+          `${each.command}`.includes('npm run dev') ||
+          `${each.command}`.includes('yarn run dev')
+        ) {
           checkAborted()
           return null
         }

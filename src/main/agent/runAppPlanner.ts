@@ -4,6 +4,7 @@ import { makeDirectory } from 'make-dir'
 import { developCode } from './subagents/developCode'
 import { writePlan } from './subagents/writePlan'
 import { runAgent } from './runAgent'
+import { initProject } from './subagents/initProject'
 // import { readFile, writeFile } from 'fs/promises'
 // import { join } from 'path'
 
@@ -12,12 +13,14 @@ export const runAppPlanner = async ({ checkAborted, onEvent, inbound, randID }) 
   const workspace = `${docs}/ai-home/apps/${inbound.appName}`
   await makeDirectory(workspace)
 
-  const plan = await writePlan({
+  const { plan } = await writePlan({
     workspace: workspace,
     inbound,
     checkAborted,
     onEvent: onEvent
   })
+
+  await initProject({ workspace })
 
   // await makeDirectory(`${workspace}/frontend`)
   // await makeDirectory(`${workspace}/backend`)

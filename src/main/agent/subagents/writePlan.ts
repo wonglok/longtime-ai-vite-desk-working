@@ -2,12 +2,46 @@ import OpenAI from 'openai'
 import { readFile, writeFile } from 'fs/promises'
 import { join } from 'path'
 import { makeDirectory } from 'make-dir'
+// import z from 'zod'
+
+// const TodoList = z.array(
+//   z.discriminatedUnion('status', [
+//     z
+//       //
+//       .object({
+//         status: z.literal('pending'),
+//         task: z.string().describe('task description')
+//       })
+//       .describe('pending task'),
+//     z
+//       //
+//       .object({
+//         status: z.literal('completed'),
+//         task: z.string().describe('task description')
+//       })
+//       .describe('completed task'),
+//     z
+//       //
+//       .object({
+//         status: z.literal('in-progress'),
+//         task: z.string().describe('task description')
+//       })
+//       .describe('in-progress task')
+//   ])
+// )
 
 export async function writePlan({ workspace, inbound, checkAborted, onEvent }) {
+  const controller = new AbortController()
+  const signal = controller.signal
+
+  const openai = new OpenAI({
+    baseURL: inbound.baseURL,
+    apiKey: inbound.apiKey
+  })
+
   await makeDirectory(join(workspace, 'ai-memory'))
 
   let whichPlan = ''
-
   try {
     const oldPlan = await readFile(join(workspace, 'ai-memory', 'system-plan.md'), 'utf8').catch(
       () => {
@@ -29,14 +63,6 @@ export async function writePlan({ workspace, inbound, checkAborted, onEvent }) {
     //
     console.log(e.message)
 
-    const controller = new AbortController()
-    const signal = controller.signal
-
-    const openai = new OpenAI({
-      baseURL: inbound.baseURL,
-      apiKey: inbound.apiKey
-    })
-
     const plan = await openai.chat.completions
       .create(
         {
@@ -45,7 +71,32 @@ export async function writePlan({ workspace, inbound, checkAborted, onEvent }) {
             {
               role: 'system',
               content: `
-# My Knowledge of handlgin different thigns:
+
+# Instruction:
+
+Please write shared system prompt for both frotnend and backend:
+  - app introduction
+  - object keys naming convention
+  - rest API Routes and Interface
+
+Please write frontend prompt:
+    - Pages
+    - Components
+    - Data flow
+
+Please write backend prompt:
+    - Rest APIs
+    - DB models
+    - AI Integration 
+    - Security and Configuration
+
+Please write a todo list:
+
+...
+
+# MUST HAVE GUIDELINE: 
+
+You MUST NOT develop any code.
 
 Handling for "nextjs":
 - we use "nextjs" for fullstack app
@@ -75,30 +126,6 @@ Handling for "database":
 Handling for "upload":
 - if we need to handle upload files, we use "./public/uploads" folder
 
-# Instruction:
-
-Please write shared system prompt for both frotnend and backend:
-  - app introduction
-  - object keys naming convention
-  - rest API Routes and Interface
-
-Please write frontend system prompt:
-    - Pages
-    - Components
-    - Data flow
-
-Please write backend system prompt:
-    - Rest APIs
-    - DB models
-    - AI Integration 
-    - Security and Configuration
-
-Please write a todo list:
-
-...
-
-MUST HAVE GUIDELINE: 
-You MUST NOT develop any code.
               `
             },
             {
@@ -180,9 +207,11 @@ You MUST NOT develop any code.
     if (checkAborted()) {
       throw new Error('request is aborted')
     }
+
+    clearInterval(tt)
   }
 
-  return whichPlan
+  return { plan: whichPlan }
 }
 
 //
