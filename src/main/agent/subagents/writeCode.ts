@@ -119,8 +119,8 @@ ${each.actionLog || ''}
           role: 'user',
           content: `
 Time: ${each.timestamp || ''}
-Command: ${each.command || ''} (${each.successful ? `Successful` : `Failed`})
-Result: 
+Command: ${each.command || ''} 
+Result ${each.successful ? `[Successful]` : `[Failed]`}:
 ${each.result || ''}
     `.trim()
         })
