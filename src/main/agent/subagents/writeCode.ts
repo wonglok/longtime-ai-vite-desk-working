@@ -34,7 +34,7 @@ const WorkTask = z.object({
         command: z.string().describe('command for terminal')
       })
     )
-    .describe('"npm run install --save" and other commands'),
+    .describe('"terminal commands'),
 
   actionLog: z
     .string()
@@ -101,7 +101,7 @@ ${files}
         messages.push({
           role: 'user',
           content: `
-## Time: ${each.timestamp || ''}
+Time: ${each.timestamp || ''}
 ${each.actionLog || ''}
     `.trim()
         })
@@ -118,10 +118,9 @@ ${each.actionLog || ''}
         messages.push({
           role: 'user',
           content: `
-## Time: ${each.timestamp || ''}
-## Command: ${each.command || ''}
-## Result: ${each.successful ? `Successful` : `Failed`}
-## Return Content: 
+Time: ${each.timestamp || ''}
+Command: ${each.command || ''} (${each.successful ? `Successful` : `Failed`})
+Result: 
 ${each.result || ''}
     `.trim()
         })
@@ -285,8 +284,7 @@ ${step.whatTodoNext}
           `${each.command}`.includes('npm run dev') ||
           `${each.command}`.includes('yarn run dev')
         ) {
-          checkAborted()
-          return null
+          continue
         }
 
         let res: any = await new Promise((resolve) => {
