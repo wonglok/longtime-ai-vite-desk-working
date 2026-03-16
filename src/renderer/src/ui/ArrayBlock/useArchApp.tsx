@@ -27,6 +27,6 @@ export const useArchApp = create(() => {
 
     stream: '',
 
-    beforeRun: []
+    terminalCalls: []
   }
 })

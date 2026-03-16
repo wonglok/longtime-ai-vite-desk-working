@@ -50,11 +50,14 @@ ${appUserPrompt}
 
         if (resp.beforeRun) {
           nprogress.start()
-          useArchApp.setState({ beforeRun: resp.beforeRun })
+          useArchApp.setState({ terminalCalls: resp.beforeRun })
+        }
+        if (resp.duringRun) {
+          useArchApp.setState({ terminalCalls: resp.duringRun })
         }
         if (resp.afterRun) {
           nprogress.done()
-          useArchApp.setState({ beforeRun: resp.afterRun })
+          useArchApp.setState({ terminalCalls: resp.afterRun })
         }
 
         if (resp.type === 'messages') {

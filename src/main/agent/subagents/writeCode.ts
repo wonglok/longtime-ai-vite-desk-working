@@ -271,6 +271,11 @@ ${step.todo
           type: 'cmd_end',
           cmd_end: each.command
         })
+
+        onEvent({
+          type: 'duringRun',
+          duringRun: nextStep.terminalCalls
+        })
       }
     }
 
