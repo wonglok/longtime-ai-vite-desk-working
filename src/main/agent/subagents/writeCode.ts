@@ -182,8 +182,8 @@ ${each.result || ''}
             schema: WorkTask.toJSONSchema()
           }
         },
-        reasoning_effort: 'high',
-        temperature: 0.5
+        reasoning_effort: 'low',
+        temperature: 0.0
       },
       { signal }
     )
