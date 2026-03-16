@@ -4,47 +4,48 @@ import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
 import { z } from 'zod'
 // import { scanFolder } from '../utils/getSummary'
 
-const WorkTask = z
-  .object({
-    think: z.string().describe(`Think about what to do now.`),
-    terminalCalls: z
-      .array(
-        z.object({
-          command: z.string().describe('command for terminal')
-        })
-      )
-      .describe('a list of terminal commands')
-      .min(1),
+const WorkTask = z.object({
+  think: z.string().describe(`Think about what to do now.`),
+  terminalCalls: z
+    .array(
+      z.object({
+        command: z.string().describe('command for terminal')
+      })
+    )
+    .describe('a list of terminal commands')
+    .min(1),
 
-    todo: z
-      .array(
-        z.discriminatedUnion('status', [
-          z
-            //
-            .object({
-              status: z.literal('pending'),
-              task: z.string().describe('task description')
-            }),
-          z
-            .object({
-              status: z.literal('completed'),
-              task: z.string().describe('task description')
-            })
-            .describe('completed task'),
+  todo: z
+    .array(
+      z.discriminatedUnion('status', [
+        z
+          //
+          .object({
+            status: z.literal('pending'),
+            task: z.string().describe('task description')
+          }),
 
-          z
-            .object({
-              status: z.literal('in-progress'),
-              task: z.string().describe('task description')
-            })
-            .describe('in-progress task')
-        ])
-      )
-      .describe('Features Checklist'),
+        z
+          .object({
+            status: z.literal('completed'),
+            task: z.string().describe('task description')
+          })
+          .describe('completed task'),
 
-    theNextThought: z.string().describe('thoughts related to next step')
-  })
-  .describe('memory and actions log')
+        z
+          .object({
+            status: z.literal('in-progress'),
+            task: z.string().describe('task description')
+          })
+          .describe('in-progress task')
+      ])
+    )
+    .describe('Features Checklist'),
+
+  theNextThought: z
+    .string()
+    .describe('think about what todo next consider tasks that are in-progress')
+})
 
 export type ExecStep = z.infer<typeof WorkTask>
 
