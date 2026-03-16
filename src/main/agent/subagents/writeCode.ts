@@ -85,10 +85,9 @@ always put "nextjs" code into this folder: "${workspace}/nextjs"
 MUST avoid duplicated export of same code modules
 MUST avoid duplicated import of npm modules
 
-
 MUST NOT Manually create nextjs
 
-When we need to init the nextjs, MUST run command line: "npx create-next-app@latest nextjs --ts --tailwind --no-linter --src-dir --webpack --use-npm"
+When we need to init the nextjs, MUST run command line: "cd "${workspace}/nextjs"; npx create-next-app@latest nextjs --ts --tailwind --no-linter --src-dir --webpack --use-npm --skip-install"
 
 `.trim()
     })
