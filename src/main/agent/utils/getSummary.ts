@@ -39,17 +39,11 @@ async function extractSummaryComments(rootDir) {
   async function extractFromFile(filePath, results) {
     try {
       const content = await fs.readFile(filePath, 'utf-8')
-      const lines = content.split('\n')
 
-      for (let i = 0; i < lines.length; i++) {
-        if (lines[i].includes('//SUMMARY:')) {
-          results.push({
-            file: path.relative(rootDir, filePath),
-            lineNum: i + 1,
-            content: lines[i].trim().replace('//SUMMARY: ', '')
-          })
-        }
-      }
+      results.push({
+        file: path.relative(rootDir, filePath),
+        content: content
+      })
     } catch (err) {
       console.error(`Error reading file ${filePath}:`, err)
     }
@@ -62,12 +56,10 @@ async function extractSummaryComments(rootDir) {
 export const scanFolder = async (targetFolder) => {
   return await extractSummaryComments(targetFolder)
     .then((results) => {
-      const csv = `File,Summary\n${results
-        .map((r: any) => `"~/${r.file}",${JSON.stringify(r.content)}`)
-        .join('\n')}`
+      const csv = `File\n${results.map((r: any) => `${JSON.stringify(r.file)}`).join('\n')}`
 
       return `
-## current summary of each file at path
+## Files in the project folder:
 ${csv}`
     })
     .catch((err) => {

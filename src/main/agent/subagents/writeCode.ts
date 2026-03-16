@@ -2,7 +2,7 @@ import { exec } from 'child_process'
 import OpenAI from 'openai'
 import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
 import { z } from 'zod'
-// import { scanFolder } from '../utils/getSummary'
+import { scanFolder } from '../utils/getSummary'
 
 const WorkTask = z.object({
   think: z.string().describe(`Think 1-2 sentences about what to do now.`),
@@ -84,12 +84,18 @@ always put "nextjs" code into this folder: "${workspace}/nextjs"
 MUST avoid duplicated export of same code modules
 MUST avoid duplicated import of npm modules
 
-If there's no "nextjs folder": "mkdir -p "${workspace}/nextjs"; npx npm create nextjs@latest  -- --add react"
 
 You are an Autnomous AI senior developer agent.
 You dont need to wait for the human feedback.
 
 `.trim()
+    })
+
+    messages.push({
+      role: 'user',
+      content: `
+${await scanFolder(workspace)}
+    `.trim()
     })
 
     if ((step?.terminalCalls?.length || 0) > 0) {

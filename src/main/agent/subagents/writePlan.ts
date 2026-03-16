@@ -48,7 +48,8 @@ export async function writePlan({ workspace, inbound, checkAborted, onEvent }) {
 # My Knowledge of handlgin different thigns:
 
 Handling for "nextjs":
-- we use "nextjs" with "javascript esm modules and no eslint" for fullstack
+- we use "nextjs" for fullstack app
+- run command line: "npx create-next-app@latest nextjs --ts --tailwind --no-linter --src-dir --webpack --use-npm" to init a project
 - always enable cors support
 - use this "tsconfig.json" config:
 \`\`\`json
@@ -81,6 +82,9 @@ Handling for "nextjs":
   "exclude": ["node_modules"]
 }
 \`\`\`
+- we use "App Router" of the nextjs 
+- home page file is at: "nextjs/src/app/page.tsx"
+- layout file is at: "nextjs/src/app/layout.tsx"
 
 Handling for "cli-tool":
 - if we need to build command line interface tool (cli-tool) we use "meow" package.
