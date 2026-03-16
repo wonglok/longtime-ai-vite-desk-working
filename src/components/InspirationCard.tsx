@@ -2,47 +2,42 @@ import Image from 'next/image';
 
 interface InspirationCardProps {
   id: string;
-  url: string;
-  thumbnailPath: string;
-  aiNotes: string;
+  thumbnailUrl: string;
   websiteName: string;
+  textualAnalysis?: string;
 }
 
-export default function InspirationCard({ id, url, thumbnailPath, aiNotes, websiteName }: InspirationCardProps) {
+export default function InspirationCard({ id, thumbnailUrl, websiteName, textualAnalysis }: InspirationCardProps) {
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
+    <div className="group relative overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition-all hover:shadow-md">
       {/* Thumbnail Header */}
-      <div className="relative h-48 w-full bg-gray-200">
-        {thumbnailPath && (
-          <img
-            src={thumbnailPath}
-            alt={`Screenshot of ${websiteName}`}
-            className="w-full h-full object-cover"
-            loading="lazy"
+      <div className="relative aspect-video w-full overflow-hidden bg-gray-100">
+        {thumbnailUrl ? (
+          <Image
+            src={thumbnailUrl}
+            alt={`${websiteName} screenshot`}
+            fill
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
+        ) : (
+          <div className="flex h-full items-center justify-center text-gray-400">
+            No Image
+          </div>
         )}
       </div>
 
-      {/* Content */}
+      {/* Content Section */}
       <div className="p-4">
-        <h3 className="text-lg font-semibold text-gray-800 mb-1">{websiteName}</h3>
-        <a href={url} target="_blank" rel="noopener noreferrer" className="text-sm text-blue-600 hover:underline truncate block mb-2">
-          {url}
-        </a>
-
-        {/* AI Analysis Notes */}
-        <div className="bg-gray-50 p-3 rounded-md border border-gray-200">
-          <h4 className="text-xs font-semibold text-gray-600 uppercase mb-1">AI Analysis</h4>
-          <p className="text-sm text-gray-700 whitespace-pre-wrap">{aiNotes}</p>
-        </div>
-
-        {/* Action Button */}
-        <button
-          onClick={() => window.location.href = `/inspire/${id}`}
-          className="mt-3 w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors duration-200"
-        >
-          View Details
-        </button>
+        <h3 className="mb-2 truncate text-lg font-semibold text-gray-900" title={websiteName}>
+          {websiteName}
+        </h3>
+        
+        {textualAnalysis && (
+          <p className="line-clamp-3 text-sm leading-relaxed text-gray-600">
+            {textualAnalysis}
+          </p>
+        )}
       </div>
     </div>
   );

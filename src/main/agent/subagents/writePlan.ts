@@ -50,37 +50,7 @@ export async function writePlan({ workspace, inbound, checkAborted, onEvent }) {
 Handling for "nextjs":
 - we use "nextjs" for fullstack app
 - always enable cors support
-- use this "tsconfig.json" config:
-\`\`\`json
-{
-  "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
-    "paths": {
-      "@/*": ["./*"]
-    }
-  },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
-}
-\`\`\`
+
 - we use "App Router" of the "nextjs" 
 - home page file is at: "./src/app/page.tsx"
 - layout file is at: "./src/app/layout.tsx"
@@ -91,14 +61,13 @@ Handling for "cli-tool":
 Handling for "browser":
 - if we need to use browser automation: we use "playwrite" npm package, config is: {"headless": "false"}, {"waitUntil": "load"}, if we take screenshots we put it into "./public/screenshots/[id].png", if we need to save text data we put it into "json database"
 
-Handling for "LLM":
-- if we need to connect to LLM: we use "lmstudio". the default baseURL is: "http://localhost:1234/v1", the default vision model is: "qwen/qwen3.5-4b", the default vision embedding model is: "qwen.qwen3-vl-embedding-2b"
-- if we need to use LLM to stream text output: we use "openai" npm package with lmstudio baseURL and apikey if needed
-- if we need to use LLM to generate json output: we use "openai" and "zod" npm package with lmstudio baseURL and apikey if needed
+Handling for "AI, LLM":
+- if we need to connect to LLM: we use "lmstudio". the default baseURL is: "http://localhost:1234/v1", the default model is: "qwen/qwen3.5-4b", 
+- we use "openai" npm package with lmstudio 
 
-Handling for "generating embedding":
+Handling for "generating text embedding":
 - if we need to use using LLM to make text embedding vector output: we use "openai" npm package with lmstudio baseURL and apikey if needed
-- if we need to use using LLM to make image embedding vector output: we use "openai" npm package with lmstudio baseURL and apikey if needed
+- the default text embedding model is: "qwen.qwen3-vl-embedding-2b"
 
 Handling for "database":
 - if we need to use local json file based database, we use "db-local" npm package, aslo put json files into a "./databases/[db].json" folder
@@ -106,7 +75,7 @@ Handling for "database":
 Handling for "upload":
 - if we need to handle upload files, we use "./public/uploads" folder
 
-# Instruction, write about diffrent kinds of system prompt:
+# Instruction:
 
 Please write shared system prompt for both frotnend and backend:
   - app introduction
@@ -126,9 +95,10 @@ Please write backend system prompt:
 
 Please write a todo list:
 
+...
+
 MUST HAVE GUIDELINE: 
 You MUST NOT develop any code.
-
               `
             },
             {

@@ -132,7 +132,7 @@ current backend folder: "${appFolder}/backend"
 
 MUST avoid duplicated export of same code modules
 MUST avoid duplicated import of npm modules
-DO NOT start server when you done all the coding. but run "npm run install" and tell user about your progress update
+DO NOT start server when you done all the coding. but run "npm run install --save" and tell user about your progress update
 `
   //
   // MUST check the latest files in the workspace before development work.

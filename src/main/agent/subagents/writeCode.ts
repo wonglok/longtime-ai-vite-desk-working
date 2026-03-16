@@ -35,7 +35,7 @@ const ReviewTask = z.object({
 export type ReviewTaskStep = z.infer<typeof ReviewTask>
 
 const WorkTask = z.object({
-  whatToDoNow: z.string(),
+  // whatToDoNow: z.string(),
 
   filesToBeWritten: z
     .array(
@@ -55,8 +55,7 @@ const WorkTask = z.object({
         command: z.string().describe('command for terminal')
       })
     )
-    .describe('What to do next')
-    .min(1)
+    .describe('"npm run install --save" and other commands')
 })
 
 export type ExecStep = z.infer<typeof WorkTask>
@@ -64,15 +63,12 @@ export type ExecStep = z.infer<typeof WorkTask>
 export async function writeCode({
   memory = [],
   plan,
-  // executionHistory,
   step,
   workspace,
   inbound,
   checkAborted,
   onEvent
-  //
 }) {
-  // const appFolder = inbound.appFolder
   const openai = new OpenAI({
     baseURL: inbound.baseURL,
     apiKey: inbound.apiKey
@@ -173,7 +169,6 @@ ${step.whatTodoNext}
     //     return `${`[${r.status}]`} ${r.task}`
     //   })
     //   .join('\n')}
-
     // # Instruction
     // 1. when there's no in-progress task, pick the first task to work on and mark it as "in-progress".
     //         `
@@ -290,7 +285,7 @@ ${step.whatTodoNext}
           return exec(
             `${each.command}`,
             {
-              cwd: `${workspace}`
+              cwd: `${workspace}/nextjs`
             },
             (error, stdout, stderr) => {
               if (error) {
@@ -341,7 +336,6 @@ ${step.whatTodoNext}
   }
 
   // console.log(nextStep)
-
   // onEvent({
   //   type: 'nextStep',
   //   text: JSON.stringify(nextStep, null, '\t')
