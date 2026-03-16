@@ -89,7 +89,7 @@ Handling for "cli-tool":
 - if we need to build command line interface tool (cli-tool) we use "meow" package.
 
 Handling for "browser":
-- if we need to use browser automation: we use "playwrite" npm package, config is: {"headless": "false"}, {"waitUntil": "load"}, if we take screenshots we put it into "./nextjs/public/screenshots/[id].png", if we need to save text data we put it into json database
+- if we need to use browser automation: we use "playwrite" npm package, config is: {"headless": "false"}, {"waitUntil": "load"}, if we take screenshots we put it into "./nextjs/public/screenshots/[id].png", if we need to save text data we put it into "json database"
 
 Handling for "LLM":
 - if we need to connect to LLM: we use "lmstudio". the default baseURL is: "http://localhost:1234/v1", the default vision model is: "qwen/qwen3.5-4b", the default vision embedding model is: "qwen.qwen3-vl-embedding-2b"
@@ -193,13 +193,6 @@ You MUST NOT develop any code.
       }
     })
 
-    if (signal.aborted) {
-      throw new Error('')
-    }
-    if (checkAborted()) {
-      throw new Error('')
-    }
-
     try {
       await writeFile(
         join(workspace, 'ai-memory', 'app-idea.md'),
@@ -209,6 +202,13 @@ You MUST NOT develop any code.
       await writeFile(join(workspace, 'ai-memory', 'system-plan.md'), whichPlan, 'utf8')
     } catch (e) {
       console.error('cannot write plan file')
+    }
+
+    if (signal.aborted) {
+      throw new Error('request is aborted')
+    }
+    if (checkAborted()) {
+      throw new Error('request is aborted')
     }
   }
 
