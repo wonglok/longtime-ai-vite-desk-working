@@ -183,7 +183,7 @@ ${each.result || ''}
           }
         },
         reasoning_effort: 'low',
-        temperature: 0.0
+        temperature: 0.2
       },
       { signal }
     )
