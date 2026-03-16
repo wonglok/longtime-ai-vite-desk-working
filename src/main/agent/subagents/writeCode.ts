@@ -55,7 +55,7 @@ const WorkTask = z.object({
         command: z.string().describe('command for terminal')
       })
     )
-    .describe('What to do now')
+    .describe('What to do next')
     .min(1)
 })
 
@@ -87,19 +87,15 @@ export async function writeCode({
 ${plan}
 
 # MUST FOLLOW GUIDELINES:
+MUST NOT Manually create nextjs folders.
+When we need to init the nextjs, MUST run command line: "cd ${workspace}"; npx create-next-app@latest nextjs --ts --tailwind --no-linter --src-dir --webpack --use-npm --skip-install --yes"
 
-current workspace path: "${workspace}"
-current working directory (cwd): "${workspace}"
-
-always put "nextjs" code into this folder: "${workspace}/nextjs"
+current workspace path: "${workspace}/nextjs"
+current working directory (cwd): "${workspace}/nextjs"
+always put "nextjs": "${workspace}/nextjs"
 
 MUST avoid duplicated export of same code modules
 MUST avoid duplicated import of npm modules
-
-MUST NOT Manually create nextjs
-
-When we need to init the nextjs, MUST run command line: "cd ${workspace}"; npx create-next-app@latest nextjs --ts --tailwind --no-linter --src-dir --webpack --use-npm --skip-install --yes"
-
 `.trim()
     })
 
