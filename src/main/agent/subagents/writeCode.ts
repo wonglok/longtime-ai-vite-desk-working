@@ -39,7 +39,7 @@ const WorkTask = z.object({
   actionLog: z
     .string()
     .describe(
-      'short action log sentence for AI agent to follow up the progress of the current coding todo task'
+      'short action log 1-2 sentences for AI agent to follow up the progress of the current coding todo task'
     )
 })
 
@@ -108,6 +108,8 @@ ${each.actionLog || ''}
       }
     }
 
+    let initLog = ''
+
     if ((step?.terminalCalls?.length || 0) > 0) {
       for (let each of step.terminalCalls as {
         command: string
@@ -115,16 +117,20 @@ ${each.actionLog || ''}
         timestamp: string
         successful: boolean
       }[]) {
-        messages.push({
-          role: 'user',
-          content: `
+        let item = `
 Time: ${each.timestamp || ''}
 Command: ${each.command || ''} 
-Result ${each.successful ? `[Successful]` : `[Failed]`}:
+Result: ${each.successful ? `[Successful]` : `[Failed]`}
 ${each.result || ''}
     `.trim()
-        })
+
+        initLog += `${item}\n`
       }
+
+      messages.push({
+        role: 'user',
+        content: initLog
+      })
     }
 
     if (step.whatTodoNext) {
@@ -184,11 +190,6 @@ ${step.whatTodoNext}
     }
   }, 1)
 
-  onEvent({
-    type: 'nProgressStart',
-    nProgressStart: ``
-  })
-
   const nextStep: ExecStep = await openai.chat.completions
     .create(
       {
@@ -240,10 +241,9 @@ ${step.whatTodoNext}
   //   })
 
   onEvent({
-    type: 'nProgressEnd',
-    nProgressEnd: ``
+    type: 'nProgressStart',
+    nProgressStart: ``
   })
-
   clearInterval(intrv)
 
   if (nextStep) {
@@ -339,6 +339,11 @@ ${step.whatTodoNext}
   } else {
     return null
   }
+
+  onEvent({
+    type: 'nProgressEnd',
+    nProgressEnd: ``
+  })
 
   // console.log(nextStep)
   // onEvent({
