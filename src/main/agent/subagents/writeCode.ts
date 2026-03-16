@@ -100,9 +100,11 @@ ${files}
         actionLog: string
         timestamp: string
       }[]) {
+        //
+        // Time: (${moment(each.timestamp).fromNow()})
+        //
         let msg = `
-Time: (${moment(each.timestamp).fromNow()})
-${each.actionLog || ''}
+### ${each.actionLog || ''}
     `.trim()
 
         latest50Memory += `${msg}\n\n`

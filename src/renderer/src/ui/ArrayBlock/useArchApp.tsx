@@ -26,7 +26,7 @@ export const useArchApp = create(() => {
     // `.trim(),
 
     appUserPrompt: `
-    I want to build an todo list with kanban ui drag and drop.
+    I want to build an todo list;
     `.trim(),
     appModel: `qwen/qwen3.5-35b-a3b`,
     // appModel: `qwen/qwen3.5-35b-a3b`,
