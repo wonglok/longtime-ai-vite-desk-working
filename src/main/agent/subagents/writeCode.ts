@@ -95,6 +95,7 @@ current working directory (cwd): "${workspace}/nextjs"
 
 MUST avoid duplicated export of same code modules
 MUST avoid duplicated import of npm modules
+MUST use --save when you use "npm install"
 `.trim()
     })
 
