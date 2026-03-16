@@ -38,6 +38,8 @@ export const runAppPlanner = async ({ checkAborted, onEvent, inbound, randID }) 
       onEvent,
       inbound,
       randID
+    }).catch((r) => {
+      console.error(r)
     })
 
     //
