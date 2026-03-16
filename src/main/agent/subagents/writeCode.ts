@@ -5,7 +5,7 @@ import { z } from 'zod'
 // import { scanFolder } from '../utils/getSummary'
 
 const WorkTask = z.object({
-  think: z.string().describe(`Think about what to do now.`),
+  think: z.string().describe(`Think 1-2 sentences about what to do now.`),
   terminalCalls: z
     .array(
       z.object({
@@ -15,36 +15,37 @@ const WorkTask = z.object({
     .describe('a list of terminal commands')
     .min(1),
 
-  todo: z
-    .array(
-      z.discriminatedUnion('status', [
-        z
-          //
-          .object({
-            status: z.literal('pending'),
-            task: z.string().describe('task description')
-          }),
-
-        z
-          .object({
-            status: z.literal('completed'),
-            task: z.string().describe('task description')
-          })
-          .describe('completed task'),
-
-        z
-          .object({
-            status: z.literal('in-progress'),
-            task: z.string().describe('task description')
-          })
-          .describe('in-progress task')
-      ])
-    )
-    .describe('Features Checklist'),
+  todo: z.array(
+    z.discriminatedUnion('status', [
+      z
+        //
+        .object({
+          status: z.literal('pending'),
+          task: z.string().describe('task description')
+        })
+        .describe('pending task'),
+      z
+        //
+        .object({
+          status: z.literal('completed'),
+          task: z.string().describe('task description')
+        })
+        .describe('completed task'),
+      z
+        //
+        .object({
+          status: z.literal('in-progress'),
+          task: z.string().describe('task description')
+        })
+        .describe('in-progress task')
+    ])
+  ),
 
   theNextThought: z
     .string()
-    .describe('think about what todo next consider tasks that are in-progress')
+    .describe(
+      'think 1-2 sentences about what todo next, you can consider tasks that are in-progress'
+    )
 })
 
 export type ExecStep = z.infer<typeof WorkTask>
