@@ -117,12 +117,13 @@ Please write shared system prompt for both frotnend and backend:
 Please write frontend system prompt:
     - Pages
     - Components
-    ...
+    - Data flow
 
 Please write backend system prompt:
     - Rest APIs
     - DB models
-    ...
+    - AI Integration 
+    - Security and Configuration
 
 MUST HAVE GUIDELINE: 
 You MUST NOT develop any code.
@@ -138,7 +139,7 @@ You MUST NOT develop any code.
           ],
 
           stream: true,
-          reasoning_effort: 'high',
+          reasoning_effort: 'medium',
           temperature: 0.5
           // response_format: {
           //   type: 'json_schema',
