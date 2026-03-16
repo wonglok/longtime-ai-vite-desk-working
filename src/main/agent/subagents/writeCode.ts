@@ -44,7 +44,10 @@ const WorkTask = z.object({
         content: z.string()
       })
     )
-    .describe('what codes needs to be written now'),
+    .describe('what codes needs to be written for the current task, max 3 files.')
+    .max(3),
+
+  whatTodoNext: z.string().describe('think 1-2 sentences about what todo next'),
 
   terminalCalls: z
     .array(
@@ -53,9 +56,7 @@ const WorkTask = z.object({
       })
     )
     .describe('What to do now')
-    .min(1),
-
-  whatTodoNext: z.string().describe('think 1-2 sentences about what todo next')
+    .min(1)
 })
 
 export type ExecStep = z.infer<typeof WorkTask>
@@ -118,7 +119,7 @@ ${files}
         .slice(0, memory.length - 1 - 1)
         .slice()
         .reverse()
-        .slice(0, 20)
+        .slice(0, 25)
         .reverse() as {
         command: string
         timestamp: string
@@ -128,8 +129,8 @@ ${files}
           role: 'user',
           content: `
 ## Timestmap: ${each.timestamp || ''}
-## Status: ${each.successful ? `Successful` : `Failed`}
 ## Command: ${each.command || ''}
+## Status: ${each.successful ? `Successful` : `Failed`}
     `.trim()
         })
       }
@@ -146,8 +147,8 @@ ${files}
           role: 'user',
           content: `
 ## Timestmap: ${each.timestamp || ''}
-## Status: ${each.successful ? `Successful` : `Failed`}
 ## Command: ${each.command || ''}
+## Status: ${each.successful ? `Successful` : `Failed`}
 ## Result: 
 ${each.result || ''}
     `.trim()
