@@ -5,7 +5,7 @@ import { z } from 'zod'
 import { scanFolder } from '../utils/getSummary'
 
 const WorkTask = z.object({
-  think: z.string().describe(`Think 1-2 sentences about what to do now.`),
+  // think: z.string().describe(`Think 1-2 sentences about what to do now.`),
 
   terminalCalls: z
     .array(
@@ -86,8 +86,9 @@ MUST avoid duplicated export of same code modules
 MUST avoid duplicated import of npm modules
 
 
-You are an Autnomous AI senior developer agent.
-You dont need to wait for the human feedback.
+MUST NOT Manually create nextjs
+
+When we need to init the nextjs, MUST run command line: "npx create-next-app@latest nextjs --ts --tailwind --no-linter --src-dir --webpack --use-npm"
 
 `.trim()
     })
@@ -134,7 +135,6 @@ ${each.result || ''}
       messages.push({
         role: 'user',
         content: `
-
 # Todo list:
 ${step.todo
   .map((r) => {
@@ -144,7 +144,6 @@ ${step.todo
 
 # Instruction
 1. when there's no in-progress task, pick the first task to work on and mark it as "in-progress".
-
         `
       })
     }
@@ -212,7 +211,13 @@ ${step.todo
       todo: nextStep.todo
     })
 
+    onEvent({
+      type: 'beforeRun',
+      beforeRun: nextStep.terminalCalls
+    })
+
     if (nextStep.terminalCalls && nextStep.terminalCalls.length) {
+      //
       for (let each of nextStep.terminalCalls) {
         onEvent({
           type: 'cmd_begin',
@@ -256,13 +261,13 @@ ${step.todo
           type: 'cmd_end',
           cmd_end: each.command
         })
-
-        onEvent({
-          type: 'terminalCalls',
-          terminalCalls: nextStep.terminalCalls
-        })
       }
     }
+
+    onEvent({
+      type: 'beforeRun',
+      beforeRun: []
+    })
   } else {
     return null
   }

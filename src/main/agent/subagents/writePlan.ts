@@ -49,7 +49,6 @@ export async function writePlan({ workspace, inbound, checkAborted, onEvent }) {
 
 Handling for "nextjs":
 - we use "nextjs" for fullstack app
-- run command line: "npx create-next-app@latest nextjs --ts --tailwind --no-linter --src-dir --webpack --use-npm" to init a project
 - always enable cors support
 - use this "tsconfig.json" config:
 \`\`\`json
@@ -93,7 +92,7 @@ Handling for "browser":
 - if we need to use browser automation: we use "playwrite" npm package, config is: {"headless": "false"}, {"waitUntil": "load"}, if we take screenshots we put it into "./nextjs/public/screenshots/[id].png", if we need to save text data we put it into json database
 
 Handling for "LLM":
-- if we need to connect to LLM: we use "lmstudio". the default baseURL is: "http://localhost:1234/v1", the default vision model is: "qwen/qwen3.5-9b", the default vision embedding model is: "qwen.qwen3-vl-embedding-2b"
+- if we need to connect to LLM: we use "lmstudio". the default baseURL is: "http://localhost:1234/v1", the default vision model is: "qwen/qwen3.5-4b", the default vision embedding model is: "qwen.qwen3-vl-embedding-2b"
 - if we need to use LLM to stream text output: we use "openai" npm package with lmstudio baseURL and apikey if needed
 - if we need to use LLM to generate json output: we use "openai" and "zod" npm package with lmstudio baseURL and apikey if needed
 

@@ -38,10 +38,10 @@ export function Home() {
 
         model: `qwen/qwen3.5-35b-a3b`,
 
-        // model: `qwen/qwen3.5-9b`,
+        // model: `qwen/qwen3.5-4b`,
         // model: `qwen/qwen3-coder-30b`,
-        // model: `qwen/qwen3.5-9b`,
-        // model: `qwen/qwen3.5-9b`,
+        // model: `qwen/qwen3.5-4b`,
+        // model: `qwen/qwen3.5-4b`,
         // model: `openai/gpt-oss-20b`,
 
         folder: `inspire-cli`,
@@ -86,7 +86,7 @@ node ./inspire.js --find-similar-inspiration "ocean"
 
 - MUST use "npm install --save ..." to install packages
 - use npm package "meow" for cli entry code
-- use npm package "openai" for ai calls sdk, sdk config: baseURL: "http://localhost:1234/v1" with model: "qwen/qwen3.5-9b"
+- use npm package "openai" for ai calls sdk, sdk config: baseURL: "http://localhost:1234/v1" with model: "qwen/qwen3.5-4b"
 - use npm package "openai" for embeding, sdk config: baseURL: "http://localhost:1234/v1" with model: "qwen.qwen3-vl-embedding-2b"
 
 `.trim(),

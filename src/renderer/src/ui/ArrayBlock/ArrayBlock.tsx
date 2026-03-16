@@ -33,7 +33,7 @@ export function ArrayBlock({}) {
 
         route: 'runAppPlanner',
 
-        model: `qwen/qwen3.5-9b`,
+        model: `qwen/qwen3.5-4b`,
         // model: `qwen/qwen3.5-35b-a3b`,
 
         appName: `${appName}`,
@@ -46,6 +46,10 @@ ${appUserPrompt}
       (stream) => {
         //
         const resp = JSON.parse(stream)
+
+        if (resp.beforeRun) {
+          useArchApp.setState({ beforeRun: resp.beforeRun })
+        }
 
         if (resp.type === 'messages') {
           useArchApp.setState({ messages: resp.messages })
@@ -78,6 +82,7 @@ ${appUserPrompt}
 
         if (resp.type === 'cmd_begin') {
           // toast.info(resp['cmd_begin'])
+
           nprogress.start()
 
           if (resp.cmd_begin.includes('npm install')) {

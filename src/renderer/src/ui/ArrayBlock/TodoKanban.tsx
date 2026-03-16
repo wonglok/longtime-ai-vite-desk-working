@@ -9,7 +9,7 @@ export function TodoKanban({ agentName = '' }) {
     <>
       {/*  */}
       {todo?.length > 0 && (
-        <div className="flex flex-row w-full h-[500px] gap-4 rounded-2xl ">
+        <div className="flex flex-row w-full h-[500px] gap-4 rounded-2xl mb-3 ">
           {status.map((eStatus) => {
             let colorStyle = {
               pending: {
