@@ -92,7 +92,6 @@ When we need to init the nextjs, MUST run command line: "cd ${workspace}"; npx c
 
 current workspace path: "${workspace}/nextjs"
 current working directory (cwd): "${workspace}/nextjs"
-always put "nextjs": "${workspace}/nextjs"
 
 MUST avoid duplicated export of same code modules
 MUST avoid duplicated import of npm modules

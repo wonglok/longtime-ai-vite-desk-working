@@ -81,15 +81,15 @@ Handling for "nextjs":
   "exclude": ["node_modules"]
 }
 \`\`\`
-- we use "App Router" of the nextjs 
-- home page file is at: "nextjs/src/app/page.tsx"
-- layout file is at: "nextjs/src/app/layout.tsx"
+- we use "App Router" of the "nextjs" 
+- home page file is at: "./src/app/page.tsx"
+- layout file is at: "./src/app/layout.tsx"
 
 Handling for "cli-tool":
 - if we need to build command line interface tool (cli-tool) we use "meow" package.
 
 Handling for "browser":
-- if we need to use browser automation: we use "playwrite" npm package, config is: {"headless": "false"}, {"waitUntil": "load"}, if we take screenshots we put it into "./nextjs/public/screenshots/[id].png", if we need to save text data we put it into "json database"
+- if we need to use browser automation: we use "playwrite" npm package, config is: {"headless": "false"}, {"waitUntil": "load"}, if we take screenshots we put it into "./public/screenshots/[id].png", if we need to save text data we put it into "json database"
 
 Handling for "LLM":
 - if we need to connect to LLM: we use "lmstudio". the default baseURL is: "http://localhost:1234/v1", the default vision model is: "qwen/qwen3.5-4b", the default vision embedding model is: "qwen.qwen3-vl-embedding-2b"
@@ -101,10 +101,10 @@ Handling for "generating embedding":
 - if we need to use using LLM to make image embedding vector output: we use "openai" npm package with lmstudio baseURL and apikey if needed
 
 Handling for "database":
-- if we need to use local json file based database, we use "db-local" npm package, aslo put json files into a "./nextjs/databases/[db].json" folder
+- if we need to use local json file based database, we use "db-local" npm package, aslo put json files into a "./databases/[db].json" folder
 
 Handling for "upload":
-- if we need to handle upload files, we use "./nextjs/public/uploads" folder
+- if we need to handle upload files, we use "./public/uploads" folder
 
 # Instruction, write about diffrent kinds of system prompt:
 
