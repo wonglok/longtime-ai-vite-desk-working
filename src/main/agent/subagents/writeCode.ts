@@ -109,7 +109,12 @@ ${await scanFolder(workspace)}
     })
 
     if (memory?.length > 0) {
-      for (let each of memory.slice(0, memory.length - 1 - 1) as {
+      for (let each of memory
+        .slice(0, memory.length - 1 - 1)
+        .slice()
+        .reverse()
+        .slice(0, 20)
+        .reverse() as {
         command: string
         timestamp: string
         successful: boolean
