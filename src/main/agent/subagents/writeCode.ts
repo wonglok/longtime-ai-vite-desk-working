@@ -87,7 +87,7 @@ MUST avoid duplicated import of npm modules
 
 MUST NOT Manually create nextjs
 
-When we need to init the nextjs, MUST run command line: "cd ${workspace}"; npx create-next-app@latest nextjs --ts --tailwind --no-linter --src-dir --webpack --use-npm --skip-install"
+When we need to init the nextjs, MUST run command line: "cd ${workspace}"; npx create-next-app@latest nextjs --ts --tailwind --no-linter --src-dir --webpack --use-npm --skip-install --yes"
 
 `.trim()
     })
@@ -109,14 +109,9 @@ ${await scanFolder(workspace)}
         messages.push({
           role: 'user',
           content: `
-## The terminal timestmap:
-${each.timestamp || ''}
-## The terminal command:
-${each.command || ''}
-## Status of command result:
-${each.successful ? `Successful` : `Failed`}
-## note for the command:
-${each.note ? `Successful` : `Failed`}
+## Timestmap: ${each.timestamp || ''}
+## Execution Status: [${each.successful ? `Successful` : `Failed`}]
+## Command: ${each.command || ''}
     `.trim()
         })
       }

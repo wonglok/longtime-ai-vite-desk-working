@@ -52,7 +52,8 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
       path.join(workspace, 'ai-memory', 'state.json'),
       JSON.stringify(
         {
-          nextStep: nextStep
+          step: nextStep,
+          memory: memory
         },
         null,
         '\t'
@@ -73,7 +74,8 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
   }
 
   let state = {
-    nextStep: {
+    memory: [],
+    step: {
       whatTodoNext: '',
       whatToDoNow: '',
       terminalCalls: []
@@ -88,7 +90,7 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
   }
 
   await loopRun({
-    step: state.nextStep,
-    memory: []
+    step: state.step,
+    memory: state.memory
   })
 }
