@@ -51,6 +51,7 @@ const WorkTask = z.object({
 export type ExecStep = z.infer<typeof WorkTask>
 
 export async function writeCode({
+  memory = [],
   plan,
   // executionHistory,
   step,
@@ -86,7 +87,7 @@ MUST avoid duplicated import of npm modules
 
 MUST NOT Manually create nextjs
 
-When we need to init the nextjs, MUST run command line: "cd "${workspace}/nextjs"; npx create-next-app@latest nextjs --ts --tailwind --no-linter --src-dir --webpack --use-npm --skip-install"
+When we need to init the nextjs, MUST run command line: "cd ${workspace}"; npx create-next-app@latest nextjs --ts --tailwind --no-linter --src-dir --webpack --use-npm --skip-install"
 
 `.trim()
     })
@@ -98,9 +99,33 @@ ${await scanFolder(workspace)}
     `.trim()
     })
 
+    if (memory?.length > 0) {
+      for (let each of memory.slice(0, memory.length - 1 - 1) as {
+        note: string
+        command: string
+        timestamp: string
+        successful: boolean
+      }[]) {
+        messages.push({
+          role: 'user',
+          content: `
+## The terminal timestmap:
+${each.timestamp || ''}
+## The terminal command:
+${each.command || ''}
+## Status of command result:
+${each.successful ? `Successful` : `Failed`}
+## note for the command:
+${each.note ? `Successful` : `Failed`}
+    `.trim()
+        })
+      }
+    }
+
     if ((step?.terminalCalls?.length || 0) > 0) {
       for (let each of step.terminalCalls as {
         command: string
+        note: string
         result: string
         successful: boolean
       }[]) {
@@ -261,6 +286,13 @@ ${each.result || ''}
         ;(each as any).successful = res.successful
         ;(each as any).result = res.result.trim()
         ;(each as any).timestamp = new Date().toString()
+
+        memory.push({
+          timestamp: new Date().toString(),
+          command: each.command,
+          note: each.note,
+          successful: res.successful
+        })
 
         console.log(each.command)
         console.log((each as any).result)

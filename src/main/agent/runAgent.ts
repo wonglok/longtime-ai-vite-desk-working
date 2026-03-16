@@ -17,7 +17,7 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
     return
   }
 
-  const loopRun = async ({ step }: { step: ExecStep }) => {
+  const loopRun = async ({ memory, step }: { memory: any[]; step: ExecStep }) => {
     if (FailCounter[randID] >= 50) {
       onEvent({ type: 'error', error: 'Failed too many times.' })
       return
@@ -32,6 +32,7 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
       checkAborted: checkAborted,
       workspace: `${workspace}`,
       inbound: inbound,
+      memory: memory,
       onEvent: (ev) => {
         onEvent(ev)
       }
@@ -44,7 +45,7 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
 
     if (!nextStep) {
       FailCounter[randID] = FailCounter[randID] + 1
-      return await loopRun({ step: step })
+      return await loopRun({ step: step, memory })
     }
 
     await writeFile(
@@ -66,14 +67,15 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
     // }
 
     return await loopRun({
-      step: nextStep
+      step: nextStep,
+      memory
     })
   }
 
   let state = {
     nextStep: {
-      theNextThought: '',
-      todo: [],
+      whatTodoNext: '',
+      whatToDoNow: '',
       terminalCalls: []
     } satisfies ExecStep
   }
@@ -86,6 +88,7 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
   }
 
   await loopRun({
-    step: state.nextStep
+    step: state.nextStep,
+    memory: []
   })
 }

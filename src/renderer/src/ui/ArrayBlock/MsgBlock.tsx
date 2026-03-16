@@ -11,7 +11,7 @@ export function MsgBlock({}) {
       {terminalCalls.map((msg: any, i) => {
         console.log(msg)
         return (
-          <li key={'k' + i} className="border p-2 my-2 rounded-2xl">
+          <li key={'k' + i} className="border p-2 my-2 rounded-2xl bg-lime-300">
             <div className="text-xs whitespace-pre-wrap p-2 bg-gray-100 border rounded-lg">
               {msg.result ? `Finished` : `Runnning`}: {JSON.stringify(msg.command, null, '\t')}
             </div>
