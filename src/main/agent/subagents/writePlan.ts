@@ -125,6 +125,8 @@ Please write backend system prompt:
     - AI Integration 
     - Security and Configuration
 
+Please write a todo list:
+
 MUST HAVE GUIDELINE: 
 You MUST NOT develop any code.
 

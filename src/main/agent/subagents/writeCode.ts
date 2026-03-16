@@ -6,6 +6,7 @@ import { scanFolder } from '../utils/getSummary'
 
 const WorkTask = z.object({
   think: z.string().describe(`Think 1-2 sentences about what to do now.`),
+
   terminalCalls: z
     .array(
       z.object({
@@ -143,7 +144,8 @@ ${step.todo
 
 # Instruction
 1. when there's no in-progress task, pick the first task to work on and mark it as "in-progress".
-              `
+
+        `
       })
     }
 
@@ -274,3 +276,5 @@ ${step.todo
 
   return nextStep
 }
+
+//
