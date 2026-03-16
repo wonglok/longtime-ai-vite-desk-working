@@ -6,6 +6,7 @@ import { z } from 'zod'
 
 const WorkTask = z
   .object({
+    think: z.string().describe(`Think about what to do now.`),
     terminalCalls: z
       .array(
         z.object({
@@ -39,11 +40,7 @@ const WorkTask = z
       )
       .describe('Features Checklist'),
 
-    theNextThought: z
-      .string()
-      .describe(
-        "future thoughts related of the agent and of the future operation. It's written for the agent to see again. Begin sentences with the 'The Agent ...' instead of 'I'."
-      )
+    theNextThought: z.string().describe('what should be the next step')
   })
   .describe('memory and actions log')
 
