@@ -118,7 +118,7 @@ ${await scanFolder(workspace)}
           role: 'user',
           content: `
 ## Timestmap: ${each.timestamp || ''}
-## Execution Status: [${each.successful ? `Successful` : `Failed`}]
+## Status: ${each.successful ? `Successful` : `Failed`}
 ## Command: ${each.command || ''}
     `.trim()
         })
@@ -136,7 +136,7 @@ ${await scanFolder(workspace)}
           role: 'user',
           content: `
 ## Timestmap: ${each.timestamp || ''}
-## Execution Status: [${each.successful ? `Successful` : `Failed`}]
+## Status: ${each.successful ? `Successful` : `Failed`}
 ## Command: ${each.command || ''}
 ## Result: 
 ${each.result || ''}

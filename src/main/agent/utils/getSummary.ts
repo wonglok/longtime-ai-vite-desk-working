@@ -58,6 +58,10 @@ export const scanFolder = async (targetFolder) => {
     .then((results) => {
       const csv = `File\n${results.map((r: any) => `${JSON.stringify(r.file)}`).join('\n')}`
 
+      if (results.length === 0) {
+        return ''
+      }
+
       return `
 ## Files in the project folder:
 ${csv}`
