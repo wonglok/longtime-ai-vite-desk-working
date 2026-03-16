@@ -8,14 +8,10 @@ import { toast } from 'sonner'
 
 export function ArrayBlock({}) {
   //'
-
-  const [working, setWorking] = useState(false)
-
   const appName = useArchApp((r) => r.appName)
   const appUserPrompt = useArchApp((r) => r.appUserPrompt)
 
-  // const plan = useArchApp((r) => r.plan)
-  // const stream = useArchApp((r) => r.stream)
+  const [working, setWorking] = useState(false)
 
   const [stopFunc, setStop] = useState<any>(() => {
     return () => {}

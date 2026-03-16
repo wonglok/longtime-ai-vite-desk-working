@@ -26,6 +26,7 @@ export function SkillBlock({
   const [stopFunc, setStop] = useState<any>(() => {
     return () => {}
   })
+
   const [myItem, setItem] = useState(item)
 
   const onClick = async () => {

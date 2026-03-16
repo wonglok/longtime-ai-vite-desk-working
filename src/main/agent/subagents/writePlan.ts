@@ -2,7 +2,6 @@ import OpenAI from 'openai'
 import { readFile, writeFile } from 'fs/promises'
 import { join } from 'path'
 import { makeDirectory } from 'make-dir'
-import z from 'zod'
 
 export async function writePlan({ workspace, inbound, checkAborted, onEvent }) {
   await makeDirectory(join(workspace, 'ai-memory'))
