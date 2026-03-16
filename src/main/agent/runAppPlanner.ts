@@ -13,14 +13,15 @@ export const runAppPlanner = async ({ checkAborted, onEvent, inbound, randID }) 
   const workspace = `${docs}/ai-home/apps/${inbound.appName}`
   await makeDirectory(workspace)
 
-  const { plan } = await writePlan({
-    workspace: workspace,
-    inbound,
-    checkAborted,
-    onEvent: onEvent
-  })
-
-  await initProject({ workspace })
+  const [{ plan }] = await Promise.all([
+    writePlan({
+      workspace: workspace,
+      inbound,
+      checkAborted,
+      onEvent: onEvent
+    }),
+    initProject({ workspace, onEvent })
+  ])
 
   // await makeDirectory(`${workspace}/frontend`)
   // await makeDirectory(`${workspace}/backend`)

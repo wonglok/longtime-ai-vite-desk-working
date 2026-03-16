@@ -80,22 +80,20 @@ Please write shared system prompt for both frotnend and backend:
   - rest API Routes and Interface
 
 Please write frontend prompt:
-    - Pages
-    - Components
-    - Data flow
+  - Pages
+  - Components
+  - Data flow
 
 Please write backend prompt:
-    - Rest APIs
-    - DB models
-    - AI Integration 
-    - Security and Configuration
+  - Rest APIs
+  - DB models
+  - AI Integration 
+  - Security and Configuration
 
 Please write a todo list:
-
-...
+  - ...
 
 # MUST HAVE GUIDELINE: 
-
 You MUST NOT develop any code.
 
 Handling for "nextjs":

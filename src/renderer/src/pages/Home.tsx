@@ -15,6 +15,7 @@ import { ArrayBlock } from '@renderer/ui/ArrayBlock/ArrayBlock'
 import { TodoKanban } from '@renderer/ui/ArrayBlock/TodoKanban'
 import { Brain } from '@renderer/ui/ArrayBlock/Brain'
 import { MsgBlock } from '@renderer/ui/ArrayBlock/MsgBlock'
+import { Term } from '@renderer/ui/ArrayBlock/Term'
 // import { SearchBar } from '@renderer/effects/SearchBar'
 
 export function Home() {
@@ -45,6 +46,8 @@ export function Home() {
 
           <TodoKanban agentName=""></TodoKanban>
           <MsgBlock></MsgBlock>
+          <Term></Term>
+
           {/* <Brain agentName=""></Brain> */}
 
           <div className="flex mb-3 space-x-3">

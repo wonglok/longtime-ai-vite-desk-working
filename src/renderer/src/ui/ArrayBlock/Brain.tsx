@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useArchApp } from './useArchApp'
+import { Terminal } from '@/components/ai-elements/terminal'
 
 export function Brain({ agentName = '' }) {
   const stream = useArchApp((r) => r['stream' + agentName]) || ''

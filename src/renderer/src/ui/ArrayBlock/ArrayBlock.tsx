@@ -48,6 +48,10 @@ ${appUserPrompt}
         //
         const resp = JSON.parse(stream)
 
+        if (resp.init) {
+          useArchApp.setState({ terminalWindow: resp.init })
+        }
+
         if (resp.beforeRun) {
           nprogress.start()
           useArchApp.setState({ terminalCalls: resp.beforeRun })

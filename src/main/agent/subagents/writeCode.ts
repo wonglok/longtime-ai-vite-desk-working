@@ -28,14 +28,19 @@ const WorkTask = z.object({
   //   .max(3),
 
   whatTodoNext: z.string().describe('think 1-2 sentences about what todo next'),
-
   terminalCalls: z
     .array(
       z.object({
         command: z.string().describe('command for terminal')
       })
     )
-    .describe('"npm run install --save" and other commands')
+    .describe('"npm run install --save" and other commands'),
+
+  actionLog: z
+    .string()
+    .describe(
+      'short action log sentence for AI agent to follow up the progress of the current coding todo task'
+    )
 })
 
 export type ExecStep = z.infer<typeof WorkTask>
@@ -69,7 +74,6 @@ current working directory (cwd): "${workspace}/nextjs"
 MUST avoid duplicated export of same code modules
 MUST avoid duplicated import of node modules
 
-
 `.trim()
     })
 
@@ -91,16 +95,14 @@ ${files}
         .reverse()
         // .slice(0, 25)
         .reverse() as {
-        command: string
+        actionLog: string
         timestamp: string
-        successful: boolean
       }[]) {
         messages.push({
           role: 'user',
           content: `
 ## Time: ${each.timestamp || ''}
-## Command: ${each.command || ''}
-## Result: ${each.successful ? `Successful` : `Failed`}
+${each.actionLog || ''}
     `.trim()
         })
       }
@@ -312,12 +314,6 @@ ${step.whatTodoNext}
         ;(each as any).result = res.result.trim()
         ;(each as any).timestamp = new Date().toString()
 
-        memory.push({
-          timestamp: new Date().toString(),
-          command: each.command,
-          successful: res.successful
-        })
-
         console.log(each.command)
         console.log((each as any).result)
 
@@ -336,6 +332,11 @@ ${step.whatTodoNext}
     onEvent({
       type: 'afterRun',
       afterRun: []
+    })
+
+    memory.push({
+      timestamp: new Date().toString(),
+      actionLog: nextStep.actionLog
     })
   } else {
     return null
