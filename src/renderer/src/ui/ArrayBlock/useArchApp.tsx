@@ -25,10 +25,11 @@ export const useArchApp = create(() => {
     // - Textual Analysis
     // `.trim(),
 
+    appModel: `qwen/qwen3.5-9b`,
+
     appUserPrompt: `
-    I want to build an todo list;
+    I want to build an todo list.
     `.trim(),
-    appModel: `qwen/qwen3.5-35b-a3b`,
     // appModel: `qwen/qwen3.5-35b-a3b`,
 
     stream: '',

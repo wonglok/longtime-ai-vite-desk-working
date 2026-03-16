@@ -4,7 +4,7 @@ import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
 import { z } from 'zod'
 import { scanFolder } from '../utils/getSummary'
 import { writeFile } from 'fs/promises'
-import moment from 'moment'
+// import moment from 'moment'
 
 const WorkTask = z.object({
   // whatToDoNow: z.string(),
@@ -69,8 +69,7 @@ export async function writeCode({
 ${plan}
 
 # MUST FOLLOW GUIDELINES:
-current workspace path: "${workspace}/nextjs"
-current working directory (cwd): "${workspace}/nextjs"
+MUST ONLY WORK IN (workspace) path: "${workspace}/nextjs"
 
 MUST avoid duplicated export of same code modules
 MUST avoid duplicated import of node modules
@@ -89,7 +88,8 @@ ${files}
       })
     }
 
-    let latest50Memory = `last 100 action logs: \n\n\n`
+    // let latest50Memory = `# Last 100 action logs: \n\n\n`
+
     if (memory?.length > 0) {
       for (let each of memory
         .slice(0, memory.length - 1 - 1)
@@ -104,18 +104,18 @@ ${files}
         // Time: (${moment(each.timestamp).fromNow()})
         //
         let msg = `
-### ${each.actionLog || ''}
+Time: ${each.timestamp}
+Action: ${each.actionLog || ''}
     `.trim()
 
-        latest50Memory += `${msg}\n\n`
+        messages.push({
+          role: 'user',
+          content: msg
+        })
       }
     }
-    messages.push({
-      role: 'user',
-      content: latest50Memory
-    })
 
-    let initLog = ''
+    let terminalCallsText = ''
 
     if ((step?.terminalCalls?.length || 0) > 0) {
       for (let each of step.terminalCalls as {
@@ -131,12 +131,12 @@ Result: ${each.successful ? `[Successful]` : `[Failed]`}
 ${each.result || ''}
     `.trim()
 
-        initLog += `${item}\n`
+        terminalCallsText += `${item}\n`
       }
 
       messages.push({
         role: 'user',
-        content: initLog
+        content: terminalCallsText
       })
     }
 
@@ -340,6 +340,7 @@ ${step.whatTodoNext}
     })
 
     memory.push({
+      idx: memory.length,
       timestamp: new Date().toString(),
       actionLog: nextStep.actionLog
     })
