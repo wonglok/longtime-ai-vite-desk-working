@@ -73,7 +73,7 @@ current working directory (cwd): "${workspace}/nextjs"
 
 MUST avoid duplicated export of same code modules
 MUST avoid duplicated import of node modules
-
+MUST NOT run "npm run dev"
 `.trim()
     })
 
@@ -88,25 +88,29 @@ ${files}
       })
     }
 
+    let latest50Memory = `last 100 action logs: \n\n\n`
     if (memory?.length > 0) {
       for (let each of memory
         .slice(0, memory.length - 1 - 1)
         .slice()
         .reverse()
-        // .slice(0, 25)
+        .slice(0, 100)
         .reverse() as {
         actionLog: string
         timestamp: string
       }[]) {
-        messages.push({
-          role: 'user',
-          content: `
+        let msg = `
 Time: ${each.timestamp || ''}
 ${each.actionLog || ''}
     `.trim()
-        })
+
+        latest50Memory += `${msg}\n\n`
       }
     }
+    messages.push({
+      role: 'user',
+      content: latest50Memory
+    })
 
     let initLog = ''
 
