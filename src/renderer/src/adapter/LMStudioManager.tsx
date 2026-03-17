@@ -12,15 +12,15 @@ const DEFAULT_MODELS = [
   //
   {
     id: 'qwen.qwen3-vl-embedding-2b',
-    desc: 'Qwen Text & Image Embedding',
-    name: 'Embedding Model',
+    desc: 'Embed Images & Text',
+    name: 'qwen3-vl-embedding-2b',
     type: 'Text and Image Embedding',
     needItem: true
   },
 
   {
     id: 'qwen/qwen3.5-4b',
-    desc: 'Less Smart',
+    desc: 'Low',
     name: 'qwen/qwen3.5-4b',
     type: 'LLM',
     ctxWin: 100000,
@@ -29,7 +29,7 @@ const DEFAULT_MODELS = [
   },
   {
     id: 'qwen/qwen3.5-9b',
-    desc: 'Less Smart',
+    desc: 'Medium',
     name: 'qwen/qwen3.5-9b',
     type: 'LLM',
     ctxWin: 100000,
@@ -38,7 +38,7 @@ const DEFAULT_MODELS = [
   },
   {
     id: 'qwen/qwen3.5-35b-a3b',
-    desc: 'Smarter',
+    desc: 'High',
     name: 'qwen/qwen3.5-35b-a3b',
     type: 'Smart',
     ctxWin: 256000,
@@ -185,8 +185,13 @@ export const LMStudioManager: React.FC<LMStudioManagerProps> = ({
   }, [])
 
   useEffect(() => {
-    if (models.filter((r) => r.status === 'loaded').length === DEFAULT_MODELS.length) {
+    if (
+      models.filter((r) => r.status === 'loaded').length ===
+      DEFAULT_MODELS.filter((r) => r.needItem).length
+    ) {
       setPrepareStatus('done')
+    } else {
+      setPrepareStatus('idle')
     }
   }, [models.map((r) => r.status).join('_')])
 
@@ -360,8 +365,8 @@ export const LMStudioManager: React.FC<LMStudioManagerProps> = ({
                 }
           }
         >
-          {prepareStatus === 'idle' && 'Prepare needed AI Models'}
-          {prepareStatus === 'done' && 'Done'}
+          {prepareStatus === 'idle' && 'Load Essential Models'}
+          {prepareStatus === 'done' && 'Essential Models are ready.'}
           {prepareStatus === 'preparing' && 'Preparing'}
         </button>
       </div>

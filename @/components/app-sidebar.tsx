@@ -23,7 +23,12 @@ import {
   Settings2Icon,
   FrameIcon,
   PieChartIcon,
-  MapIcon
+  MapIcon,
+  GalleryHorizontal,
+  EggFried,
+  EggIcon,
+  EggOff,
+  AxeIcon
 } from 'lucide-react'
 
 // import electronSVG from '../../src/renderer/src/assets/electron.svg'
@@ -171,6 +176,7 @@ export function AppSidebar({
 }: React.ComponentProps<typeof Sidebar> & { name?: string }) {
   let [spaces, setSpaces] = React.useState([])
   let [mainMenu, setMainMenu] = React.useState([])
+  let [projects, setProjects] = React.useState([])
   React.useEffect(() => {
     /*
     [
@@ -192,121 +198,145 @@ export function AppSidebar({
     ]
     */
 
-    const controller = window.api.askAI(
-      {
-        route: 'listWorkspaces'
-      },
-      (stream) => {
-        //
-        const resp = JSON.parse(stream)
-        console.log(resp)
-      }
-    )
-
-    controller.getDataAsync().then((data) => {
-      setSpaces(
-        data.workspaces.map((item) => {
-          return {
-            active: item.name === name,
-            name: item.name,
-            logo: <GalleryVerticalEndIcon />,
-            plan: `Workspace`
-          }
-        })
+    let reload = () => {
+      const controller = window.api.askAI(
+        {
+          route: 'listWorkspaces'
+        },
+        (stream) => {
+          //
+          const resp = JSON.parse(stream)
+          console.log(resp)
+        }
       )
 
-      setMainMenu([
-        {
-          title: 'Playground',
-          url: '#',
-          icon: <TerminalSquareIcon />,
-          isActive: true,
-          items: [
-            {
-              title: 'Setup',
-              url: `/workspace/${name}/setup`
-            },
-            {
-              title: 'Home',
-              url: '/home'
-            },
-            {
-              title: 'Use Skills',
-              url: '/skills'
-            },
-            {
-              title: 'Recursive AI',
-              url: '/recursive-ai'
+      controller.getDataAsync().then((data) => {
+        setSpaces(
+          data.workspaces.map((item) => {
+            return {
+              active: item.name === name,
+              name: item.name,
+              logo: <EggIcon />,
+              plan: `Workspace`
             }
-          ]
-        },
-        {
-          title: 'Models',
-          url: '#',
-          icon: <BotIcon />,
-          items: [
-            {
-              title: 'Genesis',
-              url: '#'
-            },
-            {
-              title: 'Explorer',
-              url: '#'
-            },
-            {
-              title: 'Quantum',
-              url: '#'
-            }
-          ]
-        },
-        {
-          title: 'Documentation',
-          url: '#',
-          icon: <BookOpenIcon />,
-          items: [
-            {
-              title: 'Introduction',
-              url: '#'
-            },
-            {
-              title: 'Get Started',
-              url: '#'
-            },
-            {
-              title: 'Tutorials',
-              url: '#'
-            },
-            {
-              title: 'Changelog',
-              url: '#'
-            }
-          ]
-        },
-        {
-          title: 'Settings',
-          url: '#',
-          icon: <Settings2Icon />,
-          items: [
-            {
-              title: 'General',
-              url: '#'
-            },
-            {
-              title: 'Team',
-              url: '#'
-            },
-            {
-              title: 'Billing',
-              url: '#'
-            },
-            {
-              title: 'Limits',
-              url: '#'
-            }
-          ]
-        }
-      ])
-    })
+          })
+        )
+        setProjects([
+          {
+            name: 'LMStudio AI',
+            url: `/workspace/${name}/setup`,
+            icon: <BotIcon />
+          },
+          {
+            name: 'Sales & Marketing',
+            url: '#',
+            icon: <PieChartIcon />
+          },
+          {
+            name: 'Travel',
+            url: '#',
+            icon: <MapIcon />
+          }
+        ])
+        setMainMenu([
+          {
+            title: 'Playground',
+            url: '#',
+            icon: <TerminalSquareIcon />,
+            isActive: true,
+            items: [
+              {
+                title: 'Setup',
+                url: `/workspace/${name}/setup`
+              },
+              {
+                title: 'Home',
+                url: '/'
+              },
+              {
+                title: 'Use Skills',
+                url: '/skills'
+              },
+              {
+                title: 'Recursive AI',
+                url: '/recursive-ai'
+              }
+            ]
+          },
+          {
+            title: 'Models',
+            url: '#',
+            icon: <BotIcon />,
+            items: [
+              {
+                title: 'Genesis',
+                url: '#'
+              },
+              {
+                title: 'Explorer',
+                url: '#'
+              },
+              {
+                title: 'Quantum',
+                url: '#'
+              }
+            ]
+          },
+          {
+            title: 'Documentation',
+            url: '#',
+            icon: <BookOpenIcon />,
+            items: [
+              {
+                title: 'Introduction',
+                url: '#'
+              },
+              {
+                title: 'Get Started',
+                url: '#'
+              },
+              {
+                title: 'Tutorials',
+                url: '#'
+              },
+              {
+                title: 'Changelog',
+                url: '#'
+              }
+            ]
+          },
+          {
+            title: 'Settings',
+            url: '#',
+            icon: <Settings2Icon />,
+            items: [
+              {
+                title: 'General',
+                url: '#'
+              },
+              {
+                title: 'Team',
+                url: '#'
+              },
+              {
+                title: 'Billing',
+                url: '#'
+              },
+              {
+                title: 'Limits',
+                url: '#'
+              }
+            ]
+          }
+        ])
+      })
+    }
+    reload()
+    window.addEventListener('reload-workspaces', reload)
+
+    return () => {
+      window.removeEventListener('reload-workspaces', reload)
+    }
   }, [name])
 
   return (
@@ -320,11 +350,11 @@ export function AppSidebar({
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={mainMenu} />
-        <NavProjects projects={data.projects} />
+        <NavProjects projects={projects} />
       </SidebarContent>
-      <SidebarFooter>
+      {/* <SidebarFooter>
         <NavUser user={data.user} />
-      </SidebarFooter>
+      </SidebarFooter> */}
       <SidebarRail />
     </Sidebar>
   )

@@ -80,7 +80,27 @@ export function TeamSwitcher({
               </DropdownMenuItem>
             ))}
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="gap-2 p-2">
+            <DropdownMenuItem
+              className="gap-2 p-2"
+              onClick={async () => {
+                //
+                const controller = window.api.askAI(
+                  {
+                    route: 'createWorkspace'
+                  },
+                  (stream) => {
+                    //
+                    const resp = JSON.parse(stream)
+                    console.log(resp)
+                  }
+                )
+
+                controller.getDataAsync().then((data) => {
+                  console.log(data)
+                  window.dispatchEvent(new CustomEvent('reload-workspaces', { detail: {} }))
+                })
+              }}
+            >
               <div className="flex size-6 items-center justify-center rounded-md border bg-transparent">
                 <PlusIcon className="size-4" />
               </div>
