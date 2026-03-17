@@ -5,16 +5,18 @@ import { Link, Redirect, Route, Switch } from 'wouter'
 import { LMStudioManager } from '../adapter/LMStudioManager'
 import Versions from '@renderer/gui/Versions'
 import AIPicker from '@renderer/gui/AIPicker'
-import { Setup } from '@renderer/pages/Setup'
-import { Embeddings } from '@renderer/pages/Embeddings'
+// import { Setup } from '@renderer/pages/Setup'
+// import { Embeddings } from '@renderer/pages/Embeddings'
 import { Home } from '@renderer/pages/Home'
-import { RecursiveAI } from '@renderer/pages/RecursiveAI'
-import { Skill } from '@renderer/pages/Skill'
+// import { RecursiveAI } from '@renderer/pages/RecursiveAI'
+// import { Skill } from '@renderer/pages/Skill'
+import { OnBoard } from '@renderer/pages/OnBoard'
+import { WorkspaceParent } from '@renderer/pages/WorkspaceParent'
 
 export const AppRouter = () => (
   <>
     <Switch>
-      <Route path="/embeddings">
+      {/* <Route path="/embeddings">
         <Embeddings></Embeddings>
       </Route>
 
@@ -32,11 +34,40 @@ export const AppRouter = () => (
 
       <Route path="/recursive-ai">
         <RecursiveAI></RecursiveAI>
+      </Route> */}
+
+      <Route path="/home">
+        <OnBoard></OnBoard>
+      </Route>
+
+      <Route path="/workspace/:name/setup">
+        {(params: any) => (
+          <>
+            <WorkspaceParent name={params.name}>
+              <LMStudioManager></LMStudioManager>
+            </WorkspaceParent>
+          </>
+        )}
+      </Route>
+
+      <Route path="/workspace/:name">
+        {(params: any) => (
+          <>
+            <WorkspaceParent name={params.name}>
+              welcome to workspace: {params.name}
+            </WorkspaceParent>
+          </>
+        )}
       </Route>
 
       <Route path="/">
         <Redirect href="/home"></Redirect>
       </Route>
+
+      {/*  */}
+      {/*  */}
+      {/*  */}
+      {/*  */}
     </Switch>
   </>
 )

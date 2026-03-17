@@ -9,12 +9,19 @@ import {
 } from '@/components/ui/breadcrumb'
 import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
-import { LMStudioManager } from '@renderer/adapter/LMStudioManager'
 
-export function Setup() {
+import 'nprogress/nprogress.css'
+import { ArrayBlock } from '@renderer/ui/ArrayBlock/ArrayBlock'
+import { TodoKanban } from '@renderer/ui/ArrayBlock/TodoKanban'
+import { Brain } from '@renderer/ui/ArrayBlock/Brain'
+import { MsgBlock } from '@renderer/ui/ArrayBlock/MsgBlock'
+import { Term } from '@renderer/ui/ArrayBlock/Term'
+// import { SearchBar } from '@renderer/effects/SearchBar'
+
+export function WorkspaceParent({ name = '', children }) {
   return (
     <SidebarProvider>
-      <AppSidebar name="" />
+      <AppSidebar name={name} />
       <SidebarInset>
         <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4">
@@ -23,19 +30,17 @@ export function Setup() {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="/home">Home</BreadcrumbLink>
+                  <BreadcrumbLink href="/">Build Your Application</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem>
-                  <BreadcrumbPage>Setup AI Server</BreadcrumbPage>
+                  <BreadcrumbPage>Data Fetching</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
           </div>
         </header>
-        <div className="gap-4 p-4 pt-0">
-          <LMStudioManager></LMStudioManager>
-        </div>
+        <div className="px-4">{children}</div>
       </SidebarInset>
     </SidebarProvider>
   )

@@ -5,6 +5,8 @@
 // import { prepToolListFiles } from './tools/fsTools'
 
 import { runAppPlanner } from './agent/runAppPlanner'
+import { createWorkspace } from './server/workspace/createWorkspace'
+import { listWorkspaces } from './server/workspace/listWorkspaces'
 
 // import { utilityProcess, MessageChannelMain } from 'electron'
 // import { runAgent } from './agent-pi/runAgent'
@@ -41,6 +43,36 @@ export const setupIPCMain = async ({ ipcMain, mainWindow }) => {
 
       if (inbound.route === 'runAppPlanner') {
         await runAppPlanner({
+          inbound,
+          randID,
+          checkAborted: () => {
+            return abortedFlags[randID]
+          },
+          onEvent: (ev) => {
+            mainWindow.webContents.send(`askAI-stream${randID}`, JSON.stringify(ev))
+          }
+        })
+      }
+
+      if (inbound.route === 'listWorkspaces') {
+        return await listWorkspaces({
+          mainWindow,
+          event,
+          inbound,
+          randID,
+          checkAborted: () => {
+            return abortedFlags[randID]
+          },
+          onEvent: (ev) => {
+            mainWindow.webContents.send(`askAI-stream${randID}`, JSON.stringify(ev))
+          }
+        })
+      }
+
+      if (inbound.route === 'createWorkspace') {
+        return await createWorkspace({
+          mainWindow,
+          event,
           inbound,
           randID,
           checkAborted: () => {

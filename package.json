@@ -6,7 +6,8 @@
   "author": "example.com",
   "homepage": "https://electron-vite.org",
   "scripts": {
-    "dev": "nodemon --exec \"npm run dev2\" --watch ./out/main.js --watch ./src/main/ -e ts,js",
+    "dev": "nodemon --exec \"electron-vite dev\" --watch ./src/main/ -e ts,js",
+    "dev3": "nodemon --exec \"npm run dev2\" --watch ./out/main.js --watch ./src/main/ -e ts,js",
     "format": "prettier --write .",
     "lint": "eslint --cache .",
     "icon": "npx @arcsin1/electron-icon-builder --input=./resources/icon.png --output=./build",
@@ -54,6 +55,7 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
     "copy-to-clipboard": "^3.3.3",
+    "custom-electron-prompt": "^1.6.1",
     "electron-updater": "^6.3.9",
     "embla-carousel-react": "^8.6.0",
     "json2md": "^2.0.3",

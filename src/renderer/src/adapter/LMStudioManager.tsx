@@ -9,24 +9,41 @@ interface LMStudioManagerProps {
 }
 
 const DEFAULT_MODELS = [
+  //
   {
-    id: 'qwen/qwen3-30b-a3b',
-    desc: 'Smart AI Model',
-    name: 'Qwen3-30b-a3b',
-    type: 'Smart'
+    id: 'qwen.qwen3-vl-embedding-2b',
+    desc: 'Qwen Text & Image Embedding',
+    name: 'Embedding Model',
+    type: 'Text and Image Embedding',
+    needItem: true
   },
 
   {
-    id: 'qwen.qwen3-vl-embedding-2b',
-    desc: 'Image AI Model',
-    name: 'Qwen Image Embedding',
-    type: 'Image Embedding'
+    id: 'qwen/qwen3.5-4b',
+    desc: 'Less Smart',
+    name: 'qwen/qwen3.5-4b',
+    type: 'LLM',
+    ctxWin: 100000,
+    memory: '13.5 GB',
+    needItem: true
   },
   {
-    id: 'text-embedding-nomic-embed-text-v1.5',
-    desc: 'Text AI Model',
-    name: 'Nomic Text Embedding',
-    type: 'Text Embedding'
+    id: 'qwen/qwen3.5-9b',
+    desc: 'Less Smart',
+    name: 'qwen/qwen3.5-9b',
+    type: 'LLM',
+    ctxWin: 100000,
+    memory: '13.5 GB',
+    needItem: false
+  },
+  {
+    id: 'qwen/qwen3.5-35b-a3b',
+    desc: 'Smarter',
+    name: 'qwen/qwen3.5-35b-a3b',
+    type: 'Smart',
+    ctxWin: 256000,
+    memory: '49.02 GB',
+    needItem: false
   }
 
   //
@@ -134,7 +151,7 @@ export const LMStudioManager: React.FC<LMStudioManagerProps> = ({
 
           if (!theModel) {
             return {
-              id: theModel.key,
+              id: defaultModel.id.toLowerCase(),
               status: 'not_downloaded'
             }
           }
@@ -158,6 +175,7 @@ export const LMStudioManager: React.FC<LMStudioManagerProps> = ({
 
       setModels(updatedModels)
     } catch (err) {
+      console.log(err)
       setError(err instanceof Error ? err.message : 'Failed to fetch status')
     }
   }, [sdk])
@@ -237,7 +255,7 @@ export const LMStudioManager: React.FC<LMStudioManagerProps> = ({
   const handleDownloadAll = async (): Promise<void> => {
     setPrepareStatus('preparing')
     try {
-      for (const model of DEFAULT_MODELS) {
+      for (const model of DEFAULT_MODELS.filter((r) => r.needItem)) {
         const currentStatus = models.find((m) => m.id === model.id)
         if (currentStatus?.status === 'not_downloaded') {
           await handleDownload(model.id)
@@ -412,7 +430,7 @@ export const LMStudioManager: React.FC<LMStudioManagerProps> = ({
                       color: '#6b7280'
                     }}
                   >
-                    {defaultModel.id} • {defaultModel.type}
+                    {defaultModel.id} • {defaultModel.desc}
                   </p>
                 </div>
                 <StatusBadge status={modelState.status} progress={modelState.downloadProgress} />

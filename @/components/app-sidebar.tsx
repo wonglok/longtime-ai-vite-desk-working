@@ -165,16 +165,161 @@ const data = {
   ]
 }
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({
+  name = '',
+  ...props
+}: React.ComponentProps<typeof Sidebar> & { name?: string }) {
+  let [spaces, setSpaces] = React.useState([])
+  let [mainMenu, setMainMenu] = React.useState([])
+  React.useEffect(() => {
+    /*
+    [
+      {
+        name: 'Work Projects',
+        logo: <GalleryVerticalEndIcon />,
+        plan: 'Startup'
+      },
+      {
+        name: 'Home Projects',
+        logo: <AudioLinesIcon />,
+        plan: 'Startup'
+      },
+      {
+        name: 'Side Projects',
+        logo: <TerminalIcon />,
+        plan: 'Startup'
+      }
+    ]
+    */
+
+    const controller = window.api.askAI(
+      {
+        route: 'listWorkspaces'
+      },
+      (stream) => {
+        //
+        const resp = JSON.parse(stream)
+        console.log(resp)
+      }
+    )
+
+    controller.getDataAsync().then((data) => {
+      setSpaces(
+        data.workspaces.map((item) => {
+          return {
+            active: item.name === name,
+            name: item.name,
+            logo: <GalleryVerticalEndIcon />,
+            plan: `Workspace`
+          }
+        })
+      )
+
+      setMainMenu([
+        {
+          title: 'Playground',
+          url: '#',
+          icon: <TerminalSquareIcon />,
+          isActive: true,
+          items: [
+            {
+              title: 'Setup',
+              url: `/workspace/${name}/setup`
+            },
+            {
+              title: 'Home',
+              url: '/home'
+            },
+            {
+              title: 'Use Skills',
+              url: '/skills'
+            },
+            {
+              title: 'Recursive AI',
+              url: '/recursive-ai'
+            }
+          ]
+        },
+        {
+          title: 'Models',
+          url: '#',
+          icon: <BotIcon />,
+          items: [
+            {
+              title: 'Genesis',
+              url: '#'
+            },
+            {
+              title: 'Explorer',
+              url: '#'
+            },
+            {
+              title: 'Quantum',
+              url: '#'
+            }
+          ]
+        },
+        {
+          title: 'Documentation',
+          url: '#',
+          icon: <BookOpenIcon />,
+          items: [
+            {
+              title: 'Introduction',
+              url: '#'
+            },
+            {
+              title: 'Get Started',
+              url: '#'
+            },
+            {
+              title: 'Tutorials',
+              url: '#'
+            },
+            {
+              title: 'Changelog',
+              url: '#'
+            }
+          ]
+        },
+        {
+          title: 'Settings',
+          url: '#',
+          icon: <Settings2Icon />,
+          items: [
+            {
+              title: 'General',
+              url: '#'
+            },
+            {
+              title: 'Team',
+              url: '#'
+            },
+            {
+              title: 'Billing',
+              url: '#'
+            },
+            {
+              title: 'Limits',
+              url: '#'
+            }
+          ]
+        }
+      ])
+    })
+  }, [name])
+
   return (
     <Sidebar collapsible="icon" {...props}>
-      {/* <SidebarHeader> */}
-      {/* <AuraExample></AuraExample> */}
-      {/* <img src={electronSVG} /> */}
-      {/* <TeamSwitcher teams={data.teams} /> */}
-      {/* </SidebarHeader> */}
+      <>
+        {/* <AuraExample></AuraExample> */}
+        {/* <img src={electronSVG} /> */}
+      </>
+      <SidebarHeader>
+        <TeamSwitcher key={JSON.stringify(spaces)} teams={spaces} />
+      </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={mainMenu} />
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
