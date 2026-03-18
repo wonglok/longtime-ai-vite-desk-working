@@ -411,6 +411,20 @@ export const LMStudioManager: React.FC<LMStudioManagerProps> = ({
           {error}
         </div>
       )}
+      <div
+        style={{
+          marginTop: '24px',
+          padding: '12px',
+          backgroundColor: '#f3f4f6',
+          borderRadius: '6px',
+          fontSize: '0.875rem',
+          marginBlock: '20px',
+          color: '#4b5563'
+        }}
+      >
+        <strong>Note:</strong> Ensure LM Studio is running locally with the REST API server enabled
+        on port 1234 and Cross Origin Resource Sharing CORS enabled.
+      </div>
 
       <div
         style={{
@@ -479,20 +493,6 @@ export const LMStudioManager: React.FC<LMStudioManagerProps> = ({
             </div>
           )
         })}
-      </div>
-
-      <div
-        style={{
-          marginTop: '24px',
-          padding: '12px',
-          backgroundColor: '#f3f4f6',
-          borderRadius: '6px',
-          fontSize: '0.875rem',
-          color: '#4b5563'
-        }}
-      >
-        <strong>Note:</strong> Ensure LM Studio is running locally with the REST API server enabled
-        on port 1234.
       </div>
     </div>
   )
