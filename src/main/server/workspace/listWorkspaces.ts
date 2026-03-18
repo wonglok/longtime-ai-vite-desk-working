@@ -17,6 +17,8 @@ export async function listWorkspaces({
   if (currentFolder.length === 0) {
     const defaltWorkspacePath = `${WorkSpacesPath}/Personal`
     await makeDirectory(defaltWorkspacePath)
+    const workWorkspacePath = `${WorkSpacesPath}/Work`
+    await makeDirectory(workWorkspacePath)
   }
 
   let updateWorkspces = getDirectoriesSync(WorkSpacesPath).map((name) => {
@@ -26,5 +28,5 @@ export async function listWorkspaces({
     }
   })
 
-  event.reply(`${'askAI-reply'}${randID}`, { status: 'done', workspaces: updateWorkspces })
+  event.reply(`${'askAI-reply'}${randID}`, { workspaces: updateWorkspces })
 }

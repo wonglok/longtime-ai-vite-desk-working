@@ -14,9 +14,9 @@ export async function createWorkspace({
   randID
 }) {
   await promptTool({
-    title: 'Enter Value',
-    label: 'Please input your text:',
-    value: 'default value', // Optional default value
+    title: 'Name your new workspace',
+    label: 'Think of a name for your workspace:',
+    value: 'Work', // Optional default value
     type: 'input',
     parentBrowserWindow: mainWindow as any // Make the prompt modal to the main window
   } as any)
@@ -29,14 +29,14 @@ export async function createWorkspace({
         //
         await makeDirectory(join(WorkSpacesPath, `${r}`))
 
-        let updateWorkspces = getDirectoriesSync(WorkSpacesPath).map((name) => {
+        const updatedWorkspaces = getDirectoriesSync(WorkSpacesPath).map((name) => {
           return {
             name: name,
             path: `${WorkSpacesPath}/${name}`
           }
         })
 
-        event.reply(`${'askAI-reply'}${randID}`, { status: 'done', workspaces: updateWorkspces })
+        event.reply(`${'askAI-reply'}${randID}`, { workspaces: updatedWorkspaces })
       }
     })
     .catch(console.error)

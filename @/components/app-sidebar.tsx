@@ -26,6 +26,7 @@ import {
   MapIcon,
   EggIcon
 } from 'lucide-react'
+import { navigate } from 'wouter/use-browser-location'
 
 // import electronSVG from '../../src/renderer/src/assets/electron.svg'
 // import { AuraExample } from '@renderer/effects/AuraExample'
@@ -330,7 +331,32 @@ export function AppSidebar({
     reload()
     window.addEventListener('reload-workspaces', reload)
 
+    let timer = setInterval(() => {
+      //
+
+      const controller = window.api.askAI(
+        {
+          route: 'checkWorkspace',
+          folderName: name
+        },
+        (stream) => {
+          //
+          const resp = JSON.parse(stream)
+          console.log(resp)
+        }
+      )
+
+      controller.getDataAsync().then((data) => {
+        if (data.exist === true) {
+        } else {
+          navigate('/')
+        }
+      })
+
+      //
+    }, 1500)
     return () => {
+      clearInterval(timer)
       window.removeEventListener('reload-workspaces', reload)
     }
   }, [name])

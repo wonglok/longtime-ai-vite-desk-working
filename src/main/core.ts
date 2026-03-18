@@ -5,6 +5,7 @@
 // import { prepToolListFiles } from './tools/fsTools'
 
 import { runAppPlanner } from './agent/runAppPlanner'
+import { checkWorkspace } from './server/workspace/checkWorkspace'
 import { createWorkspace } from './server/workspace/createWorkspace'
 import { listWorkspaces } from './server/workspace/listWorkspaces'
 
@@ -30,6 +31,19 @@ export const setupIPCMain = async ({ ipcMain, mainWindow }) => {
     try {
       // if (inbound.route === 'runAgent') {
       //   await runAgent({
+      //     inbound,
+      //     randID,
+      //     checkAborted: () => {
+      //       return abortedFlags[randID]
+      //     },
+      //     onEvent: (ev) => {
+      //       mainWindow.webContents.send(`askAI-stream${randID}`, JSON.stringify(ev))
+      //     }
+      //   })
+      // }
+
+      // if (inbound.route === 'runSkill') {
+      //   await runSkill({
       //     inbound,
       //     randID,
       //     checkAborted: () => {
@@ -84,18 +98,20 @@ export const setupIPCMain = async ({ ipcMain, mainWindow }) => {
         })
       }
 
-      // if (inbound.route === 'runSkill') {
-      //   await runSkill({
-      //     inbound,
-      //     randID,
-      //     checkAborted: () => {
-      //       return abortedFlags[randID]
-      //     },
-      //     onEvent: (ev) => {
-      //       mainWindow.webContents.send(`askAI-stream${randID}`, JSON.stringify(ev))
-      //     }
-      //   })
-      // }
+      if (inbound.route === 'checkWorkspace') {
+        return await checkWorkspace({
+          mainWindow,
+          event,
+          inbound,
+          randID,
+          checkAborted: () => {
+            return abortedFlags[randID]
+          },
+          onEvent: (ev) => {
+            mainWindow.webContents.send(`askAI-stream${randID}`, JSON.stringify(ev))
+          }
+        })
+      }
 
       event.reply(`${'askAI-reply'}${randID}`, { status: 'done' })
     } catch (e) {
