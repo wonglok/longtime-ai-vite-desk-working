@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/breadcrumb'
 import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
-import { Environment, OrbitControls, useEnvironment } from '@react-three/drei'
+import { Environment, OrbitControls, PerspectiveCamera, useEnvironment } from '@react-three/drei'
 import { Canvas, useThree } from '@react-three/fiber'
 import { AuraEffect } from '@renderer/effects/AuraEffect'
 import { SearchBar } from '@renderer/effects/SearchBar'
@@ -49,8 +49,12 @@ function Content() {
 
   return (
     <>
-      <OrbitControls enabled={false} object-position={[0, 0.5, 1.5]}></OrbitControls>
-      <group rotation={[0.0 * Math.PI, 0, 0]}>
+      <PerspectiveCamera
+        makeDefault
+        position={[0, 0.0, 2.5]}
+        rotation={[0.0 * Math.PI, 0, 0]}
+      ></PerspectiveCamera>
+      <group>
         <DiamondCompos></DiamondCompos>
       </group>
     </>
@@ -80,7 +84,7 @@ export function OnBoardUI() {
 
   return (
     <>
-      <div className=" absolute top-0 left-0 w-full h-full bg-gray-200 from-[#cad5ff] to-[#ffff7e] bg-linear-[0deg] ">
+      <div className=" absolute top-0 left-0 w-full h-full bg-gray-200 from-[#bfffff] to-[#ffda7e] bg-linear-[0deg] ">
         <DiamondCanvas></DiamondCanvas>
       </div>
       <div className=" absolute top-0 left-0 w-full h-full">

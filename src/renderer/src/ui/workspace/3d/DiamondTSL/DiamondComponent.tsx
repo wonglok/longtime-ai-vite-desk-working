@@ -25,7 +25,7 @@ export function DiamondCompos({}) {
     //
     // scene.background = envMap
     scene.environment = envMap
-    scene.backgroundBlurriness = 0
+    scene.backgroundBlurriness = 0.5
     scene.backgroundIntensity = 1.5
     //
   }, [scene])
