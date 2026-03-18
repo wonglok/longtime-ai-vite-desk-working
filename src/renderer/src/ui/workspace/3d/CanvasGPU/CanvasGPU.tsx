@@ -55,7 +55,8 @@ export const CanvasGPU: any = ({ children }: { children?: any }) => {
             const renderer = new THREE.WebGPURenderer({
               ...(props as any),
               alpha: true,
-              antialias: false
+              antialias: false,
+              multiview: true
             })
 
             await renderer.init()

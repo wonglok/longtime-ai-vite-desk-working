@@ -21,46 +21,14 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { Environment, OrbitControls, PerspectiveCamera, useEnvironment } from '@react-three/drei'
-import { Canvas, useThree } from '@react-three/fiber'
-import { AuraEffect } from '@renderer/effects/AuraEffect'
-import { SearchBar } from '@renderer/effects/SearchBar'
 import { Suspense } from 'react'
 import { CanvasGPU } from '../workspace/3d/CanvasGPU/CanvasGPU'
 import { DiamondCompos } from '../workspace/3d/DiamondTSL/DiamondComponent'
-
-function DiamondCanvas({}) {
-  //
-
-  return (
-    <>
-      <div className="w-full h-full relative">
-        <CanvasGPU>
-          <Suspense fallback={null}>
-            <Content></Content>
-          </Suspense>
-        </CanvasGPU>
-      </div>
-    </>
-  )
-}
-
-function Content() {
-  //
-
-  return (
-    <>
-      <PerspectiveCamera
-        makeDefault
-        position={[0, 0.0, 2]}
-        rotation={[0.0 * Math.PI, 0, 0]}
-      ></PerspectiveCamera>
-
-      <group>
-        <DiamondCompos></DiamondCompos>
-      </group>
-    </>
-  )
-}
+import { BloomPipeline } from '../workspace/3d/CanvasGPU/BloomPipeline'
+import { DiamondCanvas } from '../workspace/3d/DiamondTSL/DiamondCanvas'
+// import { Canvas, useThree } from '@react-three/fiber'
+// import { AuraEffect } from '@renderer/effects/AuraEffect'
+// import { SearchBar } from '@renderer/effects/SearchBar'
 
 //
 

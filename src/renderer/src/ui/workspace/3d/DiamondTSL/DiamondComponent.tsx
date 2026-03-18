@@ -23,7 +23,7 @@ export function DiamondCompos({}) {
 
   useEffect(() => {
     //
-    // scene.background = envMap
+    scene.background = envMap
     scene.environment = envMap
     scene.environmentIntensity = 1
     scene.backgroundBlurriness = 0.5

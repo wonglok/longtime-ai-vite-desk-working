@@ -24,7 +24,7 @@ export async function developCode({ randID, plan, appFolder, inbound, checkAbort
 
   const progressUpdateToolGen = async ({
     agentName,
-    subfolder,
+    // subfolder,
     allDoneMarker = { value: false }
   }) => {
     //
@@ -198,7 +198,7 @@ continue with building the backend code
         }),
         progressUpdateTool: await progressUpdateToolGen({
           agentName: agentName,
-          subfolder: subfolder,
+          // subfolder: subfolder,
           allDoneMarker
         })
       }

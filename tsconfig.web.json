@@ -8,8 +8,10 @@
     "@/**/*.*"
   ],
   "compilerOptions": {
+    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": false,
-    "composite": true,
+    "composite": false,
     "jsx": "react-jsx",
     "strict": false,
     "baseUrl": ".",

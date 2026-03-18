@@ -111,13 +111,6 @@ export function BloomPipeline() {
 
     //
     //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
 
     // set up MRT with emissive
 
@@ -136,7 +129,7 @@ export function BloomPipeline() {
 
     const emissivePass = scenePass.getTextureNode('emissive')
 
-    const bloomPass = bloom(emissivePass, 2.5, 1.0, 0.25)
+    const bloomPass = bloom(emissivePass, 2.5, 1.0, 0.15)
 
     const aaColor = fxaa(colorTexture.add(bloomPass))
 
@@ -156,7 +149,7 @@ export function BloomPipeline() {
       cancelAnimationFrame(rAFID)
       object.clear()
     }
-  }, [])
+  }, [scene])
 
   //
   useFrame(() => {}, 10000)
