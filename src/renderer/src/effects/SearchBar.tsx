@@ -1,7 +1,7 @@
 'use client'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Plane } from '@react-three/drei'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { Color, ShaderMaterial } from 'three'
 import { MathUtils } from 'three'
 // import { useRainbow } from 'ui/store/useRainbow'
@@ -9,7 +9,7 @@ import { MathUtils } from 'three'
 export function SearchBar({}) {
   return (
     <>
-      <Canvas>
+      <Canvas gl={{ alpha: true }}>
         <ViewArea active={true}></ViewArea>
       </Canvas>
     </>
@@ -17,11 +17,19 @@ export function SearchBar({}) {
 }
 
 function ViewArea({ active }) {
+  let scene = useThree((r) => r.scene)
+  let gl = useThree((r) => r.gl)
   let viewport = useThree((r) => r.viewport)
+
+  useEffect(() => {
+    scene.background = new Color('#ffffff')
+    gl.setClearAlpha(0)
+    gl.setClearColor('#ffffff', 0)
+  }, [scene])
 
   let uniforms = useMemo(() => {
     return {
-      opacity: { value: 0.0 },
+      opacity: { value: 1.0 },
       primaryColor: { value: new Color(`#dae6ff`).convertLinearToSRGB() },
       time: { value: 0 }
     }
@@ -35,6 +43,14 @@ function ViewArea({ active }) {
       st.gl.render(st.scene, st.camera)
     }
   }, 100)
+
+  let vertexShader = `
+        varying vec2 vUv;
+        void main (void) {
+            vUv = uv;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }       
+    `
 
   let fragmentShader = `
     uniform vec3 primaryColor;
@@ -61,14 +77,6 @@ function ViewArea({ active }) {
         ), opacity);
     }
 
-    `
-
-  let vertexShader = `
-        varying vec2 vUv;
-        void main (void) {
-            vUv = uv;
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }       
     `
 
   let shader = useMemo(() => {
