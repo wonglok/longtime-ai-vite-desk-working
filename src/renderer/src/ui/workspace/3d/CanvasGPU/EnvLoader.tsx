@@ -1,14 +1,14 @@
-import { useEffect, useState, type ReactNode } from "react";
-import { rgbeLoader } from "./CanvasGPU";
-import { useFrame, useThree } from "@react-three/fiber";
+import { useEffect, useState, type ReactNode } from 'react'
+import { rgbeLoader } from './CanvasGPU'
+import { useFrame, useThree } from '@react-three/fiber'
 import {
   Color,
   DirectionalLight,
   EquirectangularReflectionMapping,
   Object3D,
-  UnsignedByteType,
-} from "three";
-import { PostProcessing } from "three/webgpu";
+  UnsignedByteType
+} from 'three'
+import { PostProcessing } from 'three/webgpu'
 import {
   pass,
   mrt,
@@ -24,105 +24,105 @@ import {
   sample,
   float,
   mix,
-  blendColor,
-} from "three/tsl";
-import { ssgi } from "three/addons/tsl/display/SSGINode.js";
-import { bloom } from "three/addons/tsl/display/BloomNode.js";
-import { traa } from "three/addons/tsl/display/TRAANode.js";
+  blendColor
+} from 'three/tsl'
+import { ssgi } from 'three/addons/tsl/display/SSGINode.js'
+import { bloom } from 'three/addons/tsl/display/BloomNode.js'
+import { traa } from 'three/addons/tsl/display/TRAANode.js'
 // import { useAppState } from "../World/useAppState";
 
 export function EnvLoader({
   //
   url,
-  env = true,
+  env = true
 }: {
-  url: string;
-  env?: boolean;
+  url: string
+  env?: boolean
 }) {
-  const [sun, setSun] = useState<ReactNode>(null);
-  const scene = useThree((r) => r.scene);
-  const camera = useThree((r) => r.camera);
-  const renderer = useThree((r) => r.gl);
+  const [sun, setSun] = useState<ReactNode>(null)
+  const scene = useThree((r) => r.scene)
+  const camera = useThree((r) => r.camera)
+  const renderer = useThree((r) => r.gl)
 
   const [fnc, setFnc] = useState(() => {
     return () => {
-      renderer.render(scene, camera);
-    };
-  });
+      renderer.render(scene, camera)
+    }
+  })
 
   useEffect(() => {
-    const object: any = new Object3D();
+    const object: any = new Object3D()
 
-    const dirL = new DirectionalLight(0xffffff, 15);
-    dirL.position.set(-20, 10, 0);
+    const dirL = new DirectionalLight(0xffffff, 15)
+    dirL.position.set(-20, 10, 0)
 
-    object.sunLight = dirL;
-    object.sunLight.castShadow = true;
+    object.sunLight = dirL
+    object.sunLight.castShadow = true
 
-    object.add(object.sunLight);
-    object.add(object.sunLight.target);
+    object.add(object.sunLight)
+    object.add(object.sunLight.target)
 
-    object.sunLight.castShadow = true;
-    object.sunLight.shadow.camera.near = 0;
-    object.sunLight.shadow.camera.far = 150 * 2;
+    object.sunLight.castShadow = true
+    object.sunLight.shadow.camera.near = 0
+    object.sunLight.shadow.camera.far = 150 * 2
 
-    object.sunLight.shadow.camera.left = -5.123 * 4;
-    object.sunLight.shadow.camera.right = 5.123 * 4;
-    object.sunLight.shadow.camera.bottom = -5.123 * 4;
-    object.sunLight.shadow.camera.top = 5.123 * 4;
+    object.sunLight.shadow.camera.left = -5.123 * 4
+    object.sunLight.shadow.camera.right = 5.123 * 4
+    object.sunLight.shadow.camera.bottom = -5.123 * 4
+    object.sunLight.shadow.camera.top = 5.123 * 4
 
-    object.sunLight.shadow.mapSize.width = 512;
-    object.sunLight.shadow.mapSize.height = 512;
-    object.sunLight.shadow.radius = 1;
-    object.sunLight.shadow.bias = -0.00035;
+    object.sunLight.shadow.mapSize.width = 512
+    object.sunLight.shadow.mapSize.height = 512
+    object.sunLight.shadow.radius = 1
+    object.sunLight.shadow.bias = -0.00035
 
-    const dirR = new DirectionalLight(0xffffff, 15);
-    dirR.position.set(20, 10, 0);
+    const dirR = new DirectionalLight(0xffffff, 15)
+    dirR.position.set(20, 10, 0)
 
-    object.moonLight = dirR;
-    object.moonLight.castShadow = false;
+    object.moonLight = dirR
+    object.moonLight.castShadow = false
 
-    object.add(object.moonLight);
-    object.add(object.moonLight.target);
+    object.add(object.moonLight)
+    object.add(object.moonLight.target)
 
-    object.moonLight.castShadow = false;
-    object.moonLight.shadow.camera.near = 0;
-    object.moonLight.shadow.camera.far = 150 * 2;
+    object.moonLight.castShadow = false
+    object.moonLight.shadow.camera.near = 0
+    object.moonLight.shadow.camera.far = 150 * 2
 
-    object.moonLight.shadow.camera.left = -5.123 * 4;
-    object.moonLight.shadow.camera.right = 5.123 * 4;
-    object.moonLight.shadow.camera.bottom = -5.123 * 4;
-    object.moonLight.shadow.camera.top = 5.123 * 4;
+    object.moonLight.shadow.camera.left = -5.123 * 4
+    object.moonLight.shadow.camera.right = 5.123 * 4
+    object.moonLight.shadow.camera.bottom = -5.123 * 4
+    object.moonLight.shadow.camera.top = 5.123 * 4
 
-    object.moonLight.shadow.mapSize.width = 512;
-    object.moonLight.shadow.mapSize.height = 512;
-    object.moonLight.shadow.radius = 1;
-    object.moonLight.shadow.bias = -0.00035;
+    object.moonLight.shadow.mapSize.width = 512
+    object.moonLight.shadow.mapSize.height = 512
+    object.moonLight.shadow.radius = 1
+    object.moonLight.shadow.bias = -0.00035
 
     //
-    object.sunLight.shadow.intensity = 1.0;
-    object.sunLight.intensity = 5.0;
-    object.moonLight.shadow.intensity = 1.0;
-    object.moonLight.intensity = 5.0;
+    object.sunLight.shadow.intensity = 1.0
+    object.sunLight.intensity = 5.0
+    object.moonLight.shadow.intensity = 1.0
+    object.moonLight.intensity = 5.0
 
-    scene.environmentIntensity = 0.35;
+    scene.environmentIntensity = 0.35
 
-    const scenePass = pass(scene, camera);
+    const scenePass = pass(scene, camera)
     scenePass.setMRT(
       mrt({
         output: output,
         diffuseColor: diffuseColor,
         normal: directionToColor(normalView),
-        velocity: velocity,
-      }),
-    );
+        velocity: velocity
+      })
+    )
 
-    const scenePassColor = scenePass.getTextureNode("output");
-    const scenePassDiffuse = scenePass.getTextureNode("diffuseColor");
-    const scenePassDepth = scenePass.getTextureNode("depth");
+    const scenePassColor = scenePass.getTextureNode('output')
+    const scenePassDiffuse = scenePass.getTextureNode('diffuseColor')
+    const scenePassDepth = scenePass.getTextureNode('depth')
 
-    const scenePassNormal = scenePass.getTextureNode("normal");
-    const scenePassVelocity = scenePass.getTextureNode("velocity");
+    const scenePassNormal = scenePass.getTextureNode('normal')
+    const scenePassVelocity = scenePass.getTextureNode('velocity')
 
     // const diffuseTexture = scenePass.getTexture('diffuseColor')
     // diffuseTexture.type = UnsignedByteType
@@ -131,79 +131,69 @@ export function EnvLoader({
     // normalTexture.type = UnsignedByteType
 
     const sceneNormal = sample((uv) => {
-      return colorToDirection(scenePassNormal.sample(uv));
-    });
+      return colorToDirection(scenePassNormal.sample(uv))
+    })
 
     //
 
     // gi
-    const giPass = ssgi(
-      scenePassColor,
-      scenePassDepth,
-      sceneNormal,
-      camera as any,
-    );
-    giPass.sliceCount.value = 2;
-    giPass.stepCount.value = 8;
-    giPass.backfaceLighting.value = 1;
-    giPass.radius.value = 25;
-    giPass.thickness.value = 2;
+    const giPass = ssgi(scenePassColor, scenePassDepth, sceneNormal, camera as any)
+    giPass.sliceCount.value = 2
+    giPass.stepCount.value = 8
+    giPass.backfaceLighting.value = 1
+    giPass.radius.value = 25
+    giPass.thickness.value = 2
 
     // composite
-    const gi = giPass.rgb;
-    const ao = giPass.a;
+    const gi = giPass.rgb
+    const ao = giPass.a
 
     const compositePass = vec4(
       add(scenePassColor.rgb.mul(ao), scenePassDiffuse.rgb.mul(gi)),
-      scenePassColor.a,
-    );
-    compositePass.name = "Composite";
+      scenePassColor.a
+    )
+    compositePass.name = 'Composite'
 
     // traa
-    const traaPass = traa(
-      compositePass,
-      scenePassDepth,
-      scenePassVelocity,
-      camera,
-    );
+    const traaPass = traa(compositePass, scenePassDepth, scenePassVelocity, camera)
 
-    const bloomPass = bloom(compositePass, 0.1, 0.2, 1.0);
+    const bloomPass = bloom(compositePass, 0.1, 0.2, 1.0)
 
-    const postProcessing = new PostProcessing(renderer as any);
+    const postProcessing = new PostProcessing(renderer as any)
 
-    postProcessing.outputNode = add(traaPass, bloomPass.mul(0.25));
+    postProcessing.outputNode = add(traaPass, bloomPass.mul(0.25))
 
-    postProcessing.needsUpdate = true;
+    postProcessing.needsUpdate = true
 
     rgbeLoader.loadAsync(url).then((texture) => {
-      texture.mapping = EquirectangularReflectionMapping;
-      scene.background = texture;
-      scene.environment = texture;
+      texture.mapping = EquirectangularReflectionMapping
+      scene.background = texture
+      scene.environment = texture
 
       setSun(
         <group name="light-player-target">
           <primitive object={object}></primitive>
-        </group>,
-      );
+        </group>
+      )
 
       setFnc(() => {
         return () => {
-          postProcessing.render();
-        };
-      });
+          postProcessing.render()
+        }
+      })
 
       //   useAppState.setState({ visible: true });
-    });
+    })
 
     return () => {
-      dirL.removeFromParent();
-    };
-  }, [url, scene, env]);
+      dirL.removeFromParent()
+    }
+  }, [url, scene, env])
 
   //
   useFrame(() => {
-    fnc();
-  }, 10);
+    fnc()
+  }, 10)
 
-  return <>{sun}</>;
+  return <>{sun}</>
 }

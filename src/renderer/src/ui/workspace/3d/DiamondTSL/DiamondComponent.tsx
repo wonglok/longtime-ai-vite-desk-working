@@ -186,6 +186,8 @@ export function DiamondCompos({}) {
         document.body.removeChild(gui.domElement)
         gui.destroy()
       }
+    } else {
+      return () => {}
     }
   }, [])
 
