@@ -9,7 +9,6 @@ interface LMStudioManagerProps {
 }
 
 const DEFAULT_MODELS = [
-  //
   {
     id: 'qwen.qwen3-vl-embedding-2b',
     huggingFaceID: 'Qwen/Qwen3-VL-Embedding-2B',
@@ -21,7 +20,6 @@ const DEFAULT_MODELS = [
   },
 
   {
-    //
     id: `google/gemma-3-4b`,
     huggingFaceID: 'google/gemma-3-4b',
     ctxWin: 100000,

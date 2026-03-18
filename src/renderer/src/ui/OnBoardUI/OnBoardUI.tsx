@@ -36,6 +36,9 @@ export function OnBoardUI() {
           <div className="text-white text-shadow-2xs text-[50px] mb-3 flex justify-center items-center mx-12">
             HyperEgg
           </div>
+          <div className="text-white text-shadow-2xs text-[15px] mb-3 flex justify-center items-center mx-12">
+            Workspaces:
+          </div>
           <div className="text-white text-shadow-2xs text-center">
             {spaces.map((space) => {
               return (

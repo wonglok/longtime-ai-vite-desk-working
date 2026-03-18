@@ -24,11 +24,7 @@ import {
   FrameIcon,
   PieChartIcon,
   MapIcon,
-  GalleryHorizontal,
-  EggFried,
-  EggIcon,
-  EggOff,
-  AxeIcon
+  EggIcon
 } from 'lucide-react'
 
 // import electronSVG from '../../src/renderer/src/assets/electron.svg'
