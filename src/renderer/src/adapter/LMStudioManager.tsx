@@ -12,35 +12,54 @@ const DEFAULT_MODELS = [
   //
   {
     id: 'qwen.qwen3-vl-embedding-2b',
+    huggingFaceID: 'Qwen/Qwen3-VL-Embedding-2B',
     desc: 'Embed Images & Text',
     name: 'qwen3-vl-embedding-2b',
-    type: 'Text and Image Embedding',
+    note: 'Text and Image Embedding',
+    ctxWin: 4096,
     needItem: true
   },
 
   {
+    //
+    id: `google/gemma-3-4b`,
+    huggingFaceID: 'google/gemma-3-4b',
+    ctxWin: 100000,
+    memory: '13.5 GB',
+    desc: 'Low',
+    name: 'google/gemma-3-4b',
+    note: 'Text and Image Embedding',
+    needItem: false
+  },
+
+  {
     id: 'qwen/qwen3.5-4b',
+    huggingFaceID: 'unsloth/Qwen3.5-4B-GGUF',
     desc: 'Low',
     name: 'qwen/qwen3.5-4b',
-    type: 'LLM',
+    note: 'LLM',
     ctxWin: 100000,
     memory: '13.5 GB',
     needItem: true
   },
+
   {
     id: 'qwen/qwen3.5-9b',
+    huggingFaceID: 'Qwen/Qwen3.5-9B',
     desc: 'Medium',
     name: 'qwen/qwen3.5-9b',
-    type: 'LLM',
+    note: 'LLM',
     ctxWin: 100000,
     memory: '13.5 GB',
     needItem: false
   },
+
   {
     id: 'qwen/qwen3.5-35b-a3b',
+    huggingFaceID: 'Qwen/Qwen3.5-35B-A3B',
     desc: 'High',
     name: 'qwen/qwen3.5-35b-a3b',
-    type: 'Smart',
+    note: 'Smart',
     ctxWin: 256000,
     memory: '49.02 GB',
     needItem: false
@@ -199,6 +218,9 @@ export const LMStudioManager: React.FC<LMStudioManagerProps> = ({
 
   const handleDownload = async (modelId: string): Promise<void> => {
     try {
+      if (!modelId) {
+        throw new Error(`modelId not found:${modelId}`)
+      }
       await sdk.downloadModel(modelId)
       // Check if it's currently downloading
       let timer: any = 0
@@ -207,9 +229,9 @@ export const LMStudioManager: React.FC<LMStudioManagerProps> = ({
 
         timer = setInterval(async () => {
           const downloadStatus = await sdk.getDownloadStatus(downloadJob.job_id)
-
           console.log(downloadStatus)
         }, 500)
+
         // if (
         // 	downloadStatus.status === "downloading" ||
         // 	downloadStatus.status === "pending"
@@ -229,6 +251,7 @@ export const LMStudioManager: React.FC<LMStudioManagerProps> = ({
 
       refreshStatus()
     } catch (err) {
+      console.log(err)
       setError(
         `Failed to download ${modelId}: ${err instanceof Error ? err.message : 'Unknown error'}`
       )
@@ -263,8 +286,8 @@ export const LMStudioManager: React.FC<LMStudioManagerProps> = ({
       for (const model of DEFAULT_MODELS.filter((r) => r.needItem)) {
         const currentStatus = models.find((m) => m.id === model.id)
         if (currentStatus?.status === 'not_downloaded') {
-          await handleDownload(model.id)
-          await handleLoad(model.id)
+          // await handleDownload(model.id)
+          // await handleLoad(model.id)
         }
         if (currentStatus?.status === 'downloaded') {
           await handleLoad(model.id)
@@ -448,7 +471,7 @@ export const LMStudioManager: React.FC<LMStudioManagerProps> = ({
                   marginTop: '12px'
                 }}
               >
-                {getActionButton(modelState)}
+                {getActionButton({ ...defaultModel, ...modelState })}
               </div>
             </div>
           )
