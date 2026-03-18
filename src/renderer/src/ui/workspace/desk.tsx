@@ -45,9 +45,14 @@ function Content() {
   return (
     <>
       <OrbitControls object-position={[0, 0.5, 1.5]}></OrbitControls>
+
+      {/*  */}
+
       <group rotation={[0.0 * Math.PI, 0, 0]}>
         <DiamondCompos></DiamondCompos>
       </group>
+
+      {/*  */}
     </>
   )
 }

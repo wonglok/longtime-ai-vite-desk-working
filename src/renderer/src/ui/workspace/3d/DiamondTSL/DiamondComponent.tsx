@@ -25,6 +25,7 @@ export function DiamondCompos({}) {
     //
     // scene.background = envMap
     scene.environment = envMap
+    scene.environmentIntensity = 1
     scene.backgroundBlurriness = 0.5
     scene.backgroundIntensity = 1.5
     //
@@ -63,8 +64,8 @@ export function DiamondCompos({}) {
     const scene = new Scene()
     scene.environment = envMap
     scene.background = envMap
-    scene.backgroundIntensity = 1.23
-    scene.backgroundIntensity = 1.5
+    scene.backgroundIntensity = 1.25
+    scene.backgroundIntensity = 2
     let clock = new Timer()
     const capture = ({}: any) => {
       clock.update(window.performance.now())
