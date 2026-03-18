@@ -11,6 +11,7 @@ import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 
 import 'nprogress/nprogress.css'
+import { useEffect } from 'react'
 // import { ArrayBlock } from '@renderer/ui/ArrayBlock/ArrayBlock'
 // import { TodoKanban } from '@renderer/ui/ArrayBlock/TodoKanban'
 // import { Brain } from '@renderer/ui/ArrayBlock/Brain'
@@ -19,8 +20,12 @@ import 'nprogress/nprogress.css'
 // import { SearchBar } from '@renderer/effects/SearchBar'
 
 export function WorkspaceParent({ name = '', children }) {
+  if (!name) {
+    return <div className="w-full h-full flex items-center justify-center">Missing Workspace</div>
+  }
+
   return (
-    <SidebarProvider>
+    <SidebarProvider defaultOpen={true}>
       <AppSidebar name={name} />
       <SidebarInset>{children}</SidebarInset>
     </SidebarProvider>

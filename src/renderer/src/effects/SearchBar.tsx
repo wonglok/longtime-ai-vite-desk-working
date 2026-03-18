@@ -9,9 +9,11 @@ import { MathUtils } from 'three'
 export function SearchBar({}) {
   return (
     <>
-      <Canvas gl={{ alpha: true }}>
-        <ViewArea active={true}></ViewArea>
-      </Canvas>
+      <div className="w-full h-full">
+        <Canvas gl={{ alpha: true }}>
+          <ViewArea active={true}></ViewArea>
+        </Canvas>
+      </div>
     </>
   )
 }
@@ -22,7 +24,6 @@ function ViewArea({ active }) {
   let viewport = useThree((r) => r.viewport)
 
   useEffect(() => {
-    scene.background = new Color('#ffffff')
     gl.setClearAlpha(0)
     gl.setClearColor('#ffffff', 0)
   }, [scene])
@@ -70,11 +71,14 @@ function ViewArea({ active }) {
 
         color = mix(color, vec3(avgColor), sin(3.141592 * 0.4 * (vUv.y)));
 
-        gl_FragColor = vec4(vec3(
+        gl_FragColor = vec4(
+          vec3(
             color.r,
             color.g,
             color.b
-        ), opacity);
+          ), 
+          (color.r + color.g + color.b) / 3.0
+        );
     }
 
     `

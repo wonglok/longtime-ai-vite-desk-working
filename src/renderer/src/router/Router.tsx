@@ -11,13 +11,16 @@ import { Home } from '@renderer/pages/Home'
 // import { RecursiveAI } from '@renderer/pages/RecursiveAI'
 // import { Skill } from '@renderer/pages/Skill'
 import { OnBoard } from '@renderer/pages/OnBoard'
-import { WorkspaceParent } from '@renderer/pages/WorkspaceParent'
-import { WorkDash } from '@renderer/pages/workspace/dash'
+import { WorkspaceParent } from '@renderer/ui/workspace/WorkspaceParent'
+import { WorkHome } from '@renderer/ui/workspace/home'
+import { WorkDesk } from '@renderer/ui/workspace/desk'
 
 export const AppRouter = () => (
   <>
     <Switch>
-      {/* <Route path="/embeddings">
+      {/* 
+
+      <Route path="/embeddings">
         <Embeddings></Embeddings>
       </Route>
 
@@ -35,7 +38,9 @@ export const AppRouter = () => (
 
       <Route path="/recursive-ai">
         <RecursiveAI></RecursiveAI>
-      </Route> */}
+      </Route>
+      
+      */}
 
       <Route path="/onboard">
         <OnBoard></OnBoard>
@@ -51,11 +56,21 @@ export const AppRouter = () => (
         )}
       </Route>
 
+      <Route path="/workspace/:name/desktop">
+        {(params: any) => (
+          <>
+            <WorkspaceParent name={params.name}>
+              <WorkDesk name={params.name}></WorkDesk>
+            </WorkspaceParent>
+          </>
+        )}
+      </Route>
+
       <Route path="/workspace/:name">
         {(params: any) => (
           <>
             <WorkspaceParent name={params.name}>
-              <WorkDash name={params.name}></WorkDash>
+              <WorkHome name={params.name}></WorkHome>
             </WorkspaceParent>
           </>
         )}

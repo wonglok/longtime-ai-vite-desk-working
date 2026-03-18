@@ -1,9 +1,9 @@
-import { app } from 'electron'
-import { makeDirectory } from 'make-dir'
-import promptTool from 'custom-electron-prompt'
+// import { app } from 'electron'
+// import { makeDirectory } from 'make-dir'
+// import promptTool from 'custom-electron-prompt'
 import fs from 'fs'
-import path from 'path'
-import { getDirectoriesSync, WorkSpacesPath } from './constants'
+// import path from 'path'
+import { WorkSpacesPath } from './constants'
 
 export async function checkWorkspace({
   mainWindow,

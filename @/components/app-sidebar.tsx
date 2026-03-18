@@ -24,11 +24,24 @@ import {
   FrameIcon,
   PieChartIcon,
   MapIcon,
-  EggIcon
+  EggIcon,
+  CastleIcon,
+  Laptop2Icon,
+  LaptopIcon,
+  SmilePlusIcon,
+  SparkleIcon,
+  SparklesIcon,
+  HomeIcon,
+  WorkflowIcon,
+  Building2,
+  SquareActivity,
+  LayoutDashboard,
+  SquareDashedBottom,
+  LucideLayoutDashboard
 } from 'lucide-react'
 import { navigate } from 'wouter/use-browser-location'
-import { AuraExample } from '@renderer/effects/AuraExample'
-import { SearchBar } from '@renderer/effects/SearchBar'
+// import { AuraExample } from '@renderer/effects/AuraExample'
+// import { SearchBar } from '@renderer/effects/SearchBar'
 
 // import electronSVG from '../../src/renderer/src/assets/electron.svg'
 // import { AuraExample } from '@renderer/effects/AuraExample'
@@ -194,7 +207,7 @@ export function AppSidebar({
   name = '',
   ...props
 }: React.ComponentProps<typeof Sidebar> & { name?: string }) {
-  let [spaces, setSpaces] = React.useState([])
+  let [workspaces, setWorkspaces] = React.useState([])
   let [mainMenu, setMainMenu] = React.useState([])
   let [subMenu, setSubMenu] = React.useState([])
   React.useEffect(() => {
@@ -213,12 +226,20 @@ export function AppSidebar({
       controller.getDataAsync().then((data) => {
         //
 
-        setSpaces(
+        //
+        setWorkspaces(
           data.workspaces.map((item) => {
+            let icon = <LucideLayoutDashboard />
+            if (item.name.toLowerCase() === 'personal') {
+              icon = <HomeIcon></HomeIcon>
+            }
+            if (item.name.toLowerCase() === 'work') {
+              icon = <Building2></Building2>
+            }
             return {
               active: item.name === name,
               name: item.name,
-              logo: <TerminalIcon />,
+              logo: icon,
               plan: `Workspace`
             }
           })
@@ -253,9 +274,14 @@ export function AppSidebar({
             isActive: true,
             items: [
               {
-                title: 'Home',
+                title: 'Dashboard',
                 url: `/workspace/${name}`
+              },
+              {
+                title: 'Desktop',
+                url: `/workspace/${name}/desktop`
               }
+
               // {
               //   title: 'Setup',
               //   url: `/workspace/${name}/setup`
@@ -305,6 +331,7 @@ export function AppSidebar({
           //     }
           //   ]
           // },
+          //
           // {
           //   title: 'Settings',
           //   url: '#',
@@ -358,6 +385,7 @@ export function AppSidebar({
 
       //
     }, 1500)
+
     return () => {
       clearInterval(timer)
       window.removeEventListener('reload-workspaces', reload)
@@ -369,7 +397,7 @@ export function AppSidebar({
       <>{/* <img src={electronSVG} /> */}</>
 
       <SidebarHeader>
-        <TeamSwitcher key={JSON.stringify(spaces)} teams={spaces} />
+        <TeamSwitcher key={JSON.stringify(workspaces)} teams={workspaces} />
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={mainMenu} />
