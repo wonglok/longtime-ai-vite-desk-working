@@ -158,8 +158,13 @@ export const LMStudioManager: React.FC<LMStudioManagerProps> = ({
 
   const refreshStatus = useCallback(async () => {
     try {
+      await new Promise((resolve) => {
+        setTimeout(resolve, 150)
+      })
+
       setModels([])
       setError(null)
+
       const downloadedModels = await sdk.listModels()
 
       const updatedModels = await Promise.all(
@@ -221,7 +226,7 @@ export const LMStudioManager: React.FC<LMStudioManagerProps> = ({
       if (!modelId) {
         throw new Error(`modelId not found:${modelId}`)
       }
-      await sdk.downloadModel(modelId)
+      // await sdk.downloadModel(modelId)
       // Check if it's currently downloading
       let timer: any = 0
       try {
