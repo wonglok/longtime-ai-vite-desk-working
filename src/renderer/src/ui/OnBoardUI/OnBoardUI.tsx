@@ -53,9 +53,11 @@ export function OnBoardUI() {
 
   return (
     <>
-      <div className=" absolute top-0 left-0 w-full h-full bg-gray-200 from-[#b6ffff] to-[#fcc63e] bg-linear-[0deg] ">
+      <div className=" absolute top-0 left-0 w-full h-full bg-gray-200 from-[#5bffff] to-[#ffc020] bg-linear-[0deg] ">
+        <div className=" absolute top-[0px] left-[0px] w-full h-full  bg-radial from-[rgba(255,195,177,0.72)] to-transparent"></div>
         <DiamondCanvas></DiamondCanvas>
       </div>
+
       <div className=" absolute top-0 left-0 w-full h-full">
         <div className="w-full h-full flex items-center justify-center  relative">
           <div>

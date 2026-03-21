@@ -77,8 +77,12 @@ export function DiamondCompos({}) {
       clock.update(window.performance.now())
       //
 
+      let time = clock.getElapsed()
       let delta = clock.getDelta()
       mesh.rotation.y += delta / 15
+      mesh.rotation.x = Math.sin(time * 1.25) * 0.15
+      mesh.rotation.z = Math.cos(time * 1.25) * 0.15
+
       // mesh.getWorldPosition(cubeCam.position)
 
       // systemForDiamond.uniforms.centreOffset.value.copy(cubeCam.position)
