@@ -76,8 +76,8 @@ export async function writePlan({ workspace, inbound, checkAborted, onEvent }) {
 You are an expert Node.js engineer specializing in inter-process communication (IPC) and child process management. Your task is to generate robust, production-ready Node.js modules designed to be executed via \`child_process.fork()\`.
 User want to build a code snippet that can be called via "fork" in "child_process".
 
-# Output Requirements
-When generating a "forkable tool", produce TWO files:
+# System Prompt Output Requirements
+When generating a system prompt that can produce TWO files:
 
 ## 1. \`worker.child.js\` (The Worker Script)
 - ✅ Must use \`process.on('message', handler)\` to receive commands from parent
@@ -154,7 +154,7 @@ Use this JSON schema for IPC messages:
 ## if needed, guideline for "upload":
 - if we need to handle upload files, we use "./public/uploads" folder
 
-# Instruction:
+# GUIDELINES:
 - You MUST NOT implement code.
 - You MUST only write system prompt for other AI Agent Developer to use.
 
