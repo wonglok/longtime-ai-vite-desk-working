@@ -19,8 +19,8 @@ const WorkTask = z.object({
         content: z.string()
       })
     )
-    .describe('what codes needs to be written for the current task, max 2 files.')
-    .max(2),
+    .describe('what file needs to be written for the current task, 1 file max')
+    .max(1),
 
   // fileToRead: z
   //   .array(
