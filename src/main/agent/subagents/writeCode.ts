@@ -190,6 +190,8 @@ MUST NOT run "npm run dev"
 YOU MUST WORK Within folder: "${workspace}/code"
 
 Please also output an "skill.md" markdown file with all example features as well.
+Install all the node_modules via npm.
+
 `
     })
 

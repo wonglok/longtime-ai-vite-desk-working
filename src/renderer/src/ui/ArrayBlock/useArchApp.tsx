@@ -27,11 +27,10 @@ export const useArchApp = create(() => {
 
     appModel: `qwen/qwen3.5-4b`,
 
-    appName: 'website-analyser',
+    appName: 'web-analyser',
     appUserPrompt: `
-I want to build a cli tool.
 
-The cli-tool should be able to receive input of a website address, then the tool can spin up a browser to take a fullpage screenshot, make a thumbnail and collect some essential text from the webpage. and then it will send to AI to generate inspirational notes. I want to use lmstudio and "uses qwen/qwen3.5-4b" AI model
+The tool should be able to receive input of a website address, then the tool can spin up a browser to take a fullpage screenshot, make a thumbnail and collect some essential text from the webpage. and then it will send to AI to generate inspirational notes. I want to use lmstudio and "uses qwen/qwen3.5-4b" AI model
 `.trim(),
 
     // appModel: `qwen/qwen3.5-35b-a3b`,
