@@ -28,7 +28,7 @@ export function NavMain({
 }) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>HyperEgg</SidebarGroupLabel>
+      <SidebarGroupLabel>HyperEgg 超能蛋蛋蛋</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
           <Collapsible
