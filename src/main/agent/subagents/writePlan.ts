@@ -173,8 +173,8 @@ Your response should follow this structure:
           ],
 
           stream: true,
-          reasoning_effort: 'medium',
-          temperature: 0.5
+          reasoning_effort: 'high',
+          temperature: 0.0
           // response_format: {
           //   type: 'json_schema',
           //   json_schema: {
@@ -188,7 +188,9 @@ Your response should follow this structure:
       .then(async (response) => {
         let plan = ''
         for await (let event of response) {
-          plan += event.choices[0].delta.content || ''
+          // console.log(event.choices[0].delta)
+          let delta = event.choices[0].delta as any
+          plan += delta.content || delta.reasoning_content || ''
 
           onEvent({ type: 'stream', stream: removeThinkTags(plan) })
         }

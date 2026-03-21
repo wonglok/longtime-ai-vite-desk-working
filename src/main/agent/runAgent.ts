@@ -85,7 +85,7 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
   let state = {
     memory: [],
     step: {
-      oneFileToBeWritten: { path: '', content: '' },
+      fileToBeWritten: { path: '', content: '' },
       terminalCalls: [],
       whatTodoNext: '',
       actionLog: '',

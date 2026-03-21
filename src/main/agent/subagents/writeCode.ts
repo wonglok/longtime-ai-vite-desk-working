@@ -12,7 +12,7 @@ import { join } from 'path'
 const WorkTask = z.object({
   // whatToDoNow: z.string(),
 
-  oneFileToBeWritten: z.object({
+  fileToBeWritten: z.object({
     path: z.string(),
     content: z.string()
   }),
@@ -74,7 +74,6 @@ ${plan}
 
 # GUIDELINES:
 
-Write an "skill.md" markdown file with all example features as well.
 MUST avoid duplicated export of same code modules
 MUST avoid duplicated import of node modules
 MUST NOT run "npm run dev"
@@ -260,8 +259,8 @@ YOU MUST WORK Within folder: "${workspace}/code"
       beforeRun: nextStep.terminalCalls
     })
 
-    if (nextStep.oneFileToBeWritten) {
-      for await (let file of [nextStep.oneFileToBeWritten]) {
+    if (nextStep.fileToBeWritten) {
+      for await (let file of [nextStep.fileToBeWritten]) {
         //
         let path = file.path
         let content = file.content
