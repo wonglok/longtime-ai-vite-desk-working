@@ -5,6 +5,9 @@ import { z } from 'zod'
 import { scanFolder } from '../utils/getSummary'
 import { writeFile } from 'fs/promises'
 // import moment from 'moment'
+// import { Stonebox } from '@plust/stonebox'
+import { execCommand } from './execCommand'
+import { join } from 'path'
 
 const WorkTask = z.object({
   // whatToDoNow: z.string(),
@@ -17,7 +20,7 @@ const WorkTask = z.object({
       })
     )
     .describe('what codes needs to be written for the current task, max 3 files.')
-    .max(5),
+    .max(3),
 
   // fileToRead: z
   //   .array(
@@ -32,17 +35,21 @@ const WorkTask = z.object({
   terminalCalls: z
     .array(
       z.object({
-        command: z.string().describe('command for terminal')
+        command: z.string().describe('1 command only')
       })
     )
-    .describe('"terminal commands')
+    .describe('"terminal spawns')
     .max(1),
 
   actionLog: z
     .string()
     .describe(
       'short action log 1-2 short sentences for AI agent to follow up the progress of the current coding todo task'
-    )
+    ),
+
+  applicationIsFullyBuiltAndPassedTest: z
+    .boolean()
+    .describe('applcation is fully built and passed all tests')
 })
 
 export type ExecStep = z.infer<typeof WorkTask>
@@ -64,17 +71,20 @@ export async function writeCode({
   let prepareMessages = async (step: ExecStep) => {
     const messages: ChatCompletionMessageParam[] = []
 
+    //
+    //
     messages.push({
       role: 'system',
       content: `
 ${plan}
 
-# MUST FOLLOW GUIDELINES:
-MUST ONLY WORK IN (workspace) path: "${workspace}/code"
+# GUIDELINES:
 
 MUST avoid duplicated export of same code modules
 MUST avoid duplicated import of node modules
 MUST NOT run "npm run dev"
+
+YOU MUST WORK Within folder: "${workspace}/code"
 `.trim()
     })
 
@@ -170,7 +180,15 @@ ${step.whatTodoNext}
 
     messages.push({
       role: 'user',
-      content: 'keep going.'
+      content: `continue work if needed. thank you for all your hard work! \n 
+# Guidelines:
+
+MUST avoid duplicated export of same code modules
+MUST avoid duplicated import of node modules
+MUST NOT run "npm run dev"
+
+YOU MUST WORK Within folder: "${workspace}/code"
+`
     })
 
     return messages
@@ -210,43 +228,20 @@ ${step.whatTodoNext}
             schema: WorkTask.toJSONSchema()
           }
         },
-        reasoning_effort: 'low',
+        // reasoning_effort: 'low',
         temperature: 0.2
       },
       { signal }
     )
-    .then(async (response) => {
+    .then((response) => {
+      console.log(response.choices[0].message.content)
+
       return JSON.parse(response.choices[0].message.content!) as ExecStep
     })
     .catch((r) => {
       console.error(r)
       return null
     })
-
-  // const review: ReviewTaskStep = await openai.chat.completions
-  //   .create(
-  //     {
-  //       model: inbound.model,
-  //       messages: messages,
-  //       response_format: {
-  //         type: 'json_schema',
-  //         json_schema: {
-  //           name: 'reviewtask',
-  //           schema: ReviewTask.toJSONSchema()
-  //         }
-  //       },
-  //       reasoning_effort: 'low',
-  //       temperature: 0.2
-  //     },
-  //     { signal }
-  //   )
-  //   .then(async (response) => {
-  //     return JSON.parse(response.choices[0].message.content!) as ExecStep
-  //   })
-  //   .catch((r) => {
-  //     console.error(r)
-  //     return null
-  //   })
 
   onEvent({
     type: 'nProgressStart',
@@ -271,7 +266,11 @@ ${step.whatTodoNext}
         let path = file.path
         let content = file.content
 
-        console.log(path, content)
+        console.log(path, content, workspace)
+
+        if (!path.startsWith(workspace)) {
+          path = join(workspace, path)
+        }
 
         await writeFile(path, content, 'utf8').catch((er) => {
           console.error(er)
@@ -280,6 +279,7 @@ ${step.whatTodoNext}
         //
       }
     }
+
     if (nextStep.terminalCalls && nextStep.terminalCalls.length) {
       //
       for (let each of [...nextStep.terminalCalls]) {
@@ -292,10 +292,35 @@ ${step.whatTodoNext}
           `${each.command}`.includes('npm run dev') ||
           `${each.command}`.includes('yarn run dev')
         ) {
+          execCommand({
+            spawnCmd: 'npm',
+            args: ['run', 'dev'],
+            onEvent,
+            cwd: `${workspace}/code`
+          }).then((data) => {
+            console.log(data)
+          })
+
+          console.log(each.command)
+          console.log((each as any).result)
+          ;(each as any).successful = true
+          ;(each as any).result = `Running npm run dev`
+          ;(each as any).timestamp = new Date().toString()
+
+          onEvent({
+            type: 'cmd_end',
+            cmd_end: each.command
+          })
+
+          onEvent({
+            type: 'duringRun',
+            duringRun: nextStep.terminalCalls
+          })
+
           continue
         }
 
-        let res: any = await new Promise((resolve) => {
+        let res: any = await new Promise(async (resolve) => {
           return exec(
             `${each.command}`,
             {
@@ -310,7 +335,6 @@ ${step.whatTodoNext}
                 console.error(`error: ${stderr}`)
                 return resolve({ successful: false, result: `${stderr}` })
               }
-
               resolve({ successful: true, result: `${stdout}` })
             }
           )
