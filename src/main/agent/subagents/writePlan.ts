@@ -67,6 +67,7 @@ export async function writePlan({ workspace, inbound, checkAborted, onEvent }) {
     const plan = await openai.chat.completions
       .create(
         {
+          max_completion_tokens: 4096,
           model: inbound.model,
           messages: [
             {
