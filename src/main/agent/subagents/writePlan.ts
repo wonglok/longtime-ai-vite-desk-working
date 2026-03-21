@@ -111,6 +111,7 @@ When creating the system prompt for the Coding Agent, you must ensure it include
     - Configure "package.json" correctly ("bin" field, "main", "types").
     - Ensure the tool is executable globally ("npm link" compatible).
     - Consider bundling instructions (e.g., "esbuild" or "pkg") for single-binary distribution if applicable.
+    - Include "@types/node" in "package.json"
 
 5. **Code Quality:**
     - Modular structure (separation of concerns).

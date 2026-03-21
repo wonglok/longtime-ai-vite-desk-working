@@ -7,15 +7,18 @@ import { writeFile } from 'fs/promises'
 // import moment from 'moment'
 // import { Stonebox } from '@plust/stonebox'
 import { execCommand } from './execCommand'
-import { join } from 'path'
+import { dirname, join } from 'path'
+import { makeDirectory } from 'make-dir'
 
 const WorkTask = z.object({
   // whatToDoNow: z.string(),
 
-  fileToBeWritten: z.object({
-    path: z.string(),
-    content: z.string()
-  }),
+  fileToBeWritten: z
+    .object({
+      path: z.string(),
+      content: z.string()
+    })
+    .optional(),
 
   // fileToRead: z
   //   .array(
@@ -270,6 +273,8 @@ YOU MUST WORK Within folder: "${workspace}/code"
         if (!path.startsWith(`${workspace}/code`)) {
           path = join(`${workspace}`, 'code', path)
         }
+
+        await makeDirectory(dirname(path))
 
         await writeFile(path, content, 'utf8').catch((er) => {
           console.error(er)
