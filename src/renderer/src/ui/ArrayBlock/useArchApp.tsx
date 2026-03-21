@@ -29,9 +29,12 @@ export const useArchApp = create(() => {
 
     appName: 'web-analyser',
     appUserPrompt: `
-
-The tool should be able to receive input of a website address, then the tool can spin up a browser to take a fullpage screenshot, make a thumbnail and collect some essential text from the webpage. and then it will send to AI to generate inspirational notes. I want to use lmstudio and "uses qwen/qwen3.5-4b" AI model
-`.trim(),
+The tool should be able to receive input of a website url, 
+then the tool can spin up a browser to take a fullpage screenshot, 
+make a thumbnail and collect some essential text from the webpage. 
+and then it will send to AI to generate inspirational notes. 
+Use lmstudio and pick "qwen/qwen3.5-4b" AI model as default AI
+    `.trim(),
 
     // appModel: `qwen/qwen3.5-35b-a3b`,
 
