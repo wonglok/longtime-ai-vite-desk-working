@@ -40,6 +40,7 @@ import {
   LucideLayoutDashboard
 } from 'lucide-react'
 import { navigate } from 'wouter/use-browser-location'
+import { DiamondCanvas } from '@renderer/ui/workspace/3d/DiamondTSL/DiamondCanvas'
 // import { AuraExample } from '@renderer/effects/AuraExample'
 // import { SearchBar } from '@renderer/effects/SearchBar'
 
@@ -358,7 +359,13 @@ export function AppSidebar({
         ])
       })
     }
+
+    //
+
     reload()
+
+    //
+
     window.addEventListener('reload-workspaces', reload)
 
     let timer = setInterval(() => {
@@ -403,9 +410,13 @@ export function AppSidebar({
         <NavMain items={mainMenu} />
         <NavProjects projects={subMenu} />
       </SidebarContent>
-      {/* <SidebarFooter>
-        <NavUser user={data.user} />
-      </SidebarFooter> */}
+      <SidebarFooter>
+        <div className="h-[280px]">
+          <DiamondCanvas></DiamondCanvas>
+        </div>
+
+        {/* <NavUser user={data.user} /> */}
+      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   )

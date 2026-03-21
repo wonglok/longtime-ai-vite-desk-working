@@ -28,7 +28,13 @@ glbLoader.setDRACOLoader(dracoLoader)
 
 //
 
-export const CanvasGPU: any = ({ children }: { children?: any }) => {
+export const CanvasGPU: any = ({
+  children,
+  webgl = false
+}: {
+  webgl?: boolean
+  children?: any
+}) => {
   const ref = useRef<HTMLDivElement>(null)
 
   let dpr = typeof window !== 'undefined' ? window?.devicePixelRatio || 1 : 1
@@ -55,7 +61,7 @@ export const CanvasGPU: any = ({ children }: { children?: any }) => {
             const renderer = new THREE.WebGPURenderer({
               ...(props as any),
               alpha: true,
-              antialias: false,
+              antialias: true,
               multiview: true
             })
 

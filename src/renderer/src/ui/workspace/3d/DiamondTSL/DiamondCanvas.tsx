@@ -2,7 +2,7 @@ import { Suspense } from 'react'
 import { CanvasGPU } from '../CanvasGPU/CanvasGPU'
 import { DiamondCompos } from './DiamondComponent'
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
-import { BloomPipeline } from '../CanvasGPU/BloomPipeline'
+// import { BloomPipeline } from '../CanvasGPU/BloomPipeline'
 
 export function DiamondCanvas({}) {
   //
@@ -38,7 +38,7 @@ function Content() {
         ></PerspectiveCamera>
         <OrbitControls object-position={[0, 0.0, 2]} makeDefault></OrbitControls>
 
-        <BloomPipeline></BloomPipeline>
+        {/* <BloomPipeline></BloomPipeline> */}
       </Suspense>
     </>
   )

@@ -19,7 +19,7 @@ import { useEffect } from 'react'
 // import { Term } from '@renderer/ui/ArrayBlock/Term'
 // import { SearchBar } from '@renderer/effects/SearchBar'
 
-export function WorkspaceParent({ name = '', children }) {
+export function WorkspaceLayout({ name = '', children }) {
   if (!name) {
     return <div className="w-full h-full flex items-center justify-center">Missing Workspace</div>
   }

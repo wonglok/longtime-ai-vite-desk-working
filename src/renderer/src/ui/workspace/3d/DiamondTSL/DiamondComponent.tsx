@@ -11,6 +11,8 @@ import dia from '../assets/egg-lowpoly.glb?url'
 // import dia from '../assets/egg-lowpoly.glb?url'
 // import dia from '../assets/diamond.glb?url'
 import hdr from '../assets/factory.hdr?url'
+import { CubeRenderTarget } from 'three/webgpu'
+import { uv, vec3, vec4 } from 'three/tsl'
 export function DiamondCompos({}) {
   const gl = useThree((r) => r.gl)
 
@@ -18,22 +20,22 @@ export function DiamondCompos({}) {
 
   const [dAPI, setDiamond] = useState<any>(null)
 
-  const envMap = useEnvironment({ files: [hdr], colorSpace: 'srgb' })
-  const scene = useThree((r) => r.scene)
+  // const envMap = useEnvironment({ files: [hdr] })
+  // const scene = useThree((r) => r.scene)
+
+  // useEffect(() => {
+  //   //
+  //   // scene.background = envMap
+  //   // scene.environment = envMap
+  //   scene.environmentIntensity = 1
+  //   scene.backgroundBlurriness = 0.5
+  //   scene.backgroundIntensity = 1.5
+  //   //
+  // }, [scene])
 
   useEffect(() => {
     //
-    scene.background = envMap
-    scene.environment = envMap
-    scene.environmentIntensity = 1
-    scene.backgroundBlurriness = 0.5
-    scene.backgroundIntensity = 1.5
-    //
-  }, [scene])
-
-  useEffect(() => {
-    //
-    const cubeCamRtt = new WebGLCubeRenderTarget(256, {})
+    const cubeCamRtt = new CubeRenderTarget(256, {})
 
     const cubeCam = new CubeCamera(0.1, 500, cubeCamRtt)
 
@@ -51,7 +53,7 @@ export function DiamondCompos({}) {
     }) as any
 
     const systemForDiamond = getDiamondSystem({
-      envMapTex: cubeCamRtt.texture,
+      envMapTex: cubeCamRtt.texture as any,
       normalCubeTex: normalCubeMap
     })
 
@@ -62,8 +64,12 @@ export function DiamondCompos({}) {
     mesh.castShadow = true
     mesh.scale.setScalar(30)
     const scene = new Scene()
-    scene.environment = envMap
-    scene.background = envMap
+    // scene.environment = envMap
+    // scene.background = envMap
+
+    scene.environmentNode = vec3(uv().y.mul(0.5).add(0.25))
+    scene.backgroundNode = vec4(uv().y.mul(0.5).add(0.25))
+
     scene.backgroundIntensity = 1.25
     scene.backgroundIntensity = 2
     let clock = new Timer()
@@ -98,6 +104,8 @@ export function DiamondCompos({}) {
       gui.domElement.style.top = '10px'
       gui.domElement.style.right = '10px'
       gui.domElement.style.zIndex = '9999'
+
+      // set hidden
       gui.domElement.style.display = 'none'
 
       document.body.appendChild(gui.domElement)
@@ -191,10 +199,10 @@ export function DiamondCompos({}) {
     }
   }, [])
 
-  useFrame(({ scene }) => {
+  useFrame(({}) => {
     if (dAPI?.mesh) {
       dAPI.mesh.updateMatrixWorld(true)
-      dAPI.capture({ scene: scene })
+      dAPI.capture({})
     }
   })
 

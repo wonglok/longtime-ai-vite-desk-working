@@ -14,7 +14,7 @@ import { SearchBar } from '@renderer/effects/SearchBar'
 export function WorkHome({ name }) {
   return (
     <>
-      <div className="w-full h-full from-teal-100 to-sky-300 bg-linear-150 relative">
+      <div className="w-full h-full relative">
         {/* <div className=" absolute top-0 left-0 w-full h-full">
           <SearchBar></SearchBar>
         </div> */}

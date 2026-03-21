@@ -53,8 +53,8 @@ export function OnBoardUI() {
 
   return (
     <>
-      <div className=" absolute top-0 left-0 w-full h-full bg-gray-200 from-[#bfffff] to-[#ffda7e] bg-linear-[0deg] ">
-        <DiamondCanvas></DiamondCanvas>
+      <div className=" absolute top-0 left-0 w-full h-full bg-gray-200 from-[#b6ffff] to-[#fcc63e] bg-linear-[0deg] ">
+        {/* <DiamondCanvas></DiamondCanvas> */}
       </div>
       <div className=" absolute top-0 left-0 w-full h-full">
         <div className="w-full h-full flex items-center justify-center  relative">
@@ -66,7 +66,7 @@ export function OnBoardUI() {
               {spaces.map((space) => {
                 return (
                   <div
-                    className=" border p-2 rounded-lg text-#ffffff bg-[#000000]/20 cursor-pointer transition-colors hover:bg-[#6b46f2] hover:text-[#dbf9ff] select-none mb-3 flex justify-center items-center"
+                    className=" border p-2 rounded-lg text-#ffffff bg-[#000000]/20 cursor-pointer transition-colors hover:bg-[#8c8c8c] hover:text-[#ffffff] select-none mb-3 flex justify-center items-center"
                     key={space.path}
                     onClick={() => {
                       //

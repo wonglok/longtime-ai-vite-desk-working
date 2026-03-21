@@ -7,6 +7,7 @@ import {
   DirectionalLight,
   // EquirectangularReflectionMapping,
   Object3D,
+  PerspectiveCamera,
   UnsignedByteType
 } from 'three'
 import { BlendMode, NormalBlending, RenderPipeline, SRGBColorSpace } from 'three/webgpu'
@@ -109,9 +110,6 @@ export function BloomPipeline() {
       </group>
     )
 
-    //
-    //
-
     // set up MRT with emissive
 
     const mrtNode = mrt({
@@ -137,6 +135,18 @@ export function BloomPipeline() {
 
     const pipeline = new RenderPipeline(renderer as any, outputNode)
 
+    const onResize = () => {
+      pipeline.needsUpdate = true
+      let rect = renderer.domElement.getBoundingClientRect()
+      if (rect) {
+        ;(camera as PerspectiveCamera).aspect = rect.width / rect.height
+        camera.updateProjectionMatrix()
+        // renderer.setSize(rect.width, rect.height)
+        // renderer.setPixelRatio(window.devicePixelRatio)
+      }
+    }
+
+    window.addEventListener('resize', onResize)
     let rAFID: any = 0
 
     let rAF = () => {
@@ -146,6 +156,8 @@ export function BloomPipeline() {
     requestAnimationFrame(rAF)
 
     return () => {
+      window.removeEventListener('resize', onResize)
+
       cancelAnimationFrame(rAFID)
       object.clear()
     }

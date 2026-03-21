@@ -11,7 +11,7 @@ import { Home } from '@renderer/pages/Home'
 // import { RecursiveAI } from '@renderer/pages/RecursiveAI'
 // import { Skill } from '@renderer/pages/Skill'
 import { OnBoard } from '@renderer/pages/OnBoard'
-import { WorkspaceParent } from '@renderer/ui/workspace/WorkspaceParent'
+import { WorkspaceLayout } from '@renderer/ui/workspace/WorkspaceParent'
 import { WorkHome } from '@renderer/ui/workspace/home'
 import { WorkDesk } from '@renderer/ui/workspace/desk'
 
@@ -49,9 +49,9 @@ export const AppRouter = () => (
       <Route path="/workspace/:name/setup">
         {(params: any) => (
           <>
-            <WorkspaceParent name={params.name}>
+            <WorkspaceLayout name={params.name}>
               <LMStudioManager></LMStudioManager>
-            </WorkspaceParent>
+            </WorkspaceLayout>
           </>
         )}
       </Route>
@@ -59,9 +59,9 @@ export const AppRouter = () => (
       <Route path="/workspace/:name/desktop">
         {(params: any) => (
           <>
-            <WorkspaceParent name={params.name}>
+            <WorkspaceLayout name={params.name}>
               <WorkDesk name={params.name}></WorkDesk>
-            </WorkspaceParent>
+            </WorkspaceLayout>
           </>
         )}
       </Route>
@@ -69,9 +69,9 @@ export const AppRouter = () => (
       <Route path="/workspace/:name">
         {(params: any) => (
           <>
-            <WorkspaceParent name={params.name}>
+            <WorkspaceLayout name={params.name}>
               <WorkHome name={params.name}></WorkHome>
-            </WorkspaceParent>
+            </WorkspaceLayout>
           </>
         )}
       </Route>
