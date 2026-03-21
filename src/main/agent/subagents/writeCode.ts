@@ -44,12 +44,8 @@ const WorkTask = z.object({
   actionLog: z
     .string()
     .describe(
-      'short action log 1-2 short sentences for AI agent to follow up the progress of the current coding todo task'
-    ),
-
-  applicationIsFullyBuiltAndPassedTest: z
-    .boolean()
-    .describe('applcation is fully built and passed all tests')
+      'short action log 1-2 short sentences for AI agent to follow up the progress of the current task'
+    )
 })
 
 export type ExecStep = z.infer<typeof WorkTask>
@@ -228,15 +224,18 @@ YOU MUST WORK Within folder: "${workspace}/code"
             schema: WorkTask.toJSONSchema()
           }
         },
-        // reasoning_effort: 'low',
+        reasoning_effort: 'high',
         temperature: 0.2
       },
       { signal }
     )
     .then((response) => {
-      console.log(response.choices[0].message.content)
+      // console.log(response.choices[0].message)
 
-      return JSON.parse(response.choices[0].message.content!) as ExecStep
+      let msg = response.choices[0].message as any
+      let str = msg.reasoning_content || msg.content || '{}'
+
+      return JSON.parse(`${str}`) as ExecStep
     })
     .catch((r) => {
       console.error(r)
@@ -268,15 +267,13 @@ YOU MUST WORK Within folder: "${workspace}/code"
 
         console.log(path, content, workspace)
 
-        if (!path.startsWith(workspace)) {
-          path = join(workspace, path)
+        if (!path.startsWith(`${workspace}/code`)) {
+          path = join(`${workspace}/code`, path)
         }
 
         await writeFile(path, content, 'utf8').catch((er) => {
           console.error(er)
         })
-
-        //
       }
     }
 
@@ -292,6 +289,8 @@ YOU MUST WORK Within folder: "${workspace}/code"
           `${each.command}`.includes('npm run dev') ||
           `${each.command}`.includes('yarn run dev')
         ) {
+          //
+
           execCommand({
             spawnCmd: 'npm',
             args: ['run', 'dev'],
@@ -300,12 +299,12 @@ YOU MUST WORK Within folder: "${workspace}/code"
           }).then((data) => {
             console.log(data)
           })
-
-          console.log(each.command)
-          console.log((each as any).result)
           ;(each as any).successful = true
           ;(each as any).result = `Running npm run dev`
           ;(each as any).timestamp = new Date().toString()
+
+          // console.log(each.command)
+          // console.log((each as any).result)
 
           onEvent({
             type: 'cmd_end',

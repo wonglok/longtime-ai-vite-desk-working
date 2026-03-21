@@ -79,8 +79,7 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
       filesToBeWritten: [],
       terminalCalls: [],
       whatTodoNext: '',
-      actionLog: '',
-      applicationIsFullyBuiltAndPassedTest: false
+      actionLog: ''
     } satisfies ExecStep
   }
 
