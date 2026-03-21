@@ -34,13 +34,12 @@ export function ArrayBlock({}) {
         route: 'runAppPlanner',
 
         // model: `qwen/qwen3.5-4b`,
+
         model: `${appModel}`,
 
         appName: `${appName}`,
 
-        appUserPrompt: `
-${appUserPrompt}
-        `
+        appUserPrompt: `${appUserPrompt}`
       },
       (stream) => {
         //

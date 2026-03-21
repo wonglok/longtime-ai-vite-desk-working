@@ -27,10 +27,14 @@ export const useArchApp = create(() => {
 
     appModel: `qwen/qwen3.5-4b`,
 
-    appName: 'hello-world',
+    appName: 'inspire-world',
     appUserPrompt: `
-I want to build a cli tool that echo "hello world"
-    `.trim(),
+I want to build a cli tool.
+
+I want the tool to be able to receive input of a website address, then the tool can spin up a browser to take a fullpage screenshot, make a thumbnail and collect some essential text from the webpage. and then it will send to AI to generate inspirational notes. I want to use lmstudio and "uses qwen/qwen3.5-4b" AI model
+
+Please write a skill.md for my AI agent to use it.
+`.trim(),
 
     // appModel: `qwen/qwen3.5-35b-a3b`,
 
