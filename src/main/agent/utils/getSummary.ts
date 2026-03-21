@@ -33,7 +33,7 @@ async function extractSummaryComments(rootDir) {
 
   function isSupportedExtension(filename) {
     const ext = path.extname(filename).toLowerCase()
-    return ['.js', '.ts', '.jsx', '.tsx'].includes(ext)
+    return ['.js', '.ts', '.jsx', '.tsx', '.json', '.md'].includes(ext)
   }
 
   async function extractFromFile(filePath, results) {

@@ -228,7 +228,7 @@ Try to keep the result within 4000 tokens at one time.
             schema: WorkTask.toJSONSchema()
           }
         },
-        reasoning_effort: 'high',
+        reasoning_effort: 'medium',
         temperature: 0.2
       },
       { signal }
