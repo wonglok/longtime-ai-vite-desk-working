@@ -63,6 +63,7 @@ export function DiamondCompos({}) {
     mesh.add(cubeCam)
     mesh.castShadow = true
     mesh.scale.setScalar(30)
+
     const scene = new Scene()
     // scene.environment = envMap
     // scene.background = envMap
