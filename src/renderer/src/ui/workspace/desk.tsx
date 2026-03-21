@@ -33,7 +33,7 @@ export function WorkDesk({ name = '' }) {
     <>
       <div className="w-full h-full relative">
         {/*  */}
-        <DiamondCanvas></DiamondCanvas>
+        {/* <DiamondCanvas></DiamondCanvas> */}
         {/*  */}
       </div>
     </>

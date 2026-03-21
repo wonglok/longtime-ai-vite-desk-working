@@ -7,7 +7,6 @@ export const useArchApp = create(() => {
     status: ['pending', 'in-progress', 'completed'],
     todo: [] as any[],
 
-    appName: 'works',
     // appUserPrompt: `
     // I want to build an inspiration tool.
 
@@ -25,15 +24,16 @@ export const useArchApp = create(() => {
     // - Textual Analysis
     // `.trim(),
 
-    appModel: `qwen/qwen3.5-9b`,
+    appModel: `qwen/qwen3.5-4b`,
 
+    appName: 'hello-world',
     appUserPrompt: `
-    I want to build an todo list.
+I want to build a cli tool that echo "hello world"
     `.trim(),
+
     // appModel: `qwen/qwen3.5-35b-a3b`,
 
     stream: '',
-
     terminalCalls: [],
     terminalWindow: ''
   }

@@ -40,6 +40,7 @@ export async function writePlan({ workspace, inbound, checkAborted, onEvent }) {
   })
 
   await makeDirectory(join(workspace, 'ai-memory'))
+  await makeDirectory(join(workspace, 'code'))
 
   let whichPlan = ''
   try {
@@ -63,6 +64,38 @@ export async function writePlan({ workspace, inbound, checkAborted, onEvent }) {
     //
     console.log(e.message)
 
+    /*
+## guideline for "nextjs":
+- we use "nextjs" for fullstack app
+- always enable cors support
+- we use AppRouter in nextjs 16
+- app router source is in "./src/app" folder
+- home page file is at: "./src/app/page.tsx"
+- layout file is at: "./src/app/layout.tsx"
+- api router fodler is in "./src/app/api/*"
+
+
+1. write shared system prompt for both frotnend and backend:
+  - app introduction
+  - object keys naming convention
+  - rest API Routes and Interface
+
+2. write frontend prompt:
+  - Pages
+  - Components
+  - Data flow
+
+3. write backend prompt:
+  - Rest APIs
+  - DB models
+  - AI Integration 
+  - Security and Configuration
+
+4. write a task list:
+  - ...
+
+    */
+
     const plan = await openai.chat.completions
       .create(
         {
@@ -73,61 +106,37 @@ export async function writePlan({ workspace, inbound, checkAborted, onEvent }) {
               content: `
 # Know how document: 
 
-## Handling for "nextjs":
-- we use "nextjs" for fullstack app
-- always enable cors support
-- we use AppRouter in nextjs 16
-- app router source is in "./src/app" folder
-- home page file is at: "./src/app/page.tsx"
-- layout file is at: "./src/app/layout.tsx"
-- api router fodler is in "./src/app/api/*"
-
-## if needed, Handling for "cli-tool":
+## if needed, guideline for "cli-tool":
 - if we need to build command line interface tool (cli-tool) we use "meow" package.
 
-## if needed, Handling for "browser":
+## if needed, guideline for "browser":
 - if we need to use browser automation: we use "playwrite" npm package, config is: {"headless": "false"}, {"waitUntil": "load"}, if we take screenshots we put it into "./public/screenshots/[id].png", if we need to save text data we put it into "json database"
 
-## if needed, Handling for "AI, LLM":
+## if needed, guideline for "AI, LLM":
 - if we need to connect to LLM: we use "lmstudio". the default baseURL is: "http://localhost:1234/v1", the default model is: "qwen/qwen3.5-4b", 
 - we use "openai" npm package with lmstudio 
 
-## if needed, Handling for "generating text embedding":
+## if needed, guideline for "generating text embedding":
 - if we need to use using LLM to make text embedding vector output: we use "openai" npm package with lmstudio baseURL and apikey if needed
 - the default text embedding model is: "qwen.qwen3-vl-embedding-2b"
 
-## if needed, Handling for "database":
+## if needed, guideline for "database":
 - if we need to use local json file based database, we use "db-local" npm package, aslo put json files into a "./databases/[db].json" folder
 
-## if needed, Handling for "upload":
+## if needed, guideline for "upload":
 - if we need to handle upload files, we use "./public/uploads" folder
-
 
 # MUST HAVE GUIDELINE: 
 You MUST NOT develop any code.
 
 # Instruction:
 
-Please write shared system prompt for both frotnend and backend:
-  - app introduction
+Write a system prompt:
+  - introduction
+  - all types of data needed
   - object keys naming convention
-  - rest API Routes and Interface
-
-Please write frontend prompt:
-  - Pages
-  - Components
-  - Data flow
-
-Please write backend prompt:
-  - Rest APIs
-  - DB models
-  - AI Integration 
-  - Security and Configuration
-
-Please write a todo list:
-  - ...
-
-
+      - prefer camelCase
+  - todo list
               `
             },
             {

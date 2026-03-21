@@ -20,49 +20,26 @@ import { Term } from '@renderer/ui/ArrayBlock/Term'
 
 export function Home() {
   return (
-    <SidebarProvider>
-      <AppSidebar name="" />
-      <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
-          <div className="flex items-center gap-2 px-4">
-            <SidebarTrigger className="-ml-1" />
-            <Separator orientation="vertical" className="mr-2 data-[orientation=vertical]:h-4" />
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="/about">Build Your Application</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
-        </header>
+    <div className="">
+      <ArrayBlock></ArrayBlock>
 
-        <div className="px-4">
-          <ArrayBlock></ArrayBlock>
+      <TodoKanban agentName=""></TodoKanban>
+      <Term></Term>
+      <MsgBlock></MsgBlock>
 
-          <TodoKanban agentName=""></TodoKanban>
-          <Term></Term>
-          <MsgBlock></MsgBlock>
+      {/* <Brain agentName=""></Brain> */}
 
-          {/* <Brain agentName=""></Brain> */}
+      <div className="flex mb-3 space-x-3">
+        <TodoKanban agentName="frontend"></TodoKanban>
+        <TodoKanban agentName="backend"></TodoKanban>
+      </div>
 
-          <div className="flex mb-3 space-x-3">
-            <TodoKanban agentName="frontend"></TodoKanban>
-            <TodoKanban agentName="backend"></TodoKanban>
-          </div>
+      <div className="flex mb-3 space-x-3">
+        <Brain agentName="frontend"></Brain>
+        <Brain agentName="backend"></Brain>
+      </div>
 
-          <div className="flex mb-3 space-x-3">
-            <Brain agentName="frontend"></Brain>
-            <Brain agentName="backend"></Brain>
-          </div>
-
-          {/*  */}
-        </div>
-      </SidebarInset>
-    </SidebarProvider>
+      {/*  */}
+    </div>
   )
 }

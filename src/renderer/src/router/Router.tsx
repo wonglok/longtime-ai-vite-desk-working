@@ -14,6 +14,7 @@ import { OnBoard } from '@renderer/pages/OnBoard'
 import { WorkspaceLayout } from '@renderer/ui/workspace/WorkspaceParent'
 import { WorkHome } from '@renderer/ui/workspace/home'
 import { WorkDesk } from '@renderer/ui/workspace/desk'
+import { SearchBar } from '@renderer/effects/SearchBar'
 
 export const AppRouter = () => (
   <>
@@ -66,6 +67,16 @@ export const AppRouter = () => (
         )}
       </Route>
 
+      <Route path="/workspace/:name/egg">
+        {(params: any) => (
+          <>
+            <WorkspaceLayout name={params.name}>
+              <Home></Home>
+            </WorkspaceLayout>
+          </>
+        )}
+      </Route>
+
       <Route path="/workspace/:name">
         {(params: any) => (
           <>
@@ -81,8 +92,7 @@ export const AppRouter = () => (
       </Route>
 
       {/*  */}
-      {/*  */}
-      {/*  */}
+
       {/*  */}
     </Switch>
   </>
@@ -99,7 +109,6 @@ export function Others() {
 
       {/*  */}
       {/*  */}
-      {/* <SearchBar></SearchBar> */}
       {/*  */}
       {/*  */}
 

@@ -169,7 +169,7 @@ ${appUserPrompt}
   }
 
   useEffect(() => {
-    onClick()
+    // onClick()
   }, [])
 
   return (

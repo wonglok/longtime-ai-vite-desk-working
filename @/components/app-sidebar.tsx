@@ -40,7 +40,9 @@ import {
   LucideLayoutDashboard
 } from 'lucide-react'
 import { navigate } from 'wouter/use-browser-location'
+
 import { DiamondCanvas } from '@renderer/ui/workspace/3d/DiamondTSL/DiamondCanvas'
+
 // import { AuraExample } from '@renderer/effects/AuraExample'
 // import { SearchBar } from '@renderer/effects/SearchBar'
 
@@ -281,12 +283,11 @@ export function AppSidebar({
               {
                 title: 'Desktop',
                 url: `/workspace/${name}/desktop`
+              },
+              {
+                title: 'Home',
+                url: `/workspace/${name}/egg`
               }
-
-              // {
-              //   title: 'Setup',
-              //   url: `/workspace/${name}/setup`
-              // }
             ]
           }
 

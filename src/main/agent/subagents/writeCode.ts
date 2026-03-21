@@ -17,7 +17,7 @@ const WorkTask = z.object({
       })
     )
     .describe('what codes needs to be written for the current task, max 3 files.')
-    .max(3),
+    .max(5),
 
   // fileToRead: z
   //   .array(
@@ -35,7 +35,8 @@ const WorkTask = z.object({
         command: z.string().describe('command for terminal')
       })
     )
-    .describe('"terminal commands'),
+    .describe('"terminal commands')
+    .max(1),
 
   actionLog: z
     .string()
@@ -69,7 +70,7 @@ export async function writeCode({
 ${plan}
 
 # MUST FOLLOW GUIDELINES:
-MUST ONLY WORK IN (workspace) path: "${workspace}/nextjs"
+MUST ONLY WORK IN (workspace) path: "${workspace}/code"
 
 MUST avoid duplicated export of same code modules
 MUST avoid duplicated import of node modules
@@ -77,7 +78,7 @@ MUST NOT run "npm run dev"
 `.trim()
     })
 
-    let files = await (await scanFolder(`${workspace}/next`)).trim()
+    let files = await (await scanFolder(`${workspace}/code`)).trim()
 
     if (files) {
       messages.push({
@@ -169,7 +170,7 @@ ${step.whatTodoNext}
 
     messages.push({
       role: 'user',
-      content: 'keep going. thank you!'
+      content: 'keep going.'
     })
 
     return messages
@@ -298,7 +299,7 @@ ${step.whatTodoNext}
           return exec(
             `${each.command}`,
             {
-              cwd: `${workspace}/nextjs`
+              cwd: `${workspace}/code`
             },
             (error, stdout, stderr) => {
               if (error) {

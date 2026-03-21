@@ -14,13 +14,20 @@ export const runAppPlanner = async ({ checkAborted, onEvent, inbound, randID }) 
   await makeDirectory(workspace)
 
   const [{ plan }] = await Promise.all([
+    //
     writePlan({
+      //
       workspace: workspace,
       inbound,
       checkAborted,
       onEvent: onEvent
-    }),
-    initProject({ workspace, onEvent })
+    })
+    //
+    // initProject({
+    //   //
+    //   workspace,
+    //   onEvent
+    // })
   ])
 
   // await makeDirectory(`${workspace}/frontend`)
