@@ -46,6 +46,10 @@ ${appUserPrompt}
         //
         const resp = JSON.parse(stream)
 
+        if (resp.done) {
+          useArchApp.setState({ done: resp.done })
+        }
+
         if (resp.init) {
           useArchApp.setState({ terminalWindow: resp.init })
         }
