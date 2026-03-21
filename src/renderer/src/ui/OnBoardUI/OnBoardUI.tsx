@@ -62,7 +62,7 @@ export function OnBoardUI() {
         <div className="w-full h-full flex items-center justify-center  relative">
           <div>
             <div className="text-white  text-shadow-2xs text-[50px] mb-3 flex justify-center items-center mx-12">
-              HyperEgg AI 智能蛋
+              HyperEgg AI 智學蛋
             </div>
             <div className="text-white  text-shadow-2xs text-center">
               {spaces.map((space) => {
