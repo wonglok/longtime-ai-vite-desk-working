@@ -189,7 +189,7 @@ MUST NOT run "npm run dev"
 
 YOU MUST WORK Within folder: "${workspace}/code"
 
-Please output an example.js nodejs file as well.
+Please also output an "skill.md" markdown file with all example features as well.
 `
     })
 
