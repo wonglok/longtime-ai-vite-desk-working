@@ -2,12 +2,15 @@ import { useArchApp } from './useArchApp'
 
 export function MsgBlock({}) {
   const messages = useArchApp((r) => r.messages)
+  const done = useArchApp((r) => r.done)
   const stream = useArchApp((r) => r.stream)
   const terminalCalls = useArchApp((r) => r.terminalCalls)
 
   //
   return (
     <div className="text-xs w-full overflow-x-scroll">
+      {done && <div className="bg-green-500 text-white p-2 rounded-2xl m-2">{done}</div>}
+
       {terminalCalls.map((msg: any, i) => {
         console.log(msg)
         return (

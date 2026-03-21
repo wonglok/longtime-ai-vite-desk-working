@@ -67,6 +67,15 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
     //   return
     // }
 
+    if (nextStep.terminateDevelopmentProcess) {
+      onEvent({
+        type: 'done',
+        done: `Code is fully developed`
+      })
+
+      return
+    }
+
     return await loopRun({
       step: nextStep,
       memory
@@ -79,7 +88,8 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
       filesToBeWritten: [],
       terminalCalls: [],
       whatTodoNext: '',
-      actionLog: ''
+      actionLog: '',
+      terminateDevelopmentProcess: false
     } satisfies ExecStep
   }
 

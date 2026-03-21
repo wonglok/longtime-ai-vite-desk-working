@@ -45,7 +45,9 @@ const WorkTask = z.object({
     .string()
     .describe(
       'short action log 1-2 short sentences for AI agent to follow up the progress of the current task'
-    )
+    ),
+
+  terminateDevelopmentProcess: z.boolean().describe('terminate development process')
 })
 
 export type ExecStep = z.infer<typeof WorkTask>
@@ -265,10 +267,10 @@ YOU MUST WORK Within folder: "${workspace}/code"
         let path = file.path
         let content = file.content
 
-        console.log(path, content, workspace)
+        // console.log(path, content, workspace)
 
         if (!path.startsWith(`${workspace}/code`)) {
-          path = join(`${workspace}/code`, path)
+          path = join(`${workspace}`, 'code', path)
         }
 
         await writeFile(path, content, 'utf8').catch((er) => {
