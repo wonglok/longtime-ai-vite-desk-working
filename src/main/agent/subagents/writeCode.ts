@@ -12,16 +12,10 @@ import { join } from 'path'
 const WorkTask = z.object({
   // whatToDoNow: z.string(),
 
-  filesToBeWritten: z
-    .array(
-      z.object({
-        path: z.string(),
-        content: z.string()
-      })
-    )
-    .min(0)
-    .max(1)
-    .describe('what file needs to be written for the current task, 1 file max'),
+  oneFileToBeWritten: z.object({
+    path: z.string(),
+    content: z.string()
+  }),
 
   // fileToRead: z
   //   .array(
@@ -267,8 +261,8 @@ Install all the node_modules via npm.
       beforeRun: nextStep.terminalCalls
     })
 
-    if (nextStep.filesToBeWritten && nextStep.filesToBeWritten.length > 0) {
-      for await (let file of nextStep.filesToBeWritten) {
+    if (nextStep.oneFileToBeWritten) {
+      for await (let file of [nextStep.oneFileToBeWritten]) {
         //
         let path = file.path
         let content = file.content

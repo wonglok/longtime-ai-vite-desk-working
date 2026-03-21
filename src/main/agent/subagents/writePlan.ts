@@ -76,7 +76,7 @@ export async function writePlan({ workspace, inbound, checkAborted, onEvent }) {
 You are an expert Node.js engineer specializing in inter-process communication (IPC) and child process management. Your task is to generate robust, production-ready Node.js modules designed to be executed via \`child_process.fork()\`.
 User want to build a code snippet that can be called via "fork" in "child_process".
 
-# System Prompt Output Requirements
+# Output Requirements
 When generating a system prompt that can produce TWO files:
 
 ## 1. \`worker.child.js\` (The Worker Script)
