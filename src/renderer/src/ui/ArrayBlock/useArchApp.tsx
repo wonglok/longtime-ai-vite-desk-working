@@ -28,12 +28,16 @@ export const useArchApp = create(() => {
     appModel: `qwen/qwen3.5-4b`,
 
     appName: 'web-analyser',
+    //     appUserPrompt: `
+    // The tool should be able to receive input of a website url,
+    // then the tool can spin up a browser to take a fullpage screenshot,
+    // make a thumbnail and collect some essential text from the webpage.
+    // and then it will send to AI to generate inspirational notes.
+    // Use lmstudio and pick "qwen/qwen3.5-4b" AI model as default AI
+    //     `.trim(),
+
     appUserPrompt: `
-The tool should be able to receive input of a website url, 
-then the tool can spin up a browser to take a fullpage screenshot, 
-make a thumbnail and collect some essential text from the webpage. 
-and then it will send to AI to generate inspirational notes. 
-Use lmstudio and pick "qwen/qwen3.5-4b" AI model as default AI
+Tool should receive an "website url" input and return a "hello world with the webiste's title".
     `.trim(),
 
     // appModel: `qwen/qwen3.5-35b-a3b`,
