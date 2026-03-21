@@ -12,7 +12,7 @@ import dia from '../assets/egg-lowpoly.glb?url'
 // import dia from '../assets/diamond.glb?url'
 import hdr from '../assets/factory.hdr?url'
 import { CubeRenderTarget } from 'three/webgpu'
-import { uv, vec3, vec4 } from 'three/tsl'
+import { rand, uv, vec3, vec4 } from 'three/tsl'
 export function DiamondCompos({}) {
   const gl = useThree((r) => r.gl)
 
@@ -66,12 +66,11 @@ export function DiamondCompos({}) {
     const scene = new Scene()
     // scene.environment = envMap
     // scene.background = envMap
+    const linearYValue = uv().y.mul(0.25).add(0.75)
 
-    scene.environmentNode = vec3(uv().y.mul(0.5).add(0.25))
-    scene.backgroundNode = vec4(uv().y.mul(0.5).add(0.25))
+    scene.environmentNode = vec3(linearYValue)
+    scene.backgroundNode = vec4(vec3(linearYValue), 1.0)
 
-    scene.backgroundIntensity = 1.25
-    scene.backgroundIntensity = 2
     let clock = new Timer()
     const capture = ({}: any) => {
       clock.update(window.performance.now())

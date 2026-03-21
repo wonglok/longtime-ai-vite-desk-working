@@ -411,11 +411,17 @@ export function AppSidebar({
         <NavProjects projects={subMenu} />
       </SidebarContent>
       <SidebarFooter>
-        <div className="h-[280px]">
+        {/* <div className="h-[280px]">
           <DiamondCanvas></DiamondCanvas>
-        </div>
+        </div> */}
 
-        {/* <NavUser user={data.user} /> */}
+        <NavUser
+          user={{
+            name: 'HyperEgg AI',
+            email: "Let's Hatch your egg",
+            avatar: '/avatars/shadcn.jpg'
+          }}
+        />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
