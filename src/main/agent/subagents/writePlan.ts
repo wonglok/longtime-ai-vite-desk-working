@@ -64,38 +64,6 @@ export async function writePlan({ workspace, inbound, checkAborted, onEvent }) {
     //
     console.log(e.message)
 
-    /*
-## guideline for "nextjs":
-- we use "nextjs" for fullstack app
-- always enable cors support
-- we use AppRouter in nextjs 16
-- app router source is in "./src/app" folder
-- home page file is at: "./src/app/page.tsx"
-- layout file is at: "./src/app/layout.tsx"
-- api router fodler is in "./src/app/api/*"
-
-
-1. write shared system prompt for both frotnend and backend:
-  - app introduction
-  - object keys naming convention
-  - rest API Routes and Interface
-
-2. write frontend prompt:
-  - Pages
-  - Components
-  - Data flow
-
-3. write backend prompt:
-  - Rest APIs
-  - DB models
-  - AI Integration 
-  - Security and Configuration
-
-4. write a task list:
-  - ...
-
-    */
-
     const plan = await openai.chat.completions
       .create(
         {
@@ -164,6 +132,30 @@ Use this JSON schema for IPC messages:
   "type": "progress|log|heartbeat",
   "data": {}
 }
+
+
+# Know how document: 
+
+## if needed, guideline for "browser":
+- if we need to use browser automation: we use "playwrite" npm package, config is: {"headless": "false"}, {"waitUntil": "load"}, if we take screenshots we put it into "./public/screenshots/[id].png", if we need to save text data we put it into "json database"
+
+## if needed, guideline for "AI, LLM":
+- if we need to connect to LLM: we use "lmstudio". the default baseURL is: "http://localhost:1234/v1", the default model is: "qwen/qwen3.5-4b", 
+- we use "openai" npm package with lmstudio 
+
+## if needed, guideline for "generating text embedding":
+- if we need to use using LLM to make text embedding vector output: we use "openai" npm package with lmstudio baseURL and apikey if needed
+- the default text embedding model is: "qwen.qwen3-vl-embedding-2b"
+
+## if needed, guideline for "database":
+- if we need to use local json file based database, put json files into a "./databases/[db].json" folder
+
+## if needed, guideline for "upload":
+- if we need to handle upload files, we use "./public/uploads" folder
+
+# Instruction:
+- You MUST NOT implement code.
+- You MUST only write system prompt for other AI Agent Developer to use.
 
 \`\`\`
                 `

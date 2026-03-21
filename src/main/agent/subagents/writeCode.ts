@@ -189,7 +189,7 @@ MUST NOT run "npm run dev"
 
 YOU MUST WORK Within folder: "${workspace}/code"
 
-Try to keep the result within 4000 tokens at one time.
+Please output an example.js nodejs file as well.
 `
     })
 
