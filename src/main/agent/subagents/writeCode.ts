@@ -19,8 +19,9 @@ const WorkTask = z.object({
         content: z.string()
       })
     )
-    .describe('what file needs to be written for the current task, 1 file max')
-    .max(1),
+    .min(0)
+    .max(1)
+    .describe('what file needs to be written for the current task, 1 file max'),
 
   // fileToRead: z
   //   .array(
@@ -38,8 +39,9 @@ const WorkTask = z.object({
         command: z.string().describe('1 command only')
       })
     )
-    .describe('"terminal spawns')
-    .max(1),
+    .min(0)
+    .max(1)
+    .describe('"terminal spawns'),
 
   actionLog: z
     .string()
@@ -136,7 +138,7 @@ Action: ${each.actionLog || ''}
         let item = `
 Time: ${each.timestamp || ''}
 Command: ${each.command || ''} 
-Result: ${each.successful ? `[Successful]` : `[Failed]`}
+Result: ${each.successful ? `Successful` : `Failed`}
 ${each.result || ''}
     `.trim()
 
