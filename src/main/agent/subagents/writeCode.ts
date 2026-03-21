@@ -19,8 +19,8 @@ const WorkTask = z.object({
         content: z.string()
       })
     )
-    .describe('what codes needs to be written for the current task, max 3 files.')
-    .max(3),
+    .describe('what codes needs to be written for the current task, max 2 files.')
+    .max(2),
 
   // fileToRead: z
   //   .array(
@@ -186,6 +186,8 @@ MUST avoid duplicated import of node modules
 MUST NOT run "npm run dev"
 
 YOU MUST WORK Within folder: "${workspace}/code"
+
+Try to keep the result within 4000 tokens at one time.
 `
     })
 
