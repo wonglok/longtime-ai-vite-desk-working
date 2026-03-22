@@ -63,6 +63,8 @@ MUST avoid duplicated import of node modules
 MUST NOT run "npm run dev"
 MUST double check to avoid empty exports or missing exports.
 
+MUST use "chmod +x ./index.mjs" to make it usable
+
 `.trim()
     })
 
@@ -191,8 +193,8 @@ ${StreamFilesFormat}
         stream_options: {
           include_usage: true
         },
-        reasoning_effort: 'high',
-        temperature: 0.2
+        reasoning_effort: 'minimal',
+        temperature: 0
       },
       { signal }
     )

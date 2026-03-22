@@ -14,7 +14,7 @@ export const useArchApp = create(() => {
     appName: 'web-analyser',
 
     appUserPrompt: `
-Tool should receive an "website url" input and return a "hello world and the webiste's title" as well as take a full-page screenshot
+Tool should receive an "website url" input and take a full-page screenshot and write a website summary with the website text and screenshot
     `.trim(),
 
     // appModel: `qwen/qwen3.5-35b-a3b`,

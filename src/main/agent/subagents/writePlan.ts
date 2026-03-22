@@ -136,6 +136,7 @@ Your response should follow this structure:
 
 ## if needed, guideline for "browser":
 - if we need to use browser automation: we use "playwrite" npm package, config is: {"headless": "false"}, "page.goto(url, { waitUntil: 'load' });", if we take screenshots we put it into "./public/screenshots/[id].png", if we need to save text data we put it into "json database"
+- always use {"fullPage": true} screenshot: await page.screenshot({ path: "./screenshot/[...].png", fullPage: true });
 
 ## if needed, guideline for "AI, LLM":
 - if we need to connect to LLM: we use "lmstudio". the default baseURL is: "http://localhost:1234/v1", the default model is: "qwen/qwen3.5-4b", 
