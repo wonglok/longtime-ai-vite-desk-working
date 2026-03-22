@@ -44,6 +44,7 @@ Tool should receive an "website url" input and return a "hello world with the we
     // appModel: `qwen/qwen3.5-35b-a3b`,
 
     stream: '',
+    thinking: '',
     terminalCalls: [],
     terminalWindow: ''
   }

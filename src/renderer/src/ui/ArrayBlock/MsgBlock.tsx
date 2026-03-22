@@ -5,6 +5,7 @@ export function MsgBlock({}) {
   const messages = useArchApp((r) => r.messages)
   const done = useArchApp((r) => r.done)
   const stream = useArchApp((r) => r.stream)
+  const thinking = useArchApp((r) => r.thinking)
   const blocks = useArchApp((r) => r.blocks)
   const terminalCalls = useArchApp((r) => r.terminalCalls)
 
@@ -23,6 +24,12 @@ export function MsgBlock({}) {
         )
       })} */}
       {/* <Streamdown mode="streaming">{(stream || '').trim()}</Streamdown> */}
+
+      <li key={'thinking1234'} className="border p-2 mb-2 rounded-2xl">
+        <div className="text-xs whitespace-pre-wrap p-2 bg-[#a777ff] border rounded-lg">
+          {(thinking || '').trim()}
+        </div>
+      </li>
 
       <li key={'kstream1234'} className="border p-2 mb-2 rounded-2xl">
         <div className="text-xs whitespace-pre-wrap p-2 bg-[#77e6ff] border rounded-lg">

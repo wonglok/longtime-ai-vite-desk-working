@@ -73,6 +73,9 @@ export function ArrayBlock({}) {
         if (resp.type === 'messages') {
           useArchApp.setState({ messages: resp.messages })
         }
+        if (resp.type === 'thinking') {
+          useArchApp.setState({ messages: resp.thinking })
+        }
 
         if (resp.type === 'stream') {
           if (resp.stream && resp.agentName) {

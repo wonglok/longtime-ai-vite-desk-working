@@ -97,7 +97,8 @@ When creating the system prompt for the Coding Agent, you must ensure it include
     - **Shebang:** Ensure the entry point includes "#!/usr/bin/env node".
 
 2. **Technology Stack:**
-    - **Language:** JavaScript Modern JavaScript (ESM).
+    - **Language:** JavaScript Modern JavaScript (ESM). ".mjs"
+    - use {"type": "modules"}  in package.json
     - **CLI Framework:** Suggest "meow" for framework.
     - **UX Libraries:** Suggest "chalk" for colors, "ora" for spinners.
 
@@ -180,19 +181,23 @@ MUST use ESM JavaScript and never uses TypeScript
       )
       .then(async (response) => {
         let plan = ''
+        let thinking = ''
         for await (let event of response) {
           // console.log(event.choices[0].delta)
           let delta = event.choices[0].delta as any
-          plan += delta.content || delta.reasoning_content || ''
+          thinking += delta.reasoning_content || ''
+          plan += delta.content || ''
 
-          onEvent({ type: 'stream', stream: removeThinkTags(plan) })
+          onEvent({ type: 'thinking', thinking: `${thinking}` })
+          onEvent({ type: 'stream', stream: `${plan}` })
         }
 
-        onEvent({ type: 'stream', stream: removeThinkTags(plan) })
+        onEvent({ type: 'thinking', thinking: plan })
+        onEvent({ type: 'stream', stream: plan })
 
         console.log(plan)
 
-        return removeThinkTags(plan)
+        return plan
 
         //
         //

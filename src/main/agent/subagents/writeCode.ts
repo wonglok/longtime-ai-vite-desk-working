@@ -203,19 +203,26 @@ ${StreamFilesFormat}
       { signal }
     )
     .then(async (resp) => {
-      let str = ''
+      let longContent = ''
+      let thinking = ''
       let blocks = []
       for await (let event of resp) {
         let firstChoice = event?.choices[0]
         let delta = firstChoice?.delta as any
-        let fragment = delta?.content || delta?.reasoning_content
+        let reason = delta?.reasoning_content || ''
+        let content = delta?.content || ''
 
-        str += fragment || ''
-        onEvent({ type: 'stream', stream: str })
+        thinking += reason
+        longContent += content
+
+        onEvent({ type: 'thinking', thinking: `${thinking}` })
+        onEvent({ type: 'stream', stream: `${longContent}` })
       }
-      onEvent({ type: 'stream', stream: str })
 
-      blocks = parseBlockTags(str, { trimContent: true }) || []
+      onEvent({ type: 'thinking', thinking: `${thinking}` })
+      onEvent({ type: 'stream', stream: `${longContent}` })
+
+      blocks = parseBlockTags(longContent, { trimContent: true }) || []
       onEvent({ type: 'blocks', blocks: blocks })
 
       return blocks
