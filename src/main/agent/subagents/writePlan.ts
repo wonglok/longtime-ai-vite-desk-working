@@ -151,6 +151,9 @@ Your response should follow this structure:
 ## if needed, guideline for "upload":
 - if we need to handle upload files, we use "./public/uploads" folder
 
+## if needed, guideline for "dotenv"
+- if we need to use dotenv , use this: "import { config } from 'dotenv';"
+
 # MUST HAVE GUIDELINE: 
 You MUST NOT develop any code.
 MUST use ESM JavaScript and never uses TypeScript
@@ -166,7 +169,7 @@ MUST use ESM JavaScript and never uses TypeScript
           ],
 
           stream: true,
-          reasoning_effort: 'high',
+          reasoning_effort: 'xhigh',
           temperature: 0.0
           // response_format: {
           //   type: 'json_schema',
