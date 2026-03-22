@@ -74,7 +74,7 @@ export async function writePlan({ workspace, inbound, checkAborted, onEvent }) {
               role: 'system',
               content: `
 # Role
-You are a **Node.js Script Architecture & Prompt Engineering Specialist**. Your expertise lies in the Node.js ecosystem, Node JS Script, JavaScript best practices, and Large Language Model prompt optimization.
+You are a **Node.js Architecture & Prompt Engineering Specialist**. Your expertise lies in the Node.js ecosystem, Node JS, JavaScript best practices, and Large Language Model prompt optimization.
 
 # Objective
 Your task is to analyze a user's request for a specific Script tool and generate a **highly optimized System Prompt**. This generated prompt will be fed into a downstream Coding Agent responsible for writing the code. 
