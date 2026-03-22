@@ -1,7 +1,7 @@
 import { exec } from 'child_process'
 import OpenAI from 'openai'
 import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
-import { z } from 'zod'
+import { success, z } from 'zod'
 import { scanFolder } from '../utils/getSummary'
 import { writeFile } from 'fs/promises'
 // import moment from 'moment'
@@ -9,47 +9,66 @@ import { writeFile } from 'fs/promises'
 import { execCommand } from './execCommand'
 import { dirname, join } from 'path'
 import { makeDirectory } from 'make-dir'
+import { BlockTag, parseBlockTags, StreamFilesFormat } from './StreamFiles'
 
-const WorkTask = z.object({
-  // whatToDoNow: z.string(),
+// const WorkTask = z.object({
+//   // whatToDoNow: z.string(),
 
-  fileToBeWritten: z
-    .object({
-      path: z.string(),
-      content: z.string()
-    })
-    .optional(),
+//   // fileToRead: z
+//   //   .array(
+//   //     z.object({
+//   //       path: z.string()
+//   //     })
+//   //   )
+//   //   .describe('what codes needs to be read for the current task, max 3 files.')
+//   //   .max(3),
 
-  // fileToRead: z
-  //   .array(
-  //     z.object({
-  //       path: z.string()
-  //     })
-  //   )
-  //   .describe('what codes needs to be read for the current task, max 3 files.')
-  //   .max(3),
+//   nextStep: z.string().describe('think 1-2 sentences about what todo next'),
 
-  whatTodoNext: z.string().describe('think 1-2 sentences about what todo next'),
-  terminalCalls: z
-    .array(
-      z.object({
-        command: z.string().describe('1 command only')
-      })
-    )
-    .min(0)
-    .max(1)
-    .describe('"terminal spawns'),
+//   terminalCalls: z
+//     .array(
+//       z.object({
+//         command: z.string().describe('1 command only')
+//       })
+//     )
+//     .min(0)
+//     .max(1)
+//     .describe('"terminal command'),
 
-  actionLog: z
-    .string()
-    .describe(
-      'short action log 1-2 short sentences for AI agent to follow up the progress of the current task'
-    ),
+//   actionLog: z
+//     .string()
+//     .describe(
+//       'short action log 1-2 short sentences for AI agent to follow up the progress of the current task'
+//     ),
 
-  terminateDevelopmentProcess: z.boolean().describe('terminate development process')
-})
+//   fileToBeWritten: z
+//     .object({
+//       path: z.string(),
+//       content: z.string()
+//     })
+//     .optional(),
 
-export type ExecStep = z.infer<typeof WorkTask>
+//   terminateDevelopmentProcess: z.boolean().describe('terminate development process')
+// })
+
+// export type ExecStep = z.infer<typeof WorkTask>
+
+export type CommandResult = {
+  command: string
+  successful: boolean
+  result: string
+  timestamp: string
+}
+
+export type OneStep = {
+  nextSteps: BlockTag[]
+  codes: BlockTag[]
+  logs: BlockTag[]
+  stop: BlockTag[]
+
+  commands: BlockTag[]
+  commandResults: CommandResult[]
+}
 
 export async function writeCode({
   memory = [],
@@ -65,13 +84,11 @@ export async function writeCode({
     apiKey: inbound.apiKey
   })
 
-  let prepareMessages = async (step: ExecStep) => {
+  let prepareMessages = async (step: OneStep) => {
     const messages: ChatCompletionMessageParam[] = []
 
-    //
-    //
     messages.push({
-      role: 'system',
+      role: 'user',
       content: `
 ${plan}
 
@@ -96,84 +113,64 @@ ${files}
       })
     }
 
-    // let latest50Memory = `# Last 100 action logs: \n\n\n`
+    {
+      let text = ''
 
-    if (memory?.length > 0) {
-      for (let each of memory
-        .slice(0, memory.length - 1 - 1)
-        .slice()
-        .reverse()
-        .slice(0, 100)
-        .reverse() as {
-        actionLog: string
-        timestamp: string
-      }[]) {
-        //
-        // Time: (${moment(each.timestamp).fromNow()})
-        //
-        let msg = `
-Time: ${each.timestamp}
-Action: ${each.actionLog || ''}
+      for (let one of step.commandResults) {
+        let item = `
+Time: ${one.timestamp || ''}
+Command: ${one.command || ''} 
+Result: ${one.successful ? `Successful` : `Failed`}
+${one.result || ''}
     `.trim()
 
+        text += `${item}\n`
+      }
+
+      if (text.trim()) {
         messages.push({
           role: 'user',
-          content: msg
+          content: text
         })
       }
     }
 
-    let terminalCallsText = ''
-
-    if ((step?.terminalCalls?.length || 0) > 0) {
-      for (let each of step.terminalCalls as {
-        command: string
-        result: string
-        timestamp: string
-        successful: boolean
-      }[]) {
+    {
+      let text = ''
+      for (let one of step.nextSteps) {
         let item = `
-Time: ${each.timestamp || ''}
-Command: ${each.command || ''} 
-Result: ${each.successful ? `Successful` : `Failed`}
-${each.result || ''}
+What to do now: ${one.content || ''}
     `.trim()
 
-        terminalCallsText += `${item}\n`
+        text += `${item}\n`
       }
 
-      messages.push({
-        role: 'user',
-        content: terminalCallsText
-      })
+      if (text.trim()) {
+        messages.push({
+          role: 'user',
+          content: text
+        })
+      }
     }
 
-    if (step.whatTodoNext) {
-      messages.push({
-        role: 'user',
-        content: `
-What to do now:
-${step.whatTodoNext}
-        `.trim()
-      })
-    }
+    {
+      let text = ''
+      for (let one of memory) {
+        let item = `
+Timestamp: ${one.timestamp}
+Action Log: ${one.content || ''}
+    `.trim()
 
-    //     // todo list
-    //     if (typeof step.todo !== 'undefined' && step?.todo?.length > 0) {
-    //       messages.push({
-    //         role: 'user',
-    //         content: `
-    // # Todo list:
-    // ${step.todo
-    //   .map((r) => {
-    //     return `${`[${r.status}]`} ${r.task}`
-    //   })
-    //   .join('\n')}
-    // # Instruction
-    // 1. when there's no in-progress task, pick the first task to work on and mark it as "in-progress".
-    //         `
-    //       })
-    //     }
+        text += `${item}\n`
+      }
+
+      if (text.trim()) {
+        messages.push({
+          role: 'user',
+          content: text
+        })
+      }
+    }
 
     messages.push({
       role: 'user',
@@ -186,6 +183,17 @@ MUST NOT run "npm run dev"
 
 YOU MUST WORK Within folder: "${workspace}/code"
 
+
+# Instructions:
+
+1. write about 1-2 sentences about what to do next: (using "next-step" tag)
+2. write 1 terminal command at a time: (using "terminal" tag)
+3. write 1 short action log 1-2 short sentences for AI agent to follow up the progress of the current task:  (using "log" tag)
+4. write 1 code file at a time: (using "code" tag)
+5. if we completely finished the development process then write a marker. (using "stop-development" tag)
+
+
+${StreamFilesFormat}
 
 `
     })
@@ -215,30 +223,44 @@ YOU MUST WORK Within folder: "${workspace}/code"
     }
   }, 1)
 
-  const nextStep: ExecStep = await openai.chat.completions
+  const blocks: BlockTag[] = await openai.chat.completions
     .create(
       {
         model: inbound.model,
         messages: messages,
-        response_format: {
-          type: 'json_schema',
-          json_schema: {
-            name: 'worktask',
-            schema: WorkTask.toJSONSchema()
-          }
+        // response_format: {
+        //   type: 'json_schema',
+        //   json_schema: {
+        //     name: 'worktask',
+        //     schema: WorkTask.toJSONSchema()
+        //   }
+        // },
+        stream: true,
+        stream_options: {
+          include_usage: true
         },
-        reasoning_effort: 'medium',
+        reasoning_effort: 'high',
         temperature: 0.2
       },
       { signal }
     )
-    .then((response) => {
-      // console.log(response.choices[0].message)
+    .then(async (resp) => {
+      let str = ''
+      let blocks = []
+      for await (let event of resp) {
+        let firstChoice = event?.choices[0]
+        let delta = firstChoice?.delta as any
+        let fragment = delta?.content || delta?.reasoning_content
 
-      let msg = response.choices[0].message as any
-      let str = msg.reasoning_content || msg.content || '{}'
+        str += fragment || ''
+        onEvent({ type: 'stream', stream: str })
+      }
+      onEvent({ type: 'stream', stream: str })
 
-      return JSON.parse(`${str}`) as ExecStep
+      blocks = parseBlockTags(str, { trimContent: true }) || []
+      onEvent({ type: 'blocks', blocks: blocks })
+
+      return blocks
     })
     .catch((r) => {
       console.error(r)
@@ -251,144 +273,100 @@ YOU MUST WORK Within folder: "${workspace}/code"
   })
   clearInterval(intrv)
 
-  if (nextStep) {
-    // onEvent({
-    //   type: 'todo',
-    //   todo: nextStep.todo || []
-    // })
+  console.log('blocks', blocks)
 
-    onEvent({
-      type: 'beforeRun',
-      beforeRun: nextStep.terminalCalls
-    })
+  let nextSteps = blocks.filter((r) => r.type === 'next-step')
+  let logs = blocks.filter((r) => r.type === 'log')
 
-    if (nextStep.fileToBeWritten) {
-      for await (let file of [nextStep.fileToBeWritten]) {
-        //
-        let path = file.path
-        let content = file.content
+  let codes = blocks.filter((r) => r.type === 'code')
+  let commands = blocks.filter((r) => r.type === 'terminal')
+  let stop = blocks.filter((r) => r.type === 'stop-development')
 
-        // console.log(path, content, workspace)
-
-        if (!path.startsWith(`${workspace}/code`)) {
-          path = join(`${workspace}`, 'code', path)
-        }
-
-        await makeDirectory(dirname(path))
-
-        await writeFile(path, content, 'utf8').catch((er) => {
-          console.error(er)
-        })
-      }
-    }
-
-    if (nextStep.terminalCalls && nextStep.terminalCalls.length) {
-      //
-      for (let each of [...nextStep.terminalCalls]) {
-        onEvent({
-          type: 'cmd_begin',
-          cmd_begin: `${each.command}`
-        })
-
-        if (
-          `${each.command}`.includes('npm run dev') ||
-          `${each.command}`.includes('yarn run dev')
-        ) {
-          //
-
-          execCommand({
-            spawnCmd: 'npm',
-            args: ['run', 'dev'],
-            onEvent,
-            cwd: `${workspace}/code`
-          }).then((data) => {
-            console.log(data)
-          })
-          ;(each as any).successful = true
-          ;(each as any).result = `Running npm run dev`
-          ;(each as any).timestamp = new Date().toString()
-
-          // console.log(each.command)
-          // console.log((each as any).result)
-
-          onEvent({
-            type: 'cmd_end',
-            cmd_end: each.command
-          })
-
-          onEvent({
-            type: 'duringRun',
-            duringRun: nextStep.terminalCalls
-          })
-
-          continue
-        }
-
-        let res: any = await new Promise(async (resolve) => {
-          return exec(
-            `${each.command}`,
-            {
-              cwd: `${workspace}/code`
-            },
-            (error, stdout, stderr) => {
-              if (error) {
-                console.log('error', error)
-                return resolve({ successful: false, result: `${stderr}` })
-              }
-              if (stderr) {
-                console.error(`error: ${stderr}`)
-                return resolve({ successful: false, result: `${stderr}` })
-              }
-              resolve({ successful: true, result: `${stdout}` })
-            }
-          )
-        })
-
-        ;(each as any).successful = res.successful
-        ;(each as any).result = res.result.trim()
-        ;(each as any).timestamp = new Date().toString()
-
-        console.log(each.command)
-        console.log((each as any).result)
-
-        onEvent({
-          type: 'cmd_end',
-          cmd_end: each.command
-        })
-
-        onEvent({
-          type: 'duringRun',
-          duringRun: nextStep.terminalCalls
-        })
-      }
-    }
-
-    onEvent({
-      type: 'afterRun',
-      afterRun: []
-    })
-
-    memory.push({
-      idx: memory.length,
-      timestamp: new Date().toString(),
-      actionLog: nextStep.actionLog
-    })
-  } else {
-    return null
+  let output: OneStep = {
+    nextSteps: nextSteps,
+    codes: codes,
+    commands: commands,
+    stop: stop,
+    logs: logs,
+    commandResults: []
   }
+
+  // console.log(JSON.stringify(output, null, '\t'))
+
+  if (codes) {
+    for await (let file of codes) {
+      //
+      let path = file.path
+      let content = file.content
+
+      if (!path.startsWith(`${workspace}/code`)) {
+        path = join(`${workspace}`, 'code', path)
+      }
+
+      await makeDirectory(dirname(path))
+
+      await writeFile(path, content, 'utf8').catch((er) => {
+        console.error(er)
+      })
+    }
+  }
+
+  if (commands) {
+    for (let each of commands) {
+      onEvent({
+        type: 'cmd_begin',
+        cmd_begin: each.content
+      })
+
+      console.log('cmd_begin', each.content)
+      let res: any = await new Promise(async (resolve) => {
+        return exec(
+          `${(each.content || '').trim()}`,
+          {
+            cwd: `${workspace}/code`
+          },
+          (error, stdout, stderr) => {
+            if (error) {
+              console.log('error', error)
+              return resolve({ successful: false, result: `${stderr}` })
+            }
+            if (stderr) {
+              console.error(`error: ${stderr}`)
+              return resolve({ successful: false, result: `${stderr}` })
+            }
+            resolve({ successful: true, result: `${stdout}` })
+          }
+        )
+      })
+
+      onEvent({
+        type: 'cmd_end',
+        cmd_end: each.content
+      })
+
+      let commandResult: CommandResult = {
+        command: each.content,
+        successful: res.successful,
+        result: res.result.trim(),
+        timestamp: new Date().toString()
+      }
+
+      output.commandResults.push(commandResult)
+    }
+  }
+
+  memory.push({
+    idx: memory.length,
+    timestamp: new Date().toString(),
+    content: output.logs.map((r) => r.content).join('\n')
+  })
 
   onEvent({
     type: 'nProgressEnd',
     nProgressEnd: ``
   })
 
-  // console.log(nextStep)
-  // onEvent({
-  //   type: 'nextStep',
-  //   text: JSON.stringify(nextStep, null, '\t')
-  // })
-
-  return nextStep
+  return output
 }
 
 //

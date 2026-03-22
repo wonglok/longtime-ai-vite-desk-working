@@ -68,7 +68,7 @@
     "nanoid": "^5.1.6",
     "nodemon": "^3.1.14",
     "nprogress": "^0.2.0",
-    "openai": "^6.25.0",
+    "openai": "^6.32.0",
     "radix-ui": "^1.4.3",
     "react-jsx-parser": "^2.4.1",
     "react-terminal-ui": "^1.4.0",

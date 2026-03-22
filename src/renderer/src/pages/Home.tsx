@@ -23,13 +23,13 @@ export function Home() {
     <div className="">
       <ArrayBlock></ArrayBlock>
 
-      <TodoKanban agentName=""></TodoKanban>
-      <Term></Term>
+      {/* <TodoKanban agentName=""></TodoKanban> */}
+      {/* <Term></Term> */}
       <MsgBlock></MsgBlock>
 
       {/* <Brain agentName=""></Brain> */}
 
-      <div className="flex mb-3 space-x-3">
+      {/* <div className="flex mb-3 space-x-3">
         <TodoKanban agentName="frontend"></TodoKanban>
         <TodoKanban agentName="backend"></TodoKanban>
       </div>
@@ -37,7 +37,7 @@ export function Home() {
       <div className="flex mb-3 space-x-3">
         <Brain agentName="frontend"></Brain>
         <Brain agentName="backend"></Brain>
-      </div>
+      </div> */}
 
       {/*  */}
     </div>

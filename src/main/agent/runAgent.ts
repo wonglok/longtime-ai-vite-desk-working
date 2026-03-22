@@ -1,6 +1,6 @@
 import { app } from 'electron'
 import { makeDirectory } from 'make-dir'
-import { writeCode, ExecStep } from './subagents/writeCode'
+import { OneStep, writeCode } from './subagents/writeCode'
 import { writeFile } from 'fs/promises'
 import path from 'path'
 import { readFile } from 'fs/promises'
@@ -17,7 +17,7 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
     return
   }
 
-  const loopRun = async ({ memory, step }: { memory: any[]; step: ExecStep }) => {
+  const loopRun = async ({ memory, step }: { memory: any[]; step: OneStep }) => {
     if (FailCounter[randID] >= 50) {
       onEvent({ type: 'error', error: 'Failed too many times.' })
       return
@@ -26,7 +26,7 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
       return
     }
 
-    const nextStep: ExecStep | null = await writeCode({
+    const nextStep: OneStep | null = await writeCode({
       plan: plan,
       step: step,
       checkAborted: checkAborted,
@@ -67,7 +67,7 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
     //   return
     // }
 
-    if (nextStep.terminateDevelopmentProcess) {
+    if (nextStep?.stop?.length > 0) {
       onEvent({
         type: 'done',
         done: `Code is fully developed`
@@ -78,19 +78,20 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
 
     return await loopRun({
       step: nextStep,
-      memory
+      memory: memory
     })
   }
 
   let state = {
     memory: [],
     step: {
-      fileToBeWritten: { path: '', content: '' },
-      terminalCalls: [],
-      whatTodoNext: '',
-      actionLog: '',
-      terminateDevelopmentProcess: false
-    } satisfies ExecStep
+      nextSteps: [],
+      codes: [],
+      logs: [],
+      commands: [],
+      commandResults: [],
+      stop: []
+    } satisfies OneStep
   }
 
   try {

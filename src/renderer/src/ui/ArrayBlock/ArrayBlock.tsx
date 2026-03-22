@@ -54,6 +54,10 @@ export function ArrayBlock({}) {
           useArchApp.setState({ terminalWindow: resp.init })
         }
 
+        if (resp.blocks) {
+          useArchApp.setState({ blocks: resp.blocks })
+        }
+
         if (resp.beforeRun) {
           nprogress.start()
           useArchApp.setState({ terminalCalls: resp.beforeRun })

@@ -6,6 +6,7 @@ export const useArchApp = create(() => {
     messages: [],
     status: ['pending', 'in-progress', 'completed'],
     todo: [] as any[],
+    blocks: [] as any[],
     done: '',
 
     // appUserPrompt: `
