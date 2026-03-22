@@ -61,6 +61,7 @@ YOU MUST WORK Within folder: "${workspace}/code"
 MUST avoid duplicated export of same code modules
 MUST avoid duplicated import of node modules
 MUST NOT run "npm run dev"
+MUST double check to avoid empty exports or missing exports.
 
 # Instructions:
 
