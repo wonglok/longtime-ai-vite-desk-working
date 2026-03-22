@@ -60,13 +60,6 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
       )
     )
 
-    // if (
-    //   nextStep?.todo.filter((r) => r.status === 'completed').length === nextStep?.todo.length &&
-    //   nextStep.todo.length > 0
-    // ) {
-    //   return
-    // }
-
     if (nextStep?.stop?.length > 0) {
       onEvent({
         type: 'done',

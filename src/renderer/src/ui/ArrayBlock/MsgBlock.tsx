@@ -9,6 +9,7 @@ export function MsgBlock({}) {
   const blocks = useArchApp((r) => r.blocks)
   const terminalCalls = useArchApp((r) => r.terminalCalls)
 
+  console.log('messages', messages)
   //
   return (
     <div className="text-xs w-full overflow-x-scroll">
@@ -26,7 +27,7 @@ export function MsgBlock({}) {
       {/* <Streamdown mode="streaming">{(stream || '').trim()}</Streamdown> */}
 
       <li key={'thinking1234'} className="border p-2 mb-2 rounded-2xl">
-        <div className="text-xs whitespace-pre-wrap p-2 bg-[#a777ff] border rounded-lg">
+        <div className="text-xs whitespace-pre-wrap p-2 bg-[#e0d0ff] text-#000000 border rounded-lg">
           {(thinking || '').trim()}
         </div>
       </li>
@@ -48,7 +49,7 @@ export function MsgBlock({}) {
         )
       })} */}
 
-      {messages.map((msg: any, i) => {
+      {messages?.map((msg: any, i) => {
         return (
           <li key={'k' + i} className="border p-2 mb-2 rounded-2xl">
             <div className="text-xs whitespace-pre-wrap p-2 bg-lime-100 border rounded-lg">

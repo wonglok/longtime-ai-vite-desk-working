@@ -71,10 +71,13 @@ export function ArrayBlock({}) {
         }
 
         if (resp.type === 'messages') {
-          useArchApp.setState({ messages: resp.messages })
+          if (resp.messages instanceof Array) {
+            useArchApp.setState({ messages: resp.messages })
+          }
         }
+
         if (resp.type === 'thinking') {
-          useArchApp.setState({ messages: resp.thinking })
+          useArchApp.setState({ thinking: resp.thinking })
         }
 
         if (resp.type === 'stream') {

@@ -198,13 +198,6 @@ MUST use ESM JavaScript and never uses TypeScript
         console.log(plan)
 
         return plan
-
-        //
-        //
-        // const content = response.choices[0].message.content || '{}'
-        // const json = JSON.parse(content)
-        // onEvent({ type: 'stream', stream: JSON.stringify(json) })
-        // return JSON.stringify(json)
       })
       .catch((r) => {
         console.error(r)

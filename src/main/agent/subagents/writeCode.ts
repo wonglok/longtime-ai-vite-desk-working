@@ -161,15 +161,12 @@ ${StreamFilesFormat}
 
   let messages = await prepareMessages(step)
 
-  onEvent({
-    type: 'messages',
-    messages: messages
-  })
-
-  onEvent({
-    type: 'todo',
-    todo: step.todo || []
-  })
+  if (messages instanceof Array) {
+    onEvent({
+      type: 'messages',
+      messages: messages
+    })
+  }
 
   const controller = new AbortController()
   const signal = controller.signal
@@ -222,8 +219,7 @@ ${StreamFilesFormat}
       onEvent({ type: 'thinking', thinking: `${thinking}` })
       onEvent({ type: 'stream', stream: `${longContent}` })
 
-      blocks = parseBlockTags(longContent, { trimContent: true }) || []
-      onEvent({ type: 'blocks', blocks: blocks })
+      blocks = parseBlockTags(`${thinking}\n${longContent}`, { trimContent: true }) || []
 
       return blocks
     })
