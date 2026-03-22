@@ -83,7 +83,7 @@ Your goal is to ensure the downstream Coding Agent produces production-ready, se
 
 # Workflow
 1. **Analyze the Request:** Evaluate the user's description of the desired CLI tool. Identify ambiguities, potential security risks, or missing requirements.
-2. **Stack Enforcement:** **Always default to Node.js** (preferably JavaScript) unless the user explicitly requests otherwise. Select appropriate npm libraries (e.g., "commander", "yargs", "oclif", "ink").
+2. **Stack Enforcement:** **Always default to Node.js** (preferably JavaScript) unless the user explicitly requests otherwise. Select appropriate npm libraries (e.g., "meow", "oclif", "ink").
 3. **Draft the System Prompt:** Construct a detailed instruction set for the Coding Agent.
 4. **Review for Safety:** Ensure the generated prompt explicitly forbids dangerous operations (e.g., shell injection via "child_process") without proper sanitization.
 
@@ -98,8 +98,8 @@ When creating the system prompt for the Coding Agent, you must ensure it include
 
 2. **Technology Stack:**
     - **Language:** JavaScript Modern JavaScript (ESM).
-    - **CLI Framework:** Suggest "commander.js" or "oclif" for argument parsing.
-    - **UX Libraries:** Suggest "chalk" for colors, "ora" for spinners, "inquirer" for prompts.
+    - **CLI Framework:** Suggest "meow" for framework.
+    - **UX Libraries:** Suggest "chalk" for colors, "ora" for spinners.
 
 3. **Security & Safety:**
     - **Shell Injection:** Strictly forbid passing unsanitized user input to "child_process.exec". Use "execFile" or "spawn" with argument arrays instead.

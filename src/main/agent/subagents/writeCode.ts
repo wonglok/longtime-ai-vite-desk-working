@@ -11,48 +11,6 @@ import { dirname, join } from 'path'
 import { makeDirectory } from 'make-dir'
 import { BlockTag, parseBlockTags, StreamFilesFormat } from './StreamFiles'
 
-// const WorkTask = z.object({
-//   // whatToDoNow: z.string(),
-
-//   // fileToRead: z
-//   //   .array(
-//   //     z.object({
-//   //       path: z.string()
-//   //     })
-//   //   )
-//   //   .describe('what codes needs to be read for the current task, max 3 files.')
-//   //   .max(3),
-
-//   nextStep: z.string().describe('think 1-2 sentences about what todo next'),
-
-//   terminalCalls: z
-//     .array(
-//       z.object({
-//         command: z.string().describe('1 command only')
-//       })
-//     )
-//     .min(0)
-//     .max(1)
-//     .describe('"terminal command'),
-
-//   actionLog: z
-//     .string()
-//     .describe(
-//       'short action log 1-2 short sentences for AI agent to follow up the progress of the current task'
-//     ),
-
-//   fileToBeWritten: z
-//     .object({
-//       path: z.string(),
-//       content: z.string()
-//     })
-//     .optional(),
-
-//   terminateDevelopmentProcess: z.boolean().describe('terminate development process')
-// })
-
-// export type ExecStep = z.infer<typeof WorkTask>
-
 export type CommandResult = {
   command: string
   successful: boolean

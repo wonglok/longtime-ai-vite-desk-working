@@ -151,48 +151,48 @@ function getBlockTypes(content: string): string[] {
   return [...new Set(blocks.map((block) => block.type))]
 }
 
-// ==========================================
-// USAGE EXAMPLES
-// ==========================================
+// // ==========================================
+// // USAGE EXAMPLES
+// // ==========================================
 
-const sampleContent = `
-[BLOCK_TAG type="code" path="example.ts"]
-function greet(name: string): string {
-  return \`Hello, \${name}!\`;
-}
-[/BLOCK_TAG]
+// const sampleContent = `
+// [BLOCK_TAG type="code" path="example.ts"]
+// function greet(name: string): string {
+//   return \`Hello, \${name}!\`;
+// }
+// [/BLOCK_TAG]
 
-[BLOCK_TAG type="terminal" extra="run in project root"]
-npm install && npm run build
-[/BLOCK_TAG]
+// [BLOCK_TAG type="terminal" extra="run in project root"]
+// npm install && npm run build
+// [/BLOCK_TAG]
 
-[BLOCK_TAG type="next-step" extra="priority: high"]
-Add error handling to the API
-[/BLOCK_TAG]
-`
+// [BLOCK_TAG type="next-step" extra="priority: high"]
+// Add error handling to the API
+// [/BLOCK_TAG]
+// `
 
-// Parse all blocks
-const allBlocks = parseBlockTags(sampleContent)
-console.log('All blocks:', allBlocks)
+// // Parse all blocks
+// const allBlocks = parseBlockTags(sampleContent)
+// console.log('All blocks:', allBlocks)
 
-// Parse single
-const single = parseOneBlockTag(`[BLOCK_TAG type="log" extra=""]System initialized[/BLOCK_TAG]`)
-console.log('Single:', single)
+// // Parse single
+// const single = parseOneBlockTag(`[BLOCK_TAG type="log" extra=""]System initialized[/BLOCK_TAG]`)
+// console.log('Single:', single)
 
-// Filter by type
-const codeBlocks = filterBlocksByType(allBlocks, 'code')
-console.log('Code blocks:', codeBlocks)
+// // Filter by type
+// const codeBlocks = filterBlocksByType(allBlocks, 'code')
+// console.log('Code blocks:', codeBlocks)
 
-// Extract content only
-const codeContent = extractBlockContent(sampleContent, 'code')
-console.log('Code content:', codeContent)
+// // Extract content only
+// const codeContent = extractBlockContent(sampleContent, 'code')
+// console.log('Code content:', codeContent)
 
-// Check for type
-console.log('Has terminal?', hasBlockType(sampleContent, 'terminal')) // true
-console.log('Has image?', hasBlockType(sampleContent, 'image')) // false
+// // Check for type
+// console.log('Has terminal?', hasBlockType(sampleContent, 'terminal')) // true
+// console.log('Has image?', hasBlockType(sampleContent, 'image')) // false
 
-// Get all types
-console.log('Types found:', getBlockTypes(sampleContent)) // ["code", "terminal", "next-step"]
+// // Get all types
+// console.log('Types found:', getBlockTypes(sampleContent)) // ["code", "terminal", "next-step"]
 
 // Export functions
 export {
