@@ -148,8 +148,9 @@ Continue work if needed. thank you for all your hard work! \n
   2. write 1 terminal command at a time: (using "terminal" block_tag)
   3. write 1 short action log 1-2 short sentences for AI agent to follow up the progress of the current task:  (using "log" block_tag)
   4. write 1 code file at a time: (using "code" block_tag)
-  5. if we completely finished the development process then write a marker. (using "stop-development" block_tag)
-
+  5. write 1 markdown file about how to use the nodejs command lile "./index.mjs ..." (using "code" block_tag)
+  6. if we completely finished the development process then write a marker. (using "stop-development" block_tag) 
+  
 ${StreamFilesFormat}
 
 `

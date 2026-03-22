@@ -139,7 +139,7 @@ Your response should follow this structure:
 - always use {"fullPage": true} screenshot: await page.screenshot({ path: "./screenshot/[...].png", fullPage: true });
 
 ## if needed, guideline for "AI, LLM":
-- if we need to connect to LLM: we use "lmstudio". the default baseURL is: "http://localhost:1234/v1", the default model is: "qwen/qwen3.5-4b", 
+- if we need to connect to LLM: we use "lmstudio". the default baseURL is: "http://localhost:1234/v1", the default model is: "qwen/qwen3.5-4b", the default API KEY is "NULL"
 - we use "openai" npm package with lmstudio 
 
 ## if needed, guideline for "generating text embedding":
@@ -170,7 +170,7 @@ MUST use ESM JavaScript and never uses TypeScript
           ],
 
           stream: true,
-          reasoning_effort: 'xhigh',
+          reasoning_effort: 'minimal',
           temperature: 0.0
           // response_format: {
           //   type: 'json_schema',
