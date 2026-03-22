@@ -9,7 +9,7 @@ export function MsgBlock({}) {
   const blocks = useArchApp((r) => r.blocks)
   const terminalCalls = useArchApp((r) => r.terminalCalls)
 
-  console.log('messages', messages)
+  // console.log('messages', messages)
   //
   return (
     <div className="text-xs w-full overflow-x-scroll">

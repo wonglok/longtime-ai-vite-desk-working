@@ -214,7 +214,7 @@ Action Log: ${one.content || ''}
       onEvent({ type: 'thinking', thinking: `${thinking}` })
       onEvent({ type: 'stream', stream: `${longContent}` })
 
-      blocks = parseBlockTags(`${thinking}\n${longContent}`, { trimContent: true }) || []
+      blocks = parseBlockTags(`${longContent}`, { trimContent: true }) || []
 
       return blocks
     })
