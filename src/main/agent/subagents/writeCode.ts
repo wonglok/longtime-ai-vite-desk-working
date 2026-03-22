@@ -64,11 +64,11 @@ MUST NOT run "npm run dev"
 
 # Instructions:
 
-1. write about 1-2 sentences about what to do next: (using "next-step" tag)
-2. write 1 terminal command at a time: (using "terminal" tag)
-3. write 1 short action log 1-2 short sentences for AI agent to follow up the progress of the current task:  (using "log" tag)
-4. write 1 code file at a time: (using "code" tag)
-5. if we completely finished the development process then write a marker. (using "stop-development" tag)
+1. write about 1-2 sentences about what to do next: (using "next-step" block_tag)
+2. write 1 terminal command at a time: (using "terminal" block_tag)
+3. write 1 short action log 1-2 short sentences for AI agent to follow up the progress of the current task:  (using "log" block_tag)
+4. write 1 code file at a time: (using "code" block_tag)
+5. if we completely finished the development process then write a marker. (using "stop-development" block_tag)
 
 ${StreamFilesFormat}
 

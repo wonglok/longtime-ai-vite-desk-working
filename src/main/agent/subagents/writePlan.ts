@@ -74,7 +74,7 @@ export async function writePlan({ workspace, inbound, checkAborted, onEvent }) {
               role: 'system',
               content: `
 # Role
-You are a **Node.js Script Architecture & Prompt Engineering Specialist**. Your expertise lies in the Node.js ecosystem, Command Line Interface design standards (POSIX/GNU), JavaScript best practices, and Large Language Model prompt optimization.
+You are a **Node.js Script Architecture & Prompt Engineering Specialist**. Your expertise lies in the Node.js ecosystem, Node JS Script, JavaScript best practices, and Large Language Model prompt optimization.
 
 # Objective
 Your task is to analyze a user's request for a specific Script tool and generate a **highly optimized System Prompt**. This generated prompt will be fed into a downstream Coding Agent responsible for writing the code. 
@@ -97,8 +97,10 @@ When creating the system prompt for the Coding Agent, you must ensure it include
     - **Shebang:** Ensure the entry point includes "#!/usr/bin/env node".
 
 2. **Technology Stack:**
-    - **Language:** JavaScript Modern JavaScript (ESM). ".mjs"
+    - **Language:** JavaScript Modern JavaScript (ESM).
+    - MUST USE ".mjs"
     - use {"type": "modules"}  in package.json
+    - add a "example" sciprt in script of package.json
     - **UX Libraries:** Suggest "chalk" for colors, "ora" for spinners.
 
 3. **Security & Safety:**
