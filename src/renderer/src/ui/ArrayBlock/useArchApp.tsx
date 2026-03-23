@@ -9,12 +9,17 @@ export const useArchApp = create(() => {
     blocks: [] as any[],
     done: '',
 
-    appModel: `qwen/qwen3.5-4b`,
+    baseURL: `http://127.0.0.1:7777/v1`,
+    apiKey: `nono`,
+    appModel: `Qwen3.5-4B-MLX-4bit`,
+    // appModel: `qwen/qwen3.5-4b`,
 
-    appName: 'web-analyser',
+    appName: 'extract',
 
+    // Tool should receive an "website url" input and take a full-page screenshot and write a website summary with the website text and screenshot
     appUserPrompt: `
-Tool should receive an "website url" input and take a full-page screenshot and write a website summary with the website text and screenshot
+Please download youtube link: https://www.youtube.com/watch?v=XVsf_2UMXwU
+and transcribe it
     `.trim(),
 
     // appModel: `qwen/qwen3.5-35b-a3b`,

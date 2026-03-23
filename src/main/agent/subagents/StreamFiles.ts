@@ -52,6 +52,56 @@ interface ParseOptions {
 }
 
 /**
+ * Extracts all fenced code blocks from a markdown string.
+ * @param {string} markdownString The input markdown content.
+ * @returns {string[]} An array of extracted code block contents.
+ */
+function extractCodeBlocks(markdownString) {
+  // Regex to find all fenced code blocks and capture their content.
+  // The 'g' flag is for global search, and 's' allows '.' to match newlines.
+  const regex = /```(?:\w+\n|\n)([\s\S]*?)\n```/g
+
+  // Use matchAll to get all occurrences and capturing groups.
+  // The spread operator converts the iterator to an array.
+  const matches = [...markdownString.matchAll(regex)]
+
+  // Map the matches to return only the content of the captured group (index 1).
+  const codeBlocks = matches.map((match) => match[1])
+
+  return codeBlocks
+}
+
+// // Example Usage:
+// const markdownText = `
+// Here is some general text and an inline code \`example\`.
+
+// And here is a JavaScript code block:
+// \`\`\`javascript
+// console.log('Hello, world!');
+// function foo() {
+//   return 'bar';
+// }
+// \`\`\`
+
+// Another block without a language specifier:
+// \`\`\`
+// def my_func():
+//     print("Python or something")
+// \`\`\`
+
+// That's all.
+// `
+
+// const extractedBlocks = extractCodeBlocks(markdownText)
+// console.log(extractedBlocks)
+
+// Output:
+// [
+//   "console.log('Hello, world!');\nfunction foo() {\n  return 'bar';\n}",
+//   'def my_func():\n    print("Python or something")'
+// ]
+
+/**
  * Parse content and extract all BLOCK_TAG elements
  * @param content - The raw content to parse
  * @param options - Optional parsing options
@@ -68,11 +118,16 @@ function parseBlockTags(content: string, options: ParseOptions = {}): BlockTag[]
   let match: RegExpExecArray | null
 
   while ((match = blockPattern.exec(content)) !== null) {
+    let content = trimContent ? match[4].trim() : match[4]
+    let codelist = extractCodeBlocks(content)
+
+    console.log(codelist)
+
     blocks.push({
       type: match[1],
       path: match[2] || null,
       extra: match[3] || '',
-      content: trimContent ? match[4].trim() : match[4],
+      content: codelist[0],
       raw: match[0]
     })
   }

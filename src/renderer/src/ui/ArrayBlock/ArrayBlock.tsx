@@ -10,6 +10,8 @@ export function ArrayBlock({}) {
   const appName = useArchApp((r) => r.appName)
   const appUserPrompt = useArchApp((r) => r.appUserPrompt)
   const appModel = useArchApp((r) => r.appModel)
+  const baseURL = useArchApp((r) => r.baseURL)
+  const apiKey = useArchApp((r) => r.apiKey)
 
   const [working, setWorking] = useState(false)
   const [stopFunc, setStop] = useState<any>(() => {
@@ -27,9 +29,9 @@ export function ArrayBlock({}) {
 
     const controller = window.api.askAI(
       {
-        baseURL: `http://localhost:1234/v1`,
+        baseURL: baseURL || `http://localhost:1234/v1`,
 
-        apiKey: 'N/A',
+        apiKey: apiKey || 'nono',
 
         route: 'runAppPlanner',
 
