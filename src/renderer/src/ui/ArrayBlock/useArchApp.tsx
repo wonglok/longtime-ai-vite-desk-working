@@ -44,7 +44,7 @@ https://www.youtube.com/watch?v=W8GgMiCOVRo
 
 - convert each .mp4 video to .wav audio
 
-- transcribe .wav audio to text with openai whisper
+- transcribe .wav audio to text in their original language using "openai-whisper" in auto mode
 
 - create a "testimony" folder, within it, create sub-folder using "video title" and put the "video", "audio" and "transcript" in it. 
   
