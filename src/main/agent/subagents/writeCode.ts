@@ -86,6 +86,7 @@ Time: ${one.timestamp || ''}
 Command: ${one.command || ''} 
 Result: ${one.successful ? `Successful` : `Failed`}
 ${one.result || ''}
+------
     `.trim()
 
         text += `${item}\n`
@@ -124,6 +125,7 @@ ${one.content || ''}
         let item = `
 Timestamp: ${one.timestamp}
 Action Log: ${one.content || ''}
+------
     `.trim()
 
         text += `${item}\n`
@@ -192,7 +194,7 @@ ${StreamFilesFormat}
         stream_options: {
           include_usage: true
         },
-        reasoning_effort: 'medium',
+        reasoning_effort: 'high',
         temperature: 0
       },
       { signal }

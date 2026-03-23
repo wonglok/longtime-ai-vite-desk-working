@@ -6,12 +6,10 @@ export const useArchApp = create(() => {
   let getSeed = () => {
     let date = new Date()
     let ver = moment(date).format('YYYY-MM-DD')
-    // let time = date.getTime()
     return `${[`${ver}`, Math.random().toString(36).slice(2, 9), `${mindset[Math.floor(Math.random() * mindset.length)]}`].join('--')}`
   }
 
   return {
-    //
     cmd_begin: '',
     messages: [],
     status: ['pending', 'in-progress', 'completed'],
@@ -25,7 +23,6 @@ export const useArchApp = create(() => {
     baseURL: `http://127.0.0.1:1234/v1`,
     apiKey: `nono`,
 
-    //
     // appModel: `Qwen3.5-4B-MLX-4bit`,
     appModel: `qwen/qwen3.5-4b`,
 

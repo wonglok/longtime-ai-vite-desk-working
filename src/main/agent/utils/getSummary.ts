@@ -19,10 +19,14 @@ async function extractSummaryComments(rootDir) {
         if (fullPath.includes('.next')) {
           continue
         }
+        if (fullPath.includes('venv')) {
+          continue
+        }
 
         if (entry.isDirectory()) {
           await scanDirectory(fullPath) // Recurse into subdirectories
-        } else if (entry.isFile() && isSupportedExtension(entry.name)) {
+        } else if (entry.isFile()) {
+          // && isSupportedExtension(entry.name)
           await extractFromFile(fullPath, results)
         }
       }
