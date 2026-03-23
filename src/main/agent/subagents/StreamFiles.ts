@@ -1,30 +1,29 @@
 export const StreamFilesFormat = `
 
-## File Output Foramtting
+# File Output Foramtting
 
-- if you want to write a code file
+- for writing a code file
 [BLOCK_TAG type="code" path="{path}"]
 {content}
 [/BLOCK_TAG]
 
-- if you want to write terminal command
+- for running terminal
 [BLOCK_TAG type="terminal" extra=""]
 {command}
 [/BLOCK_TAG]
 
-- if you want to think about next-step
+- for writing next step
 [BLOCK_TAG type="next-step" extra=""]
 {content}
 [/BLOCK_TAG]
 
-
-- if you want to think about action log
+- for writing log
 [BLOCK_TAG type="log" extra=""]
 {content}
 [/BLOCK_TAG]
 
-- if you think we finished the app development completetly
-[BLOCK_TAG type="stop-development" extra=""]
+- for ending the process
+[BLOCK_TAG type="goal-achieved" extra=""]
 {content}
 [/BLOCK_TAG]
 

@@ -60,10 +60,6 @@ ${inbound.appUserPrompt}
 `.trim()
     })
 
-    console.log(`
-YOU HELP the user achieve his goal:
-${inbound.appUserPrompt}`)
-
     let files = await (await scanFolder(`${workspace}/code`)).trim()
 
     if (files) {
@@ -140,12 +136,11 @@ Action Log: ${one.content || ''}
 Continue work if needed. thank you for all your hard work! \n
 
 # Instructions:
-  1. write about 1-2 sentences about what to do next: (using "next-step" block_tag) 
-  2. write 1 terminal command at a time: (using "terminal" block_tag)
-  3. write 1 short action log 1-2 short sentences for AI agent to follow up the progress of the current task:  (using "log" block_tag)
-  4. write 1 code file at a time: (using "code" block_tag)
-  5. write 1 markdown file about how to use the nodejs script (using "code" block_tag)
-  6. if we completely achieved the User Goal then write a marker. (using "stop-development" block_tag) 
+  - if we successfully achieved the User Goal, make sure you verify the goal with terminal, then write a marker. (using "goal-achieved" block_tag) 
+  - write 1 code file at a time: (using "code" block_tag)
+  - write 1 terminal command at a time: (using "terminal" block_tag)
+  - write 1 short action log 1-2 short sentences for AI agent to follow up the progress of the current task:  (using "log" block_tag)
+  - write about 1-2 sentences about what to do next: (using "next-step" block_tag) 
   
 ${StreamFilesFormat}
 
@@ -190,7 +185,7 @@ ${StreamFilesFormat}
         stream_options: {
           include_usage: true
         },
-        reasoning_effort: 'high',
+        // reasoning_effort: 'medium',
         temperature: 0
       },
       { signal }
@@ -237,7 +232,7 @@ ${StreamFilesFormat}
 
   let codes = blocks.filter((r) => r.type === 'code')
   let commands = blocks.filter((r) => r.type === 'terminal')
-  let stop = blocks.filter((r) => r.type === 'stop-development')
+  let stop = blocks.filter((r) => r.type === 'goal-achieved')
 
   let output: OneStep = {
     nextSteps: nextSteps,

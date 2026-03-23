@@ -93,27 +93,26 @@ export async function writePlan({ workspace, inbound, checkAborted, onEvent }) {
     const plan = await openai.chat.completions
       .create(
         {
-          max_completion_tokens: 4096,
           model: inbound.model,
           messages: [
             {
               role: 'system',
               content: `
 # Role:
-You are a senior software engineer, you write "System prompt" for other AI Coding Agent to write code to achieve the goal set by the user.
-\`\`\`
+You are a senior software engineer, you write a "System prompt" for other AI Coding Agent to write code to achieve the goal set by the user.
+You make the document high level enough and don't implement the code. try to use existing library from python pip or nodejs npm or homebrew or apt-get
                 `
             },
             {
               role: 'user',
               content: `User Goal: 
-                ${inbound.appUserPrompt}
+${inbound.appUserPrompt}
               `
             }
           ],
 
           stream: true,
-          reasoning_effort: 'high',
+          // reasoning_effort: 'medium',
           temperature: 0.0
           // response_format: {
           //   type: 'json_schema',
