@@ -10,9 +10,12 @@ export const useArchApp = create(() => {
     blocks: [] as any[],
     done: '',
 
+    //
     // baseURL: `http://127.0.0.1:7777/v1`,
     baseURL: `http://127.0.0.1:1234/v1`,
     apiKey: `nono`,
+
+    //
     // appModel: `Qwen3.5-4B-MLX-4bit`,
     appModel: `qwen/qwen3.5-4b`,
 
@@ -20,7 +23,8 @@ export const useArchApp = create(() => {
 
     // Tool should receive an "website url" input and take a full-page screenshot and write a website summary with the website text and screenshot
     appUserPrompt: `
-Please download auduo from youtube link: https://www.youtube.com/watch?v=XVsf_2UMXwU
+Please download mp4 video from youtube link: https://www.youtube.com/watch?v=XVsf_2UMXwU
+and put it into a ouput folder for me and open the folder for me when all done.
 `.trim(),
 
     // appModel: `qwen/qwen3.5-35b-a3b`,
