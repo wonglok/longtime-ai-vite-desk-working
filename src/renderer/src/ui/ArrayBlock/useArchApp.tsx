@@ -23,7 +23,9 @@ export const useArchApp = create(() => {
 
     // Tool should receive an "website url" input and take a full-page screenshot and write a website summary with the website text and screenshot
     appUserPrompt: `
-Please download mp4 video from youtube link: https://www.youtube.com/watch?v=XVsf_2UMXwU
+Please download mp4 video from youtube link: 
+https://www.youtube.com/watch?v=XVsf_2UMXwU
+https://www.youtube.com/watch?v=yyXwaUQOzlg
 and put it into a ouput folder for me and open the folder for me when all done.
 `.trim(),
 
