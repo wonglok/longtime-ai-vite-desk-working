@@ -63,7 +63,7 @@ export const runAgent = async ({ done, plan, checkAborted, onEvent, inbound, ran
     if (nextStep?.stop?.length > 0) {
       onEvent({
         type: 'done',
-        done: `User written goal achieved`
+        done: `User written goal achieved\n\n${nextStep.stop.map((r) => r.content).join('\n')}`
       })
 
       return
