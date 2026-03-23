@@ -1,4 +1,4 @@
-export const mindsetSlugs = [
+export const mindset = [
   'i-can-do-all-things-philippians-4-13',
   'no-spirit-of-fear-2-timothy-1-7',
   'the-lord-is-my-light-psalm-27-1',

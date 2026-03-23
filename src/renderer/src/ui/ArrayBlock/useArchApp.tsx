@@ -1,5 +1,6 @@
 import { create } from 'zustand'
-import { mindsetSlugs } from './mindset'
+import { mindset } from './mindset'
+
 export const useArchApp = create(() => {
   return {
     //
@@ -12,9 +13,9 @@ export const useArchApp = create(() => {
 
     //
     getSeed: () => {
-      return `${[`[${Math.random().toString(35).slice(2, 9)}]`, `${mindsetSlugs[Math.floor(Math.random() * mindsetSlugs.length)]}`].join('-')}`
+      return `${[`[${Math.random().toString(35).slice(2, 9)}]`, `${mindset[Math.floor(Math.random() * mindset.length)]}`].join('-')}`
     },
-    seed: `${[`[${Math.random().toString(35).slice(2, 9)}]`, `${mindsetSlugs[Math.floor(Math.random() * mindsetSlugs.length)]}`].join('-')}`,
+    seed: `${[`[${Math.random().toString(35).slice(2, 9)}]`, `${mindset[Math.floor(Math.random() * mindset.length)]}`].join('-')}`,
     // baseURL: `http://127.0.0.1:7777/v1`,
     baseURL: `http://127.0.0.1:1234/v1`,
     apiKey: `nono`,
@@ -23,7 +24,7 @@ export const useArchApp = create(() => {
     // appModel: `Qwen3.5-4B-MLX-4bit`,
     appModel: `qwen/qwen3.5-4b`,
 
-    appName: 'audio-youtube-downloader',
+    appName: 'goal-achiever',
 
     // Tool should receive an "website url" input and take a full-page screenshot and write a website summary with the website text and screenshot
     appUserPrompt: `
