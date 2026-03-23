@@ -1,7 +1,14 @@
 import { create } from 'zustand'
 import { mindset } from './mindset'
+import moment from 'moment'
 
 export const useArchApp = create(() => {
+  let getSeed = () => {
+    let date = new Date()
+    let ver = moment(date).format('YYYY-MM-DD[--]HH:mm')
+    return `${[`Date--${ver}`, `${mindset[Math.floor(Math.random() * mindset.length)]}`, Math.random().toString(36).slice(2, 9)].join('--')}`
+  }
+
   return {
     //
     cmd_begin: '',
@@ -11,11 +18,8 @@ export const useArchApp = create(() => {
     blocks: [] as any[],
     done: '',
 
-    //
-    getSeed: () => {
-      return `${[`[${Math.random().toString(35).slice(2, 9)}]`, `${mindset[Math.floor(Math.random() * mindset.length)]}`].join('-')}`
-    },
-    seed: `${[`[${Math.random().toString(35).slice(2, 9)}]`, `${mindset[Math.floor(Math.random() * mindset.length)]}`].join('-')}`,
+    getSeed: getSeed,
+    seed: `${getSeed()}`,
     // baseURL: `http://127.0.0.1:7777/v1`,
     baseURL: `http://127.0.0.1:1234/v1`,
     apiKey: `nono`,
