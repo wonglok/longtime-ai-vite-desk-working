@@ -70,6 +70,7 @@
     "nprogress": "^0.2.0",
     "openai": "^6.32.0",
     "radix-ui": "^1.4.3",
+    "random-words": "^2.0.1",
     "react-jsx-parser": "^2.4.1",
     "react-terminal-ui": "^1.4.0",
     "shiki": "^4.0.1",

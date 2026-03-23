@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { useArchApp } from './useArchApp'
 import nprogress from 'nprogress'
 import { toast } from 'sonner'
+import { generate } from 'random-words'
 
 export function ArrayBlock({}) {
   const appName = useArchApp((r) => r.appName)
@@ -12,11 +13,16 @@ export function ArrayBlock({}) {
   const appModel = useArchApp((r) => r.appModel)
   const baseURL = useArchApp((r) => r.baseURL)
   const apiKey = useArchApp((r) => r.apiKey)
+  const seed = useArchApp((r) => r.seed)
 
   const [working, setWorking] = useState(false)
   const [stopFunc, setStop] = useState<any>(() => {
     return () => {}
   })
+
+  useEffect(() => {
+    useArchApp.setState({ seed: `${generate(1)}-${Math.random().toString(36).slice(2, 9)}` })
+  }, [])
 
   useEffect(() => {
     return () => {
@@ -39,7 +45,7 @@ export function ArrayBlock({}) {
 
         model: `${appModel}`,
 
-        appName: `${appName}`,
+        appName: `${appName}-${seed}`,
 
         appUserPrompt: `${appUserPrompt}`
       },
@@ -198,11 +204,23 @@ export function ArrayBlock({}) {
     <>
       <div className="flex">
         <div className="p-2 mb-2 rounded-2xl border">
+          <div>Proejct Name</div>
           <Textarea
             value={appName}
             onChange={(ev) => {
               useArchApp.setState({
                 appName: ev.target.value
+              })
+            }}
+            rows={1}
+            className="mb-2"
+          ></Textarea>
+          <div>Seed</div>
+          <Textarea
+            value={seed}
+            onChange={(ev) => {
+              useArchApp.setState({
+                seed: ev.target.value
               })
             }}
             rows={1}
