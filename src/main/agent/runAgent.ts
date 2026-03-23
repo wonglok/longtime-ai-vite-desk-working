@@ -63,7 +63,7 @@ export const runAgent = async ({ done, plan, checkAborted, onEvent, inbound, ran
     if (nextStep?.stop?.length > 0) {
       onEvent({
         type: 'done',
-        done: `Code is fully developed`
+        done: `User written goal achieved`
       })
 
       done()
