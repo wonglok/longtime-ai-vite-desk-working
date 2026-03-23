@@ -32,7 +32,7 @@ Please download mp4 video from youtube link:
 https://www.youtube.com/watch?v=XVsf_2UMXwU
 https://www.youtube.com/watch?v=yyXwaUQOzlg
 https://www.youtube.com/watch?v=W8GgMiCOVRo
-and put it into a ouput folder for me and open the folder for me when all done.
+and put it into a output folder for me and open the folder for me when all are done.
 `.trim(),
 
     // appModel: `qwen/qwen3.5-35b-a3b`,
