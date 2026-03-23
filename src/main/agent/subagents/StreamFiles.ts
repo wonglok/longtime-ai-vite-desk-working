@@ -119,15 +119,29 @@ function parseBlockTags(content: string, options: ParseOptions = {}): BlockTag[]
 
   while ((match = blockPattern.exec(content)) !== null) {
     let content = trimContent ? match[4].trim() : match[4]
-    let codelist = extractCodeBlocks(content)
+    content = content.replace(/\`\`\`python/gi, '')
 
-    console.log(codelist)
+    content = content.replace(/\`\`\`js/gi, '')
+
+    content = content.replace(/\`\`\`jsx/gi, '')
+
+    content = content.replace(/\`\`\`javascript/gi, '')
+
+    content = content.replace(/\`\`\`ts/gi, '')
+
+    content = content.replace(/\`\`\`tsx/gi, '')
+
+    content = content.replace(/\`\`\`typescript/gi, '')
+
+    content = content.replace(/\`\`\`/gi, '')
+
+    console.log('content', content)
 
     blocks.push({
       type: match[1],
       path: match[2] || null,
       extra: match[3] || '',
-      content: codelist[0],
+      content: content,
       raw: match[0]
     })
   }

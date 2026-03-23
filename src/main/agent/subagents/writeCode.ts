@@ -48,25 +48,21 @@ export async function writeCode({
     messages.push({
       role: 'user',
       content: `
+# System Prompt:
 ${plan}
 
 # GUIDELINES:
 
-MUST avoid duplicated export of same code modules
-MUST avoid duplicated import of node modules
-MUST NOT run "npm run dev"
-
 YOU MUST WORK Within folder: "${workspace}/code"
 
-MUST avoid duplicated export of same code modules
-MUST avoid duplicated import of node modules
-MUST NOT run "npm run dev"
-MUST double check to avoid empty exports or missing exports.
-
-MUST use "chmod +x ./index.mjs" to make it usable
-
+YOU HELP the user achieve his goal by writing the code and executing it:
+${inbound.appUserPrompt}
 `.trim()
     })
+
+    console.log(`
+YOU HELP the user achieve his goal:
+${inbound.appUserPrompt}`)
 
     let files = await (await scanFolder(`${workspace}/code`)).trim()
 
@@ -149,7 +145,7 @@ Continue work if needed. thank you for all your hard work! \n
   3. write 1 short action log 1-2 short sentences for AI agent to follow up the progress of the current task:  (using "log" block_tag)
   4. write 1 code file at a time: (using "code" block_tag)
   5. write 1 markdown file about how to use the nodejs script (using "code" block_tag)
-  6. if we completely finished the development process then write a marker. (using "stop-development" block_tag) 
+  6. if we completely achieved the User Goal then write a marker. (using "stop-development" block_tag) 
   
 ${StreamFilesFormat}
 
