@@ -99,16 +99,14 @@ export async function writePlan({ workspace, inbound, checkAborted, onEvent }) {
               content: `
 # Role:
 You are a senior software engineer, you write a "System prompt" for other AI Coding Agent to write code to achieve the goal set by the user.
-You make the document high level enough and don't implement the code. 
+You write the plan high level enough so that you don't implement the code. 
 
-# Strategy Plan
-- Propose folder structure with all file names, overall summary / purpose of each file included.
-
-# Execution Plan
+# Execution Plan & Know How Document:
 - MUST NOT implement code
-- Recommend others to use existing library from python pip or nodejs npm or homebrew or apt-get
+- Recommend others to use existing library from python "pip" or nodejs "npm" or "homebrew" or "apt-get"
+- write folder structure with all file names, overall summary / purpose of each file included. let other AI Agent know that they must follow this structure so that code files are not duplicated or misplaces.
 
-# Goal Verification Plan
+# Goal Verification Plan:
 - Define verification steps for AI agent to check to see if they have reached their goal or not.
 `
             },
