@@ -223,6 +223,42 @@ export function ArrayBlock({}) {
             className="mb-2"
           ></Textarea>
 
+          <div>BaseURL</div>
+          <Textarea
+            value={baseURL}
+            onChange={(ev) => {
+              useArchApp.setState({
+                baseURL: ev.target.value
+              })
+            }}
+            rows={1}
+            className="mb-2"
+          ></Textarea>
+
+          <div>apiKey</div>
+          <Textarea
+            value={apiKey}
+            onChange={(ev) => {
+              useArchApp.setState({
+                apiKey: ev.target.value
+              })
+            }}
+            rows={1}
+            className="mb-2"
+          ></Textarea>
+
+          <div>appModel</div>
+          <Textarea
+            value={appModel}
+            onChange={(ev) => {
+              useArchApp.setState({
+                appModel: ev.target.value
+              })
+            }}
+            rows={1}
+            className="mb-2"
+          ></Textarea>
+
           <Textarea
             value={appUserPrompt}
             onChange={(ev) => {
