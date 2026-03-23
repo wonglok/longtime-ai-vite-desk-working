@@ -36,8 +36,6 @@ export const useArchApp = create(() => {
 
     appName: 'testimony-database',
 
-    // 10K ctx window
-    // Tool should receive an "website url" input and take a full-page screenshot and write a website summary with the website text and screenshot
     appUserPrompt: `
 # Overall Steps:
 - Please download mp4 video from youtube link: 
@@ -52,11 +50,6 @@ https://www.youtube.com/watch?v=W8GgMiCOVRo
   
 - open the folder for me when all are done
 
-- translate the transcript text to english using "openai" sdk
-  openAI config baseURL: http://127.0.0.1:1234/v1
-  openAI config apiKey: nono
-  openAI config model: qwen/qwen3.5-35b-a3b
-
 `.trim(),
     /*
      */
@@ -67,6 +60,15 @@ https://www.youtube.com/watch?v=W8GgMiCOVRo
     terminalWindow: ''
   }
 })
+
+/*
+
+- translate the transcript text to english using "openai" sdk
+  openAI config baseURL: http://127.0.0.1:1234/v1
+  openAI config apiKey: nono
+  openAI config model: qwen/qwen3.5-35b-a3b
+
+*/
 
 // appUserPrompt: `
 // I want to build an inspiration tool.
