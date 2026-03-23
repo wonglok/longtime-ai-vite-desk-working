@@ -34,7 +34,7 @@ export const useArchApp = create(() => {
     // qwen/qwen3-coder-30b // not work
     appModel: `qwen/qwen3.5-35b-a3b`,
 
-    appName: 'goal-achiever',
+    appName: 'testimony-database',
 
     // 10K ctx window
     // Tool should receive an "website url" input and take a full-page screenshot and write a website summary with the website text and screenshot
@@ -51,9 +51,9 @@ https://www.youtube.com/watch?v=W8GgMiCOVRo
 - create a "testimony" folder, within it, create sub-folder using "video title" and put the "video", "audio" and "transcript" in it. 
 
 - translate the transcript text to english using "openai ai sdk"
-  LLM config baseURL: http://127.0.0.1:1234/v1
-  LLM config apiKey: nono
-  LLM config model: google/gemma-3-12b
+  openAI config baseURL: http://127.0.0.1:1234/v1
+  openAI config apiKey: nono
+  openAI config model: google/gemma-3-12b
 
 - open the folder for me when all are done
 `.trim(),
