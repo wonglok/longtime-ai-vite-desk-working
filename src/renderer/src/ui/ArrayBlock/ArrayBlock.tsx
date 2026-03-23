@@ -21,7 +21,9 @@ export function ArrayBlock({}) {
   })
 
   useEffect(() => {
-    useArchApp.setState({ seed: `${generate(1)}-${Math.random().toString(36).slice(2, 9)}` })
+    useArchApp.setState({
+      seed: `${[generate(1), generate(1), generate(1), `${Math.random().toString(35).slice(2, 9)}`].join('-')}`
+    })
   }, [])
 
   useEffect(() => {
