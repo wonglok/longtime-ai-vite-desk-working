@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { useEffect, useState } from 'react'
 // @ts-ignore
-import { mindsetSlugs, useArchApp } from './useArchApp'
+import { useArchApp } from './useArchApp'
 import nprogress from 'nprogress'
 import { toast } from 'sonner'
 // import { generate } from 'random-words'
