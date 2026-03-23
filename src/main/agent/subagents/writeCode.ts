@@ -131,7 +131,8 @@ Action Log: ${one.content || ''}
       content: `
 # Instructions:
   - Check User Goal verification results in the action logs.
-    If the goal is achieved successfully, then write a marker to end the process: (using "goal-achieved" block_tag) 
+    If the goal is achieved successfully:
+      - Write a marker to end the process: (using "goal-achieved" block_tag) 
     If the goal isn't achieved then:
       - Implement code according to the system prompt: (using "code" block_tag)
       - MUST write 1 short action log with 2-3 sentences for AI agent to follow up the progress of the current task:  (using "log" block_tag)
