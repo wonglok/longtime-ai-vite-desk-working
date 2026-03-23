@@ -1,6 +1,8 @@
 export const StreamFilesFormat = `
 
-# File Output Foramtting
+# File Output Foramtting 
+
+- MUST FOLLOW [BLOCK_TAG ...]...[/BLOCK_TAG] naming
 
 - for writing a code file
 [BLOCK_TAG type="code" path="{path}"]
