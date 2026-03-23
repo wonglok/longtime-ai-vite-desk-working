@@ -11,7 +11,7 @@ export const useArchApp = create(() => {
     done: '',
 
     //
-    seed: '',
+    seed: `${[`[${Math.random().toString(35).slice(2, 9)}]`, `${mindsetSlugs[Math.floor(Math.random() * mindsetSlugs.length)]}`].join('-')}`,
     // baseURL: `http://127.0.0.1:7777/v1`,
     baseURL: `http://127.0.0.1:1234/v1`,
     apiKey: `nono`,

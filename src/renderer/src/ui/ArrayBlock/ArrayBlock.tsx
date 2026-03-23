@@ -21,12 +21,6 @@ export function ArrayBlock({}) {
   })
 
   useEffect(() => {
-    useArchApp.setState({
-      seed: `${[`[${Math.random().toString(35).slice(2, 9)}]`, `${mindsetSlugs[Math.floor(Math.random() * mindsetSlugs.length)]}`].join('-')}`
-    })
-  }, [])
-
-  useEffect(() => {
     return () => {
       stopFunc()
     }
