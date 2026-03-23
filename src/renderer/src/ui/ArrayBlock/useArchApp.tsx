@@ -3,6 +3,7 @@ import { create } from 'zustand'
 export const useArchApp = create(() => {
   return {
     //
+    cmd_begin: '',
     messages: [],
     status: ['pending', 'in-progress', 'completed'],
     todo: [] as any[],

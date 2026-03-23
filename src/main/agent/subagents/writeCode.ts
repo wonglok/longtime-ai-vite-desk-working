@@ -55,8 +55,6 @@ ${plan}
 
 YOU MUST WORK Within folder: "${workspace}/code"
 
-YOU HELP the user achieve his goal by writing the code and executing it:
-${inbound.appUserPrompt}
 `.trim()
     })
 
@@ -135,14 +133,18 @@ Action Log: ${one.content || ''}
       content: `
 Continue work if needed. thank you for all your hard work! \n
 
-# Instructions:
-  - if we successfully achieved the User Goal, make sure you verify the goal with terminal, then write a marker. (using "goal-achieved" block_tag) 
-  - write 1 code file at a time: (using "code" block_tag)
-  - write 1 terminal command at a time: (using "terminal" block_tag)
-  - write 1 short action log 1-2 short sentences for AI agent to follow up the progress of the current task:  (using "log" block_tag)
-  - write about 1-2 sentences about what to do next: (using "next-step" block_tag) 
-  
 ${StreamFilesFormat}
+
+# Instructions:
+  - write code files: (using "code" block_tag)
+  - write 1 short action log with 2 short sentences for AI agent to follow up the progress of the current task:  (using "log" block_tag)
+  - write 1 short next step with 2-3 sentences: (using "next-step" block_tag) 
+  - write 1 (MUST NOT BE MORE THAN 1) terminal command: (using "terminal" block_tag) 
+  - if we successfully achieved the User Goal, make sure you verify the goal with terminal, then write a marker. (using "goal-achieved" block_tag) 
+
+
+Original Goal Text from User:
+${inbound.appUserPrompt}
 
 `
     })

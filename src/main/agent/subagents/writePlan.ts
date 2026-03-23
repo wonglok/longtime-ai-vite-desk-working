@@ -65,7 +65,6 @@ export async function writePlan({ workspace, inbound, checkAborted, onEvent }) {
     console.log(e.message)
 
     /*
-    
 
 ## if needed, guideline for "browser":
 - if we need to use browser automation: we use "playwrite" npm package, config is: {"headless": "false"}, "page.goto(url, { waitUntil: 'load' });", if we take screenshots we put it into "./public/screenshots/[id].png", if we need to save text data we put it into "json database"
@@ -100,8 +99,10 @@ export async function writePlan({ workspace, inbound, checkAborted, onEvent }) {
               content: `
 # Role:
 You are a senior software engineer, you write a "System prompt" for other AI Coding Agent to write code to achieve the goal set by the user.
-You make the document high level enough and don't implement the code. try to use existing library from python pip or nodejs npm or homebrew or apt-get
-                `
+You make the document high level enough and don't implement the code. 
+try to use existing library from python pip or nodejs npm or homebrew or apt-get
+try to propose folder structure with all file names included.
+`
             },
             {
               role: 'user',

@@ -6,6 +6,7 @@ export function MsgBlock({}) {
   const done = useArchApp((r) => r.done)
   const stream = useArchApp((r) => r.stream)
   const thinking = useArchApp((r) => r.thinking)
+  const cmd_begin = useArchApp((r) => r.cmd_begin)
   // const blocks = useArchApp((r) => r.blocks)
   // const terminalCalls = useArchApp((r) => r.terminalCalls)
 
@@ -14,6 +15,7 @@ export function MsgBlock({}) {
   return (
     <div className="text-xs w-full overflow-x-scroll">
       {done && <div className="bg-green-500 text-white p-2 rounded-2xl m-2">{done}</div>}
+      {cmd_begin && <div className="bg-[#001580] text-white p-2 rounded-2xl m-2">{cmd_begin}</div>}
 
       {/* {blocks.map((msg: any, i) => {
         return (

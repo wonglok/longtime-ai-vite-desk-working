@@ -115,6 +115,7 @@ export function ArrayBlock({}) {
         }
 
         if (resp.type === 'cmd_begin') {
+          useArchApp.setState({ cmd_begin: resp.cmd_begin })
           // toast.info(resp['cmd_begin'])
 
           nprogress.start()
@@ -159,6 +160,7 @@ export function ArrayBlock({}) {
             }
           )
           nprogress.done()
+          useArchApp.setState({ cmd_begin: '' })
         }
       }
     )
