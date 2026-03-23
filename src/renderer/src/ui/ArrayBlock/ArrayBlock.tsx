@@ -2,113 +2,10 @@ import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { useEffect, useState } from 'react'
 // @ts-ignore
-import { useArchApp } from './useArchApp'
+import { mindsetSlugs, useArchApp } from './useArchApp'
 import nprogress from 'nprogress'
 import { toast } from 'sonner'
-import { generate } from 'random-words'
-
-const slugs = [
-  'i-am-capable-of-amazing-things',
-  'believe-in-yourself',
-  'progress-over-perfection',
-  'every-day-is-a-fresh-start',
-  'i-choose-to-be-happy',
-  'my-potential-is-limitless',
-  'i-am-worthy-of-success',
-  'focus-on-the-good',
-  'keep-moving-forward',
-  'small-steps-lead-to-big-results',
-  'i-embrace-challenges',
-  'mistakes-are-opportunities-to-learn',
-  'i-am-resilient',
-  'positive-thoughts-create-positive-results',
-  'i-have-the-power-to-create-change',
-  'happiness-is-a-choice',
-  'i-am-surrounded-by-support',
-  'i-trust-my-journey',
-  'one-day-at-a-time',
-  'i-am-getting-stronger-every-day',
-  'success-starts-with-a-mindset',
-  'i-am-in-control-of-my-reactions',
-  'gratitude-turns-what-we-have-into-enough',
-  'i-deserve-to-be-happy',
-  'my-mind-is-full-of-bright-ideas',
-  'i-am-brave-and-bold',
-  'i-can-and-i-will',
-  'be-kind-to-yourself',
-  'the-best-is-yet-to-come',
-  'i-am-the-architect-of-my-life',
-  'dream-big-work-hard',
-  'i-am-enough',
-  'challenges-make-me-grow',
-  'i-choose-peace-over-worry',
-  'radiate-positivity',
-  'i-am-constantly-evolving',
-  'my-hard-work-will-pay-off',
-  'i-am-proud-of-my-progress',
-  'i-attract-abundance',
-  'stay-patient-and-trust-the-process',
-  'i-am-a-problem-solver',
-  'i-am-full-of-energy',
-  'live-in-the-moment',
-  'i-have-a-warrior-spirit',
-  'i-am-open-to-new-possibilities',
-  'my-voice-matters',
-  'i-create-my-own-sunshine',
-  'i-am-a-magnet-for-miracles',
-  'nothing-is-impossible',
-  'i-am-free-to-be-me',
-  'i-love-the-person-i-am-becoming',
-  'i-am-bold-enough-to-pursue-my-dreams',
-  'i-can-handle-anything-life-throws-at-me',
-  'my-failures-do-not-define-me',
-  'i-am-at-peace-with-my-past',
-  'i-am-excited-for-the-future',
-  'i-have-plenty-of-time',
-  'i-am-disciplined-and-focused',
-  'my-life-is-full-of-purpose',
-  'i-am-kind-to-everyone',
-  'i-am-worthy-of-love',
-  'i-am-becoming-the-best-version-of-myself',
-  'every-breath-i-take-fills-me-with-confidence',
-  'i-am-a-source-of-inspiration',
-  'i-am-calm-and-centered',
-  'i-am-making-a-difference',
-  'my-energy-is-contagious',
-  'i-am-persistent-and-patient',
-  'i-am-grateful-for-this-day',
-  'i-have-a-heart-of-gold',
-  'i-am-in-alignment-with-my-goals',
-  'my-possibilities-are-endless',
-  'i-am-brave-enough-to-try',
-  'i-am-deserving-of-all-the-good-things',
-  'i-am-choosing-to-let-go-of-fear',
-  'i-am-smart-and-capable',
-  'i-am-a-light-in-the-world',
-  'i-am-creating-a-life-i-love',
-  'i-am-in-charge-of-my-happiness',
-  'i-am-growing-wiser-every-day',
-  'i-am-surrounded-by-love-and-light',
-  'i-am-a-winner',
-  'i-am-focused-on-the-present',
-  'i-am-a-masterpiece-in-progress',
-  'i-am-confident-in-my-abilities',
-  'i-am-exactly-where-i-need-to-be',
-  'i-am-full-of-creative-energy',
-  'i-am-breaking-through-my-limits',
-  'i-am-a-leader',
-  'i-am-healthy-and-strong',
-  'i-am-capable-of-reaching-my-goals',
-  'i-am-attracting-positive-people',
-  'i-am-dedicated-to-my-growth',
-  'i-am-finding-joy-in-the-little-things',
-  'i-am-powerful-beyond-measure',
-  'i-am-courageous',
-  'i-am-proud-of-who-i-am',
-  'i-am-making-the-most-of-every-day',
-  'i-am-a-force-for-good',
-  'i-am-unstoppable'
-]
+// import { generate } from 'random-words'
 
 export function ArrayBlock({}) {
   const appName = useArchApp((r) => r.appName)
@@ -125,7 +22,7 @@ export function ArrayBlock({}) {
 
   useEffect(() => {
     useArchApp.setState({
-      seed: `${[`${Math.random().toString(35).slice(2, 9)}`, slugs[Math.floor(Math.random() * slugs.length)]].join('-')}`
+      seed: `${[`${Math.random().toString(35).slice(2, 9)}`, mindsetSlugs[Math.floor(Math.random() * mindsetSlugs.length)]].join('-')}`
     })
   }, [])
 
