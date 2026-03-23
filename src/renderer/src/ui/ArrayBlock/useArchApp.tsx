@@ -5,8 +5,9 @@ import moment from 'moment'
 export const useArchApp = create(() => {
   let getSeed = () => {
     let date = new Date()
-    let ver = moment(date).format('YYYY-MM-DD[--]HH:mm')
-    return `${[`Date--${ver}`, `${mindset[Math.floor(Math.random() * mindset.length)]}`, Math.random().toString(36).slice(2, 9)].join('--')}`
+    let ver = moment(date).format('YYYY-MM-DD')
+    // let time = date.getTime()
+    return `${[`${ver}`, Math.random().toString(36).slice(2, 9), `${mindset[Math.floor(Math.random() * mindset.length)]}`].join('--')}`
   }
 
   return {
