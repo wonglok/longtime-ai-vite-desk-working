@@ -49,13 +49,14 @@ https://www.youtube.com/watch?v=W8GgMiCOVRo
 - transcribe .wav audio to text with openai whisper
 
 - create a "testimony" folder, within it, create sub-folder using "video title" and put the "video", "audio" and "transcript" in it. 
+  
+- open the folder for me when all are done
 
-- translate the transcript text to english using "openai ai sdk"
+- translate the transcript text to english using "openai" sdk
   openAI config baseURL: http://127.0.0.1:1234/v1
   openAI config apiKey: nono
-  openAI config model: google/gemma-3-12b
+  openAI config model: qwen/qwen3.5-35b-a3b
 
-- open the folder for me when all are done
 `.trim(),
     /*
      */
