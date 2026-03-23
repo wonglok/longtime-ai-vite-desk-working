@@ -36,6 +36,8 @@ https://www.youtube.com/watch?v=XVsf_2UMXwU
 https://www.youtube.com/watch?v=yyXwaUQOzlg
 https://www.youtube.com/watch?v=W8GgMiCOVRo
 and put it into a output folder for me and open the folder for me when all are done.
+convert each video to text with transcribe tools
+
 make sure it is the right video that is downloaded, not testing ones.
 `.trim(),
 
