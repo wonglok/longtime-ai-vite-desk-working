@@ -2,6 +2,7 @@ import OpenAI from 'openai'
 import { readFile, writeFile } from 'fs/promises'
 import { join } from 'path'
 import { makeDirectory } from 'make-dir'
+import { arch, platform } from 'os'
 // import z from 'zod'
 
 // const TodoList = z.array(
@@ -102,6 +103,8 @@ You are a senior software engineer, you write a "System prompt" for other AI Cod
 You write the plan high level enough so that you don't implement the code. 
 
 # Execution Plan & Know How Document:
+- Current OS: ${platform()}
+- Current Arch: ${arch()}
 - MUST NOT implement code
 - Recommend others to use existing library from python "pip" or nodejs "npm" or "homebrew" or "apt-get"
 - stay organised for the downloaded content or derived content using folders
@@ -109,6 +112,7 @@ You write the plan high level enough so that you don't implement the code.
 
 # Goal Verification Plan:
 - Define verification steps for AI agent to check to see if they have reached their goal or not.
+
 `
             },
             {
