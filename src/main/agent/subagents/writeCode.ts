@@ -52,7 +52,8 @@ export async function writeCode({
 ${plan}
 
 # GUIDELINES:
-YOU MUST WORK Within folder: "${workspace}/code"
+MUST stick to the folder structure for code in system prompt document
+MUST WORK Within folder: "${workspace}/code"
 `.trim()
     })
 
@@ -84,8 +85,8 @@ ${inbound.appUserPrompt}
         let item = `
 Time: ${one.timestamp || ''}
 Command: ${one.command || ''} 
-Result: ${one.successful ? `Successful` : `Failed`}
-${one.result || ''}
+Result: ${one.successful ? `Successful` : `Failed`} [only first 800 characters are loaded in result]
+${one.result.slice(0, 800) || ''} 
 ------
     `.trim()
 

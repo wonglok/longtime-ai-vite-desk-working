@@ -29,14 +29,19 @@ export const useArchApp = create(() => {
     appName: 'goal-achiever',
 
     // Tool should receive an "website url" input and take a full-page screenshot and write a website summary with the website text and screenshot
-    appUserPrompt: `Please download mp4 video from youtube link: 
+    appUserPrompt: `
+    
+    1. Please download mp4 video from youtube link: 
 https://www.youtube.com/watch?v=XVsf_2UMXwU
 https://www.youtube.com/watch?v=yyXwaUQOzlg
 https://www.youtube.com/watch?v=W8GgMiCOVRo
-and put it into a output folder for me and open the folder for me when all are done.
-convert each video to text with transcribe tools
 
-make sure it is the right video that is downloaded, not testing ones.
+2.  put it into a output folder for me and open the folder for me when all are done.
+
+3. convert each .mp4 video to .wav audio
+
+4. transcribe .wav audio to text with openai whisper
+
 `.trim(),
 
     // appModel: `qwen/qwen3.5-35b-a3b`,
