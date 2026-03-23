@@ -32,7 +32,7 @@ export const useArchApp = create(() => {
 
     // qwen/qwen3.5-35b-a3b works well
     // qwen/qwen3-coder-30b // not work
-    appModel: `nvidia/nemotron-3-nano`,
+    appModel: `qwen/qwen3.5-35b-a3b`,
 
     appName: 'testimony-database',
 
