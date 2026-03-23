@@ -59,6 +59,9 @@ export const setupIPCMain = async ({ ipcMain, mainWindow }) => {
         await runAppPlanner({
           inbound,
           randID,
+          done: () => {
+            abortedFlags[randID] = true
+          },
           checkAborted: () => {
             return abortedFlags[randID]
           },
@@ -67,6 +70,12 @@ export const setupIPCMain = async ({ ipcMain, mainWindow }) => {
           }
         })
       }
+
+      ///
+      ///
+      ///
+      ///
+      ///
 
       if (inbound.route === 'listWorkspaces') {
         return await listWorkspaces({

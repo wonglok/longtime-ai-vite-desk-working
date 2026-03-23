@@ -10,18 +10,18 @@ export const useArchApp = create(() => {
     blocks: [] as any[],
     done: '',
 
-    baseURL: `http://127.0.0.1:7777/v1`,
+    // baseURL: `http://127.0.0.1:7777/v1`,
+    baseURL: `http://127.0.0.1:1234/v1`,
     apiKey: `nono`,
-    appModel: `Qwen3.5-4B-MLX-4bit`,
-    // appModel: `qwen/qwen3.5-4b`,
+    // appModel: `Qwen3.5-4B-MLX-4bit`,
+    appModel: `qwen/qwen3.5-4b`,
 
-    appName: 'extract',
+    appName: 'audio-youtube-downloader',
 
     // Tool should receive an "website url" input and take a full-page screenshot and write a website summary with the website text and screenshot
     appUserPrompt: `
-Please download youtube link: https://www.youtube.com/watch?v=XVsf_2UMXwU
-and transcribe it
-    `.trim(),
+Please download auduo from youtube link: https://www.youtube.com/watch?v=XVsf_2UMXwU
+`.trim(),
 
     // appModel: `qwen/qwen3.5-35b-a3b`,
 

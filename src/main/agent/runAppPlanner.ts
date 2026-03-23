@@ -8,7 +8,7 @@ import { initProject } from './subagents/initProject'
 // import { readFile, writeFile } from 'fs/promises'
 // import { join } from 'path'
 
-export const runAppPlanner = async ({ checkAborted, onEvent, inbound, randID }) => {
+export const runAppPlanner = async ({ done, checkAborted, onEvent, inbound, randID }) => {
   const docs = app.getPath('documents')
   const workspace = `${docs}/ai-home/apps/${inbound.appName}`
   await makeDirectory(workspace)
@@ -48,7 +48,8 @@ export const runAppPlanner = async ({ checkAborted, onEvent, inbound, randID }) 
       checkAborted,
       onEvent,
       inbound,
-      randID
+      randID,
+      done
     }).catch((r) => {
       console.error(r)
     })

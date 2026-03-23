@@ -6,7 +6,7 @@ import path from 'path'
 import { readFile } from 'fs/promises'
 
 const FailCounter = {}
-export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID }) => {
+export const runAgent = async ({ done, plan, checkAborted, onEvent, inbound, randID }) => {
   FailCounter[randID] = FailCounter[randID] || 0
 
   const docs = app.getPath('documents')
@@ -65,6 +65,8 @@ export const runAgent = async ({ plan, checkAborted, onEvent, inbound, randID })
         type: 'done',
         done: `Code is fully developed`
       })
+
+      done()
 
       return
     }
