@@ -198,7 +198,7 @@ ${StreamFilesFormat}
           include_usage: true
         },
         reasoning_effort: 'medium',
-        temperature: 0
+        temperature: 0.2
       },
       { signal }
     )

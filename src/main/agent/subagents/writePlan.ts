@@ -120,8 +120,8 @@ ${inbound.appUserPrompt}
           ],
 
           stream: true,
-          // reasoning_effort: 'medium',
-          temperature: 0.0
+          reasoning_effort: 'medium',
+          temperature: 0.2
           // response_format: {
           //   type: 'json_schema',
           //   json_schema: {
