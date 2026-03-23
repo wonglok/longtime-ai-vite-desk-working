@@ -125,7 +125,7 @@ export function ArrayBlock({}) {
 
   useEffect(() => {
     useArchApp.setState({
-      seed: `${[slugs[Math.floor(Math.random() * slugs.length)], `${Math.random().toString(35).slice(2, 9)}`].join('-')}`
+      seed: `${[`${Math.random().toString(35).slice(2, 9)}`, slugs[Math.floor(Math.random() * slugs.length)]].join('-')}`
     })
   }, [])
 
