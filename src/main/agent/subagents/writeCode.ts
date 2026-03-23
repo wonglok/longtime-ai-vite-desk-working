@@ -135,8 +135,8 @@ Action Log: ${one.content || ''}
     - If the goal isn't achieved then:
         - MUST write 1 short action log with 2-3 sentences for AI agent to follow up the progress of the current task:  (using "log" block_tag)
         - MUST write 1 short next step with 2-3 sentences: (using "next-step" block_tag) 
-        - Implement code according to the system prompt: (using "code" block_tag)
-        - MUST schedule 5 or LESS terminal commands: (using "terminal" block_tag) 
+        - If needed, implement code: (using "code" block_tag)
+        - If needed, schedule 5 or LESS terminal commands: (using "terminal" block_tag) 
 
     - If the goal is achieved successfully:
         - Write a marker to end the process: (using "goal-achieved" block_tag) 
