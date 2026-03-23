@@ -47,6 +47,10 @@ export function ArrayBlock({}) {
         //
         const resp = JSON.parse(stream)
 
+        if (resp.alldone) {
+          setWorking(false)
+        }
+
         if (resp.done) {
           nprogress.done()
           useArchApp.setState({ done: resp.done })

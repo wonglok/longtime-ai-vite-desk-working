@@ -55,8 +55,7 @@ export const runAppPlanner = async ({ done, checkAborted, onEvent, inbound, rand
         console.error(r)
       })
       .finally(() => {
-        onEvent({ type: 'done', done: 'Goal Achieved' })
-
+        onEvent({ type: 'alldone', alldone: 'Goal Achieved' })
         done()
       })
 
