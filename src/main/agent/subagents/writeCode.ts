@@ -51,6 +51,9 @@ export async function writeCode({
 # System Prompt Document:
 ${plan}
 
+# User original goal:
+${inbound.appUserPrompt}
+
 # GUIDELINES:
 YOU MUST WORK Within folder: "${workspace}/code"
 `.trim()
@@ -131,12 +134,13 @@ Action Log: ${one.content || ''}
       role: 'user',
       content: `
 # Instructions:
-    - MUST write 1 short action log with 2-3 sentences for myself to follow up the progress of the overall execution:  (using "log" block_tag)
-    - MUST write 1 short next step with 2-3 sentences for myself to read in the future: (using "next-step" block_tag) 
-    - If needed, implement code: (using "code" block_tag)
-    - If needed, schedule 5 or LESS terminal commands: (using "terminal" block_tag) 
-
-    - Check User Goal Verification results in the "action logs" and reference "What to do now" section.
+    - understand what is going on by referencing to "What to do now" section, "action logs", "terminal results" and etc...
+    - write 1 short action log with 2-3 sentences for myself to follow up the progress of the overall execution:  (using "log" block_tag)
+    - write 1 short next step with 2-3 sentences for myself to read in the future: (using "next-step" block_tag) 
+    - implement code: (using "code" block_tag)
+    - schedule 5 or LESS terminal commands: (using "terminal" block_tag) 
+    
+    - Check User Goal Verification results in the action logs and terminal results
       - If goal is reached, Write a marker to end the process: (using "goal-achieved" block_tag) 
 
 ${StreamFilesFormat}
