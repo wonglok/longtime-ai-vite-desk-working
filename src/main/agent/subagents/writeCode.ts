@@ -48,9 +48,6 @@ export async function writeCode({
     messages.push({
       role: 'user',
       content: `
-# Original Goal Text from User:
-${inbound.appUserPrompt}
-
 # System Prompt Document:
 ${plan}
 
