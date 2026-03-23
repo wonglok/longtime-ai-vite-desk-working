@@ -10,6 +10,7 @@ import { execCommand } from './execCommand'
 import { dirname, join } from 'path'
 import { makeDirectory } from 'make-dir'
 import { BlockTag, parseBlockTags, StreamFilesFormat } from './StreamFiles'
+import { InfoblockForamt, parseInfoblocks } from './InfoBlocks'
 
 export type CommandResult = {
   command: string
@@ -147,15 +148,15 @@ Action Log: ${one.content || ''}
       content: `
 # Instructions:
     - understand what is going on by referencing to "What to do now" section, "action logs", "terminal results" and etc...
-    - if needed, write 1 short action log with 2-3 sentences for myself to follow up the progress of the overall execution:  (using "log" block_tag)
+    - write 1 short action log with 2-3 sentences for myself to follow up the progress of the overall execution:  (using "log" block_tag)
     - write 1 short next step with 2-3 sentences for myself to read in the future: (using "next-step" block_tag) 
     - if needed, implement code: (using "code" block_tag)
     - if needed, schedule 5 or LESS terminal commands: (using "terminal" block_tag) 
     
-    - if needed, Check User Goal Verification results in the action logs and terminal results
+    - Check User Goal Verification results in the action logs and terminal results
       - If goal is reached, Write a marker to end the process: (using "goal-achieved" block_tag) 
 
-${StreamFilesFormat}
+${InfoblockForamt}
 `
     })
 
@@ -222,7 +223,7 @@ ${StreamFilesFormat}
       onEvent({ type: 'thinking', thinking: `${thinking}` })
       onEvent({ type: 'stream', stream: `${longContent}` })
 
-      blocks = parseBlockTags(`${longContent}`, { trimContent: true }) || []
+      blocks = parseInfoblocks(`${longContent}`) || []
 
       return blocks
     })
