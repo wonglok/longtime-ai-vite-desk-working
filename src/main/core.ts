@@ -61,6 +61,7 @@ export const setupIPCMain = async ({ ipcMain, mainWindow }) => {
           randID,
           done: () => {
             abortedFlags[randID] = true
+            event.reply(`${'askAI-reply'}${randID}`, { status: 'done' })
           },
           checkAborted: () => {
             return abortedFlags[randID]
