@@ -44,7 +44,9 @@ https://www.youtube.com/watch?v=W8GgMiCOVRo
 
 - convert each .mp4 video to .wav audio
 
-- transcribe .wav audio to text with timing and punctuation using "openai whisper" with auto mode for language detection
+- transcribe .wav audio to text with timing and punctuation and "raw json" file using "openai whisper" with auto mode for language detection
+
+- try to output ".srt" cpation file as well from the "raw json"
 
 - create a "testimony" folder, within it, create sub-folder using "video title" and put the "video", "audio" and "transcript" in it. 
   
