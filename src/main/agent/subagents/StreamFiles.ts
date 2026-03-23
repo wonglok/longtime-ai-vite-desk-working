@@ -7,7 +7,7 @@ export const StreamFilesFormat = `
 {content}
 [/BLOCK_TAG]
 
-- for running terminal
+- for schedule a terminal command call, result will be returned in the next run.
 [BLOCK_TAG type="terminal" extra=""]
 {command}
 [/BLOCK_TAG]
@@ -50,25 +50,25 @@ interface ParseOptions {
   trimContent?: boolean
 }
 
-/**
- * Extracts all fenced code blocks from a markdown string.
- * @param {string} markdownString The input markdown content.
- * @returns {string[]} An array of extracted code block contents.
- */
-function extractCodeBlocks(markdownString) {
-  // Regex to find all fenced code blocks and capture their content.
-  // The 'g' flag is for global search, and 's' allows '.' to match newlines.
-  const regex = /```(?:\w+\n|\n)([\s\S]*?)\n```/g
+// /**
+//  * Extracts all fenced code blocks from a markdown string.
+//  * @param {string} markdownString The input markdown content.
+//  * @returns {string[]} An array of extracted code block contents.
+//  */
+// function extractCodeBlocks(markdownString) {
+//   // Regex to find all fenced code blocks and capture their content.
+//   // The 'g' flag is for global search, and 's' allows '.' to match newlines.
+//   const regex = /```(?:\w+\n|\n)([\s\S]*?)\n```/g
 
-  // Use matchAll to get all occurrences and capturing groups.
-  // The spread operator converts the iterator to an array.
-  const matches = [...markdownString.matchAll(regex)]
+//   // Use matchAll to get all occurrences and capturing groups.
+//   // The spread operator converts the iterator to an array.
+//   const matches = [...markdownString.matchAll(regex)]
 
-  // Map the matches to return only the content of the captured group (index 1).
-  const codeBlocks = matches.map((match) => match[1])
+//   // Map the matches to return only the content of the captured group (index 1).
+//   const codeBlocks = matches.map((match) => match[1])
 
-  return codeBlocks
-}
+//   return codeBlocks
+// }
 
 // // Example Usage:
 // const markdownText = `

@@ -138,10 +138,10 @@ ${StreamFilesFormat}
 
 # Instructions:
   - write code files: (using "code" block_tag)
-  - write 1 short action log with 2 short sentences for AI agent to follow up the progress of the current task:  (using "log" block_tag)
-  - write 1 short next step with 2-3 sentences: (using "next-step" block_tag) 
-  - write 1 (MUST WRITE WITHIN 5 or LESS COMMANDS) terminal command: (using "terminal" block_tag) 
-  - if we successfully achieved the User Goal, make sure you verify the goal with terminal, then write a marker. (using "goal-achieved" block_tag) 
+  - MUST write 1 short action log with 2 short sentences for AI agent to follow up the progress of the current task:  (using "log" block_tag)
+  - MUST write 1 short next step with 2-3 sentences: (using "next-step" block_tag) 
+  - MUST schedule 5 or LESS terminal command: (using "terminal" block_tag) 
+  - if we successfully achieved the User Goal, MUST verify the goal with terminal commands, then write ("goal-achieved" block_tag) 
 `
     })
 
