@@ -51,9 +51,6 @@ export async function writeCode({
 # System Prompt Document:
 ${plan}
 
-# User original goal:
-${inbound.appUserPrompt}
-
 # GUIDELINES:
 YOU MUST WORK Within folder: "${workspace}/code"
 `.trim()
@@ -67,6 +64,16 @@ YOU MUST WORK Within folder: "${workspace}/code"
         content: `
 ${files}
     `.trim()
+      })
+    }
+
+    {
+      messages.push({
+        role: 'user',
+        content: `
+# User original goal: (for reference, please refer to system prompt for execution plan)
+${inbound.appUserPrompt}
+        `
       })
     }
 
