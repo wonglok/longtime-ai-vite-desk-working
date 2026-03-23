@@ -50,9 +50,13 @@ export const runAppPlanner = async ({ done, checkAborted, onEvent, inbound, rand
       inbound,
       randID,
       done
-    }).catch((r) => {
-      console.error(r)
     })
+      .catch((r) => {
+        console.error(r)
+      })
+      .finally(() => {
+        done()
+      })
 
     //
 

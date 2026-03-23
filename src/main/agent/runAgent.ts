@@ -66,8 +66,6 @@ export const runAgent = async ({ done, plan, checkAborted, onEvent, inbound, ran
         done: `User written goal achieved`
       })
 
-      done()
-
       return
     }
 
