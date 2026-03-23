@@ -51,8 +51,10 @@ export async function writeCode({
 # System Prompt Document:
 ${plan}
 
+# Role Override:
+You are a senior developer who writes code.
+
 # GUIDELINES:
-MUST stick to the folder structure for code in system prompt document
 MUST WORK Within folder: "${workspace}/code"
 `.trim()
     })

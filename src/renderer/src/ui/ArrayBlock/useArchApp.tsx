@@ -24,7 +24,9 @@ export const useArchApp = create(() => {
     apiKey: `nono`,
 
     // appModel: `Qwen3.5-4B-MLX-4bit`,
-    appModel: `qwen/qwen3.5-4b`,
+    // appModel: `qwen/qwen3.5-4b`,
+
+    appModel: `qwen/qwen3.5-9b`,
 
     appName: 'goal-achiever',
 
