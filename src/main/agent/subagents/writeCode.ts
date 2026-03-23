@@ -93,7 +93,8 @@ ${one.result || ''}
       let text = ''
       for (let one of step.nextSteps) {
         let item = `
-What to do now: ${one.content || ''}
+# What to do now: 
+${one.content || ''}
     `.trim()
 
         text += `${item}\n`
@@ -130,14 +131,15 @@ Action Log: ${one.content || ''}
       role: 'user',
       content: `
 # Instructions:
-  - Check User Goal verification results in the action logs.
-    If the goal is achieved successfully:
-      - Write a marker to end the process: (using "goal-achieved" block_tag) 
-    If the goal isn't achieved then:
-      - Implement code according to the system prompt: (using "code" block_tag)
-      - MUST write 1 short action log with 2-3 sentences for AI agent to follow up the progress of the current task:  (using "log" block_tag)
-      - MUST write 1 short next step with 2-3 sentences: (using "next-step" block_tag) 
-      - MUST schedule 5 or LESS terminal command: (using "terminal" block_tag) 
+  - Check User Goal Verification results in the "action logs" and reference "What to do now" section.
+    - If the goal isn't achieved then:
+        - MUST write 1 short action log with 2-3 sentences for AI agent to follow up the progress of the current task:  (using "log" block_tag)
+        - MUST write 1 short next step with 2-3 sentences: (using "next-step" block_tag) 
+        - Implement code according to the system prompt: (using "code" block_tag)
+        - MUST schedule 5 or LESS terminal commands: (using "terminal" block_tag) 
+
+    - If the goal is achieved successfully:
+        - Write a marker to end the process: (using "goal-achieved" block_tag) 
 
 ${StreamFilesFormat}
 `
