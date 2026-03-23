@@ -129,16 +129,14 @@ Action Log: ${one.content || ''}
     messages.push({
       role: 'user',
       content: `
-Continue work if needed. thank you for all your hard work! \n
-
-${StreamFilesFormat}
-
 # Instructions:
-  - write code files: (using "code" block_tag)
+  - Implement code according to the system prompt: (using "code" block_tag)
   - MUST write 1 short action log with 2 short sentences for AI agent to follow up the progress of the current task:  (using "log" block_tag)
   - MUST write 1 short next step with 2-3 sentences: (using "next-step" block_tag) 
+  - if we think we successfully achieved the User Goal, we MUST verify the goal with terminal commands, if yes, write a ("goal-achieved" block_tag) 
   - MUST schedule 5 or LESS terminal command: (using "terminal" block_tag) 
-  - if we successfully achieved the User Goal, MUST verify the goal with terminal commands, then write ("goal-achieved" block_tag) 
+
+${StreamFilesFormat}
 `
     })
 
