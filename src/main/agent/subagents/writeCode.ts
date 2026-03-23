@@ -133,8 +133,8 @@ Action Log: ${one.content || ''}
 # Instructions:
   - Check User Goal Verification results in the "action logs" and reference "What to do now" section.
     - If the goal isn't achieved then:
-        - MUST write 1 short action log with 2-3 sentences for AI agent to follow up the progress of the current task:  (using "log" block_tag)
-        - MUST write 1 short next step with 2-3 sentences: (using "next-step" block_tag) 
+        - MUST write 1 short action log with 2-3 sentences for myself to follow up the progress of the overall execution:  (using "log" block_tag)
+        - MUST write 1 short next step with 2-3 sentences for myself to read in the future: (using "next-step" block_tag) 
         - If needed, implement code: (using "code" block_tag)
         - If needed, schedule 5 or LESS terminal commands: (using "terminal" block_tag) 
 
