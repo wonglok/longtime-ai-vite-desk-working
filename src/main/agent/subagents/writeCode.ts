@@ -197,7 +197,7 @@ ${StreamFilesFormat}
         stream_options: {
           include_usage: true
         },
-        reasoning_effort: 'high',
+        reasoning_effort: 'medium',
         temperature: 0
       },
       { signal }
