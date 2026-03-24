@@ -34,37 +34,40 @@ export const useArchApp = create(() => {
     // qwen/qwen3-coder-30b // not work
     appModel: `qwen/qwen3.5-35b-a3b`,
 
-    appName: 'testimony-database',
+    appName: 'image-app',
 
     appUserPrompt: `
-
-- Here's a list of youtube links in multiple rows: 
-
-https://www.youtube.com/watch?v=yyXwaUQOzlg
-https://www.youtube.com/watch?v=W8GgMiCOVRo
-
-I want to build a cli that can do the following:
-- "help" command: documentation
-- "download" command: ingest a list of youtube links seperated by spaces
-
-I want to have a skill.md for ai agent to use this cli tool.
-
-# Overall Step for "donwload" command:
-- download mp4 video and metadata json file from each youtube link.
-
-- convert each .mp4 video to .wav audio
-
-- transcribe .wav audio to "line by line transcript text" ".txt" file with timing & punctuation and "raw.json" file using "openai whisper" with auto mode for language detection
-
-- Generate ".srt" caption file as well from the "raw.json"
-
-- Create a "testimony" folder, within it, create sub-folder using "youtube video id" and "metadata-info.md" and put the "video", "audio" and "transcript" in it. 
-
-- open the folder for me when all are done.
-
+I want to build a cli tool to generate image using z-image-turbo in hugging face.
+please also build a skill.md
+please use the cli tool to generate an image of an apple and open it.
 `.trim(),
-    /*
-     */
+
+    //     appUserPrompt: `
+    // - Here's a list of youtube links in multiple rows:
+
+    // https://www.youtube.com/watch?v=yyXwaUQOzlg
+    // https://www.youtube.com/watch?v=W8GgMiCOVRo
+
+    // I want to build a cli that can do the following:
+    // - "help" command: documentation
+    // - "download" command: ingest a list of youtube links seperated by spaces
+
+    // I want to have a skill.md for ai agent to use this cli tool.
+
+    // # Overall Step for "donwload" command:
+    // - download mp4 video and metadata json file from each youtube link.
+
+    // - convert each .mp4 video to .wav audio
+
+    // - transcribe .wav audio to "line by line transcript text" ".txt" file with timing & punctuation and "raw.json" file using "openai whisper" with auto mode for language detection
+
+    // - Generate ".srt" caption file as well from the "raw.json"
+
+    // - Create a "testimony" folder, within it, create sub-folder using "youtube video id" and "metadata-info.md" and put the "video", "audio" and "transcript" in it.
+
+    // - open the folder for me when all are done.
+
+    // `.trim(),
 
     stream: '',
     thinking: '',
