@@ -20,6 +20,7 @@ export type CommandResult = {
 }
 
 export type OneStep = {
+  nextCheckup: BlockTag[]
   nextSteps: BlockTag[]
   codes: BlockTag[]
   logs: BlockTag[]
@@ -125,6 +126,25 @@ ${one.content || ''}
 
     {
       let text = ''
+      for (let one of step.nextCheckup) {
+        let item = `
+# What to check up now: 
+${one.content || ''}
+    `.trim()
+
+        text += `${item}\n`
+      }
+
+      if (text.trim()) {
+        messages.push({
+          role: 'user',
+          content: text
+        })
+      }
+    }
+
+    {
+      let text = ''
       for (let one of memory) {
         let item = `
 Timestamp: ${one.timestamp}
@@ -150,6 +170,7 @@ Action Log: ${one.content || ''}
     - understand what is going on by referencing to "What to do now" section, "action logs", "terminal results" and etc...
     - write 1 short action log with 2-3 sentences for myself to follow up the progress of the overall execution:  (using "log" block_tag)
     - write 1 short next step with 2-3 sentences for myself to read in the future: (using "next-step" block_tag) 
+    - write what should we check in the next step with 2-3 sentences for myself to follow up the progress: (using "next-checkup" block_tag) 
     - if needed, implement code: (using "code" block_tag)
     - if needed, schedule 5 or LESS terminal commands: (using "terminal" block_tag) 
     
@@ -241,6 +262,7 @@ ${InfoblockForamt}
   console.log('blocks', blocks)
 
   let nextSteps = blocks.filter((r) => r.type === 'next-step')
+  let nextCheckup = blocks.filter((r) => r.type === 'next-checkup')
   let logs = blocks.filter((r) => r.type === 'log')
 
   let codes = blocks.filter((r) => r.type === 'code')
@@ -248,6 +270,7 @@ ${InfoblockForamt}
   let stop = blocks.filter((r) => r.type === 'goal-achieved')
 
   let output: OneStep = {
+    nextCheckup: nextCheckup,
     nextSteps: nextSteps,
     codes: codes,
     commands: commands,

@@ -16,6 +16,13 @@ export const InfoblockForamt = `
 {content}
 </infoblock>
 
+- for writing next check up
+<infoblock type="next-checkup" extra="">
+{content}
+</infoblock>
+
+
+
 - for writing log
 <infoblock type="log" extra="">
 {content}
