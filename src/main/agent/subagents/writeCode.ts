@@ -167,14 +167,15 @@ Action Log: ${one.content || ''}
       content: `
 # Instructions:
     - understand what is going on by referencing to "What to do now" section, "action logs", "terminal results" and etc...
-    - write 1 short action log with 2-3 sentences for myself to follow up the progress of the overall execution:  (using "log" block_tag)
-    - write 1 short next step with 2-3 sentences for myself to read in the future: (using "next-step" block_tag) 
-    - write what should we check in the next step with 2-3 sentences for myself to follow up the progress: (using "next-checkup" block_tag) 
-    - if needed, implement code: (using "code" block_tag)
-    - if needed, schedule 5 or LESS terminal commands: (using "terminal" block_tag) 
+    - write 1 short action log with 2-3 sentences for myself to follow up the progress of the overall execution:  (using <infoblock type="log">)
+    - write 1 short next step with 2-3 sentences for myself to read in the future: (using <infoblock type="next-step">) 
+    - write what should we check in the next step with 2-3 sentences for myself to follow up the progress: (using  <infoblock type="next-checkup">) 
+    - if needed, implement code: (using  <infoblock type="code">)
+    - if needed, schedule 5 or LESS terminal commands: (using  <infoblock type="terminal">) 
+    - if needed, schedule 5 or LESS background terminal commands: (using "terminal" <infoblock extra="run-in-background">) 
     
     - Check User Goal Verification results in the action logs and terminal results
-      - If goal is reached, Write a marker to end the process: (using "goal-achieved" block_tag) 
+      - If goal is reached, Write a marker to end the process: (using  <infoblock type="goal-achieved">) 
 
 ${InfoblockForamt}
 `
@@ -311,7 +312,7 @@ ${InfoblockForamt}
       let res: any = await new Promise(async (resolve) => {
         //
 
-        if (each.extra === 'run-in-background') {
+        if (each?.extra === 'run-in-background') {
           let list = each.content.split(' ')
           let first = list[0]
           execCommand({

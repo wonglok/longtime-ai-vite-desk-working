@@ -2,7 +2,7 @@ import OpenAI from 'openai'
 import { readFile, writeFile } from 'fs/promises'
 import { join } from 'path'
 import { makeDirectory } from 'make-dir'
-import { arch, platform } from 'os'
+import { arch, cpus, platform } from 'os'
 // import z from 'zod'
 
 // const TodoList = z.array(
@@ -88,7 +88,6 @@ export async function writePlan({ workspace, inbound, checkAborted, onEvent }) {
 ## if needed, guideline for "dotenv"
 - if we need to use dotenv , use this: "import { config } from 'dotenv';"
 
-
     */
     const plan = await openai.chat.completions
       .create(
@@ -105,8 +104,12 @@ You write the plan high level enough so that you don't implement the code.
 # Execution Plan & Know How Document:
 - Current OS: ${platform()}
 - Current Arch: ${arch()}
+- CPU Cores: ${cpus()
+                .map((r) => r.model)
+                .join(', ')}
+
 - MUST NOT implement code
-- Recommend others to use existing library from python "pip" or nodejs "npm" or "homebrew" or "apt-get"
+- Recommend others to use existing library from "nodejs  npm" or "python  pip" or "homebrew" or "apt-get"
 - list out package dependencies
 - stay organised for the downloaded content or derived content using folders
 - write folder structure with all file names, overall summary / purpose of each file included. let other AI Agent know that they must follow this structure so that code files are not duplicated or misplaces.
