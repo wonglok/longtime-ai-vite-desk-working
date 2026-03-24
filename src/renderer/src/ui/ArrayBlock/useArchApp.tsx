@@ -52,6 +52,8 @@ https://www.youtube.com/watch?v=W8GgMiCOVRo
   
 - open the folder for me when all are done
 
+- build a native app user interface for the above system
+
 `.trim(),
     /*
      */
