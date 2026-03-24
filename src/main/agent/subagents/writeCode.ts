@@ -19,7 +19,7 @@ export type CommandResult = {
 }
 
 export type OneStep = {
-  nextSystemPrompt: EachBlock[]
+  nextContextPrompt: EachBlock[]
   nextCheckup: EachBlock[]
   nextSteps: EachBlock[]
   codes: EachBlock[]
@@ -109,9 +109,9 @@ ${one.result.slice(0, 800) || ''}
 
     {
       let text = ''
-      for (let one of step.nextSystemPrompt) {
+      for (let one of step.nextContextPrompt) {
         let item = `
-# System prompt for the current task: 
+# Context Prompt for the current task: 
 ${one.content || ''}
     `.trim()
 
@@ -285,7 +285,7 @@ ${InfoblockForamt}
   // console.log('blocks', blocks)
 
   let nextSteps = blocks.filter((r) => r.type === 'next-step')
-  let nextSystemPrompt = blocks.filter((r) => r.type === 'next-context-prompt')
+  let nextContextPrompt = blocks.filter((r) => r.type === 'next-context-prompt')
   let nextCheckup = blocks.filter((r) => r.type === 'next-checkup')
   let logs = blocks.filter((r) => r.type === 'log')
 
@@ -300,7 +300,7 @@ ${InfoblockForamt}
     commands: commands,
     stop: stop,
     logs: logs,
-    nextSystemPrompt: nextSystemPrompt,
+    nextContextPrompt: nextContextPrompt,
     commandResults: []
   }
 
