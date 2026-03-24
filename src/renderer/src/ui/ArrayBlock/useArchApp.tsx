@@ -34,91 +34,34 @@ export const useArchApp = create(() => {
     // qwen/qwen3-coder-30b // not work
     appModel: `qwen/qwen3.5-35b-a3b`,
 
-    appName: 'image-gen',
+    appName: 'transcript-gen',
 
     appUserPrompt: `
-install for dependency
-\`\`\`bash
-pip install git+https://github.com/huggingface/diffusers
-\`\`\`
+- Here's a list of youtube links in multiple rows:
 
-Template for python
-\`\`\`python
-import torch
-from diffusers import ZImagePipeline
+https://www.youtube.com/watch?v=yyXwaUQOzlg
+https://www.youtube.com/watch?v=W8GgMiCOVRo
 
-# 1. Load the pipeline
-# Use bfloat16 for optimal performance on supported GPUs
-pipe = ZImagePipeline.from_pretrained(
-    "Tongyi-MAI/Z-Image-Turbo",
-    torch_dtype=torch.bfloat16,
-    low_cpu_mem_usage=False,
-)
-pipe.to("mps")
+I want to build a cli that can do the following:
+- "help" command: documentation
+- "download" command: ingest a list of youtube links seperated by spaces
 
-# [Optional] Attention Backend
-# Diffusers uses SDPA by default. Switch to Flash Attention for better efficiency if supported:
-# pipe.transformer.set_attention_backend("flash")    # Enable Flash-Attention-2
-# pipe.transformer.set_attention_backend("_flash_3") # Enable Flash-Attention-3
+I want to have a skill.md for ai agent to use this cli tool.
 
-# [Optional] Model Compilation
-# Compiling the DiT model accelerates inference, but the first run will take longer to compile.
-# pipe.transformer.compile()
+# Overall Step for "donwload" command:
+- download mp4 video and metadata json file from each youtube link.
 
-# [Optional] CPU Offloading
-# Enable CPU offloading for memory-constrained devices.
-# pipe.enable_model_cpu_offload()
+- convert each .mp4 video to .wav audio
 
-prompt = "Young Chinese woman in red Hanfu, intricate embroidery. Impeccable makeup, red floral forehead pattern. Elaborate high bun, golden phoenix headdress, red flowers, beads. Holds round folding fan with lady, trees, bird. Neon lightning-bolt lamp (⚡️), bright yellow glow, above extended left palm. Soft-lit outdoor night background, silhouetted tiered pagoda (西安大雁塔), blurred colorful distant lights."
+- transcribe .wav audio to "line by line transcript text" ".txt" file with timing & punctuation and "raw.json" file using "openai whisper" with auto mode for language detection
 
-# 2. Generate Image
-image = pipe(
-    prompt=prompt,
-    height=1024,
-    width=1024,
-    num_inference_steps=9,  # This actually results in 8 DiT forwards
-    guidance_scale=0.0,     # Guidance should be 0 for the Turbo models
-    generator=torch.Generator("mps").manual_seed(42),
-).images[0]
+- Generate ".srt" caption file as well from the "raw.json"
 
-image.save("example.png")
-\`\`\`
+- Create a "testimony" folder, within it, create sub-folder using "youtube video id" and "metadata-info.md" and put the "video", "audio" and "transcript" in it.
 
+- open the folder for me when all are done.
 
-I want to build a cli tool to generate image using "z-image-turbo".
-
-Please also build a "skill.md"
-
-Please use the cli tool to generate an image of "an apple" and open it.
-
-`.trim(),
-
-    //     appUserPrompt: `
-    // - Here's a list of youtube links in multiple rows:
-
-    // https://www.youtube.com/watch?v=yyXwaUQOzlg
-    // https://www.youtube.com/watch?v=W8GgMiCOVRo
-
-    // I want to build a cli that can do the following:
-    // - "help" command: documentation
-    // - "download" command: ingest a list of youtube links seperated by spaces
-
-    // I want to have a skill.md for ai agent to use this cli tool.
-
-    // # Overall Step for "donwload" command:
-    // - download mp4 video and metadata json file from each youtube link.
-
-    // - convert each .mp4 video to .wav audio
-
-    // - transcribe .wav audio to "line by line transcript text" ".txt" file with timing & punctuation and "raw.json" file using "openai whisper" with auto mode for language detection
-
-    // - Generate ".srt" caption file as well from the "raw.json"
-
-    // - Create a "testimony" folder, within it, create sub-folder using "youtube video id" and "metadata-info.md" and put the "video", "audio" and "transcript" in it.
-
-    // - open the folder for me when all are done.
-
-    // `.trim(),
+    `.trim(),
 
     stream: '',
     thinking: '',
