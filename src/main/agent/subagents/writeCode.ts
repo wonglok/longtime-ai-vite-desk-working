@@ -191,13 +191,12 @@ Action Log: ${one.content || ''}
     - understand what is going on by referencing to "What to do now" section, "action logs", "terminal results" and etc...
     - write 1 short action log with 2-3 sentences for myself to follow up the progress of the overall execution:  (using <infoblock type="log">)
     - write 1 short next step with 2-3 sentences for myself to read in the future: (using <infoblock type="next-step">) 
-    - write 1 short execution prompt for the next step: (using <infoblock type="next-execution-prompt">) 
-    - write what should we check in the next step with 2-3 sentences for myself to follow up the progress: (using  <infoblock type="next-checkup">) 
+    - write 1 short user prompt for the next step: (using <infoblock type="next-prompt">) 
+    - write 1 short checkup list to verifty the execution is aligned: (using  <infoblock type="next-checkup">) 
     - if needed, implement code: (using  <infoblock type="code">)
     - if needed, schedule 5 or LESS blocking terminal commands: (using  <infoblock type="terminal">) 
     - if needed, schedule 5 or LESS background terminal commands: (using "terminal" <infoblock extra="run-in-background">) 
-
-    - If goal is reached, verify it, write a marker to end the process: (using  <infoblock type="goal-achieved">) 
+    - If needed, Verify using the goal checklist, if software is fully developed, write a marker to end the process: (using  <infoblock type="goal-achieved">) 
 
 ${InfoblockForamt}
 `
@@ -284,7 +283,7 @@ ${InfoblockForamt}
   // console.log('blocks', blocks)
 
   let nextSteps = blocks.filter((r) => r.type === 'next-step')
-  let nextSystemPrompt = blocks.filter((r) => r.type === 'next-execution-prompt')
+  let nextSystemPrompt = blocks.filter((r) => r.type === 'next-prompt')
   let nextCheckup = blocks.filter((r) => r.type === 'next-checkup')
   let logs = blocks.filter((r) => r.type === 'log')
 
