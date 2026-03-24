@@ -125,9 +125,7 @@ You write the plan high level enough so that you don't implement the code.
 - list out package dependencies
 - stay organised for the downloaded content or derived content using folders
 - write folder structure with all file names, overall summary / purpose of each file included. let other AI Agent know that they must follow this structure so that code files are not duplicated or misplaces.
-
-# Goal Verification Plan:
-- Define verification steps for AI agent to check to see if they have reached their goal or not.
+- Plan each code file with a file path and a overall description of each export functuon or each export const values or etc
 `
             },
             {
