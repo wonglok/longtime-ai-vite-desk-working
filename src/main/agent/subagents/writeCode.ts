@@ -191,7 +191,7 @@ Action Log: ${one.content || ''}
     - understand what is going on by referencing to "What to do now" section, "action logs", "terminal results" and etc...
     - write 1 short action log with 2-3 sentences for myself to follow up the progress of the overall execution:  (using <infoblock type="log">)
     - write 1 short next step with 2-3 sentences for myself to read in the future: (using <infoblock type="next-step">) 
-    - write 1 short system prompt for the next step: (using <infoblock type="next-system-prompt">) 
+    - write 1 short execution prompt for the next step: (using <infoblock type="next-execution-prompt">) 
     - write what should we check in the next step with 2-3 sentences for myself to follow up the progress: (using  <infoblock type="next-checkup">) 
     - if needed, implement code: (using  <infoblock type="code">)
     - if needed, schedule 5 or LESS blocking terminal commands: (using  <infoblock type="terminal">) 
@@ -284,7 +284,7 @@ ${InfoblockForamt}
   // console.log('blocks', blocks)
 
   let nextSteps = blocks.filter((r) => r.type === 'next-step')
-  let nextSystemPrompt = blocks.filter((r) => r.type === 'next-system-prompt')
+  let nextSystemPrompt = blocks.filter((r) => r.type === 'next-execution-prompt')
   let nextCheckup = blocks.filter((r) => r.type === 'next-checkup')
   let logs = blocks.filter((r) => r.type === 'log')
 

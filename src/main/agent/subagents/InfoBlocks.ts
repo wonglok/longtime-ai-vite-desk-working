@@ -17,7 +17,7 @@ export const InfoblockForamt = `
 </infoblock>
 
 - for writing the system prompt for next step
-<infoblock type="next-system-prompt" extra="">
+<infoblock type="next-execution-prompt" extra="">
 {content}
 </infoblock>
 
