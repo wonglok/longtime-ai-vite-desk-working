@@ -84,7 +84,8 @@ export const runAgent = async ({ done, plan, checkAborted, onEvent, inbound, ran
       commands: [],
       commandResults: [],
       stop: [],
-      nextCheckup: []
+      nextCheckup: [],
+      nextSystemPrompt: []
     } satisfies OneStep
   }
 
