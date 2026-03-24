@@ -6,8 +6,13 @@ export const InfoblockForamt = `
 {content}
 </infoblock>
 
-- for schedule a terminal command call, result will be returned in the next run.
-<infoblock type="terminal" extra="">
+- for schedule a terminal command call, wait until result will be returned in the next run.
+<infoblock type="terminal" extra="wait-for-result">
+{command}
+</infoblock>
+
+- for schedule a terminal command call, run in background.
+<infoblock type="terminal" extra="run-in-background">
 {command}
 </infoblock>
 
@@ -20,8 +25,6 @@ export const InfoblockForamt = `
 <infoblock type="next-checkup" extra="">
 {content}
 </infoblock>
-
-
 
 - for writing log
 <infoblock type="log" extra="">
@@ -41,6 +44,7 @@ export const InfoblockForamt = `
 export type EachBlock = {
   type: string
   path?: string
+  extra?: string
   content: string
 }
 
@@ -73,9 +77,13 @@ export function parseInfoblocks(input: string) {
     // Extract path (optional)
     const pathMatch = attrsStr.match(/path\s*=\s*["']?([^"'\s>]+)["']?/i)
 
+    // Extract path (optional)
+    const extraMatch = attrsStr.match(/extra\s*=\s*["']?([^"'\s>]+)["']?/i)
+
     blocks.push({
       type: typeMatch[1].trim(),
       path: pathMatch ? pathMatch[1].trim() : undefined,
+      extra: extraMatch ? extraMatch[1].trim() : undefined,
       content: content || ''
     })
   }

@@ -9,8 +9,7 @@ import { writeFile } from 'fs/promises'
 import { execCommand } from './execCommand'
 import { dirname, join } from 'path'
 import { makeDirectory } from 'make-dir'
-import { BlockTag, parseBlockTags, StreamFilesFormat } from './StreamFiles'
-import { InfoblockForamt, parseInfoblocks } from './InfoBlocks'
+import { EachBlock, InfoblockForamt, parseInfoblocks } from './InfoBlocks'
 
 export type CommandResult = {
   command: string
@@ -20,13 +19,13 @@ export type CommandResult = {
 }
 
 export type OneStep = {
-  nextCheckup: BlockTag[]
-  nextSteps: BlockTag[]
-  codes: BlockTag[]
-  logs: BlockTag[]
-  stop: BlockTag[]
+  nextCheckup: EachBlock[]
+  nextSteps: EachBlock[]
+  codes: EachBlock[]
+  logs: EachBlock[]
+  stop: EachBlock[]
 
-  commands: BlockTag[]
+  commands: EachBlock[]
   commandResults: CommandResult[]
 }
 
@@ -203,7 +202,7 @@ ${InfoblockForamt}
     }
   }, 1)
 
-  const blocks: BlockTag[] = await openai.chat.completions
+  const blocks: EachBlock[] = await openai.chat.completions
     .create(
       {
         model: inbound.model,
@@ -306,8 +305,25 @@ ${InfoblockForamt}
         cmd_begin: each.content
       })
 
+      console.log("each.extra === 'run-in-background'", each)
       console.log('cmd_begin', each.content)
+
       let res: any = await new Promise(async (resolve) => {
+        //
+
+        if (each.extra === 'run-in-background') {
+          let list = each.content.split(' ')
+          let first = list[0]
+          execCommand({
+            spawnCmd: first,
+            args: list.slice(1, list.length - 1),
+            cwd: `${workspace}/code`,
+            onEvent: onEvent
+          })
+
+          return resolve({ successful: true, result: `Running in background` })
+        }
+
         return exec(
           `${(each.content || '').trim()}`,
           {
