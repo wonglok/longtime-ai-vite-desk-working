@@ -53,7 +53,7 @@ I want to have a skill.md for ai agent to use this cli tool.
 
 - convert each .mp4 video to .wav audio
 
-- transcribe .wav audio to "line by line transcript text" ".txt" file with timing & punctuation and "raw.json" file using "openai whisper" with auto mode for language detection please use "khleeloo/whisper-large-v3-cantonese" for the whisper model in hugging face
+- transcribe .wav audio to "line by line transcript text" ".txt" file with timing & punctuation and "raw.json" file using "openai whisper" with auto mode for language detection (the audio should be in cantonese)
 
 - Generate ".srt" caption file as well from the "raw.json"
 
