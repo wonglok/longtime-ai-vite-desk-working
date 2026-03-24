@@ -19,7 +19,7 @@ export type CommandResult = {
 }
 
 export type OneStep = {
-  nextContextPrompt: EachBlock[]
+  // nextContextPrompt: EachBlock[]
   nextCheckup: EachBlock[]
   nextSteps: EachBlock[]
   codes: EachBlock[]
@@ -107,24 +107,24 @@ ${one.result.slice(0, 800) || ''}
       }
     }
 
-    {
-      let text = ''
-      for (let one of step.nextContextPrompt) {
-        let item = `
-# Context Prompt for the current task: 
-${one.content || ''}
-    `.trim()
+    //     {
+    //       let text = ''
+    //       for (let one of step.nextContextPrompt) {
+    //         let item = `
+    // # Context Prompt for the current task:
+    // ${one.content || ''}
+    //     `.trim()
 
-        text += `${item}\n`
-      }
+    //         text += `${item}\n`
+    //       }
 
-      if (text.trim()) {
-        messages.push({
-          role: 'user',
-          content: text
-        })
-      }
-    }
+    //       if (text.trim()) {
+    //         messages.push({
+    //           role: 'user',
+    //           content: text
+    //         })
+    //       }
+    //     }
 
     {
       let text = ''
@@ -283,7 +283,7 @@ ${InfoblockForamt}
   // console.log('blocks', blocks)
 
   let nextSteps = blocks.filter((r) => r.type === 'next-step')
-  let nextContextPrompt = blocks.filter((r) => r.type === 'next-context-prompt')
+  // let nextContextPrompt = blocks.filter((r) => r.type === 'next-context-prompt')
   let nextCheckup = blocks.filter((r) => r.type === 'next-checkup')
   let logs = blocks.filter((r) => r.type === 'log')
 
@@ -298,7 +298,7 @@ ${InfoblockForamt}
     commands: commands,
     stop: stop,
     logs: logs,
-    nextContextPrompt: nextContextPrompt,
+    // nextContextPrompt: nextContextPrompt,
     commandResults: []
   }
 
