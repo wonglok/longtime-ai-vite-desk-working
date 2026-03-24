@@ -193,7 +193,7 @@ Action Log: ${one.content || ''}
     - write 1 short action log with 2-3 sentences for myself to follow up the progress of the overall execution:  (using <infoblock type="log">)
 
     - if needed, write 1 short next step with 2-3 sentences for myself to read in the future: (using <infoblock type="next-step">) 
-    - if needed, write 1 short execution prompt for the next step: (using <infoblock type="next-context-prompt">) 
+    - if needed, write 1 short context prompt for the next step: (using <infoblock type="next-context-prompt">) 
     - if needed, write 1 short checkup list to verifty the execution is aligned: (using  <infoblock type="next-checkup">) 
     - if needed, implement code: (using  <infoblock type="code">)
     - if needed, schedule 5 or LESS blocking terminal commands: (using  <infoblock type="terminal">) 
