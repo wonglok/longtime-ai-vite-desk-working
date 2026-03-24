@@ -118,7 +118,8 @@ You write the plan high level enough so that you don't implement the code.
                 .join(', ')}
 
 - MUST NOT implement code
-- Recommend others to use existing library from "nodejs  npm" or "python  pip" or "homebrew" or "apt-get"
+- tell ai agent coder to MUST use relative path where it's suitable
+- Recommend others to use existing library from "nodejs  npm" or "python  pip" or "homebrew" or "apt-get" or "huggingface"
 - list out package dependencies
 - stay organised for the downloaded content or derived content using folders
 - write folder structure with all file names, overall summary / purpose of each file included. let other AI Agent know that they must follow this structure so that code files are not duplicated or misplaces.

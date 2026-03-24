@@ -34,12 +34,12 @@ export const useArchApp = create(() => {
     // qwen/qwen3-coder-30b // not work
     appModel: `qwen/qwen3.5-35b-a3b`,
 
-    appName: 'image-app',
+    appName: 'image-gen',
 
     appUserPrompt: `
-I want to build a cli tool to generate image using z-image-turbo in hugging face.
+I want to build a cli tool to generate image using "z-image-turbo".
 please also build a skill.md
-please use the cli tool to generate an image of an apple and open it.
+please use the cli tool to generate an image of "an apple" and open it.
 `.trim(),
 
     //     appUserPrompt: `
