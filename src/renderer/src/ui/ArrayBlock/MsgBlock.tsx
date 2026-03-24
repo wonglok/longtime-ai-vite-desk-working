@@ -14,12 +14,14 @@ export function MsgBlock({}) {
   //
   return (
     <>
+      <div>
+        {done && <div className="bg-green-500 text-white p-2 rounded-2xl m-2">{done}</div>}
+        {cmd_begin && (
+          <div className="bg-[#001580] text-white p-2 rounded-2xl m-2">{cmd_begin}</div>
+        )}
+      </div>
       <div className="flex">
         <div className="text-xs w-full overflow-x-scroll">
-          {done && <div className="bg-green-500 text-white p-2 rounded-2xl m-2">{done}</div>}
-          {cmd_begin && (
-            <div className="bg-[#001580] text-white p-2 rounded-2xl m-2">{cmd_begin}</div>
-          )}
           {/* {blocks.map((msg: any, i) => {
         return (
           <li key={'k' + i} className="border p-2 my-2 rounded-2xl bg-lime-300">
@@ -59,7 +61,7 @@ export function MsgBlock({}) {
           {messages?.map((msg: any, i) => {
             return (
               <li key={'k' + i} className="border p-2 mb-2 rounded-2xl">
-                <div className="text-xs whitespace-pre-wrap p-2 bg-lime-100 border rounded-lg">
+                <div className={`bg-[#dcffd6] text-xs whitespace-pre-wrap p-2 border rounded-lg `}>
                   {msg?.content.trim()}
                 </div>
               </li>

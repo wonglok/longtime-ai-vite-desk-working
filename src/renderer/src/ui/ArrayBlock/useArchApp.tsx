@@ -50,10 +50,10 @@ https://www.youtube.com/watch?v=W8GgMiCOVRo
 
 - create a "testimony" folder, within it, create sub-folder using "video title" and put the "video", "audio" and "transcript" in it. 
   
+
+- open the gradio webpage in browser before starting the server
 - open the folder for me when all are done
-
-- build a native app user interface for the above system
-
+- build a gradio user interface for the above system.
 `.trim(),
     /*
      */
