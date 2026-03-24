@@ -37,7 +37,9 @@ export const useArchApp = create(() => {
     appName: 'testimony-database',
 
     appUserPrompt: `
+
 - Here's a list of youtube links in multiple rows: 
+
 https://www.youtube.com/watch?v=yyXwaUQOzlg
 https://www.youtube.com/watch?v=W8GgMiCOVRo
 
@@ -45,7 +47,9 @@ I want to build a cli that can do the following:
 - "help" command: documentation
 - "download" command: ingest a list of youtube links seperated by spaces
 
-# Overall Step:
+I want to have a skill.md for ai agent to use this cli tool.
+
+# Overall Step for "donwload" command:
 - download mp4 video and metadata json file from each youtube link.
 
 - convert each .mp4 video to .wav audio
@@ -56,7 +60,8 @@ I want to build a cli that can do the following:
 
 - Create a "testimony" folder, within it, create sub-folder using "youtube video id" and "metadata-info.md" and put the "video", "audio" and "transcript" in it. 
 
-- open the folder for me when all are done
+- open the folder for me when all are done.
+
 `.trim(),
     /*
      */
