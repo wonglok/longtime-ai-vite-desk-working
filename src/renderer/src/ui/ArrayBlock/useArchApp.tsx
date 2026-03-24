@@ -37,18 +37,18 @@ export const useArchApp = create(() => {
     appName: 'transcript-gen',
 
     appUserPrompt: `
-- Here's a list of youtube links in multiple rows:
+# I want to build a cli that can do the following:
+- "help" command: documentation
+- "download" command: ingest a list of youtube links separated by spaces
+
+# I want to have a "skill.md" for ai agent to use this cli tool.
+
+# I want to test the cli tool with the youtube link below:
 
 https://www.youtube.com/watch?v=yyXwaUQOzlg
 https://www.youtube.com/watch?v=W8GgMiCOVRo
 
-I want to build a cli that can do the following:
-- "help" command: documentation
-- "download" command: ingest a list of youtube links seperated by spaces
-
-I want to have a skill.md for ai agent to use this cli tool.
-
-# Overall Step for "donwload" command:
+# Overall Step for "download" command:
 - download mp4 video and metadata json file from each youtube link.
 
 - convert each .mp4 video to .wav audio

@@ -22,9 +22,16 @@ async function extractSummaryComments(rootDir) {
         if (fullPath.includes('venv')) {
           continue
         }
+        if (fullPath.includes('__pycache__')) {
+          continue
+        }
 
         if (entry.isDirectory()) {
           await scanDirectory(fullPath) // Recurse into subdirectories
+          results.push({
+            file: path.relative(rootDir, fullPath),
+            content: ''
+          })
         } else if (entry.isFile()) {
           // && isSupportedExtension(entry.name)
           await extractFromFile(fullPath, results)

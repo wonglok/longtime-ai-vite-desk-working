@@ -119,6 +119,7 @@ You write the plan high level enough so that you don't implement the code.
 
 - MUST NOT implement code
 - tell ai agent coder to MUST use relative path where it's suitable
+- tell ai agent coder to MUST use temp folder where it's testing code 
 - Recommend others to use existing library from "nodejs  npm" or "python  pip" or "homebrew" or "apt-get" or "huggingface"
 - list out package dependencies
 - stay organised for the downloaded content or derived content using folders
