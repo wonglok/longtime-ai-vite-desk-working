@@ -52,7 +52,7 @@ export async function writeCode({
     messages.push({
       role: 'user',
       content: `
-# System Prompt Document:
+# System Prompt for the entire app:
 ${plan}
 
 # Role Override:
@@ -94,6 +94,25 @@ Command: ${one.command || ''}
 Result: ${one.successful ? `Successful` : `Failed`} [only first 800 characters are loaded in result]
 ${one.result.slice(0, 800) || ''} 
 ------
+    `.trim()
+
+        text += `${item}\n`
+      }
+
+      if (text.trim()) {
+        messages.push({
+          role: 'user',
+          content: text
+        })
+      }
+    }
+
+    {
+      let text = ''
+      for (let one of step.nextSystemPrompt) {
+        let item = `
+# System prompt for the current task: 
+${one.content || ''}
     `.trim()
 
         text += `${item}\n`
@@ -178,8 +197,7 @@ Action Log: ${one.content || ''}
     - if needed, schedule 5 or LESS blocking terminal commands: (using  <infoblock type="terminal">) 
     - if needed, schedule 5 or LESS background terminal commands: (using "terminal" <infoblock extra="run-in-background">) 
 
-    - Check Goal Verification results in the action logs and terminal results
-      - If goal is reached, Write a marker to end the process: (using  <infoblock type="goal-achieved">) 
+    - If goal is reached, verify it, write a marker to end the process: (using  <infoblock type="goal-achieved">) 
 
 ${InfoblockForamt}
 `
