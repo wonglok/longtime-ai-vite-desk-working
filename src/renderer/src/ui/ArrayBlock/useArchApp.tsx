@@ -41,12 +41,14 @@ export const useArchApp = create(() => {
 https://www.youtube.com/watch?v=yyXwaUQOzlg
 https://www.youtube.com/watch?v=W8GgMiCOVRo
 
+i want to build a cli that can do the following:
+
 # Overall Step:
 - download mp4 video and metadata json file from each youtube link.
 
 - convert each .mp4 video to .wav audio
 
-- transcribe .wav audio to text ".txt" file with timing & punctuation and "raw.json" file using "openai whisper" with auto mode for language detection
+- transcribe .wav audio to line by line text ".txt" file with timing & punctuation and "raw.json" file using "openai whisper" with auto mode for language detection
 
 - Generate ".srt" caption file as well from the "raw.json"
 

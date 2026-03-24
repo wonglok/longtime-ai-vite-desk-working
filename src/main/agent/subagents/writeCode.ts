@@ -306,7 +306,7 @@ ${InfoblockForamt}
         cmd_begin: each.content
       })
 
-      console.log("each.extra === 'run-in-background'", each)
+      console.log('each.extra', each.extra)
       console.log('cmd_begin', each.content)
 
       let res: any = await new Promise(async (resolve) => {
