@@ -53,7 +53,7 @@ https://www.youtube.com/watch?v=W8GgMiCOVRo
 
 - open the gradio webpage in browser before starting the server
 - open the folder for me when all are done
-- build a gradio user interface for the above system.
+- build a gradio user interface for the above system
 `.trim(),
     /*
      */
