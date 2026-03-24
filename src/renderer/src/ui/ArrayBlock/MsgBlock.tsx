@@ -13,11 +13,14 @@ export function MsgBlock({}) {
   // console.log('messages', messages)
   //
   return (
-    <div className="text-xs w-full overflow-x-scroll">
-      {done && <div className="bg-green-500 text-white p-2 rounded-2xl m-2">{done}</div>}
-      {cmd_begin && <div className="bg-[#001580] text-white p-2 rounded-2xl m-2">{cmd_begin}</div>}
-
-      {/* {blocks.map((msg: any, i) => {
+    <>
+      <div className="flex">
+        <div className="text-xs w-full overflow-x-scroll">
+          {done && <div className="bg-green-500 text-white p-2 rounded-2xl m-2">{done}</div>}
+          {cmd_begin && (
+            <div className="bg-[#001580] text-white p-2 rounded-2xl m-2">{cmd_begin}</div>
+          )}
+          {/* {blocks.map((msg: any, i) => {
         return (
           <li key={'k' + i} className="border p-2 my-2 rounded-2xl bg-lime-300">
             <div className="text-xs whitespace-pre-wrap p-2 bg-gray-100 border rounded-lg">
@@ -27,21 +30,22 @@ export function MsgBlock({}) {
         )
       })} */}
 
-      {/* <Streamdown mode="streaming">{(stream || '').trim()}</Streamdown> */}
+          {/* <Streamdown mode="streaming">{(stream || '').trim()}</Streamdown> */}
 
-      <li key={'thinking1234'} className="border p-2 mb-2 rounded-2xl">
-        <div className="text-xs whitespace-pre-wrap p-2 bg-[#e9deff] text-#000000 border rounded-lg">
-          {(thinking || '').trim()}
+          <div key={'thinking1234'} className="border p-2 mb-2 rounded-2xl">
+            <div className="text-xs whitespace-pre-wrap p-2 bg-[#e9deff] text-#000000 border rounded-lg">
+              {(thinking || '').trim()}
+            </div>
+          </div>
+
+          <div key={'kstream1234'} className="border p-2 mb-2 rounded-2xl">
+            <div className="text-xs whitespace-pre-wrap p-2 bg-[#bff3ff] border rounded-lg">
+              {(stream || '').trim()}
+            </div>
+          </div>
         </div>
-      </li>
-
-      <li key={'kstream1234'} className="border p-2 mb-2 rounded-2xl">
-        <div className="text-xs whitespace-pre-wrap p-2 bg-[#bff3ff] border rounded-lg">
-          {(stream || '').trim()}
-        </div>
-      </li>
-
-      {/* {terminalCalls.map((msg: any, i) => {
+        <div className="text-xs w-full overflow-x-scroll">
+          {/* {terminalCalls.map((msg: any, i) => {
         console.log(msg)
         return (
           <li key={'k' + i} className="border p-2 my-2 rounded-2xl bg-lime-300">
@@ -52,15 +56,17 @@ export function MsgBlock({}) {
         )
       })} */}
 
-      {messages?.map((msg: any, i) => {
-        return (
-          <li key={'k' + i} className="border p-2 mb-2 rounded-2xl">
-            <div className="text-xs whitespace-pre-wrap p-2 bg-lime-100 border rounded-lg">
-              {msg?.content.trim()}
-            </div>
-          </li>
-        )
-      })}
-    </div>
+          {messages?.map((msg: any, i) => {
+            return (
+              <li key={'k' + i} className="border p-2 mb-2 rounded-2xl">
+                <div className="text-xs whitespace-pre-wrap p-2 bg-lime-100 border rounded-lg">
+                  {msg?.content.trim()}
+                </div>
+              </li>
+            )
+          })}
+        </div>
+      </div>
+    </>
   )
 }
