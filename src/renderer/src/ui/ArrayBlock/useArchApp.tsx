@@ -54,7 +54,7 @@ pipe = ZImagePipeline.from_pretrained(
     torch_dtype=torch.bfloat16,
     low_cpu_mem_usage=False,
 )
-# pipe.to("cuda")
+pipe.to("mps")
 
 # [Optional] Attention Backend
 # Diffusers uses SDPA by default. Switch to Flash Attention for better efficiency if supported:
