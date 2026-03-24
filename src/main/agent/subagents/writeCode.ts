@@ -176,7 +176,7 @@ Action Log: ${one.content || ''}
     - if needed, schedule 5 or LESS blocking terminal commands: (using  <infoblock type="terminal">) 
     - if needed, schedule 5 or LESS background terminal commands: (using "terminal" <infoblock extra="run-in-background">) 
 
-    - Check User Goal Verification results in the action logs and terminal results
+    - Check Goal Verification results in the action logs and terminal results
       - If goal is reached, Write a marker to end the process: (using  <infoblock type="goal-achieved">) 
 
 ${InfoblockForamt}
