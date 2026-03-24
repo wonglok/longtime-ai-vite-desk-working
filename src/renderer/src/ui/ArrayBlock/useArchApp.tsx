@@ -38,8 +38,10 @@ export const useArchApp = create(() => {
 
     appUserPrompt: `
 I want to build a cli tool to generate image using "z-image-turbo".
-please also build a skill.md
-please use the cli tool to generate an image of "an apple" and open it.
+Please look up: https://huggingface.co/Tongyi-MAI/Z-Image-Turbo
+
+Please also build a skill.md
+Please use the cli tool to generate an image of "an apple" and open it
 `.trim(),
 
     //     appUserPrompt: `
