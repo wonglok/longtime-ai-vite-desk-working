@@ -37,20 +37,24 @@ export const useArchApp = create(() => {
     appName: 'testimony-database',
 
     appUserPrompt: `
-# Overall Steps:
-- Please download mp4 video from youtube link: 
+# Overall Gradio App:
+- an input box of from youtube links in multiple rows like: 
 https://www.youtube.com/watch?v=yyXwaUQOzlg
 https://www.youtube.com/watch?v=W8GgMiCOVRo
+...
 
-- convert each .mp4 video to .wav audio
+- when user click submit button: 
+  - download mp4 video and metadata json file 
 
-- transcribe .wav audio to text ".txt" file with timing and punctuation and "raw.json" file using "openai whisper" with auto mode for language detection
+  - convert each .mp4 video to .wav audio
 
-- try to output ".srt" cpation file as well from the "raw.json"
+  - transcribe .wav audio to text ".txt" file with timing and punctuation and "raw.json" file using "openai whisper" with auto mode for language detection
 
-- create a "testimony" folder, within it, create sub-folder using "video title" and put the "video", "audio" and "transcript" in it. 
+  - try to output ".srt" caption file as well from the "raw.json"
 
-- open the folder for me when all are done
+  - create a "testimony" folder, within it, create sub-folder using "video title" and put the "video", "audio" and "transcript" in it. 
+
+  - open the folder for me when all are done
 `.trim(),
     /*
      */
