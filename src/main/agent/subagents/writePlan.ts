@@ -118,6 +118,7 @@ You write the plan high level enough so that you don't implement the code.
                 .join(', ')}
 
 - MUST NOT implement code
+- tell ai agent coder to MUST use bun runtime for js
 - tell ai agent coder to MUST use relative path where it's suitable
 - tell ai agent coder to MUST use temp folder where it's testing code 
 - Recommend others to use existing library from "nodejs npm" or "homebrew" or "apt-get"
