@@ -26,7 +26,7 @@ export const useArchApp = create(() => {
     // appModel: `Qwen3.5-4B-MLX-4bit`,
     // appModel: `qwen/qwen3.5-4b`,
 
-    // google gemma 3 27b havent test
+    // google gemma 3 27b havent test (require too much ram)
     // google gemma 3 12b dont work
     // google gemma 3 4b dont work
 
