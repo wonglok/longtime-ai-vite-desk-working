@@ -38,12 +38,14 @@ export async function writeCode({
   checkAborted,
   onEvent
 }) {
+  //
+
   const openai = new OpenAI({
     baseURL: inbound.baseURL,
     apiKey: inbound.apiKey
   })
 
-  let prepareMessages = async (step: OneStep) => {
+  const prepareMessages = async (step: OneStep) => {
     const messages: ChatCompletionMessageParam[] = []
 
     messages.push({
@@ -259,7 +261,7 @@ ${InfoblockForamt}
   })
   clearInterval(intrv)
 
-  console.log('blocks', blocks)
+  // console.log('blocks', blocks)
 
   let nextSteps = blocks.filter((r) => r.type === 'next-step')
   let nextCheckup = blocks.filter((r) => r.type === 'next-checkup')
