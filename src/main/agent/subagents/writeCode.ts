@@ -171,7 +171,7 @@ Action Log: ${one.content || ''}
     - write 1 short next step with 2-3 sentences for myself to read in the future: (using <infoblock type="next-step">) 
     - write what should we check in the next step with 2-3 sentences for myself to follow up the progress: (using  <infoblock type="next-checkup">) 
     - if needed, implement code: (using  <infoblock type="code">)
-    - if needed, schedule 5 or LESS terminal commands: (using  <infoblock type="terminal">) 
+    - if needed, schedule 5 or LESS blocking terminal commands: (using  <infoblock type="terminal">) 
     - if needed, schedule 5 or LESS background terminal commands: (using "terminal" <infoblock extra="run-in-background">) 
 
     - Check User Goal Verification results in the action logs and terminal results

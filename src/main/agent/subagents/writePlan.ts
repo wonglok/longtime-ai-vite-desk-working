@@ -116,17 +116,6 @@ You write the plan high level enough so that you don't implement the code.
 
 # Goal Verification Plan:
 - Define verification steps for AI agent to check to see if they have reached their goal or not.
-
-# Introduction of the AI Agent:
-- The AI Coding Agent will have an agentic loop, each step will...
-  - read:
-    - last execution state 
-    - action log
-  - write:
-    - currnet execution state
-    - action log
-    - future task 
-    - check up list for the future result
 `
             },
             {
