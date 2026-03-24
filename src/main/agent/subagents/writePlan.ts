@@ -35,6 +35,14 @@ export async function writePlan({ workspace, inbound, checkAborted, onEvent }) {
   const controller = new AbortController()
   const signal = controller.signal
 
+  const tt = setInterval(() => {
+    if (checkAborted()) {
+      clearInterval(tt)
+      controller.abort()
+      return
+    }
+  })
+
   const openai = new OpenAI({
     baseURL: inbound.baseURL,
     apiKey: inbound.apiKey
@@ -89,6 +97,7 @@ export async function writePlan({ workspace, inbound, checkAborted, onEvent }) {
 - if we need to use dotenv , use this: "import { config } from 'dotenv';"
 
     */
+
     const plan = await openai.chat.completions
       .create(
         {
@@ -171,14 +180,6 @@ ${inbound.appUserPrompt}
 
     whichPlan = plan
 
-    let tt = setInterval(() => {
-      if (checkAborted()) {
-        clearInterval(tt)
-        controller.abort()
-        return
-      }
-    })
-
     try {
       await writeFile(
         join(workspace, 'ai-memory', 'app-idea.md'),
@@ -196,10 +197,9 @@ ${inbound.appUserPrompt}
     if (checkAborted()) {
       throw new Error('request is aborted')
     }
-
-    clearInterval(tt)
   }
 
+  clearInterval(tt)
   return { plan: whichPlan }
 }
 
