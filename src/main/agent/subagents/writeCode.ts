@@ -1,7 +1,7 @@
 import { exec } from 'child_process'
 import OpenAI from 'openai'
 import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
-import { success, z } from 'zod'
+// import { success, z } from 'zod'
 import { scanFolder } from '../utils/getSummary'
 import { writeFile } from 'fs/promises'
 // import moment from 'moment'

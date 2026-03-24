@@ -15,6 +15,11 @@ export const useArchApp = create(() => {
     status: ['pending', 'in-progress', 'completed'],
     todo: [] as any[],
     blocks: [] as any[],
+    terminalCalls: [],
+    stream: '',
+    thinking: '',
+    terminalWindow: '',
+
     done: '',
 
     getSeed: getSeed,
@@ -31,42 +36,28 @@ export const useArchApp = create(() => {
     // google gemma 3 4b dont work
 
     // qwen/qwen3.5-35b-a3b works well
-    // qwen/qwen3-coder-30b // not work
     appModel: `qwen/qwen3.5-35b-a3b`,
 
     appName: 'transcript-gen',
 
     appUserPrompt: `
-# I want to build a cli that can do the following:
+# Build a cli that can do the following:
 - "help" command: documentation
 - "download" command: ingest a list of youtube links separated by spaces
+  -- download mp4 video and metadata json file from each youtube link.
+  -- convert each .mp4 video to .wav audio
+  -- transcribe .wav audio to "line by line transcript text" ".txt" file with timing & punctuation and "raw.json" file using "openai whisper" with auto mode for language detection (the audio should be in cantonese)
+  -- Generate ".srt" caption file as well from the "raw.json"
+  -- Create a "testimony" folder, within it, create sub-folder using "youtube video id" and "metadata-info.md" and put the "video", "audio" and "transcript" in it.
+  -- open the folder for me when all are done.
 
-# I want to have a "skill.md" for ai agent to use this cli tool.
-
-# I want to test the cli tool with the youtube link below:
-
+# Test the cli tool with the youtube link below:
 https://www.youtube.com/watch?v=yyXwaUQOzlg
 https://www.youtube.com/watch?v=W8GgMiCOVRo
 
-# Overall Step for "download" command:
-- download mp4 video and metadata json file from each youtube link.
+# Write a "skill.md" for ai agent to use this cli tool.
 
-- convert each .mp4 video to .wav audio
-
-- transcribe .wav audio to "line by line transcript text" ".txt" file with timing & punctuation and "raw.json" file using "openai whisper" with auto mode for language detection (the audio should be in cantonese)
-
-- Generate ".srt" caption file as well from the "raw.json"
-
-- Create a "testimony" folder, within it, create sub-folder using "youtube video id" and "metadata-info.md" and put the "video", "audio" and "transcript" in it.
-
-- open the folder for me when all are done.
-
-    `.trim(),
-
-    stream: '',
-    thinking: '',
-    terminalCalls: [],
-    terminalWindow: ''
+    `.trim()
   }
 })
 
