@@ -15,9 +15,15 @@ export function MsgBlock({}) {
   return (
     <>
       <div>
-        {done && <div className="bg-green-500 text-white p-2 rounded-2xl m-2">{done}</div>}
+        {done && (
+          <div className="bg-green-500 text-white p-2 rounded-2xl whitespace-pre-wrap m-2">
+            {done}
+          </div>
+        )}
         {cmd_begin && (
-          <div className="bg-[#001580] text-white p-2 rounded-2xl m-2">{cmd_begin}</div>
+          <div className="bg-[#001580] text-white p-2 rounded-2xl whitespace-pre-wrap m-2">
+            {cmd_begin}
+          </div>
         )}
       </div>
       <div className="flex space-x-2">
