@@ -337,7 +337,7 @@ ${InfoblockForamt}
           execCommand({
             spawnCmd: first,
             args: list.slice(1, list.length - 1),
-            cwd: new URL(`${workspace}/code`),
+            cwd: `${workspace}/code`,
             onEvent: onEvent
           })
 
@@ -347,7 +347,7 @@ ${InfoblockForamt}
         return exec(
           `cd ${join(`${workspace}`, 'code')}; ${(each.content || '').trim()}`,
           {
-            cwd: new URL(`${workspace}/code`)
+            cwd: `${workspace}/code`
           },
           (error, stdout, stderr) => {
             if (error) {
