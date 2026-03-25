@@ -329,21 +329,21 @@ ${InfoblockForamt}
       let res: any = await new Promise(async (resolve) => {
         //
 
-        if (each?.extra === 'run-in-background') {
-          let list = each.content.split(' ')
-          let first = list[0]
-          execCommand({
-            spawnCmd: first,
-            args: list.slice(1, list.length - 1),
-            cwd: `${workspace}/code`,
-            onEvent: onEvent
-          })
+        // if (each?.extra === 'run-in-background') {
+        //   let list = each.content.split(' ')
+        //   let first = list[0]
+        //   execCommand({
+        //     spawnCmd: first,
+        //     args: list.slice(1, list.length - 1),
+        //     cwd: `${workspace}/code`,
+        //     onEvent: onEvent
+        //   })
 
-          return resolve({ successful: true, result: `Running in background` })
-        }
+        //   return resolve({ successful: true, result: `Running in background` })
+        // }
 
         return exec(
-          `${(each.content || '').trim()}`,
+          `cd ${`${workspace}/code`}; ${(each.content || '').trim()}`,
           {
             cwd: `${workspace}/code`
           },
