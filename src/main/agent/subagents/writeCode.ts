@@ -339,7 +339,7 @@ ${InfoblockForamt}
         return exec(
           `cd ${join(`${workspace}`, 'code')} && ${(each.content || '').trim()}`,
           {
-            cwd: `${workspace}/code`
+            // cwd: `${workspace}/code`
           },
           (error, stdout, stderr) => {
             if (stderr) {
