@@ -61,6 +61,7 @@ You are a senior developer who writes code.
 # GUIDELINES:
 `.trim()
     })
+
     // MUST WORK Within folder: "${workspace}/code"
 
     let files = await (await scanFolder(`${workspace}/code`)).trim()
@@ -105,6 +106,8 @@ ${one.result.slice(0, 800) || ''}
           content: text
         })
       }
+
+      //
     }
 
     //     {
@@ -188,15 +191,15 @@ Action Log: ${one.content || ''}
       role: 'user',
       content: `
 # Instructions:
-    - understand what is going on by referencing to "What to do now" section, "action logs", "terminal results" and etc...
-    - write 1 short action log for myself to read in the future:  (using <infoblock type="log">)
-    - if needed, write 1 context prompt for myself to read in the next step: (using <infoblock type="next-context-prompt">) 
-    - if needed, write 1 next step for myself to read in the future: (using <infoblock type="next-step">) 
-    - if needed, write 1 checkup list to verifty the execution is aligned with the plan: (using  <infoblock type="next-checkup">) 
-    - if needed, implement code MUST USE <infoblock type="code"> dont use terminal to write code
-    - if needed, schedule 5 or LESS blocking terminal commands: (using  <infoblock type="terminal">) 
-    - if needed, schedule 5 or LESS background terminal commands: (using "terminal" <infoblock extra="run-in-background">) 
-    - If needed, Verify the goal using "Goal Verification Checklist", if goal is achieved, write a marker to end the process: (using  <infoblock type="goal-achieved">) 
+  - understand what is going on by referencing to "What to do now" section, "action logs", "terminal results" and etc...
+  - write 1 short action log for myself to read in the future:  (using <infoblock type="log">)
+  - if needed, write 1 context prompt for myself to read in the next step: (using <infoblock type="next-context-prompt">) 
+  - if needed, write 1 next step for myself to read in the future: (using <infoblock type="next-step">) 
+  - if needed, write 1 checkup list to verifty the execution is aligned with the plan: (using  <infoblock type="next-checkup">) 
+  - if needed, implement code MUST USE <infoblock type="code"> dont use terminal to write code
+  - if needed, schedule 5 or LESS blocking terminal commands: (using  <infoblock type="terminal">) 
+  - if needed, schedule 5 or LESS background terminal commands: (using "terminal" <infoblock extra="run-in-background">) 
+  - If needed, Verify the goal using "Goal Verification Checklist", if goal is achieved, write a marker to end the process: (using  <infoblock type="goal-achieved">) 
   
 ${InfoblockForamt}
 `
@@ -282,8 +285,8 @@ ${InfoblockForamt}
 
   // console.log('blocks', blocks)
 
-  let nextSteps = blocks.filter((r) => r.type === 'next-step')
   // let nextContextPrompt = blocks.filter((r) => r.type === 'next-context-prompt')
+  let nextSteps = blocks.filter((r) => r.type === 'next-step')
   let nextCheckup = blocks.filter((r) => r.type === 'next-checkup')
   let logs = blocks.filter((r) => r.type === 'log')
 

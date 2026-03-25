@@ -7,7 +7,8 @@ export const useArchApp = create(() => {
     let date = new Date()
     let ver = moment(date).format('YYYY-MM-DD')
     let time = moment(date).format('hh-mm-A')
-    return `${[time, `${ver}`, `-${Math.random().toString(36).slice(2, 9)}`].join('-')}`
+    // , `-${Math.random().toString(36).slice(2, 9)}`
+    return `${[time, `${ver}`].join('-')}`
   }
 
   return {
@@ -56,10 +57,16 @@ export const useArchApp = create(() => {
   - within output folder, create sub-folder using "youtube video id" and "metadata-info.md" and put the "video", "audio" and "transcript" in it.
   - open the folder for me when all are done.
 
-# Write a "skill.md" for ai agent to use this cli tool, must include examples
 
     `.trim()
   }
+  //
+  //
+  //
+
+  //
+  // # Write a "skill.md" for ai agent to use this cli tool, must include examples
+  //
 })
 
 /*
