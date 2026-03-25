@@ -20,7 +20,7 @@ export function MsgBlock({}) {
           <div className="bg-[#001580] text-white p-2 rounded-2xl m-2">{cmd_begin}</div>
         )}
       </div>
-      <div className="flex">
+      <div className="flex space-x-2">
         <div className="text-xs w-full overflow-x-scroll">
           {/* {blocks.map((msg: any, i) => {
         return (
@@ -32,7 +32,7 @@ export function MsgBlock({}) {
         )
       })} */}
 
-          {/* <Streamdown mode="streaming">{(stream || '').trim()}</Streamdown> */}
+          {/*  */}
 
           <div key={'thinking1234'} className="border p-2 mb-2 rounded-2xl">
             <div className="text-xs whitespace-pre-wrap p-2 bg-[#e9deff] text-#000000 border rounded-lg">
