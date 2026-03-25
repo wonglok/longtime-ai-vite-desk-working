@@ -196,7 +196,7 @@ Action Log: ${one.content || ''}
     - if needed, implement code MUST USE <infoblock type="code"> dont use terminal to write code
     - if needed, schedule 5 or LESS blocking terminal commands: (using  <infoblock type="terminal">) 
     - if needed, schedule 5 or LESS background terminal commands: (using "terminal" <infoblock extra="run-in-background">) 
-    - If needed, Verify using the goal checklist, if software is fully developed, write a marker to end the process: (using  <infoblock type="goal-achieved">) 
+    - If needed, Verify the goal using "Goal Verification Checklist", if goal is achieved, write a marker to end the process: (using  <infoblock type="goal-achieved">) 
   
 ${InfoblockForamt}
 `
