@@ -58,8 +58,10 @@ ${plan}
 # Role Override:
 You are a senior developer who writes code.
 
+# GUIDELINES:
 `.trim()
     })
+    // MUST WORK Within folder: "${workspace}/code"
 
     let files = await (await scanFolder(`${workspace}/code`)).trim()
 
@@ -191,7 +193,7 @@ Action Log: ${one.content || ''}
     - if needed, write 1 context prompt for myself to read in the next step: (using <infoblock type="next-context-prompt">) 
     - if needed, write 1 next step for myself to read in the future: (using <infoblock type="next-step">) 
     - if needed, write 1 checkup list to verifty the execution is aligned with the plan: (using  <infoblock type="next-checkup">) 
-    - if needed, implement code: (using  <infoblock type="code">)
+    - if needed, implement code MUST USE <infoblock type="code"> dont use terminal to write code
     - if needed, schedule 5 or LESS blocking terminal commands: (using  <infoblock type="terminal">) 
     - if needed, schedule 5 or LESS background terminal commands: (using "terminal" <infoblock extra="run-in-background">) 
     - If needed, Verify using the goal checklist, if software is fully developed, write a marker to end the process: (using  <infoblock type="goal-achieved">) 
@@ -310,7 +312,7 @@ ${InfoblockForamt}
 
       await makeDirectory(dirname(join(`${workspace}`, 'code', path)))
 
-      await writeFile(path, content, 'utf8').catch((er) => {
+      await writeFile(join(`${workspace}`, 'code', path), content, 'utf8').catch((er) => {
         console.error(er)
       })
     }
@@ -329,23 +331,23 @@ ${InfoblockForamt}
       let res: any = await new Promise(async (resolve) => {
         //
 
-        // if (each?.extra === 'run-in-background') {
-        //   let list = each.content.split(' ')
-        //   let first = list[0]
-        //   execCommand({
-        //     spawnCmd: first,
-        //     args: list.slice(1, list.length - 1),
-        //     cwd: `${workspace}/code`,
-        //     onEvent: onEvent
-        //   })
+        if (each?.extra === 'run-in-background') {
+          let list = each.content.split(' ')
+          let first = list[0]
+          execCommand({
+            spawnCmd: first,
+            args: list.slice(1, list.length - 1),
+            cwd: new URL(`${workspace}/code`),
+            onEvent: onEvent
+          })
 
-        //   return resolve({ successful: true, result: `Running in background` })
-        // }
+          return resolve({ successful: true, result: `Running in background` })
+        }
 
         return exec(
-          `cd ${`${workspace}/code`}; ${(each.content || '').trim()}`,
+          `${(each.content || '').trim()}`,
           {
-            cwd: `${workspace}/code`
+            cwd: new URL(`${workspace}/code`)
           },
           (error, stdout, stderr) => {
             if (error) {
