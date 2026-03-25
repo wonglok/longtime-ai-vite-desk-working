@@ -118,7 +118,8 @@ You write the plan high level enough so that you don't implement the code.
                 .join(', ')}
 
 - MUST NOT implement code
-- tell ai agent coder to MUST use bun runtime for js
+- tell ai agent coder to MUST use bun runtime for js, ts
+- tell ai agent coder to MUST use nodejs mode for typescript
 - tell ai agent coder to MUST use relative path where it's suitable
 - tell ai agent coder to MUST use temp folder where it's testing code 
 - tell ai agent coder to have logger logic 
