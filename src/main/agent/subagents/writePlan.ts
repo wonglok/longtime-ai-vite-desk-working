@@ -123,6 +123,7 @@ You write the plan high level enough so that you don't implement the code.
 - tell ai agent coder to MUST use relative path where it's suitable
 - tell ai agent coder to MUST use temp folder where it's testing code 
 - tell ai agent coder to have logger logic 
+- tell ai agent coder to Must use named export and named import for all modules
 - list out package dependencies (Recommend others to use existing library from "nodejs npm" or "bun")
 - stay organised for the downloaded content or derived content using folders
 - define folder structure with all file names, overall summary / purpose of each file included. let other AI Agent know that they must follow this structure so that code files are not duplicated or misplaces.

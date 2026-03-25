@@ -47,16 +47,20 @@ export const useArchApp = create(() => {
 
 ## Commands examples: 
   $ bun run ./cli.ts --help
-  $ bun run ./cli.ts --download https://www.youtube.com/watch?v=D3yMC_qoAes --output ./my-info
+  - show the documentation of the command line
 
-### "download" command: ingest a list of youtube links separated by spaces
+  $ bun run ./cli.ts --download https://www.youtube.com/watch?v=D3yMC_qoAes --output ./my-info/
   - download mp4 video and metadata json file from each youtube link.
+
+  $ bun run ./cli.ts --convert ./my-info/video.mp4 --output ./my-info/
   - convert each .mp4 video to .wav audio 
+
+  $ bun run ./cli.ts --transcribe ./my-info/audio.wav --output ./my-info/
   - transcribe .wav audio to "line by line transcript text" ".txt" file with timing & punctuation and "raw.json" file using "@huggingface/transformers"
   - Generate ".srt" caption file as well from the "raw.json"
-  - within output folder, create sub-folder using "youtube video id" and "metadata-info.md" and put the "video", "audio" and "transcript" in it.
-  - open the folder for me when all are done.
 
+  $ bun run ./cli.ts --open ./my-info
+  - open the folder for me when all are done.
 
     `.trim()
   }

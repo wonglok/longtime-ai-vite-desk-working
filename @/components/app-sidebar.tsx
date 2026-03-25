@@ -418,7 +418,7 @@ export function AppSidebar({
 
         <NavUser
           user={{
-            name: 'HyperEgg AIGenTools',
+            name: 'HyperEgg Agent Incubator',
             email: 'Generative Tools',
             avatar: '/avatars/shadcn.jpg'
           }}
