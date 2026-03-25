@@ -43,15 +43,13 @@ export const useArchApp = create(() => {
     appName: 'transcript-gen',
 
     appUserPrompt: `
-# Build a cli that can do the following:
-
-## Commands examples: 
-  $ bun run ./cli.ts --help
-  - show the documentation of the command line
-
-  $ bun run ./cli.ts --download https://www.youtube.com/watch?v=D3yMC_qoAes --output ./my-info/
-  - download mp4 video and metadata json file from each youtube link.
-
+# Build a bun script with a skill.md:
+  $ bun run ./script.ts --download https://www.youtube.com/watch?v=D3yMC_qoAes --output ./my-info/
+    - it downloads mp4 video and metadata from each youtube link, use ID from link for video's name
+    `.trim()
+  }
+  /*
+  
   $ bun run ./cli.ts --convert ./my-info/video.mp4 --output ./my-info/
   - convert each .mp4 video to .wav audio 
 
@@ -61,9 +59,8 @@ export const useArchApp = create(() => {
 
   $ bun run ./cli.ts --open ./my-info
   - open the folder for me when all are done.
-
-    `.trim()
-  }
+  
+  */
   //
   //
   //

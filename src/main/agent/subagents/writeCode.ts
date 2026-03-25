@@ -313,6 +313,10 @@ ${InfoblockForamt}
       let path = file.path
       let content = file.content
 
+      if (path.includes('.lock')) {
+        continue
+      }
+
       await makeDirectory(dirname(join(`${workspace}`, 'code', path)))
 
       await writeFile(join(`${workspace}`, 'code', path), content, 'utf8').catch((er) => {
