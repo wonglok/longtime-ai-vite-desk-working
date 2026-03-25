@@ -44,13 +44,13 @@ export const useArchApp = create(() => {
     appUserPrompt: `
 # Build a cli that can do the following:
 ## Commands examples: 
-  $ tgen --help
-  $ tgen --download https://www.youtube.com/watch?v=D3yMC_qoAes
+  $ bun run ./cli.ts --help
+  $ bun run ./cli.ts --download https://www.youtube.com/watch?v=D3yMC_qoAes
 
 ### "download" command: ingest a list of youtube links separated by spaces
   - download mp4 video and metadata json file from each youtube link.
   - convert each .mp4 video to .wav audio
-  - transcribe .wav audio to "line by line transcript text" ".txt" file with timing & punctuation and "raw.json" file using "openai whisper" with auto mode for language detection (the audio should be in cantonese)
+  - transcribe .wav audio to "line by line transcript text" ".txt" file with timing & punctuation and "raw.json" file using "transformer.js whisper"
   - Generate ".srt" caption file as well from the "raw.json"
   - Create a "testimony" folder, within it, create sub-folder using "youtube video id" and "metadata-info.md" and put the "video", "audio" and "transcript" in it.
   - open the folder for me when all are done.
