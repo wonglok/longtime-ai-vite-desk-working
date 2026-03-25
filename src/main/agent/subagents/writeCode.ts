@@ -337,7 +337,7 @@ ${InfoblockForamt}
       let res: any = await new Promise(async (resolve) => {
         //
         return exec(
-          `cd ${join(`${workspace}`, 'code')}; ${(each.content || '').trim()}`,
+          `cd ${join(`${workspace}`, 'code')} && ${(each.content || '').trim()}`,
           {
             cwd: `${workspace}/code`
           },

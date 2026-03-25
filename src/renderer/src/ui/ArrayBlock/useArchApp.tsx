@@ -43,7 +43,7 @@ export const useArchApp = create(() => {
     appName: 'transcript-gen',
 
     appUserPrompt: `
-Build a hello world script.
+Build a script that uses LMStudio on localhost port 1234 with qwen/qwen3.5-4b model to process input text "hi how are you?"
     `.trim()
   }
   /*
