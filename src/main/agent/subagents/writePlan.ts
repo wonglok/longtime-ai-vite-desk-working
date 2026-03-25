@@ -119,9 +119,13 @@ You write the plan high level enough so that you don't implement the code.
 
 - MUST NOT implement code
 - MUST ONLY plan code
-- Plan folder structure with all folder names and file names, overall summary / purpose of each file included. 
-- tell ai agent coder to Must follow folder structure so that code files are not duplicated or misplaces.
-- Plan each code file with a file path and a overall description of each named module export and each moudle import
+
+- list out all folder and files in the project file tree
+  -- Must follow folder structure so that code files are not duplicated or misplaces.
+- for each file, write 
+  -- a overall summary and purpose
+  -- name and purpose of a exported function / class / const / etc
+
 - tell ai agent coder to MUST use bun runtime for js, ts
 - tell ai agent coder to MUST use nodejs mode for typescript
 - tell ai agent coder to MUST use relative path where it's suitable
