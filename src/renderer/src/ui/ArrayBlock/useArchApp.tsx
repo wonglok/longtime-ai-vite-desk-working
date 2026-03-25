@@ -51,8 +51,8 @@ export const useArchApp = create(() => {
 
 ### "download" command: ingest a list of youtube links separated by spaces
   - download mp4 video and metadata json file from each youtube link.
-  - convert each .mp4 video to .wav audio
-  - transcribe .wav audio to "line by line transcript text" ".txt" file with timing & punctuation and "raw.json" file using "transformer.js whisper"
+  - convert each .mp4 video to .wav audio 
+  - transcribe .wav audio to "line by line transcript text" ".txt" file with timing & punctuation and "raw.json" file using "@huggingface/transformers"
   - Generate ".srt" caption file as well from the "raw.json"
   - within output folder, create sub-folder using "youtube video id" and "metadata-info.md" and put the "video", "audio" and "transcript" in it.
   - open the folder for me when all are done.
