@@ -126,6 +126,7 @@ You write the plan high level enough so that you don't implement the code.
 - stay organised for the downloaded content or derived content using folders
 - define folder structure with all file names, overall summary / purpose of each file included. let other AI Agent know that they must follow this structure so that code files are not duplicated or misplaces.
 - Plan each code file with a file path and a overall description of each export functuon or each export const values or etc, each code file Must only have one export
+- try to make logic in its unique file so that we can avoid rewriting other working code.
 - MUST include Goal Verification check up list for the user goal
 `
             },
