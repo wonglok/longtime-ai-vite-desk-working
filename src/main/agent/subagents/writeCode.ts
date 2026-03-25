@@ -345,7 +345,7 @@ ${InfoblockForamt}
         }
 
         return exec(
-          `${(each.content || '').trim()}`,
+          `cd ${join(`${workspace}`, 'code')}; ${(each.content || '').trim()}`,
           {
             cwd: new URL(`${workspace}/code`)
           },
