@@ -118,6 +118,10 @@ You write the plan high level enough so that you don't implement the code.
                 .join(', ')}
 
 - MUST NOT implement code
+- MUST ONLY plan code
+- Plan folder structure with all folder names and file names, overall summary / purpose of each file included. 
+- tell ai agent coder to Must follow folder structure so that code files are not duplicated or misplaces.
+- Plan each code file with a file path and a overall description of each named module export and each moudle import
 - tell ai agent coder to MUST use bun runtime for js, ts
 - tell ai agent coder to MUST use nodejs mode for typescript
 - tell ai agent coder to MUST use relative path where it's suitable
@@ -125,10 +129,6 @@ You write the plan high level enough so that you don't implement the code.
 - tell ai agent coder to have logger logic 
 - tell ai agent coder to Must use named export and named import for all modules
 - list out package dependencies (Recommend others to use existing library from "nodejs npm" or "bun") **MUST install only 1 package at a time**
-- stay organised for the downloaded content or derived content using folders
-- define folder structure with all file names, overall summary / purpose of each file included. let other AI Agent know that they must follow this structure so that code files are not duplicated or misplaces.
-- Plan each code file with a file path and a overall description of each module export 
-- try to make logic in its unique file so that we can avoid rewriting other working code.
 - MUST include Goal Verification check up list for the user goal
 - MUST Test what you built at the end
 `

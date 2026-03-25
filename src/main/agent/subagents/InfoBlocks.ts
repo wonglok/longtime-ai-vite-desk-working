@@ -11,11 +11,6 @@ export const InfoblockForamt = `
 {command}
 </infoblock>
 
-- for schedule a terminal command call, run in background.
-<infoblock type="terminal" extra="run-in-background">
-{command}
-</infoblock>
-
 - for writing the system prompt for next step
 <infoblock type="next-context-prompt" extra="">
 {content}

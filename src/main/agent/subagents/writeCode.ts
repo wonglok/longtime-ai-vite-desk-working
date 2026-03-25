@@ -198,7 +198,6 @@ Action Log: ${one.content || ''}
   - if needed, write 1 checkup list to verifty the execution is aligned with the plan: (using  <infoblock type="next-checkup">) 
   - if needed, implement code MUST USE <infoblock type="code"> dont use terminal to write code
   - if needed, schedule 5 or LESS blocking terminal commands: (using  <infoblock type="terminal">) 
-  - if needed, schedule 5 or LESS background terminal commands: (using "terminal" <infoblock extra="run-in-background">) 
   - If needed, Verify the goal using "Goal Verification Checklist", if goal is achieved, write a marker to end the process: (using  <infoblock type="goal-achieved">) 
   
 ${InfoblockForamt}
@@ -337,34 +336,21 @@ ${InfoblockForamt}
 
       let res: any = await new Promise(async (resolve) => {
         //
-
-        if (each?.extra === 'run-in-background') {
-          let list = each.content.split(' ')
-          let first = list[0]
-          execCommand({
-            spawnCmd: first,
-            args: list.slice(1, list.length - 1),
-            cwd: `${workspace}/code`,
-            onEvent: onEvent
-          })
-
-          return resolve({ successful: true, result: `Running in background` })
-        }
-
         return exec(
           `cd ${join(`${workspace}`, 'code')}; ${(each.content || '').trim()}`,
           {
             cwd: `${workspace}/code`
           },
           (error, stdout, stderr) => {
-            if (error) {
-              console.log('error', error)
-              return resolve({ successful: false, result: `${stderr}` })
-            }
             if (stderr) {
-              console.error(`error: ${stderr}`)
+              console.error(`${stderr}`)
               return resolve({ successful: false, result: `${stderr}` })
             }
+            if (error) {
+              console.log(error)
+              return resolve({ successful: false, result: `${error}` })
+            }
+
             resolve({ successful: true, result: `${stdout}` })
           }
         )
