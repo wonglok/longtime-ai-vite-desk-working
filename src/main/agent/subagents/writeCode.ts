@@ -58,8 +58,6 @@ ${plan}
 # Role Override:
 You are a senior developer who writes code.
 
-# GUIDELINES:
-MUST WORK Within folder: "${workspace}/code"
 `.trim()
     })
 
@@ -310,11 +308,7 @@ ${InfoblockForamt}
       let path = file.path
       let content = file.content
 
-      if (!path.startsWith(`${workspace}/code`)) {
-        path = join(`${workspace}`, 'code', path)
-      }
-
-      await makeDirectory(dirname(path))
+      await makeDirectory(dirname(join(`${workspace}`, 'code', path)))
 
       await writeFile(path, content, 'utf8').catch((er) => {
         console.error(er)
