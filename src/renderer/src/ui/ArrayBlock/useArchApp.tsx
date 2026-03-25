@@ -43,9 +43,7 @@ export const useArchApp = create(() => {
     appName: 'transcript-gen',
 
     appUserPrompt: `
-# Build a bun script:
-  $ bun run ./script.ts --download https://www.youtube.com/watch?v=D3yMC_qoAes --output ./my-info/
-    - it downloads mp4 video and metadata from each youtube link, use ID from link for video's name
+Build a hello world script.
     `.trim()
   }
   /*
