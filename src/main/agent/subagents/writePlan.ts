@@ -114,13 +114,12 @@ You write the plan high level enough so that you don't implement the code.
 - Current OS: ${platform()}
 - Current Arch: ${arch()}
 - CPU Cores: ${cpus()
-                .map((r) => r.model)
+                .map((r, i) => `[cpu core:${i + 1}] ${r.model}`)
                 .join(', ')}
 
 - MUST NOT implement code
 - MUST ONLY plan code
 
-- ** MUST work within "./app" workspace folder**
 - list out all folder and files in the project file tree
   -- Must follow folder structure so that code files are not duplicated or misplaces.
 - for each file, write 
