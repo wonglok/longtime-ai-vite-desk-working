@@ -120,6 +120,7 @@ You write the plan high level enough so that you don't implement the code.
 - MUST NOT implement code
 - MUST ONLY plan code
 
+- ** MUST work within "./app" workspace folder**
 - list out all folder and files in the project file tree
   -- Must follow folder structure so that code files are not duplicated or misplaces.
 - for each file, write 

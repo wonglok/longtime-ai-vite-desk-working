@@ -6,7 +6,8 @@ import { scanFolder } from '../utils/getSummary'
 import { writeFile } from 'fs/promises'
 // import moment from 'moment'
 // import { Stonebox } from '@plust/stonebox'
-import { execCommand } from './execCommand'
+// import { execCommand } from './execCommand'
+
 import { dirname, join } from 'path'
 import { makeDirectory } from 'make-dir'
 import { EachBlock, InfoblockForamt, parseInfoblocks } from './InfoBlocks'
@@ -58,7 +59,11 @@ ${plan}
 # Role Override:
 You are a senior developer who writes code.
 
-# GUIDELINES:
+MUST work within "./app" workspace folder
+
+You are a AI Coder Agent with a loop. you work on coding tasks by looking the info of step before and defining the future step. 
+
+Assume the context window is limtied to ${10000} Tokens, try to reduce unecessary tokens like code comments.
 `.trim()
     })
 
@@ -87,13 +92,16 @@ ${inbound.appUserPrompt}
 
     {
       let text = ''
-
       for (let one of step.commandResults) {
+        let note = ''
+        if (one.result.length >= 1000) {
+          note = '[only first 1000 characters are loaded in result]'
+        }
         let item = `
 Time: ${one.timestamp || ''}
 Command: ${one.command || ''} 
-Result: ${one.successful ? `Successful` : `Failed`} [only first 800 characters are loaded in result]
-${one.result.slice(0, 800) || ''} 
+Result: ${one.successful ? `Successful` : `Failed`} ${note}
+${one.result.slice(0, 1000) || ''} 
 ------
     `.trim()
 
