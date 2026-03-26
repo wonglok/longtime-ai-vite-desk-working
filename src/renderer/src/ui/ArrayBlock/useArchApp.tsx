@@ -38,8 +38,8 @@ export const useArchApp = create(() => {
     // google gemma 3 4b dont work
 
     // qwen/qwen3.5-35b-a3b works well
-    // appModel: `qwen/qwen3.5-35b-a3b`,
-    appModel: `qwen/qwen3.5-4b`,
+    appModel: `qwen/qwen3.5-35b-a3b`,
+    // appModel: `qwen/qwen3.5-4b`,
 
     appName: 'transcript-gen',
 
