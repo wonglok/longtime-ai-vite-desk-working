@@ -6,7 +6,7 @@ export const useArchApp = create(() => {
   let getSeed = () => {
     let date = new Date()
     let ver = moment(date).format('YYYY-MM-DD')
-    let time = moment(date).format('hh-mm-A')
+    let time = moment(date).format('HH-mm-(A)')
     // , `-${Math.random().toString(36).slice(2, 9)}`
     return `${[time, `${ver}`].join('-')}`
   }
@@ -44,7 +44,7 @@ export const useArchApp = create(() => {
     appName: 'transcript-gen',
 
     appUserPrompt: `
-Build a script that uses LMStudio on localhost port 1234 with "nono" as API_KEY with qwen/qwen3.5-4b model to process input text "bun run ./cli.ts --prompt 'hi how are you?'"
+Build an "ai-process" script that uses LMStudio on localhost port 1234 with "nono" as API_KEY with qwen/qwen3.5-4b model to process input text "bun run ./src/cli.ts --prompt 'hi how are you?'"
     `.trim()
 
     //     appUserPrompt: `

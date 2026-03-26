@@ -137,9 +137,9 @@ ${one.result.slice(0, 1000) || ''}
 
     {
       let text = ''
-      for (let one of step.nextSteps) {
+      for (let one of step.nextCheckup) {
         let item = `
-# What to do now: 
+# What to check up now: 
 ${one.content || ''}
     `.trim()
 
@@ -156,9 +156,9 @@ ${one.content || ''}
 
     {
       let text = ''
-      for (let one of step.nextCheckup) {
+      for (let one of step.nextSteps) {
         let item = `
-# What to check up now: 
+# What to do now: 
 ${one.content || ''}
     `.trim()
 
@@ -197,14 +197,17 @@ Action Log: ${one.content || ''}
       role: 'user',
       content: `
 # Instructions:
-  - understand what is going on by referencing to "What to do now" section, "action logs", "terminal results" and etc...
+  - understand what is going on by referencing to "What to do now" section, "What to check up now" section, "action logs", "terminal results" and etc...
+  - if there's checkup items, follow up the check list now, do fixes, and then do the code development.
+  - if needed, implement code MUST USE <infoblock type="code"> dont use terminal to write code
+  - if needed, schedule 5 or LESS blocking terminal commands: (using  <infoblock type="terminal">) 
+
+  - If needed, Verify the goal using "Goal Verification Checklist", if goal is achieved, write a marker to end the process: (using  <infoblock type="goal-achieved">) 
   - write 1 short action log for myself to read in the future:  (using <infoblock type="log">)
+
   - if needed, write 1 context prompt for myself to read in the next step: (using <infoblock type="next-context-prompt">) 
   - if needed, write 1 next step for myself to read in the future: (using <infoblock type="next-step">) 
   - if needed, write 1 checkup list to verifty the execution is aligned with the plan: (using  <infoblock type="next-checkup">) 
-  - if needed, implement code MUST USE <infoblock type="code"> dont use terminal to write code
-  - if needed, schedule 5 or LESS blocking terminal commands: (using  <infoblock type="terminal">) 
-  - If needed, Verify the goal using "Goal Verification Checklist", if goal is achieved, write a marker to end the process: (using  <infoblock type="goal-achieved">) 
   
 ${InfoblockForamt}
 `
