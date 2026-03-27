@@ -76,6 +76,29 @@ ${inbound.appUserPrompt}
     }
 
     {
+      messages.push({
+        role: 'user',
+        content: `
+# Instructions:
+  - If needed, Verify the "Goal Verification Checklist", if goal is achieved, write a marker to end the process: (using  <infoblock type="goal-achieved">) 
+
+  - Must understand what is going on by referencing to "What to do now" section, "What to check up now" section, "action logs", "terminal results" and etc...
+  - if there's checkup items, follow up the "what to checkup now list", do 0 - 10 fixes first, and then do the code development.
+    -- Code development
+      --- implement code MUST USE <infoblock type="code"> dont use terminal to write code
+      --- schedule 5 or LESS blocking terminal commands: (using  <infoblock type="terminal">) 
+
+  - Must write 1 short action log for myself to read in the future:  (using <infoblock type="log">)
+  - Must write 1 next step for myself to read in the future: (using <infoblock type="next-step">) 
+  - Must write 1 checkup list to verifty the execution is aligned with the plan: (using  <infoblock type="next-checkup">) 
+  - If needed, write 1 context prompt for myself to read in the next step: (using <infoblock type="next-context-prompt">) 
+  
+${InfoblockForamt}
+`
+      })
+    }
+
+    {
       // MUST WORK Within folder: "${workspace}/code"
 
       let files = await (await scanFolder(`${workspace}/code`)).trim()
@@ -83,7 +106,7 @@ ${inbound.appUserPrompt}
       if (files) {
         messages.push({
           role: 'user',
-          content: `
+          content: `# File System Reference:
 ${files}
     `.trim()
         })
@@ -91,7 +114,7 @@ ${files}
     }
 
     {
-      let text = ''
+      let text = '# Command line results:'
       for (let one of step.commandResults) {
         let note = ''
         if (one.result.length >= 1000) {
@@ -138,7 +161,7 @@ ${one.result.slice(0, 1000) || ''}
     //     }
 
     {
-      let text = ''
+      let text = '# Step checkup list'
       for (let one of step.nextCheckup) {
         let item = `
 # What to check up now: 
@@ -160,7 +183,7 @@ ${one.content || ''}
       let text = ''
       for (let one of step.nextSteps) {
         let item = `
-# What to do now: 
+# What to do now in this step: 
 ${one.content || ''}
     `.trim()
 
@@ -176,7 +199,7 @@ ${one.content || ''}
     }
 
     {
-      let text = ''
+      let text = '# Action Log'
       for (let one of memory) {
         // let date = new Date(one.timestamp)
         // let dateStr = moment(date).format('YYYY-MM-DD')
@@ -199,27 +222,6 @@ Action Log: ${one.content || ''}
         })
       }
     }
-
-    messages.push({
-      role: 'user',
-      content: `
-# Instructions:
-  - If needed, Verify the "Goal Verification Checklist", if goal is achieved, write a marker to end the process: (using  <infoblock type="goal-achieved">) 
-
-  - Must understand what is going on by referencing to "What to do now" section, "What to check up now" section, "action logs", "terminal results" and etc...
-  - if there's checkup items, follow up the "what to checkup now list", do 0 - 10 fixes first, and then do the code development.
-    -- Code development
-      --- implement code MUST USE <infoblock type="code"> dont use terminal to write code
-      --- schedule 5 or LESS blocking terminal commands: (using  <infoblock type="terminal">) 
-
-  - Must write 1 short action log for myself to read in the future:  (using <infoblock type="log">)
-  - Must write 1 next step for myself to read in the future: (using <infoblock type="next-step">) 
-  - Must write 1 checkup list to verifty the execution is aligned with the plan: (using  <infoblock type="next-checkup">) 
-  - If needed, write 1 context prompt for myself to read in the next step: (using <infoblock type="next-context-prompt">) 
-  
-${InfoblockForamt}
-`
-    })
 
     return messages
   }
