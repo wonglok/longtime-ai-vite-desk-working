@@ -82,8 +82,9 @@ ${inbound.appUserPrompt}
 # Instructions:
   - Must Verify the "Goal Verification Checklist", if goal is achieved, write a marker to end the process: (using  <infoblock type="goal-achieved">) 
 
-  - Must understand what is going on by referencing to "What to do now" section, "What to check up now" section, "action logs", "terminal results" and etc...
+  - Must understand what is going on by referencing to "What to do now" section, "What to check up now" section, "action logs" section, "terminal results" section and etc...
   - if there's "What to check up now" items, if necessary do all the fixes, and then do the code development.
+  - if there's "What to do now" section
     -- if needed, implement code MUST USE <infoblock type="code"> dont use terminal to write code
     -- if needed, schedule 5 or LESS blocking terminal commands: (using  <infoblock type="terminal">) 
 
