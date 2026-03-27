@@ -45,10 +45,9 @@ export const useArchApp = create(() => {
     appName: 'transcript-gen',
 
     appUserPrompt: `
-Build an "cli.ts" script:
+Build an bun ts script:
 
 bun run ./cli.ts --prompt "hi how are you?" --baseURL "http://localhost:1234" --apiKey "nono" --model "qwen/qwen3.5-4b"
-
     `.trim()
 
     //     appUserPrompt: `
