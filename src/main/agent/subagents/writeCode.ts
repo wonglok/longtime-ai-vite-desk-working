@@ -83,15 +83,15 @@ ${inbound.appUserPrompt}
   - Must Verify the "Goal Verification Checklist", if goal is achieved, write a marker to end the process: (using  <infoblock type="goal-achieved">) 
 
   - Must understand what is going on by referencing to "What to do now" section, "What to check up now" section, "action logs" section, "terminal results" section and etc...
-  - if there's "What to check up now" items
-    -- if needed, do all the fixes
-  - if there's "What to do now" section
-    -- if needed, implement code MUST USE <infoblock type="code"> dont use terminal to write code
-    -- if needed, schedule 5 or LESS blocking terminal commands: (using  <infoblock type="terminal">) 
-    -- if needed, write 1 short action log for myself to read in the future:  (using <infoblock type="log">)
-    -- if needed, write 1 next step for myself to read in the future: (using <infoblock type="next-step">) 
-    -- if needed, write 1 checkup list to verifty the execution is aligned with the plan: (using  <infoblock type="next-checkup">) 
-    -- If needed, write 1 context prompt for myself to read in the next step: (using <infoblock type="next-context-prompt">) 
+    - if there's "What to check up now" items
+      -- if needed, do all the fixes
+    - if there's "What to do now" section
+      -- if needed, implement code MUST USE <infoblock type="code"> to write code but not terminal
+      -- if needed, schedule 5 or LESS blocking terminal commands: (using  <infoblock type="terminal">) 
+      -- if needed, write 1 short action log for myself to read in the future:  (using <infoblock type="log">)
+      -- if needed, write 1 next step for myself to read in the future: (using <infoblock type="next-step">) 
+      -- if needed, write 1 checkup list to verifty the execution is aligned with the plan: (using  <infoblock type="next-checkup">) 
+      -- If needed, write 1 context prompt for myself to read in the next step: (using <infoblock type="next-context-prompt">) 
   
 ${InfoblockForamt}
 `
