@@ -65,19 +65,6 @@ Assume the context window is limtied to ${10000} Tokens, try to reduce unecessar
 `.trim()
     })
 
-    // MUST WORK Within folder: "${workspace}/code"
-
-    let files = await (await scanFolder(`${workspace}/code`)).trim()
-
-    if (files) {
-      messages.push({
-        role: 'user',
-        content: `
-${files}
-    `.trim()
-      })
-    }
-
     {
       messages.push({
         role: 'user',
@@ -86,6 +73,21 @@ ${files}
 ${inbound.appUserPrompt}
         `
       })
+    }
+
+    {
+      // MUST WORK Within folder: "${workspace}/code"
+
+      let files = await (await scanFolder(`${workspace}/code`)).trim()
+
+      if (files) {
+        messages.push({
+          role: 'user',
+          content: `
+${files}
+    `.trim()
+        })
+      }
     }
 
     {
@@ -176,13 +178,13 @@ ${one.content || ''}
     {
       let text = ''
       for (let one of memory) {
-        let date = new Date(one.timestamp)
-        let dateStr = moment(date).format('YYYY-MM-DD')
-        let timeStr = moment(date).format('HH-mm-ss-(A)')
+        // let date = new Date(one.timestamp)
+        // let dateStr = moment(date).format('YYYY-MM-DD')
+        // let timeStr = moment(date).format('HH-mm-ss-(A)')
+        // let datestamp = `${dateStr}-${timeStr}`
 
-        let datestamp = `${dateStr}-${timeStr}`
         let item = `
-Timestamp: ${datestamp} 
+Timestamp: ${one.timest} 
 Action Log: ${one.content || ''}
 ------
     `.trim()
