@@ -11,7 +11,7 @@ import { writeFile } from 'fs/promises'
 import { dirname, join } from 'path'
 import { makeDirectory } from 'make-dir'
 import { EachBlock, InfoblockForamt, parseInfoblocks } from './InfoBlocks'
-
+import moment from 'moment'
 export type CommandResult = {
   command: string
   successful: boolean
@@ -176,8 +176,13 @@ ${one.content || ''}
     {
       let text = ''
       for (let one of memory) {
+        let date = new Date(one.timestamp)
+        let dateStr = moment(date).format('YYYY-MM-DD')
+        let timeStr = moment(date).format('HH-mm-ss-(A)')
+
+        let datestamp = `${dateStr}-${timeStr}`
         let item = `
-Timestamp: ${one.timestamp}
+Timestamp: ${datestamp} 
 Action Log: ${one.content || ''}
 ------
     `.trim()
@@ -252,8 +257,8 @@ ${InfoblockForamt}
         stream_options: {
           include_usage: true
         },
-        reasoning_effort: 'medium',
-        temperature: 0.2
+        reasoning_effort: 'xhigh',
+        temperature: 0.0
       },
       { signal }
     )
@@ -261,7 +266,15 @@ ${InfoblockForamt}
       let longContent = ''
       let thinking = ''
       let blocks = []
+      let counter = 0
+      let start = performance.now()
       for await (let event of resp) {
+        let now = performance.now()
+        counter++
+
+        let diff = counter / (now - start)
+        console.log('tps', diff)
+
         let firstChoice = event?.choices[0]
         let delta = firstChoice?.delta as any
         let reason = delta?.reasoning_content || ''
@@ -336,29 +349,35 @@ ${InfoblockForamt}
 
   if (commands) {
     for (let each of commands) {
+      let commandPrefix = `cd ${JSON.stringify(join(`${workspace}`, 'code'))};`
       onEvent({
         type: 'cmd_begin',
         cmd_begin: each.content
       })
 
-      console.log('each.extra', each.extra)
-      console.log('cmd_begin', each.content)
+      console.log('call', each.content)
 
       let res: any = await new Promise(async (resolve) => {
         //
         return exec(
-          `cd ${join(`${workspace}`, 'code')}; ${(each.content || '').trim()}`,
+          `${commandPrefix} ${(each.content || '').trim()}`,
           {
             // cwd: `${workspace}/code`
           },
           (error, stdout, stderr) => {
             if (stderr) {
               console.error(`${stderr}`)
-              return resolve({ successful: false, result: `${stderr}` })
+              return resolve({
+                successful: false,
+                result: `${stderr}`.replace(commandPrefix, '')
+              })
             }
             if (error) {
               console.log(error)
-              return resolve({ successful: false, result: `${error}` })
+              return resolve({
+                successful: false,
+                result: `${error}`.replace(commandPrefix, '')
+              })
             }
 
             resolve({ successful: true, result: `${stdout}` })
@@ -366,13 +385,15 @@ ${InfoblockForamt}
         )
       })
 
+      console.log('result', res.result)
+
       onEvent({
         type: 'cmd_end',
         cmd_end: each.content
       })
 
       let commandResult: CommandResult = {
-        command: each.content,
+        command: each.content.replace(commandPrefix, ''),
         successful: res.successful,
         result: res.result.trim(),
         timestamp: new Date().toString()

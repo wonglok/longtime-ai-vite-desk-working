@@ -38,13 +38,18 @@ export const useArchApp = create(() => {
     // google gemma 3 4b dont work
 
     // qwen/qwen3.5-35b-a3b works well
-    appModel: `qwen/qwen3.5-35b-a3b`,
+    // appModel: `qwen/qwen3.5-35b-a3b`,
+    appModel: `qwen/qwen3.5-122b-a10b`,
     // appModel: `qwen/qwen3.5-4b`,
 
     appName: 'transcript-gen',
 
     appUserPrompt: `
-Build an "ai-process" script that uses LMStudio on localhost port 1234 with "nono" as API_KEY with qwen/qwen3.5-4b model to process input text "bun run ./src/cli.ts --prompt 'hi how are you?'"
+
+Build an "cli.ts" script that uses LMStudio on localhost port 1234 with "nono" as API_KEY with qwen/qwen3.5-4b model to process input text 
+
+bun run ./cli.ts --prompt "hi how are you?"
+
     `.trim()
 
     //     appUserPrompt: `

@@ -3,6 +3,7 @@ import { readFile, writeFile } from 'fs/promises'
 import { join } from 'path'
 import { makeDirectory } from 'make-dir'
 import { arch, cpus, platform } from 'os'
+import { Timer } from 'three'
 // import z from 'zod'
 
 // const TodoList = z.array(
@@ -147,7 +148,10 @@ ${inbound.appUserPrompt}
           ],
 
           stream: true,
-          reasoning_effort: 'medium',
+          stream_options: {
+            include_usage: true
+          },
+          reasoning_effort: 'xhigh',
           temperature: 0.0
           // response_format: {
           //   type: 'json_schema',
@@ -162,14 +166,25 @@ ${inbound.appUserPrompt}
       .then(async (response) => {
         let plan = ''
         let thinking = ''
+        let clock = new Timer()
+        let counter = 0
         for await (let event of response) {
-          // console.log(event.choices[0].delta)
-          let delta = event.choices[0].delta as any
-          thinking += delta.reasoning_content || ''
-          plan += delta.content || ''
+          try {
+            counter++
+            clock.update(performance.now())
 
-          onEvent({ type: 'thinking', thinking: `${thinking}` })
-          onEvent({ type: 'stream', stream: `${plan}` })
+            let delta = event?.choices[0]?.delta as any
+            thinking += delta.reasoning_content || ''
+            plan += delta.content || ''
+
+            let tps = counter / clock.getElapsed()
+            console.log('tps', tps)
+
+            onEvent({ type: 'thinking', thinking: `${thinking}` })
+            onEvent({ type: 'stream', stream: `${plan}` })
+          } catch (e) {
+            // console.log(e)
+          }
         }
 
         onEvent({ type: 'thinking', thinking: plan })
