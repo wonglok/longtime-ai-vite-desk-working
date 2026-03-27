@@ -161,8 +161,9 @@ ${one.result.slice(0, 1000) || ''}
     //     }
 
     {
-      let text = '# Step checkup list\n'
+      let text = ''
       for (let one of step.nextCheckup) {
+        text = '# Step checkup list\n'
         let item = `
 # What to check up now: 
 ${one.content || ''}
@@ -180,7 +181,10 @@ ${one.content || ''}
     }
 
     {
-      let text = '\n'
+      let text = ''
+      if (step.nextSteps.length > 0) {
+        text += '# Step checkup list\n'
+      }
       for (let one of step.nextSteps) {
         let item = `
 # What to do now in this step: 
