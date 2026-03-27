@@ -114,7 +114,7 @@ ${files}
     }
 
     {
-      let text = '# Command line results:'
+      let text = '# Command line results:\n'
       for (let one of step.commandResults) {
         let note = ''
         if (one.result.length >= 1000) {
@@ -161,7 +161,7 @@ ${one.result.slice(0, 1000) || ''}
     //     }
 
     {
-      let text = '# Step checkup list'
+      let text = '# Step checkup list\n'
       for (let one of step.nextCheckup) {
         let item = `
 # What to check up now: 
@@ -180,7 +180,7 @@ ${one.content || ''}
     }
 
     {
-      let text = ''
+      let text = '\n'
       for (let one of step.nextSteps) {
         let item = `
 # What to do now in this step: 
@@ -199,7 +199,7 @@ ${one.content || ''}
     }
 
     {
-      let text = '# Action Log'
+      let text = '# Action Log\n'
       for (let one of memory) {
         // let date = new Date(one.timestamp)
         // let dateStr = moment(date).format('YYYY-MM-DD')
@@ -207,7 +207,7 @@ ${one.content || ''}
         // let datestamp = `${dateStr}-${timeStr}`
 
         let item = `
-Timestamp: ${one.timestamp} 
+LogID: ${one.idx} 
 Action Log: ${one.content || ''}
 ------
     `.trim()
