@@ -45,10 +45,9 @@ export const useArchApp = create(() => {
     appName: 'transcript-gen',
 
     appUserPrompt: `
+Build an "cli.ts" script:
 
-Build an "cli.ts" script that uses LMStudio on localhost port 1234 with "nono" as API_KEY with qwen/qwen3.5-4b model to process input text 
-
-bun run ./cli.ts --prompt "hi how are you?"
+bun run ./cli.ts --prompt "hi how are you?" --baseURL "http://localhost:1234" --apiKey "nono" --model "qwen/qwen3.5-4b"
 
     `.trim()
 
