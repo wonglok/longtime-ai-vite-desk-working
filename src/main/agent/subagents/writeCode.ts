@@ -184,7 +184,7 @@ ${one.content || ''}
         // let datestamp = `${dateStr}-${timeStr}`
 
         let item = `
-Timestamp: ${one.timest} 
+Timestamp: ${one.timestamp} 
 Action Log: ${one.content || ''}
 ------
     `.trim()
@@ -214,8 +214,8 @@ Action Log: ${one.content || ''}
   - write 1 short action log for myself to read in the future:  (using <infoblock type="log">)
 
   - if needed, write 1 context prompt for myself to read in the next step: (using <infoblock type="next-context-prompt">) 
-  - if needed, write 1 next step for myself to read in the future: (using <infoblock type="next-step">) 
-  - if needed, write 1 checkup list to verifty the execution is aligned with the plan: (using  <infoblock type="next-checkup">) 
+  - write 1 next step for myself to read in the future: (using <infoblock type="next-step">) 
+  - write 1 checkup list to verifty the execution is aligned with the plan: (using  <infoblock type="next-checkup">) 
   
 ${InfoblockForamt}
 `
