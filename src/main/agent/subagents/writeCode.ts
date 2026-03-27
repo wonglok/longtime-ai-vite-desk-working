@@ -206,16 +206,15 @@ Action Log: ${one.content || ''}
 # Instructions:
   - If needed, Verify the "Goal Verification Checklist", if goal is achieved, write a marker to end the process: (using  <infoblock type="goal-achieved">) 
 
-  - understand what is going on by referencing to "What to do now" section, "What to check up now" section, "action logs", "terminal results" and etc...
+  - Must understand what is going on by referencing to "What to do now" section, "What to check up now" section, "action logs", "terminal results" and etc...
   - if there's checkup items, follow up the "what to checkup now list", do fixes, and then do the code development.
-  - if needed, implement code MUST USE <infoblock type="code"> dont use terminal to write code
-  - if needed, schedule 5 or LESS blocking terminal commands: (using  <infoblock type="terminal">) 
+    -- implement code MUST USE <infoblock type="code"> dont use terminal to write code
+    -- schedule 5 or LESS blocking terminal commands: (using  <infoblock type="terminal">) 
 
-  - write 1 short action log for myself to read in the future:  (using <infoblock type="log">)
-
-  - if needed, write 1 context prompt for myself to read in the next step: (using <infoblock type="next-context-prompt">) 
-  - write 1 next step for myself to read in the future: (using <infoblock type="next-step">) 
-  - write 1 checkup list to verifty the execution is aligned with the plan: (using  <infoblock type="next-checkup">) 
+  - Must write 1 short action log for myself to read in the future:  (using <infoblock type="log">)
+  - Must write 1 next step for myself to read in the future: (using <infoblock type="next-step">) 
+  - Must write 1 checkup list to verifty the execution is aligned with the plan: (using  <infoblock type="next-checkup">) 
+  - If needed, write 1 context prompt for myself to read in the next step: (using <infoblock type="next-context-prompt">) 
   
 ${InfoblockForamt}
 `
