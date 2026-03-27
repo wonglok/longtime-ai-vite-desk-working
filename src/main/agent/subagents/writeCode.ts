@@ -272,7 +272,7 @@ ${InfoblockForamt}
         let now = performance.now()
         counter++
 
-        let diff = counter / (now - start)
+        let diff = counter / ((now - start) * 1000)
         console.log('tps', diff)
 
         let firstChoice = event?.choices[0]
