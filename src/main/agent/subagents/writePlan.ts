@@ -135,7 +135,7 @@ You write the plan high level enough so that you don't implement the code.
 - tell ai agent coder to MUST look at log files to make sure the code is operating as planned, when they encounter bugs. 
 - tell ai agent coder to Must use named export and named import for all modules
 - list out package dependencies (Recommend others to use existing library from "nodejs npm" or "bun") **MUST install only 1 package at a time**
-- MUST include Goal Verification check up list for the user goal
+- MUST include "Goal Verification Checklist" for the user goal
 - MUST run what you built at the end to make sure it works
 `
             },
