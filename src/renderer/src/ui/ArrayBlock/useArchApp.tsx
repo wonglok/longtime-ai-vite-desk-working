@@ -49,7 +49,8 @@ Build an bun ts script:
 
 bun run ./prompt.ts --prompt "hi how are you?" --baseURL "http://localhost:1234" --apiKey "nono" --model "qwen/qwen3.5-4b"
 
-bun run ./youtube.ts --url "https://www.youtube.com/watch?v=jxH3Jj6cCf8" --output "./output" // download metadata and youtube mp4 720p video, and thumbnail
+// download metadata and youtube mp4 720p video, and thumbnail
+bun run ./youtube.ts --url "https://www.youtube.com/watch?v=jxH3Jj6cCf8" --output "./output" 
 
 bun run ./transcribe.ts --input "audio.wav" --output "./output/sound.txt"
 
