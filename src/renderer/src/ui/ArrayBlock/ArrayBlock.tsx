@@ -211,13 +211,29 @@ export function ArrayBlock({}) {
             rows={1}
             className="mb-2"
           ></Textarea>
-          <div>Seed</div>
+          <div>
+            <div>
+              Seed
+              <button
+                className="p-2 bg-gray-200 rounded-2xl mx-2"
+                onClick={() => {
+                  //
+                  useArchApp.getState().refreshSeed()
+                  //
+                }}
+              >
+                {/*  */}Build a new version
+                {/*  */}
+              </button>
+            </div>
+          </div>
           <Textarea
             value={seed}
             onChange={(ev) => {
               useArchApp.setState({
                 seed: ev.target.value
               })
+              localStorage.setItem('seed', ev.target.value)
             }}
             rows={1}
             className="mb-2"

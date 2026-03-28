@@ -1,14 +1,24 @@
 import { create } from 'zustand'
-import { mindset } from './mindset'
+// import { mindset } from './mindset'
 import moment from 'moment'
 
-export const useArchApp = create(() => {
+const init = (set, get) => {
   let getSeed = () => {
     let date = new Date()
     let ver = moment(date).format('YYYY-MM-DD')
     let time = moment(date).format('HH-mm-(A)')
     // , `-${Math.random().toString(36).slice(2, 9)}`
     return `${[time, `${ver}`].join('-')}`
+  }
+
+  let newOne = `${getSeed()}`
+  if (typeof localStorage !== 'undefined') {
+    if (localStorage.getItem('seed')) {
+      newOne = localStorage.getItem('seed')
+    } else if (!localStorage.getItem('seed')) {
+      localStorage.setItem('seed', getSeed())
+      newOne = localStorage.getItem('seed')
+    }
   }
 
   return {
@@ -23,9 +33,15 @@ export const useArchApp = create(() => {
     terminalWindow: '',
 
     done: '',
-
+    refreshSeed: () => {
+      localStorage.setItem('seed', getSeed())
+      let newOne = localStorage.getItem('seed')
+      set({
+        seed: newOne
+      })
+    },
     getSeed: getSeed,
-    seed: `${getSeed()}`,
+    seed: `${newOne}`,
     // baseURL: `http://127.0.0.1:7777/v1`,
     baseURL: `http://127.0.0.1:1234/v1`,
     apiKey: `nono`,
@@ -45,6 +61,7 @@ export const useArchApp = create(() => {
     appName: 'transcript-gen',
 
     appUserPrompt: `
+
 Build an bun ts script:
 
 bun run ./prompt.ts --prompt "hi how are you?" --baseURL "http://localhost:1234" --apiKey "nono" --model "qwen/qwen3.5-4b"
@@ -80,7 +97,8 @@ bun run ./transcribe.ts --input "audio.wav" --output "./output/sound.txt"
   //
   // # Write a "skill.md" for ai agent to use this cli tool, must include examples
   //
-})
+}
+export const useArchApp = create<ReturnType<typeof init>>(init)
 
 /*
 
