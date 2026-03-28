@@ -61,7 +61,6 @@ const init = (set, get) => {
     appName: 'transcript-gen',
 
     appUserPrompt: `
-
 Build an bun ts script:
 
 bun run ./prompt.ts --prompt "hi how are you?" --baseURL "http://localhost:1234" --apiKey "nono" --model "qwen/qwen3.5-4b"
@@ -75,7 +74,7 @@ bun run ./transcribe.ts --input "audio.wav" --output "./output/transcipt.txt"
 
 bun run ./srt-caption-generator.ts --input "audio.wav" --output "./output/caption.srt"
 
-write an AI Agent Skill file called: "skill.md", so that other agnet knows how to use this tool box
+write an AI Agent Skill file called: "skill.md", so that other agent knows how to use this tool box
 `.trim()
 
     //     appUserPrompt: `
