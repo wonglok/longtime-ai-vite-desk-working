@@ -69,7 +69,11 @@ bun run ./prompt.ts --prompt "hi how are you?" --baseURL "http://localhost:1234"
 // download metadata and youtube mp4 720p video, and thumbnail
 bun run ./youtube.ts --url "https://www.youtube.com/watch?v=jxH3Jj6cCf8" --output "./output" 
 
-bun run ./transcribe.ts --input "audio.wav" --output "./output/sound.txt"
+bun run ./convert.ts --input "video.mp4" --output "./output/audio.wav"
+
+bun run ./transcribe.ts --input "audio.wav" --output "./output/transcipt.txt"
+
+bun run ./srt-caption-generator.ts --input "audio.wav" --output "./output/caption.srt"
 
 `.trim()
 
