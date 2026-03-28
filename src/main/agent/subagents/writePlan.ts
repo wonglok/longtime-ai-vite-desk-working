@@ -161,7 +161,7 @@ You write the plan high level enough so that you don't implement the code.
 - tell ai agent coder to if we need to develop bun cli scripts, we need to install "@types/node" in package.json:
 - tell ai agent coder to Must always use bun to insatll packages instead of npm
 - tell ai agent coder to always treat the default current working directory as workspace or project folder
-- tell ai agent coder to Must use plain text, never use emoji
+- tell ai agent coder to never use emoji
 - tell ai agent coder to write an AI Agent Skill file called: "skill.md", so that other agent knows how to use this tool box that we're planning
 `
             },

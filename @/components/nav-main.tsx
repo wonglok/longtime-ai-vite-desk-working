@@ -28,7 +28,7 @@ export function NavMain({
 }) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>HyperEgg - AI Coding Team</SidebarGroupLabel>
+      <SidebarGroupLabel>HyperEgg - Agent Harness in Metaverse</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
           <Collapsible
