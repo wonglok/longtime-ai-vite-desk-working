@@ -86,7 +86,7 @@ ${inbound.appUserPrompt}
     - if there's "What to check up now" items
       -- if needed, do all the fixes
     - if there's "What to do now" section
-      -- implement code MUST USE <infoblock type="code"> to write code but not terminal
+      -- MUST USE <infoblock type="code"> to implement code but not using terminal
       -- if needed, schedule **10 or less** blocking terminal commands: (using  <infoblock type="terminal">), write 1 checkup list to verifty the terminal call execution is aligned with the plan: (using  <infoblock type="next-checkup">) 
       -- must write 1 next step for myself to read in the future: (using <infoblock type="next-step">) 
       -- must write 1 short action log for myself to read in the future:  (using <infoblock type="log">)
