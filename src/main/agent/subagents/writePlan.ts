@@ -137,6 +137,29 @@ You write the plan high level enough so that you don't implement the code.
 - list out package dependencies (Recommend others to use existing library from "nodejs npm" or "bun") **MUST install only 1 package at a time**
 - MUST include "Goal Verification Checklist" for the user goal
 - MUST run what you built at the end to make sure it works
+
+- if we need to configure tsconfig.json for cli bun typescript then use the following: 
+\`\`\`json
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "node20",
+    "moduleResolution": "nodenext",
+    "esModuleInterop": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "outDir": "./dist",
+    "rootDir": ".",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules", "logs", "temp", "output"]
+}
+\`\`\`
+
+- if we need to develop bun cli scripts, we need to install "@types/node" in package.json:
+- Must always use bun to insatll packages instead of npm
 `
             },
             {
