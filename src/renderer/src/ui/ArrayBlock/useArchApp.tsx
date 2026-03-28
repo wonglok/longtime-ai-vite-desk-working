@@ -74,7 +74,7 @@ bun run ./transcribe.ts --input "audio.wav" --output "./output/transcipt.txt"
 
 bun run ./srt-caption-generator.ts --input "audio.wav" --output "./output/caption.srt"
 
-write an AI Agent Skill file called: "skill.md", so that other agent knows how to use this tool box
+
 
 `.trim()
 
