@@ -61,7 +61,8 @@ You are a senior developer who writes code.
 
 You are a AI Coder Agent with a loop. you work on coding tasks by looking the info of step before and defining the future step. 
 
-Assume the context window is limtied to ${10000} Tokens, try to reduce unecessary tokens like code comments.
+Assume the context window is limtied to ${10000} Tokens, try to reduce unecessary tokens like code comments and make the thought concise yet accurate.  
+Always treat the default current working directory as workspace or project folder
 `.trim()
     })
 

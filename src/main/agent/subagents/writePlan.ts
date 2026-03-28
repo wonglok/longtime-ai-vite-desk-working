@@ -160,6 +160,7 @@ You write the plan high level enough so that you don't implement the code.
 
 - if we need to develop bun cli scripts, we need to install "@types/node" in package.json:
 - Must always use bun to insatll packages instead of npm
+- always treat the default current working directory as workspace or project folder
 `
             },
             {
