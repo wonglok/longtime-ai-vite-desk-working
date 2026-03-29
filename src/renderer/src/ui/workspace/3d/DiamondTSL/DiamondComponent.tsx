@@ -10,7 +10,6 @@ import GUI from 'three/examples/jsm/libs/lil-gui.module.min.js'
 import dia from '../assets/egg-lowpoly.glb?url'
 // import dia from '../assets/egg-lowpoly.glb?url'
 // import dia from '../assets/diamond.glb?url'
-import hdr from '../assets/factory.hdr?url'
 import { CubeRenderTarget } from 'three/webgpu'
 import { rand, uv, vec3, vec4 } from 'three/tsl'
 export function DiamondCompos({}) {
@@ -19,19 +18,6 @@ export function DiamondCompos({}) {
   const diamondModel = useGLTF(dia)
 
   const [dAPI, setDiamond] = useState<any>(null)
-
-  // const envMap = useEnvironment({ files: [hdr] })
-  // const scene = useThree((r) => r.scene)
-
-  // useEffect(() => {
-  //   //
-  //   // scene.background = envMap
-  //   // scene.environment = envMap
-  //   scene.environmentIntensity = 1
-  //   scene.backgroundBlurriness = 0.5
-  //   scene.backgroundIntensity = 1.5
-  //   //
-  // }, [scene])
 
   useEffect(() => {
     //

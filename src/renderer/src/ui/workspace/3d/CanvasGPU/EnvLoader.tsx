@@ -8,7 +8,7 @@ import {
   Object3D,
   UnsignedByteType
 } from 'three'
-import { PostProcessing } from 'three/webgpu'
+import { PostProcessing, RenderPipeline } from 'three/webgpu'
 import {
   pass,
   mrt,
@@ -51,61 +51,61 @@ export function EnvLoader({
   })
 
   useEffect(() => {
-    const object: any = new Object3D()
+    // const object: any = new Object3D()
 
-    const dirL = new DirectionalLight(0xffffff, 15)
-    dirL.position.set(-20, 10, 0)
+    // const dirL = new DirectionalLight(0xffffff, 15)
+    // dirL.position.set(-20, 10, 0)
 
-    object.sunLight = dirL
-    object.sunLight.castShadow = true
+    // object.sunLight = dirL
+    // object.sunLight.castShadow = true
 
-    object.add(object.sunLight)
-    object.add(object.sunLight.target)
+    // object.add(object.sunLight)
+    // object.add(object.sunLight.target)
 
-    object.sunLight.castShadow = true
-    object.sunLight.shadow.camera.near = 0
-    object.sunLight.shadow.camera.far = 150 * 2
+    // object.sunLight.castShadow = true
+    // object.sunLight.shadow.camera.near = 0
+    // object.sunLight.shadow.camera.far = 150 * 2
 
-    object.sunLight.shadow.camera.left = -5.123 * 4
-    object.sunLight.shadow.camera.right = 5.123 * 4
-    object.sunLight.shadow.camera.bottom = -5.123 * 4
-    object.sunLight.shadow.camera.top = 5.123 * 4
+    // object.sunLight.shadow.camera.left = -5.123 * 4
+    // object.sunLight.shadow.camera.right = 5.123 * 4
+    // object.sunLight.shadow.camera.bottom = -5.123 * 4
+    // object.sunLight.shadow.camera.top = 5.123 * 4
 
-    object.sunLight.shadow.mapSize.width = 512
-    object.sunLight.shadow.mapSize.height = 512
-    object.sunLight.shadow.radius = 1
-    object.sunLight.shadow.bias = -0.00035
+    // object.sunLight.shadow.mapSize.width = 512
+    // object.sunLight.shadow.mapSize.height = 512
+    // object.sunLight.shadow.radius = 1
+    // object.sunLight.shadow.bias = -0.00035
 
-    const dirR = new DirectionalLight(0xffffff, 15)
-    dirR.position.set(20, 10, 0)
+    // const dirR = new DirectionalLight(0xffffff, 15)
+    // dirR.position.set(20, 10, 0)
 
-    object.moonLight = dirR
-    object.moonLight.castShadow = false
+    // object.moonLight = dirR
+    // object.moonLight.castShadow = false
 
-    object.add(object.moonLight)
-    object.add(object.moonLight.target)
+    // object.add(object.moonLight)
+    // object.add(object.moonLight.target)
 
-    object.moonLight.castShadow = false
-    object.moonLight.shadow.camera.near = 0
-    object.moonLight.shadow.camera.far = 150 * 2
+    // object.moonLight.castShadow = false
+    // object.moonLight.shadow.camera.near = 0
+    // object.moonLight.shadow.camera.far = 150 * 2
 
-    object.moonLight.shadow.camera.left = -5.123 * 4
-    object.moonLight.shadow.camera.right = 5.123 * 4
-    object.moonLight.shadow.camera.bottom = -5.123 * 4
-    object.moonLight.shadow.camera.top = 5.123 * 4
+    // object.moonLight.shadow.camera.left = -5.123 * 4
+    // object.moonLight.shadow.camera.right = 5.123 * 4
+    // object.moonLight.shadow.camera.bottom = -5.123 * 4
+    // object.moonLight.shadow.camera.top = 5.123 * 4
 
-    object.moonLight.shadow.mapSize.width = 512
-    object.moonLight.shadow.mapSize.height = 512
-    object.moonLight.shadow.radius = 1
-    object.moonLight.shadow.bias = -0.00035
+    // object.moonLight.shadow.mapSize.width = 512
+    // object.moonLight.shadow.mapSize.height = 512
+    // object.moonLight.shadow.radius = 1
+    // object.moonLight.shadow.bias = -0.00035
 
-    //
-    object.sunLight.shadow.intensity = 1.0
-    object.sunLight.intensity = 5.0
-    object.moonLight.shadow.intensity = 1.0
-    object.moonLight.intensity = 5.0
+    // //
+    // object.sunLight.shadow.intensity = 1.0
+    // object.sunLight.intensity = 5.0
+    // object.moonLight.shadow.intensity = 1.0
+    // object.moonLight.intensity = 5.0
 
-    scene.environmentIntensity = 0.35
+    // scene.environmentIntensity = 0.35
 
     const scenePass = pass(scene, camera)
     scenePass.setMRT(
@@ -159,34 +159,35 @@ export function EnvLoader({
 
     const bloomPass = bloom(compositePass, 0.1, 0.2, 1.0)
 
-    const postProcessing = new PostProcessing(renderer as any)
+    const postProcessing = new RenderPipeline(renderer as any)
 
-    postProcessing.outputNode = add(traaPass, bloomPass.mul(0.25))
+    postProcessing.outputNode = add(vec4(traaPass), bloomPass.mul(0.25))
 
     postProcessing.needsUpdate = true
 
-    rgbeLoader.loadAsync(url).then((texture) => {
-      texture.mapping = EquirectangularReflectionMapping
-      scene.background = texture
-      scene.environment = texture
+    setSun(
+      <group name="light-player-target">
+        {/*  */}
+        {/* <primitive object={object}></primitive> */}
+      </group>
+    )
 
-      setSun(
-        <group name="light-player-target">
-          <primitive object={object}></primitive>
-        </group>
-      )
-
-      setFnc(() => {
-        return () => {
-          postProcessing.render()
-        }
-      })
-
-      //   useAppState.setState({ visible: true });
+    setFnc(() => {
+      return () => {
+        postProcessing.render()
+      }
     })
 
+    // rgbeLoader.loadAsync(url).then((texture) => {
+    //   texture.mapping = EquirectangularReflectionMapping
+    //   // scene.background = texture
+    //   // scene.environment = texture
+
+    //   //   useAppState.setState({ visible: true });
+    // })
+
     return () => {
-      dirL.removeFromParent()
+      // dirL.removeFromParent()
     }
   }, [url, scene, env])
 

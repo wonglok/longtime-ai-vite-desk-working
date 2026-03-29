@@ -60,8 +60,8 @@ export const CanvasGPU: any = ({
           gl={async (props: any): Promise<any> => {
             const renderer = new THREE.WebGPURenderer({
               ...(props as any),
-              alpha: true,
-              antialias: true,
+              alpha: false,
+              antialias: false,
               multiview: true
             })
 
