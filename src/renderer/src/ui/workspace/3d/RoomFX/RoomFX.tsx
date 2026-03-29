@@ -1,7 +1,13 @@
 import { useGLTF } from '@react-three/drei'
 import Room from './room/room.glb?url'
 import { useMemo } from 'react'
-import { BoxGeometry, Color, DoubleSide, MeshPhysicalNodeMaterial } from 'three/webgpu'
+import {
+  BoxGeometry,
+  Color,
+  DoubleSide,
+  MeshPhysicalNodeMaterial,
+  SphereGeometry
+} from 'three/webgpu'
 import {
   add,
   color,
@@ -16,36 +22,37 @@ import {
   uv,
   vec3
 } from 'three/tsl'
-import { EdgeSplitModifier } from 'three/examples/jsm/Addons.js'
+// import { EdgeSplitModifier } from 'three/examples/jsm/Addons.js'
 
-let modifier = new EdgeSplitModifier()
+// let modifier = new EdgeSplitModifier()
 export function RoomFX(props) {
   const geo = useMemo(() => {
-    return new BoxGeometry(1, 1, 1, 100, 100, 100)
+    return new SphereGeometry(1, 100, 100)
+    // return new BoxGeometry(1, 1, 1, 100, 100, 100)
   }, [])
-  const geo2 = useMemo(() => {
-    return modifier.modify(geo, 0, true)
-  }, [geo])
 
   const mat = useMemo(() => {
     let offset = vec3(
       //
-      0,
-      0,
-      float(0.0).add(
-        //
-        sin(
-          //
-          positionLocal.x.mul(20).add(time)
-        ).mul(0.15)
-      )
+      sin(positionLocal.z.mul(5).add(time)).mul(0.1),
+      sin(positionLocal.x.mul(10).add(time)).mul(0.25),
+      sin(positionLocal.y.mul(5).add(time)).mul(0.25)
     )
 
     return new MeshPhysicalNodeMaterial({
       //
-      colorNode: hue(color('#42c8df'), cos(time.add(positionLocal.x.mul(5)))),
+      colorNode: hue(
+        color('#6dddc8'),
+        vec3(
+          cos(time.add(positionLocal.x.mul(5))),
+          cos(time.add(positionLocal.y.mul(5))),
+          cos(time.add(positionLocal.z.mul(5)))
+        )
+      ),
       emissiveNode: color('#40525a'),
       positionNode: positionLocal.add(normalLocal.mul(0.015).add(offset)),
+
+      //
       roughnessNode: float(0.5),
       metalnessNode: float(1.0),
       //
@@ -56,7 +63,7 @@ export function RoomFX(props) {
 
   return (
     <group {...props} dispose={null} position={[0, 1, 0.5]}>
-      <mesh geometry={geo2} key={mat.uuid} material={mat} scale={[4, 2, 4]} />
+      <mesh geometry={geo} key={mat.uuid} material={mat} scale={[4, 2, 4]} />
     </group>
   )
 }

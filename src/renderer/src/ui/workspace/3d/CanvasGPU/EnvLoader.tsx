@@ -122,7 +122,7 @@ export function EnvLoader({
     const scenePassDepth = scenePass.getTextureNode('depth')
 
     const scenePassNormal = scenePass.getTextureNode('normal')
-    const scenePassVelocity = scenePass.getTextureNode('velocity')
+    // const scenePassVelocity = scenePass.getTextureNode('velocity')
 
     // const diffuseTexture = scenePass.getTexture('diffuseColor')
     // diffuseTexture.type = UnsignedByteType
@@ -139,9 +139,9 @@ export function EnvLoader({
     // gi
     const giPass = ssgi(scenePassColor, scenePassDepth, sceneNormal, camera as any)
     giPass.sliceCount.value = 2
-    giPass.stepCount.value = 8
-    giPass.backfaceLighting.value = 1
-    giPass.radius.value = 25
+    giPass.stepCount.value = 4
+    giPass.backfaceLighting.value = 1.5
+    giPass.radius.value = 2.5
     giPass.thickness.value = 2
 
     // composite
@@ -155,22 +155,22 @@ export function EnvLoader({
     compositePass.name = 'Composite'
 
     // traa
-    const traaPass = traa(compositePass, scenePassDepth, scenePassVelocity, camera)
+    // const traaPass = traa(compositePass, scenePassDepth, scenePassVelocity, camera)
 
-    const bloomPass = bloom(compositePass, 0.1, 0.2, 1.0)
+    const bloomPass = bloom(compositePass, 0.1, 0.21, 1.0)
 
     const postProcessing = new RenderPipeline(renderer as any)
 
-    postProcessing.outputNode = add(vec4(traaPass), bloomPass.mul(0.25))
+    postProcessing.outputNode = add(vec4(compositePass), bloomPass.mul(0.25))
 
     postProcessing.needsUpdate = true
 
-    setSun(
-      <group name="light-player-target">
-        {/*  */}
-        {/* <primitive object={object}></primitive> */}
-      </group>
-    )
+    // setSun(
+    //   <group name="light-player-target">
+    //     {/*  */}
+    //     {/* <primitive object={object}></primitive> */}
+    //   </group>
+    // )
 
     setFnc(() => {
       return () => {
