@@ -27,7 +27,7 @@ import {
 // let modifier = new EdgeSplitModifier()
 export function RoomFX(props) {
   const geo = useMemo(() => {
-    return new SphereGeometry(1, 100, 100)
+    return new SphereGeometry(1, 256, 256)
     // return new BoxGeometry(1, 1, 1, 100, 100, 100)
   }, [])
 
@@ -48,7 +48,7 @@ export function RoomFX(props) {
           cos(time.add(positionLocal.y.mul(5))),
           cos(time.add(positionLocal.z.mul(5)))
         )
-      ),
+      ).normalize(),
       emissiveNode: color('#40525a'),
       positionNode: positionLocal.add(normalLocal.mul(0.015).add(offset)),
 
