@@ -27,7 +27,7 @@ import {
 // let modifier = new EdgeSplitModifier()
 export function RoomFX(props) {
   const geo = useMemo(() => {
-    return new SphereGeometry(1, 256, 256)
+    return new SphereGeometry(1, 512, 512).rotateX(Math.PI)
     // return new BoxGeometry(1, 1, 1, 100, 100, 100)
   }, [])
 
