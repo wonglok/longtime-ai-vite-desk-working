@@ -28,7 +28,7 @@ export function NavMain({
 }) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Agent Metaverse</SidebarGroupLabel>
+      <SidebarGroupLabel>Agent Egg</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
           <Collapsible

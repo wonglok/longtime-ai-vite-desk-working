@@ -418,7 +418,7 @@ export function AppSidebar({
 
         <NavUser
           user={{
-            name: 'Agent Metaverse',
+            name: 'Agent Egg',
             email: 'Generative Tools',
             avatar: '/avatars/shadcn.jpg'
           }}
