@@ -20,7 +20,7 @@ export const useAPIToken = () => {
   return {
     display: (
       <>
-        <a href="longtime-ai://thank-you-for-choosing-us?apikey=testapi123&token=testtoken456">
+        <a href="hyperegg-ai://thank-you-for-choosing-us?apikey=testapi123&token=testtoken456">
           Link test
         </a>
 

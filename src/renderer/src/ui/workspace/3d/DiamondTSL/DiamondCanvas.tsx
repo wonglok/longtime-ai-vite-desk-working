@@ -1,4 +1,4 @@
-import { Suspense, useRef } from 'react'
+import { ReactElement, Suspense, useRef } from 'react'
 import { CanvasGPU } from '../CanvasGPU/CanvasGPU'
 import { DiamondCompos } from './DiamondComponent'
 import { Environment, OrbitControls, PerspectiveCamera } from '@react-three/drei'
@@ -18,10 +18,19 @@ export function DiamondCanvas({}) {
     <>
       <div className="w-full h-full relative">
         <CanvasGPU>
-          <OrbitControls object-position={[0, 0, 2]} target={[0, 0, 0]} makeDefault></OrbitControls>
+          <OrbitControls
+            maxDistance={5}
+            minDistance={1.5}
+            object-position={[0, 0, 1.5]}
+            target={[0, 0, 0]}
+            makeDefault
+          ></OrbitControls>
           <Suspense fallback={null}>
-            <Diamond></Diamond>
+            <Spinner speedY={1}>
+              <Diamond></Diamond>
+            </Spinner>
             <RoomFX></RoomFX>
+
             <EnvLoader url={`${hdr}`}></EnvLoader>
           </Suspense>
         </CanvasGPU>
@@ -38,30 +47,29 @@ function Diamond() {
     <>
       <group position={[0, 0, 0]}>
         <DiamondCompos></DiamondCompos>
-        {/* <Spinner></Spinner> */}
       </group>
     </>
   )
 }
 
-// function Spinner({ children }) {
-//   let clock = new Timer()
-//   let ref = useRef<any>(null)
-//   useFrame((_) => {
-//     clock.update(performance.now())
-//     let time = clock.getElapsed()
-//     let delta = clock.getDelta()
-//     ref.current.rotation.y += delta / 5
-//     ref.current.rotation.x = Math.sin(time * 2) * 0.1
-//     ref.current.rotation.z = Math.cos(time * 2) * 0.1
-//   })
+function Spinner({ speedY = 1, children }: { speedY?: number; children?: ReactElement }) {
+  let clock = new Timer()
+  let ref = useRef<any>(null)
+  useFrame((_) => {
+    clock.update(performance.now())
+    let time = clock.getElapsed()
+    let delta = clock.getDelta()
+    ref.current.rotation.y += (delta / 5) * speedY
+    // ref.current.rotation.x = Math.sin(time * 2) * 0.1
+    // ref.current.rotation.z = Math.cos(time * 2) * 0.1
+  })
 
-//   return (
-//     <>
-//       <group ref={ref}>
-//         {/*  */}
-//         {children}
-//       </group>
-//     </>
-//   )
-// }
+  return (
+    <>
+      <group ref={ref}>
+        {/*  */}
+        {children}
+      </group>
+    </>
+  )
+}

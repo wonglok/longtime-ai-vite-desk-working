@@ -1,4 +1,4 @@
-# longtime-ai-ve-desk
+# hyperegg-ai-ve-desk
 
 An Electron application with React and TypeScript
 

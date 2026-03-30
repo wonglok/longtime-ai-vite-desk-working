@@ -7,7 +7,7 @@
 
 ## Current Project State
 
-Based on file system analysis, this is an **Electron-based AI application** named "longtime-ai" with:
+Based on file system analysis, this is an **Electron-based AI application** named "hyperegg-ai" with:
 
 - **Architecture**: Electron + React + TypeScript
 - **Main Process**: AI agent functionality with tools (file operations, terminal, etc.)

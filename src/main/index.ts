@@ -4,8 +4,8 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { setupIPCMain } from './core'
 
-const PROTOCOL = 'longtime-ai' // Choose a unique name
-// longtime-ai://thankyou-for-choosing-us?apikey=thisisapikey123&token=thisistoken123
+const PROTOCOL = 'hyperegg-ai' // Choose a unique name
+// hyperegg-ai://thankyou-for-choosing-us?apikey=thisisapikey123&token=thisistoken123
 
 function createWindow(): void {
   // Create the browser window.
@@ -58,7 +58,7 @@ function createWindow(): void {
   })
 
   // example:
-  // longtime-ai://thankyou-for-choosing-us?apikey=test123&token=test456
+  // hyperegg-ai://thankyou-for-choosing-us?apikey=test123&token=test456
   function handleDeepLink(url: string): void {
     const obj = new URL(url)
     const apikey = obj.searchParams.get('apikey')

@@ -9,7 +9,7 @@ export const handler = async function () {
   // context: any
   console.log('notarize: start')
   await notarize({
-    appPath: path.join(import.meta.dirname, '../dist/mac-arm64/longtime-ai.app'),
+    appPath: path.join(import.meta.dirname, '../dist/mac-arm64/hyperegg-ai.app'),
     keychainProfile: 'WONG_LOK_PROFILE'
 
     // add to bashrc or zshrc:
