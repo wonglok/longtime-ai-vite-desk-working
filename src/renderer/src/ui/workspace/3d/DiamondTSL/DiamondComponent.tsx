@@ -10,6 +10,7 @@ import GUI from 'three/examples/jsm/libs/lil-gui.module.min.js'
 import dia from '../assets/egg-lowpoly.glb?url'
 // import dia from '../assets/egg-lowpoly.glb?url'
 // import dia from '../assets/diamond.glb?url'
+
 import { CubeRenderTarget } from 'three/webgpu'
 import { rand, uv, vec3, vec4 } from 'three/tsl'
 export function DiamondCompos({}) {
@@ -21,7 +22,9 @@ export function DiamondCompos({}) {
 
   useEffect(() => {
     //
-    const cubeCamRtt = new CubeRenderTarget(256, {})
+    const cubeCamRtt = new CubeRenderTarget(256, {
+      //
+    })
 
     const cubeCam = new CubeCamera(0.1, 500, cubeCamRtt)
 
@@ -30,7 +33,7 @@ export function DiamondCompos({}) {
 
     obj.geometry = obj.geometry.toNonIndexed()
     obj.geometry.center()
-    obj.geometry.scale(0.02, 0.02, 0.02)
+    // obj.geometry.scale(0.02, 0.02, 0.02)
     obj.geometry.computeVertexNormals()
 
     const normalCubeMap = buildCubeNormal({
@@ -48,7 +51,7 @@ export function DiamondCompos({}) {
     const mesh = new Mesh(obj.geometry, material)
     mesh.add(cubeCam)
     mesh.castShadow = true
-    mesh.scale.setScalar(30)
+    mesh.scale.setScalar(30 * 0.02)
 
     const scene = new Scene()
     // scene.environment = envMap
@@ -90,7 +93,7 @@ export function DiamondCompos({}) {
       gui.domElement.style.zIndex = '9999'
 
       // set hidden
-      gui.domElement.style.display = 'none'
+      // gui.domElement.style.display = 'none'
 
       document.body.appendChild(gui.domElement)
 
@@ -122,6 +125,9 @@ export function DiamondCompos({}) {
         { type: 'vec3', name: 'centreOffset', min: -5, max: 5 }
         //
       ]
+
+      obj.geometry.computeBoundingSphere()
+      systemForDiamond.uniforms.radius.value = obj.geometry.boundingSphere.radius
 
       items.forEach((it: any) => {
         //

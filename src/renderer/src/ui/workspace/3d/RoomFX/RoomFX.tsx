@@ -34,23 +34,23 @@ export function RoomFX(props) {
   const mat = useMemo(() => {
     let offset = vec3(
       //
-      sin(positionLocal.z.mul(5).add(time)).mul(0.1),
-      sin(positionLocal.x.mul(10).add(time)).mul(0.25),
+      sin(positionLocal.z.mul(5).add(time)).mul(0.25),
+      sin(positionLocal.x.mul(10).add(time)).mul(0.2),
       sin(positionLocal.y.mul(5).add(time)).mul(0.25)
     )
 
     return new MeshPhysicalNodeMaterial({
       //
       colorNode: hue(
-        color('#6dddc8'),
+        color('#97ff2f'),
         vec3(
-          cos(time.add(positionLocal.x.mul(5))),
-          cos(time.add(positionLocal.y.mul(5))),
-          cos(time.add(positionLocal.z.mul(5)))
+          sin(time.add(positionLocal.x.mul(5))),
+          sin(time.add(positionLocal.y.mul(5))),
+          sin(time.add(positionLocal.z.mul(5)))
         )
-      ).normalize(),
-      emissiveNode: color('#40525a'),
-      positionNode: positionLocal.add(normalLocal.mul(0.015).add(offset)),
+      ),
+      emissiveNode: vec3(color('#61ca6a')),
+      positionNode: positionLocal.add(normalLocal.mul(0.1).add(offset)),
 
       //
       roughnessNode: float(0.5),
@@ -62,8 +62,8 @@ export function RoomFX(props) {
   }, [])
 
   return (
-    <group {...props} dispose={null} position={[0, 1, 0.5]}>
-      <mesh geometry={geo} key={mat.uuid} material={mat} scale={[4, 2, 4]} />
+    <group {...props} dispose={null} position={[0, 0, 0]}>
+      <mesh geometry={geo} key={mat.uuid} material={mat} scale={[10, 10, 10]} />
     </group>
   )
 }

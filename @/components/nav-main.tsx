@@ -28,7 +28,7 @@ export function NavMain({
 }) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Agent Egg</SidebarGroupLabel>
+      <SidebarGroupLabel>HyperEgg AI</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
           <Collapsible

@@ -10,6 +10,7 @@ import { RoomFX } from '../RoomFX/RoomFX'
 import { EnvLoader } from '../CanvasGPU/EnvLoader'
 // import { BloomPipeline } from '../CanvasGPU/BloomPipeline'
 import hdr from '../assets/factory.hdr?url'
+
 export function DiamondCanvas({}) {
   //
 
@@ -17,11 +18,11 @@ export function DiamondCanvas({}) {
     <>
       <div className="w-full h-full relative">
         <CanvasGPU>
+          <OrbitControls object-position={[0, 0, 2]} target={[0, 0, 0]} makeDefault></OrbitControls>
           <Suspense fallback={null}>
             <Diamond></Diamond>
             <RoomFX></RoomFX>
             <EnvLoader url={`${hdr}`}></EnvLoader>
-            {/* <RoomLight></RoomLight> */}
           </Suspense>
         </CanvasGPU>
       </div>
@@ -35,39 +36,32 @@ function Diamond() {
   //
   return (
     <>
-      <group position={[0, 1, 0]}>
-        <Spinner>
-          <DiamondCompos></DiamondCompos>
-        </Spinner>
-      </group>
-
-      <Suspense fallback={null}>
-        <OrbitControls object-position={[0, 1, 2]} target={[0, 1, 0]} makeDefault></OrbitControls>
-
-        {/* <BloomPipeline></BloomPipeline> */}
-      </Suspense>
-    </>
-  )
-}
-
-function Spinner({ children }) {
-  let clock = new Timer()
-  let ref = useRef<any>(null)
-  useFrame((_) => {
-    clock.update(performance.now())
-    let time = clock.getElapsed()
-    let delta = clock.getDelta()
-    ref.current.rotation.y += delta / 5
-    ref.current.rotation.x = Math.sin(time * 2) * 0.1
-    ref.current.rotation.z = Math.cos(time * 2) * 0.1
-  })
-
-  return (
-    <>
-      <group ref={ref}>
-        {/*  */}
-        {children}
+      <group position={[0, 0, 0]}>
+        <DiamondCompos></DiamondCompos>
+        {/* <Spinner></Spinner> */}
       </group>
     </>
   )
 }
+
+// function Spinner({ children }) {
+//   let clock = new Timer()
+//   let ref = useRef<any>(null)
+//   useFrame((_) => {
+//     clock.update(performance.now())
+//     let time = clock.getElapsed()
+//     let delta = clock.getDelta()
+//     ref.current.rotation.y += delta / 5
+//     ref.current.rotation.x = Math.sin(time * 2) * 0.1
+//     ref.current.rotation.z = Math.cos(time * 2) * 0.1
+//   })
+
+//   return (
+//     <>
+//       <group ref={ref}>
+//         {/*  */}
+//         {children}
+//       </group>
+//     </>
+//   )
+// }

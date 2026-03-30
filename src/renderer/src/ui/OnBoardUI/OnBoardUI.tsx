@@ -58,11 +58,19 @@ export function OnBoardUI() {
         <DiamondCanvas></DiamondCanvas>
       </div>
 
-      <div className=" absolute top-0 left-0 w-full h-full">
+      <div
+        className=" absolute"
+        style={{
+          top: `calc(50% - 45% / 2)`,
+          left: `calc(50% - 45% / 2)`,
+          width: `45%`,
+          height: `45%`
+        }}
+      >
         <div className="w-full h-full flex items-center justify-center  relative">
           <div>
             <div className="text-white  text-shadow-2xs text-[50px] mb-3 flex justify-center items-center mx-12">
-              Agent Egg
+              HyperEgg AI
             </div>
             <div className="text-white  text-shadow-2xs text-center">
               {spaces.map((space) => {
