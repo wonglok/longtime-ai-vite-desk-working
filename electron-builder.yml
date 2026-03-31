@@ -1,5 +1,5 @@
 appId: com.wonglok.longtimeai
-productName: HyperEgg AI
+productName: IncuEgg AI Harness
 directories:
   buildResources: build
 files:
@@ -12,7 +12,7 @@ files:
 asarUnpack:
   - resources/**
 win:
-  executableName: HyperEgg AI
+  executableName: IncuEgg AI Harness
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
