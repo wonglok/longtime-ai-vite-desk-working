@@ -46,22 +46,24 @@ export function RoomFX(props) {
   const mat = useMemo(() => {
     let offset = vec3(
       //
-      sin(positionLocal.xy.length().mul(65).add(time.mul(1.0))),
-      sin(positionLocal.yz.length().mul(65).add(time.mul(1.0))),
-      sin(positionLocal.zx.length().mul(65).add(time.mul(1.0)))
-    ).mul(0.0333)
+      sin(positionLocal.xy.length().mul(67).add(time.mul(0.2))),
+      sin(positionLocal.yz.length().mul(67).add(time.mul(0.2))),
+      sin(positionLocal.zx.length().mul(67).add(time.mul(0.2)))
+    )
+      .mul(0.0333)
+      .mul(positionLocal.z.negate().add(positionLocal.xy.length()))
 
     return new MeshPhysicalNodeMaterial({
       //
-      colorNode: vec3(1, 1, 1),
-      emissiveNode: vec3(0.15, 0.15, 0.15),
+      colorNode: color('#00ffff'),
+      emissiveNode: color('#0c5e57'),
 
       //
       positionNode: positionLocal.add(offset),
-      normalNode: normalLocal.negate().normalize(),
+      normalNode: normalLocal.negate().normalize().mul(positionLocal.z.negate()),
       //
-      roughnessNode: float(1.0),
-      metalnessNode: float(1.0),
+      roughnessNode: float(0.0),
+      metalnessNode: float(0.0),
       //
       side: DoubleSide
       //
