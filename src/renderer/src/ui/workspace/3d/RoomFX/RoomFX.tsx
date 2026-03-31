@@ -46,9 +46,9 @@ export function RoomFX(props) {
   const mat = useMemo(() => {
     let offset = vec3(
       //
-      sin(positionLocal.zx.length().mul(30).add(time.mul(1.5))),
-      sin(positionLocal.zy.length().mul(30).add(time.mul(1.5))),
-      sin(positionLocal.zz.length().mul(30).add(time.mul(1.5)))
+      sin(positionLocal.xz.length().mul(50).add(time.mul(0.5))),
+      sin(positionLocal.yz.length().mul(50).add(time.mul(0.5))),
+      sin(positionLocal.zz.length().mul(50).add(time.mul(1.0)))
     )
       .mul(0.05)
       .mul(positionLocal.z.negate().add(positionLocal.xzy.length()))
