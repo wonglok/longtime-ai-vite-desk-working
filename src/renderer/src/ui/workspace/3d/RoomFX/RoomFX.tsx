@@ -50,7 +50,7 @@ export function RoomFX(props) {
       sin(positionLocal.zy.length().mul(30).add(time.mul(1.5))),
       sin(positionLocal.zz.length().mul(30).add(time.mul(1.5)))
     )
-      .mul(0.1)
+      .mul(0.05)
       .mul(positionLocal.z.negate().add(positionLocal.xzy.length()))
 
     return new MeshPhysicalNodeMaterial({
