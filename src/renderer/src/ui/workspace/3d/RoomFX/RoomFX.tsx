@@ -36,7 +36,7 @@ import { useFrame } from '@react-three/fiber'
 export function RoomFX(props) {
   const ref = useRef<any>(null)
   const geo = useMemo(() => {
-    let sph = new SphereGeometry(1, 512, 256, 0, Math.PI * 1, 0, Math.PI).rotateY(Math.PI * 1)
+    let sph = new SphereGeometry(1, 512, 512, 0, Math.PI * 1, 0, Math.PI).rotateY(Math.PI * 1)
     sph.computeVertexNormals()
 
     return sph
@@ -46,12 +46,12 @@ export function RoomFX(props) {
   const mat = useMemo(() => {
     let offset = vec3(
       //
-      sin(positionLocal.xy.length().mul(67).add(time.mul(0.2))),
-      sin(positionLocal.yz.length().mul(67).add(time.mul(0.2))),
-      sin(positionLocal.zx.length().mul(67).add(time.mul(0.2)))
+      sin(positionLocal.zx.length().mul(30).add(time.mul(1.5))),
+      sin(positionLocal.zy.length().mul(30).add(time.mul(1.5))),
+      sin(positionLocal.zz.length().mul(30).add(time.mul(1.5)))
     )
-      .mul(0.0333)
-      .mul(positionLocal.z.negate().add(positionLocal.xy.length()))
+      .mul(0.1)
+      .mul(positionLocal.z.negate().add(positionLocal.xzy.length()))
 
     return new MeshPhysicalNodeMaterial({
       //
@@ -60,7 +60,7 @@ export function RoomFX(props) {
 
       //
       positionNode: positionLocal.add(offset),
-      normalNode: normalLocal.negate().normalize().mul(positionLocal.z.negate()),
+      normalNode: normalLocal.negate().normalize(),
       //
       roughnessNode: float(0.0),
       metalnessNode: float(0.0),
