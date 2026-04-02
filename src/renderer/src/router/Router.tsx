@@ -88,7 +88,8 @@ export const AppRouter = () => (
       </Route>
 
       <Route path="/">
-        <Redirect href="/onboard"></Redirect>
+        <Redirect href={'/workspace/Personal'}></Redirect>
+        {/* <Redirect href="/onboard"></Redirect> */}
       </Route>
 
       {/*  */}

@@ -19,6 +19,9 @@ async function extractSummaryComments(rootDir) {
         if (fullPath.includes('.next')) {
           continue
         }
+        if (fullPath.includes('ai-memory')) {
+          continue
+        }
         if (fullPath.includes('venv')) {
           continue
         }
@@ -29,13 +32,14 @@ async function extractSummaryComments(rootDir) {
         if (entry.isDirectory()) {
           await scanDirectory(fullPath) // Recurse into subdirectories
           results.push({
-            file: path.relative(rootDir, fullPath),
+            parent: path.relative(rootDir, dirPath),
+            filePath: path.relative(rootDir, fullPath),
             isDir: true,
             content: ''
           })
         } else if (entry.isFile()) {
           // && isSupportedExtension(entry.name)
-          await extractFromFile(fullPath, results)
+          await extractFromFile(fullPath, results, path.relative(rootDir, dirPath))
         }
       }
     } catch (err) {
@@ -43,17 +47,18 @@ async function extractSummaryComments(rootDir) {
     }
   }
 
-  function isSupportedExtension(filename) {
-    const ext = path.extname(filename).toLowerCase()
-    return ['.js', '.ts', '.jsx', '.tsx', '.json', '.md'].includes(ext)
-  }
+  // function isSupportedExtension(filename) {
+  //   const ext = path.extname(filename).toLowerCase()
+  //   return ['.js', '.ts', '.jsx', '.tsx', '.json', '.md'].includes(ext)
+  // }
 
-  async function extractFromFile(filePath, results) {
+  async function extractFromFile(filePath, results, parent) {
     try {
       const content = await fs.readFile(filePath, 'utf-8')
 
       results.push({
-        file: path.relative(rootDir, filePath),
+        parent: parent,
+        filePath: path.relative(rootDir, filePath),
         isDir: false,
         content: content
       })
@@ -66,21 +71,13 @@ async function extractSummaryComments(rootDir) {
   return results
 }
 
-export const scanFolder = async (targetFolder) => {
+export const listFiles = async (targetFolder) => {
   return await extractSummaryComments(targetFolder)
     .then((results) => {
-      const csv = `File\n${results.map((r: any) => `${JSON.stringify(r.file)}`).join('\n')}`
-
-      if (results.length === 0) {
-        return ''
-      }
-
-      return `
-## Files in the project folder:
-${csv}`
+      return results
     })
     .catch((err) => {
       console.error('Script error:', err.message)
-      return ''
+      return []
     })
 }

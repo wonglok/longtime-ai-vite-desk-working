@@ -10,6 +10,8 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { AuraBar } from '@renderer/effects/AuraBar'
+import { useEffect } from 'react'
+import { HyperHome } from '../HyperHome/HyperHome'
 
 export function WorkHome({ name }) {
   return (
@@ -29,10 +31,10 @@ export function WorkHome({ name }) {
               <Separator orientation="vertical" className="mr-2 data-[orientation=vertical]:h-4" />
               <Breadcrumb>
                 <BreadcrumbList>
-                  <BreadcrumbItem className="hidden md:block">
-                    <BreadcrumbLink href="/">Home</BreadcrumbLink>
+                  <BreadcrumbItem className="">
+                    <BreadcrumbLink href="/onboard">Home</BreadcrumbLink>
                   </BreadcrumbItem>
-                  <BreadcrumbSeparator className="hidden md:block" />
+                  <BreadcrumbSeparator className="" />
                   <BreadcrumbItem>
                     <BreadcrumbPage>Space: {name}</BreadcrumbPage>
                   </BreadcrumbItem>
@@ -41,7 +43,7 @@ export function WorkHome({ name }) {
             </div>
           </div>
         </header>
-        <div className="px-4">Welcome Back! {name}</div>
+        <HyperHome name={name}></HyperHome>
       </div>
     </>
   )
