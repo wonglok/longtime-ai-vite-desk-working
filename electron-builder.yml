@@ -1,5 +1,5 @@
 appId: com.wonglok.longtimeai
-productName: HyperFolder AI
+productName: HyperEgg AI
 directories:
   buildResources: build
 files:
@@ -12,7 +12,7 @@ files:
 asarUnpack:
   - resources/**
 win:
-  executableName: HyperFolder AI
+  executableName: HyperEgg AI
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
