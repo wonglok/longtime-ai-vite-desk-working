@@ -12,7 +12,7 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/s
 import { Environment, OrbitControls, PerspectiveCamera, useEnvironment } from '@react-three/drei'
 import { Canvas, useThree } from '@react-three/fiber'
 import { AuraEffect } from '@renderer/effects/AuraEffect'
-import { SearchBar } from '@renderer/effects/SearchBar'
+import { SearchBar } from '@renderer/effects/AuraBar'
 
 import { Suspense, useEffect } from 'react'
 

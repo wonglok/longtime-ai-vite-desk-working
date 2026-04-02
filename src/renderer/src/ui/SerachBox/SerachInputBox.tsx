@@ -1,4 +1,4 @@
-import { SearchBar } from '@renderer/effects/SearchBar'
+import { SearchBar } from '@renderer/effects/AuraBar'
 
 export function SerachInputBox() {
   return (

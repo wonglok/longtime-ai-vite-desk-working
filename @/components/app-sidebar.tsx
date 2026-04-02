@@ -418,7 +418,7 @@ export function AppSidebar({
 
         <NavUser
           user={{
-            name: 'HyperEgg 超能AI蛋',
+            name: 'HyperFolder AI',
             email: 'Generative Tools',
             avatar: '/avatars/shadcn.jpg'
           }}

@@ -6,7 +6,7 @@ import { Color, ShaderMaterial } from 'three'
 import { MathUtils } from 'three'
 // import { useRainbow } from 'ui/store/useRainbow'
 
-export function SearchBar({}) {
+export function AuraBar({}) {
   return (
     <>
       <div className="w-full h-full">
