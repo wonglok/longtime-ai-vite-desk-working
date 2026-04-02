@@ -1,10 +1,10 @@
 import { app } from 'electron'
 import { makeDirectory } from 'make-dir'
 // import z from 'zod'
-import { developCode } from './subagents/developCode'
+// import { developCode } from './subagents/developCode'
 import { writePlan } from './subagents/writePlan'
 import { runAgent } from './runAgent'
-import { initProject } from './subagents/initProject'
+// import { initProject } from './subagents/initProject'
 // import { readFile, writeFile } from 'fs/promises'
 // import { join } from 'path'
 
