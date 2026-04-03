@@ -33,10 +33,8 @@ import { traa } from 'three/addons/tsl/display/TRAANode.js'
 
 export function EnvLoader({
   //
-  url,
   env = true
 }: {
-  url: string
   env?: boolean
 }) {
   const [sun, setSun] = useState<ReactNode>(null)
@@ -136,11 +134,11 @@ export function EnvLoader({
 
     // gi
     const giPass = ssgi(scenePassColor, scenePassDepth, sceneNormal, camera as any)
-    giPass.sliceCount.value = 2
-    giPass.stepCount.value = 4
-    giPass.backfaceLighting.value = 0.5
-    giPass.radius.value = 2.5
-    giPass.thickness.value = 2
+    // giPass.sliceCount.value = 2
+    // giPass.stepCount.value = 4
+    giPass.backfaceLighting.value = 1
+    // giPass.radius.value = 2.5
+    // giPass.thickness.value = 2
 
     // composite
     const gi = giPass.rgb
@@ -187,7 +185,7 @@ export function EnvLoader({
     return () => {
       // dirL.removeFromParent()
     }
-  }, [url, scene, env])
+  }, [scene, env])
 
   //
   useFrame(() => {
