@@ -1,10 +1,11 @@
 import { Merged, useGLTF } from '@react-three/drei'
-import { useFrame, useGraph } from '@react-three/fiber'
+import { useGraph } from '@react-three/fiber'
 import { useMemo, useRef } from 'react'
 import { Color, DoubleSide, Mesh } from 'three'
 import { MeshPhysicalNodeMaterial } from 'three/webgpu'
 import folder from '../assets/smart-folder.glb?url'
 import { RoundedBoxGeometry } from 'three/examples/jsm/Addons.js'
+
 export function FileItem() {
   let box = useMemo(() => {
     let geo = new RoundedBoxGeometry(1, 1.5, 0.5, 7, 0.5)
@@ -30,7 +31,7 @@ export function FileItem() {
   }, [])
 
   const glb = useGLTF(`${folder}`)
-  const { nodes } = useGraph(glb.scene)
+  const { nodes }: { nodes: Record<string, Mesh> & any } = useGraph(glb.scene)
 
   let mat = new MeshPhysicalNodeMaterial({
     //
@@ -63,7 +64,7 @@ export function FileItem() {
 
             let planes = []
 
-            for (let i = -3; i < 3; i++) {
+            for (let i = -3; i < 4; i++) {
               planes.push(<EachBox MyBox={Box} key={'plane' + i} n={6} i={i}></EachBox>)
             }
 
@@ -92,7 +93,7 @@ function EachBox({ i, n, MyBox }) {
     <MyBox
       ref={ref}
       rotation={[0.1, 0, Math.PI * 0.05 * i]}
-      position={[0, 0.1 * i, i * 0.05]}
+      position={[0, 0.0, i * 0.05]}
       color={new Color('#ff0000').offsetHSL(i / n, 0, 0)}
     />
   )
