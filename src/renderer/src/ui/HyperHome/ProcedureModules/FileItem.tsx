@@ -29,6 +29,7 @@ export function FileItem() {
       <Merged meshes={[box]}>
         {(MyBox) => {
           let planes = []
+
           for (let i = 0; i < 20 - 1; i++) {
             planes.push(<EachBox MyBox={MyBox} key={'plane' + i} n={20} i={i}></EachBox>)
           }
