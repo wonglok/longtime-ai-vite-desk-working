@@ -275,17 +275,18 @@ export function AppSidebar({
             url: '#',
             icon: <TerminalSquareIcon />,
             isActive: true,
+            //
             items: [
               {
-                title: 'Dashboard',
+                title: 'Workspace Home',
                 url: `/workspace/${name}`
               },
+              // {
+              //   title: 'Desktop',
+              //   url: `/workspace/${name}/desktop`
+              // },
               {
-                title: 'Desktop',
-                url: `/workspace/${name}/desktop`
-              },
-              {
-                title: 'Home',
+                title: 'CLI Builder',
                 url: `/workspace/${name}/egg`
               }
             ]
