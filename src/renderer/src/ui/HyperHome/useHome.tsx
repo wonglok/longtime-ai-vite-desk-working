@@ -34,7 +34,8 @@ const init = (set, get) => {
 
     baseURL: `http://127.0.0.1:1234/v1`,
     apiKey: `nono`,
-    appModel: `qwen/qwen3.5-4b`,
+    // appModel: `qwen/qwen3.5-4b`,
+    appModel: `google/gemma-4-26b-a4b`,
 
     appName: 'understanding-folder',
     appUserPrompt: ``.trim(),

@@ -41,7 +41,7 @@ import {
 } from 'lucide-react'
 import { navigate } from 'wouter/use-browser-location'
 
-import { DiamondCanvas } from '@renderer/ui/workspace/3d/DiamondTSL/DiamondCanvas'
+// import { DiamondCanvas } from '@renderer/ui/workspace/3d/DiamondTSL/DiamondCanvas'
 
 // import { AuraExample } from '@renderer/effects/AuraExample'
 // import { SearchBar } from '@renderer/effects/SearchBar'

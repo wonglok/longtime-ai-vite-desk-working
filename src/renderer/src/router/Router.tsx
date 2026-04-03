@@ -12,7 +12,7 @@ import { Home } from '@renderer/pages/Home'
 // import { Skill } from '@renderer/pages/Skill'
 import { OnBoard } from '@renderer/pages/OnBoard'
 import { WorkspaceLayout } from '@renderer/ui/workspace/WorkspaceParent'
-import { WorkHome } from '@renderer/ui/workspace/home'
+import { WorkHome } from '@renderer/ui/HyperHome/home'
 import { WorkDesk } from '@renderer/ui/workspace/desk'
 // import { SearchBar } from '@renderer/effects/SearchBar'
 

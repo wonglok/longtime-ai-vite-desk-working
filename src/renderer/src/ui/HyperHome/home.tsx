@@ -1,4 +1,4 @@
-import { AppSidebar } from '@/components/app-sidebar'
+// import { AppSidebar } from '@/components/app-sidebar'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -7,11 +7,12 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator
 } from '@/components/ui/breadcrumb'
-import { Separator } from '@/components/ui/separator'
-import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+// import { Separator } from '@/components/ui/separator'
+// import { useEffect } from 'react'
+// SidebarInset, SidebarProvider,
+import { SidebarTrigger } from '@/components/ui/sidebar'
 import { AuraBar } from '@renderer/effects/AuraBar'
-import { useEffect } from 'react'
-import { HyperHome } from '../HyperHome/HyperHome'
+import { HyperHome } from './HyperHome'
 
 export function WorkHome({ name }) {
   return (
@@ -28,7 +29,7 @@ export function WorkHome({ name }) {
           <div className=" absolute top-0 left-0 w-full h-full flex items-center justify-start">
             <div className="flex items-center gap-2 px-4">
               <SidebarTrigger className="-ml-1" />
-              <Separator orientation="vertical" className="mr-2 data-[orientation=vertical]:h-4" />
+              {/* <Separator orientation="vertical" className="mr-2 data-[orientation=vertical]:h-4" /> */}
               <Breadcrumb>
                 <BreadcrumbList>
                   <BreadcrumbItem className="">
@@ -48,3 +49,5 @@ export function WorkHome({ name }) {
     </>
   )
 }
+
+//
