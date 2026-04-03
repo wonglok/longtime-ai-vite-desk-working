@@ -65,7 +65,7 @@ export function FileItem() {
             let planes = []
 
             for (let i = -3; i < 4; i++) {
-              planes.push(<EachBox MyBox={Box} key={'plane' + i} n={6} i={i}></EachBox>)
+              planes.push(<EachBox Compo={Box} key={'plane' + i} n={6} i={i}></EachBox>)
             }
 
             return (
@@ -83,14 +83,14 @@ export function FileItem() {
   )
 }
 
-function EachBox({ i, n, MyBox }) {
+function EachBox({ i, n, Compo }) {
   let ref = useRef<any>(null)
 
   // useFrame((_, dt) => {
   //   ref.current.rotation.z += dt * (i / n)
   // })
   return (
-    <MyBox
+    <Compo
       ref={ref}
       rotation={[0.1, 0, Math.PI * 0.05 * i]}
       position={[0, 0.0, i * 0.075]}
