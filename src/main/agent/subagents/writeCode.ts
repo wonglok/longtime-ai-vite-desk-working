@@ -115,17 +115,42 @@ ${files}
     }
 
     {
-      let text = '# Command line results:\n'
+      let text = '# Action Log\n'
+      for (let one of memory) {
+        let date = new Date(one.timestamp)
+        let dateStr = moment(date).format('YYYY-MM-DD')
+        let timeStr = moment(date).format('HH-mm-ss-(A)')
+        let datestamp = `${dateStr}-${timeStr}`
+
+        let item = `
+Timestamp: ${datestamp} 
+Action Log: ${one.content || ''}
+------
+    `.trim()
+
+        text += `${item}\n`
+      }
+
+      if (text.trim()) {
+        messages.push({
+          role: 'user',
+          content: text
+        })
+      }
+    }
+
+    {
+      let text = '# Latest Command line results:\n'
       for (let one of step.commandResults) {
         let note = ''
-        if (one.result.length >= 1000) {
-          note = '[only first 1000 characters are loaded in result]'
+        if (one.result.length >= 50000) {
+          note = '[only first 50000 characters are loaded in result]'
         }
         let item = `
 Time: ${one.timestamp || ''}
 Command: ${one.command || ''} 
 Result: ${one.successful ? `Successful` : `Failed`} ${note}
-${one.result.slice(0, 1000) || ''} 
+${one.result.slice(0, 50000) || ''} 
 ------
     `.trim()
 
@@ -184,37 +209,12 @@ ${one.content || ''}
     {
       let text = ''
       if (step.nextSteps.length > 0) {
-        text += '# Step checkup list\n'
+        text += '# What to do now:\n'
       }
       for (let one of step.nextSteps) {
         let item = `
 # What to do now in this step: 
 ${one.content || ''}
-    `.trim()
-
-        text += `${item}\n`
-      }
-
-      if (text.trim()) {
-        messages.push({
-          role: 'user',
-          content: text
-        })
-      }
-    }
-
-    {
-      let text = '# Action Log\n'
-      for (let one of memory) {
-        // let date = new Date(one.timestamp)
-        // let dateStr = moment(date).format('YYYY-MM-DD')
-        // let timeStr = moment(date).format('HH-mm-ss-(A)')
-        // let datestamp = `${dateStr}-${timeStr}`
-
-        let item = `
-LogID: ${one.idx} 
-Action Log: ${one.content || ''}
-------
     `.trim()
 
         text += `${item}\n`
@@ -341,10 +341,10 @@ Action Log: ${one.content || ''}
   if (codes) {
     for await (let file of codes) {
       //
-      let path = file.path
+      let path = file.path || ''
       let content = file.content
 
-      if (path.includes('.lock')) {
+      if (path?.includes('.lock')) {
         continue
       }
 

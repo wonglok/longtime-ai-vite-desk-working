@@ -419,8 +419,8 @@ export function AppSidebar({
 
         <NavUser
           user={{
-            name: 'HyperEgg AI',
-            email: 'Generative Tools',
+            name: 'HyperEgg AI Folder',
+            email: 'AI Smart Folder',
             avatar: '/avatars/shadcn.jpg'
           }}
         />
@@ -429,11 +429,3 @@ export function AppSidebar({
     </Sidebar>
   )
 }
-
-//
-
-// 8b can do that?!?!!?!
-
-// electronSVG
-
-//
