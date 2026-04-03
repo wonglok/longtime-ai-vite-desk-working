@@ -16,7 +16,6 @@ import { OnBoard } from '@renderer/pages/OnBoard'
 import { WorkspaceLayout } from '@renderer/ui/workspace/WorkspaceParent'
 import { WorkHome } from '@renderer/ui/HyperHome/home'
 import { WorkDesk } from '@renderer/ui/workspace/desk'
-import { useEffect } from 'react'
 // import { SearchBar } from '@renderer/effects/SearchBar'
 
 export const AppRouter = () => {
