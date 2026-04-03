@@ -25,6 +25,7 @@ export const readWorkspaceFiles = async ({
 
   await makeDirectory(aiIndex)
   await makeDirectory(aiMemory)
+
   try {
     let str = await readFile(vectorDatabasePath, 'utf8')
     try {

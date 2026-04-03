@@ -86,14 +86,14 @@ export function HyperHome({ name = '' }) {
 
   return (
     <>
-      <div className=" w-full h-full bg-[#cbe9eb]">
-        <CanvasGPU>
+      <div className=" w-full h-full from-[#cbe9eb] to-[#4391be] bg-linear-120">
+        {/* <div className="">Welcome Back! {name}</div> */}
+        {/* <CanvasGPU>
           <RoomFX></RoomFX>
           <PerspectiveCamera makeDefault position={[0, 0, 5]}></PerspectiveCamera>
           <EnvLoader url={`${hdr}`}></EnvLoader>
-        </CanvasGPU>
+        </CanvasGPU> */}
       </div>
-      {/* <div className="">Welcome Back! {name}</div> */}
     </>
   )
 }
