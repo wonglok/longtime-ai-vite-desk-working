@@ -92,12 +92,12 @@ export function HyperHome({ name = '' }) {
         <CanvasGPU>
           <OrbitControls makeDefault object-position={[0, 0, 6]}></OrbitControls>
           <EnvLoader></EnvLoader>
-          {/* <Environment
+          <Environment
             files={[`${hdr}`]}
             backgroundIntensity={0.5}
             environmentIntensity={0.5}
             background
-          ></Environment> */}
+          ></Environment>
           <FileItem></FileItem>
         </CanvasGPU>
       </div>
