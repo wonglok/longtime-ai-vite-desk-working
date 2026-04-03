@@ -33,7 +33,7 @@ export function WorkHome({ name }) {
               <Breadcrumb>
                 <BreadcrumbList>
                   <BreadcrumbItem className="">
-                    <BreadcrumbLink href="/onboard">Home</BreadcrumbLink>
+                    <BreadcrumbLink href="#/">Home</BreadcrumbLink>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator className="" />
                   <BreadcrumbItem>

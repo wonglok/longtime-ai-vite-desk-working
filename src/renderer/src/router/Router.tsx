@@ -23,6 +23,8 @@ export const AppRouter = () => {
     <>
       <HashRouter>
         <Routes>
+          {/*  */}
+
           {/* <Route
             path="onboard"
             element={
@@ -111,8 +113,6 @@ export const AppRouter = () => {
             }
           ></Route>
         </Routes>
-
-        {/*  */}
 
         {/*  */}
       </HashRouter>

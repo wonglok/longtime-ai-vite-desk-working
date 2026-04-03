@@ -79,6 +79,9 @@ export function DiamondCompos({}) {
       mesh.visible = true
     }
 
+    obj.geometry.computeBoundingSphere()
+    systemForDiamond.uniforms.radius.value = obj.geometry.boundingSphere.radius
+
     setDiamond({
       capture,
       mesh,
@@ -125,9 +128,6 @@ export function DiamondCompos({}) {
         { type: 'vec3', name: 'centreOffset', min: -5, max: 5 }
         //
       ]
-
-      obj.geometry.computeBoundingSphere()
-      systemForDiamond.uniforms.radius.value = obj.geometry.boundingSphere.radius
 
       items.forEach((it: any) => {
         //

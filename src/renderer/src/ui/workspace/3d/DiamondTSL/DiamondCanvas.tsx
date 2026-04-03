@@ -30,7 +30,6 @@ export function DiamondCanvas({}) {
               <Diamond></Diamond>
             </Spinner>
             <RoomFX></RoomFX>
-
             <EnvLoader url={`${hdr}`}></EnvLoader>
           </Suspense>
         </CanvasGPU>
