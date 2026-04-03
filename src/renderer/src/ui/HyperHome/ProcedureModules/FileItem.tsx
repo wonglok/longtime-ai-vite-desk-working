@@ -94,7 +94,7 @@ function EachBox({ i, n, MyBox }) {
       ref={ref}
       rotation={[0.1, 0, Math.PI * 0.05 * i]}
       position={[0, 0.0, i * 0.075]}
-      color={new Color('#ff0000').offsetHSL(i / n, 0, 0)}
+      color={new Color('#ff0000').offsetHSL(i / n, 0.0, 0.15)}
     />
   )
 }
