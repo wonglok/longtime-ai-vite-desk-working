@@ -10,7 +10,7 @@ import { writeFile } from 'fs/promises'
 
 import { dirname, join } from 'path'
 import { makeDirectory } from 'make-dir'
-import { EachBlock, InfoblockForamt, parseInfoblocks } from './InfoBlocks'
+import { EachBlock, InfoblockForamt, parseInfoblocks } from '../utils/InfoBlocks'
 import moment from 'moment'
 export type CommandResult = {
   command: string
