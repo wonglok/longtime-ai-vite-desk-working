@@ -23,14 +23,14 @@ export const AppRouter = () => {
     <>
       <HashRouter>
         <Routes>
-          <Route
+          {/* <Route
             path="onboard"
             element={
               <>
                 <OnBoard></OnBoard>
               </>
             }
-          ></Route>
+          ></Route> */}
 
           <Route
             path="workspace/:name/setup"
@@ -103,7 +103,7 @@ export const AppRouter = () => {
           ></Route>
 
           <Route
-            path=""
+            path="/"
             element={
               <>
                 <OnBoard></OnBoard>
