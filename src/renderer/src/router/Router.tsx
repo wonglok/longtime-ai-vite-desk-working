@@ -20,16 +20,12 @@ import { useEffect } from 'react'
 // import { SearchBar } from '@renderer/effects/SearchBar'
 
 export const AppRouter = () => {
-  useEffect(() => {
-    location.hash = '#/onboard'
-  }, [])
-
   return (
     <>
       <HashRouter>
         <Routes>
           <Route
-            path="/onboard"
+            path="onboard"
             element={
               <>
                 <OnBoard></OnBoard>
@@ -38,7 +34,7 @@ export const AppRouter = () => {
           ></Route>
 
           <Route
-            path="/workspace/:name/setup"
+            path="workspace/:name/setup"
             element={
               <>
                 <NamedParams>
@@ -55,7 +51,7 @@ export const AppRouter = () => {
           ></Route>
 
           <Route
-            path="/workspace/:name/desktop"
+            path="workspace/:name/desktop"
             element={
               <>
                 <NamedParams>
@@ -72,7 +68,7 @@ export const AppRouter = () => {
           ></Route>
 
           <Route
-            path="/workspace/:name/egg"
+            path="workspace/:name/egg"
             element={
               <>
                 <NamedParams>
@@ -89,7 +85,7 @@ export const AppRouter = () => {
           ></Route>
 
           <Route
-            path="/workspace/:name"
+            path="workspace/:name"
             element={
               <>
                 <NamedParams>
@@ -103,6 +99,15 @@ export const AppRouter = () => {
                     )
                   }}
                 </NamedParams>
+              </>
+            }
+          ></Route>
+
+          <Route
+            path=""
+            element={
+              <>
+                <OnBoard></OnBoard>
               </>
             }
           ></Route>
