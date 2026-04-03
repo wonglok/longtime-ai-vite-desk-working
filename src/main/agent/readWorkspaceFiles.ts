@@ -15,10 +15,15 @@ export const readWorkspaceFiles = async ({
 }) => {
   //
   await makeDirectory(join(WorkSpacesPath, `${inbound.workspace}`, `ai-memory`))
+  await makeDirectory(join(WorkSpacesPath, `${inbound.workspace}`, `docs`))
 
   const files = await listFiles(join(WorkSpacesPath, `${inbound.workspace}`))
 
   //
+
   onEvent({ type: 'files', files: files })
+
   //
 }
+
+//

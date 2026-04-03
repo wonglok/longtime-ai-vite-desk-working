@@ -74,9 +74,6 @@ export const setupIPCMain = async ({ ipcMain, mainWindow }) => {
 
       ///
       ///
-      ///
-      ///
-      ///
 
       if (inbound.route === 'readWorkspaceFiles') {
         return await readWorkspaceFiles({
