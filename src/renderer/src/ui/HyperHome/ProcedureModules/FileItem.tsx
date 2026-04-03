@@ -49,7 +49,7 @@ function EachBox({ i, n, MyBox }) {
   return (
     <MyBox
       ref={ref}
-      rotation={[Math.PI * -0.5, 0, Math.PI * 0.05 * i]}
+      rotation={[Math.PI * -0.5, 0, Math.PI * 0.01 * i]}
       position={[0, 0.1 * i, 0]}
       color="#ffef92"
     />
