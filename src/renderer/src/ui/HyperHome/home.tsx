@@ -40,7 +40,7 @@ export function WorkHome({ name }) {
           </div>
         </header> */}
 
-        <HyperHome name={name}></HyperHome>
+        <HyperHome workspaceName={name}></HyperHome>
       </div>
     </>
   )

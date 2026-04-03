@@ -4,11 +4,12 @@
 // import { processPromptRequest } from './tools/processStack'
 // import { prepToolListFiles } from './tools/fsTools'
 
-import { readWorkspaceFiles } from './agent/readWorkspaceFiles'
 import { runAppPlanner } from './agent/runAppPlanner'
 import { checkWorkspace } from './server/workspace/checkWorkspace'
 import { createWorkspace } from './server/workspace/createWorkspace'
 import { listWorkspaces } from './server/workspace/listWorkspaces'
+import { readWorkspaceFiles } from './server/workspace/readWorkspaceFiles'
+import { selectWorkspaceFolder } from './server/workspace/selectWorkspaceFolder'
 
 // import { utilityProcess, MessageChannelMain } from 'electron'
 // import { runAgent } from './agent-pi/runAgent'
@@ -122,6 +123,21 @@ export const setupIPCMain = async ({ ipcMain, mainWindow }) => {
 
       if (inbound.route === 'checkWorkspace') {
         return await checkWorkspace({
+          mainWindow,
+          event,
+          inbound,
+          randID,
+          checkAborted: () => {
+            return abortedFlags[randID]
+          },
+          onEvent: (ev) => {
+            mainWindow.webContents.send(`askAI-stream${randID}`, JSON.stringify(ev))
+          }
+        })
+      }
+
+      if (inbound.route === 'selectWorkspaceFolder') {
+        return await selectWorkspaceFolder({
           mainWindow,
           event,
           inbound,

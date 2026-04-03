@@ -8,9 +8,9 @@ import { BloomPipeline } from '../workspace/3d/CanvasGPU/BloomPipeline'
 import { EnvLoader } from '../workspace/3d/CanvasGPU/EnvLoader'
 // import { toast } from 'sonner'
 import hdr from '../../ui/workspace/3d/assets/factory.hdr?url'
-import { FileItem } from './ProcedureModules/FileItem'
+import { FolderSelect } from './ProcedureModules/FolderSelect'
 
-export function HyperHome({ name = '' }) {
+export function HyperHome({ workspaceName = '' }) {
   const seed = useHome((r) => r.seed)
   const baseURL = useHome((r) => r.baseURL)
   const appModel = useHome((r) => r.appModel)
@@ -37,7 +37,7 @@ export function HyperHome({ name = '' }) {
 
         apiKey: apiKey || 'nono',
 
-        workspace: name,
+        workspace: workspaceName,
 
         model: `${appModel}`,
 
@@ -98,7 +98,39 @@ export function HyperHome({ name = '' }) {
             environmentIntensity={0.5}
             background
           ></Environment>
-          <FileItem></FileItem>
+          <group
+            onClick={(ev) => {
+              //
+              ev.stopPropagation()
+
+              const controller = window.api.askAI(
+                {
+                  route: 'selectWorkspaceFolder',
+
+                  workspace: workspaceName
+                },
+                (stream) => {
+                  //
+                  const resp = JSON.parse(stream)
+
+                  console.log(resp)
+
+                  if (resp.start) {
+                    nprogress.start()
+                  }
+                  if (resp.done) {
+                    nprogress.done()
+                  }
+
+                  if (resp.files) {
+                    useHome.setState({ files: resp.files })
+                  }
+                }
+              )
+            }}
+          >
+            <FolderSelect></FolderSelect>
+          </group>
         </CanvasGPU>
       </div>
     </>
