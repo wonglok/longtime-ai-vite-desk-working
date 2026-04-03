@@ -21,7 +21,6 @@ export function WorkHome({ name }) {
         {/* <div className=" absolute top-0 left-0 w-full h-full">
           <AuraBar></AuraBar>
         </div> */}
-
         <header className=" relative flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
           <div className=" absolute top-0 left-0 w-full h-full opacity-100">
             <AuraBar></AuraBar>
