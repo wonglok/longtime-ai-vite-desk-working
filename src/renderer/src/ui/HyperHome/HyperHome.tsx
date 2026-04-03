@@ -1,7 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useHome } from './useHome'
 import nprogress from 'nprogress'
+import { CanvasGPU } from '../workspace/3d/CanvasGPU/CanvasGPU'
+import { RoomFX } from '../workspace/3d/RoomFX/RoomFX'
+import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
+import { BloomPipeline } from '../workspace/3d/CanvasGPU/BloomPipeline'
+import { EnvLoader } from '../workspace/3d/CanvasGPU/EnvLoader'
 // import { toast } from 'sonner'
+import hdr from '../../ui/workspace/3d/assets/factory.hdr?url'
 
 export function HyperHome({ name = '' }) {
   const seed = useHome((r) => r.seed)
@@ -80,7 +86,16 @@ export function HyperHome({ name = '' }) {
 
   return (
     <>
-      <div className="">Welcome Back! {name}</div>
+      <div className=" w-full h-full bg-[#cbe9eb]">
+        <CanvasGPU>
+          <RoomFX></RoomFX>
+          <PerspectiveCamera makeDefault position={[0, 0, 5]}></PerspectiveCamera>
+          <EnvLoader url={`${hdr}`}></EnvLoader>
+        </CanvasGPU>
+      </div>
+      {/* <div className="">Welcome Back! {name}</div> */}
     </>
   )
 }
+
+//

@@ -134,15 +134,13 @@ export function EnvLoader({
       return colorToDirection(scenePassNormal.sample(uv))
     })
 
-    //
-
     // gi
     const giPass = ssgi(scenePassColor, scenePassDepth, sceneNormal, camera as any)
-    // giPass.sliceCount.value = 2
-    // giPass.stepCount.value = 4
+    giPass.sliceCount.value = 2
+    giPass.stepCount.value = 4
     giPass.backfaceLighting.value = 0.5
-    // giPass.radius.value = 2.5
-    // giPass.thickness.value = 2
+    giPass.radius.value = 2.5
+    giPass.thickness.value = 2
 
     // composite
     const gi = giPass.rgb

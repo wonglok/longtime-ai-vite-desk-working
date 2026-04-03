@@ -56,7 +56,7 @@ export function RoomFX(props) {
     return new MeshPhysicalNodeMaterial({
       //
       colorNode: color('#00ffff'),
-      emissiveNode: color('#0c5e57'),
+      emissiveNode: color('#046b63'),
 
       //
       positionNode: positionLocal.add(offset),
