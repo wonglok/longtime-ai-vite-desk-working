@@ -10,7 +10,7 @@ import {
   SidebarMenuSubItem
 } from '@/components/ui/sidebar'
 import { ChevronRightIcon } from 'lucide-react'
-import { Link } from 'wouter'
+import { Link } from 'react-router-dom'
 
 export function NavMain({
   items
@@ -50,7 +50,7 @@ export function NavMain({
                   {item.items?.map((subItem) => (
                     <SidebarMenuSubItem key={subItem.title}>
                       <SidebarMenuSubButton asChild>
-                        <Link href={subItem.url}>
+                        <Link to={subItem.url}>
                           <span>{subItem.title}</span>
                         </Link>
                       </SidebarMenuSubButton>

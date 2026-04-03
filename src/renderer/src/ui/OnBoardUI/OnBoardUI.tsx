@@ -8,7 +8,6 @@ import {
   WineIcon
 } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { navigate } from 'wouter/use-browser-location'
 import { AppSidebar } from '@/components/app-sidebar'
 import {
   Breadcrumb,
@@ -26,6 +25,7 @@ import { CanvasGPU } from '../workspace/3d/CanvasGPU/CanvasGPU'
 import { DiamondCompos } from '../workspace/3d/DiamondTSL/DiamondComponent'
 import { BloomPipeline } from '../workspace/3d/CanvasGPU/BloomPipeline'
 import { DiamondCanvas } from '../workspace/3d/DiamondTSL/DiamondCanvas'
+import { useNavigate } from 'react-router-dom'
 // import { Canvas, useThree } from '@react-three/fiber'
 // import { AuraEffect } from '@renderer/effects/AuraEffect'
 // import { SearchBar } from '@renderer/effects/SearchBar'
@@ -34,6 +34,8 @@ import { DiamondCanvas } from '../workspace/3d/DiamondTSL/DiamondCanvas'
 
 export function OnBoardUI() {
   let [spaces, setSpaces] = useState([])
+  const navigate = useNavigate()
+
   useEffect(() => {
     const controller = window.api.askAI(
       {
@@ -70,7 +72,7 @@ export function OnBoardUI() {
         <div className="w-full h-full flex items-center justify-center  relative">
           <div>
             <div className="text-white  text-shadow-2xs text-[50px] mb-3 flex justify-center items-center mx-12">
-              HyperEgg AI Folder
+              HyperEgg AI
             </div>
             <div className="text-white  text-shadow-2xs text-center">
               {spaces.map((space) => {
