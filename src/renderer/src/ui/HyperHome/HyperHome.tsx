@@ -23,7 +23,7 @@ export function HyperHome({ workspaceName = '' }) {
         <CanvasGPU>
           <OrbitControls
             makeDefault
-            object-position={[0, 2.5, 3.5]}
+            object-position={[0, 3.5, 3.5]}
             target={[0, 1.5, 0]}
             minAzimuthAngle={-0.25 * Math.PI}
             maxAzimuthAngle={0.25 * Math.PI}
