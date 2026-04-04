@@ -270,14 +270,13 @@ export function AppSidebar({
                 url: `/workspace/${name}/settings`
               },
 
-              //
               // {
               //   title: 'Desktop',
               //   url: `/workspace/${name}/desktop`
               // },
               {
                 title: 'CLI Builder',
-                url: `/workspace/${name}/egg`
+                url: `/workspace/${name}/cli-builder`
               }
             ]
           }

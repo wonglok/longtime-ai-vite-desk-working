@@ -2,22 +2,22 @@
 // import AIPicker from '@renderer/components/AIPicker'
 // import Versions from '@renderer/components/Versions'
 // import { Link, Redirect, Route, Switch } from 'wouter'
-import { HashRouter, Routes, Route, useParams } from 'react-router-dom'
+import { HashRouter, Routes, Route, useParams, useNavigate } from 'react-router-dom'
 
 import { LMStudioManager } from '../adapter/LMStudioManager'
 // import Versions from '@renderer/gui/Versions'
 // import AIPicker from '@renderer/gui/AIPicker'
 // import { Setup } from '@renderer/pages/Setup'
 // import { Embeddings } from '@renderer/pages/Embeddings'
-import { Home } from '@renderer/pages/Home'
+import { CLIBuilderPage } from '@renderer/pages/CLIBuilderPage'
 // import { RecursiveAI } from '@renderer/pages/RecursiveAI'
 // import { Skill } from '@renderer/pages/Skill'
 import { OnBoard } from '@renderer/pages/OnBoard'
 import { WorkspaceLayout } from '@renderer/ui/workspace/WorkspaceParent'
-import { WorkHome } from '@renderer/ui/HyperHome/home'
 import { WorkDesk } from '@renderer/ui/workspace/desk'
 import { HyperHome } from '@renderer/ui/HyperHome/PageSelectFolder/HyperHome'
 import { HyperFiles } from '@renderer/ui/HyperHome/PageViewFiles/HyperFiles'
+import { useEffect } from 'react'
 // import { SearchBar } from '@renderer/effects/SearchBar'
 
 export const AppRouter = () => {
@@ -71,14 +71,14 @@ export const AppRouter = () => {
           ></Route>
 
           <Route
-            path="workspace/:name/egg"
+            path="workspace/:name/cli-builder"
             element={
               <>
                 <NamedParams>
                   {(params) => {
                     return (
                       <WorkspaceLayout name={params.name}>
-                        <Home></Home>
+                        <CLIBuilderPage></CLIBuilderPage>
                       </WorkspaceLayout>
                     )
                   }}
@@ -131,7 +131,8 @@ export const AppRouter = () => {
 
                     return (
                       <WorkspaceLayout name={params.name}>
-                        <WorkHome name={params.name}></WorkHome>
+                        <RedirectArea workspace={params.name}></RedirectArea>
+                        {/* <WorkHome name={params.name}></WorkHome> */}
                       </WorkspaceLayout>
                     )
                   }}
@@ -154,6 +155,18 @@ export const AppRouter = () => {
       </HashRouter>
     </>
   )
+}
+
+function RedirectArea({ workspace = '' }) {
+  let navigate = useNavigate()
+
+  useEffect(() => {
+    navigate(`/workspace/${workspace}/settings`)
+  }, [])
+  //
+
+  //
+  return <></>
 }
 
 function NamedParams({ children = (v: any) => {} }: any) {

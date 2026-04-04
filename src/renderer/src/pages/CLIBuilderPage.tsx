@@ -18,7 +18,7 @@ import { MsgBlock } from '@renderer/ui/ArrayBlock/MsgBlock'
 import { Term } from '@renderer/ui/ArrayBlock/Term'
 // import { SearchBar } from '@renderer/effects/SearchBar'
 
-export function Home() {
+export function CLIBuilderPage() {
   return (
     <div className="">
       <ArrayBlock></ArrayBlock>
