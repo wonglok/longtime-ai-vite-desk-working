@@ -13,6 +13,8 @@ export async function listWorkspaces({
   inbound,
   randID
 }) {
+  await makeDirectory(WorkSpacesPath)
+
   let currentFolder = getDirectoriesSync(WorkSpacesPath)
   if (currentFolder.length === 0) {
     const defaltWorkspacePath = `${WorkSpacesPath}/Personal`

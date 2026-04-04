@@ -40,7 +40,11 @@ const init = (set, get) => {
     appName: 'understanding-folder',
     appUserPrompt: ``.trim(),
 
-    files: []
+    files: [],
+
+    gate: '',
+
+    workspace: ''
   }
 }
 export const useHome = create<ReturnType<typeof init>>(init)

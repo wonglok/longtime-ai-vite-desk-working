@@ -18,7 +18,8 @@ import {
   useSidebar
 } from '@/components/ui/sidebar'
 import { ChevronsUpDownIcon, PlusIcon } from 'lucide-react'
-import { navigate } from 'wouter/use-browser-location'
+import { useHome } from '@renderer/ui/HyperHome/useHome'
+import { useNavigate } from 'react-router-dom'
 
 export function TeamSwitcher({
   teams
@@ -32,7 +33,7 @@ export function TeamSwitcher({
 }) {
   const { isMobile } = useSidebar()
   const [activeTeam, setActiveTeam] = React.useState(teams.find((r) => r.active) || teams[0])
-
+  const navigate = useNavigate()
   if (!activeTeam) {
     return null
   }
@@ -97,6 +98,7 @@ export function TeamSwitcher({
 
                 controller.getDataAsync().then((data) => {
                   console.log(data)
+
                   window.dispatchEvent(new CustomEvent('reload-workspaces', { detail: {} }))
                 })
               }}

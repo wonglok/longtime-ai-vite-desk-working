@@ -7,9 +7,7 @@ import folder from '../assets/smart-folder.glb?url'
 import { RoundedBoxGeometry } from 'three/examples/jsm/Addons.js'
 import { helvetica } from './helvetica'
 
-const roundedGeo = new RoundedBoxGeometry(6.5, 1, 1, 7, 1 / 4)
-
-export function FolderSelect() {
+export function FolderSelect({}) {
   const glb = useGLTF(`${folder}`)
   const { nodes }: { nodes: Record<string, Mesh> & any } = useGraph(glb.scene)
 
@@ -27,8 +25,6 @@ export function FolderSelect() {
       vertexColors: true,
       side: DoubleSide,
       transmission: 1
-      // emissive: new Color('#000000'),
-      // emissiveIntensity: 0.5
     })
 
     let box = new Mesh(geo, mat)
@@ -49,7 +45,7 @@ export function FolderSelect() {
 
   return (
     <>
-      <group rotation={[0, 0, 0]}>
+      <group rotation={[-0.53, 0, 0]}>
         <Merged
           onLostPointerCapture={(ev) => {
             ev.stopPropagation()
@@ -67,7 +63,7 @@ export function FolderSelect() {
 
             let files = []
             for (let i = -5; i < 5; i++) {
-              files.push(<EachPlane Compo={Box} key={'plane' + i} n={6} i={i}></EachPlane>)
+              files.push(<EachPlane Compo={Box} key={'plane' + i} n={11} i={i}></EachPlane>)
             }
 
             return (
@@ -80,41 +76,9 @@ export function FolderSelect() {
             )
           }}
         </Merged>
-
-        <group position={[0, -0.65, 0]} rotation={[-0.25, 0, 0]}>
-          <group position={[0, 0, -0.05]}>
-            <CenterMe>
-              <mesh geometry={roundedGeo} scale={[1, 1, 0.1]}>
-                <meshStandardMaterial
-                  roughness={0}
-                  metalness={1}
-                  color={'#3c3c3c'}
-                ></meshStandardMaterial>
-              </mesh>
-            </CenterMe>
-          </group>
-
-          <CenterMe>
-            <Text3D size={0.5} height={0.05} font={helvetica as any}>
-              {`Select your folder`}
-
-              <meshStandardMaterial emissive={'#ffffff'}></meshStandardMaterial>
-            </Text3D>
-          </CenterMe>
-        </group>
       </group>
     </>
   )
-}
-
-function CenterMe({ children }) {
-  let [key, setKey] = useState('123')
-
-  useEffect(() => {
-    setKey(Math.random() + '')
-  }, [children])
-
-  return <Center key={key}>{children}</Center>
 }
 
 function EachPlane({
@@ -138,15 +102,13 @@ function EachPlane({
 
   useFrame((_, dt) => {
     ref.current.position.y =
-      Math.sin(_.clock.elapsedTime * 1.5 + (i / n) * Math.PI * -2 * 0.5) * 0.3
+      Math.sin(_.clock.elapsedTime * 1.5 + (i / n) * Math.PI * -2 * 0.5) * 0.1
 
-    ref.current.position.y =
-      Math.sin(_.clock.elapsedTime * 1.5 + (i / n) * Math.PI * -2 * 0.5) * 0.3
+    ref.current.position.x = i * (-0.15 + -0.05 * Math.cos(_.clock.elapsedTime * 1.5)) * 0.15
 
-    ref.current.position.x = i * -(0.1 + 0.1 * Math.sin(_.clock.elapsedTime * 1.5) * 2)
-
-    ref.current.rotation.z = Math.PI * 0.025 * i * Math.sin(_.clock.elapsedTime * 0.5) * 1.5
+    ref.current.rotation.z = Math.PI * 0.05 * i
   })
+
   return (
     <Compo
       ref={ref}

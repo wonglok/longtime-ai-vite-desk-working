@@ -19,7 +19,6 @@
 // export type ExecStep = z.infer<typeof SkillNode>
 
 // export const runSkill = async ({ checkAborted, onEvent, inbound, randID }) => {
-//   const docs = app.getPath('documents')
 
 //   const workspace = `${docs}/ai-home`
 //   const projectHome = `${docs}/ai-home/${inbound.folder}`

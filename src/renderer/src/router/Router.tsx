@@ -122,7 +122,7 @@ export const AppRouter = () => {
 
 function NamedParams({ children = (v: any) => {} }: any) {
   let params: any = useParams()
-  console.log(params)
+  // console.log(params)
   return children(params)
 }
 

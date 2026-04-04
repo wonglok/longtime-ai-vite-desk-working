@@ -4,13 +4,13 @@ import { OneStep, writeCode } from './subagents/writeCode'
 import { writeFile } from 'fs/promises'
 import path from 'path'
 import { readFile } from 'fs/promises'
+import { WorkSpacesPath } from '../server/workspace/constants'
 
 const FailCounter = {}
 export const runAgent = async ({ done, plan, checkAborted, onEvent, inbound, randID }) => {
   FailCounter[randID] = FailCounter[randID] || 0
 
-  const docs = app.getPath('documents')
-  const workspace = `${docs}/ai-home/apps/${inbound.appName}`
+  const workspace = `${WorkSpacesPath}/apps/${inbound.appName}`
   await makeDirectory(workspace)
 
   if (checkAborted()) {

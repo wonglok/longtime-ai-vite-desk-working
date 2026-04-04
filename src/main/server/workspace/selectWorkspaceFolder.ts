@@ -3,9 +3,10 @@
 // import { join } from 'path'
 // import { scanFolder } from './utils/getSummary'
 // import { readFile, writeFile } from 'fs/promises'
-import { dialog } from 'electron'
-// import { WorkSpacesPath } from './constants'
-// import { listFiles } from '@main/agent/utils/listFiles'
+import { app, dialog } from 'electron'
+import { WorkSpacesPath } from './constants'
+import { join } from 'path'
+import { writeFile } from 'fs/promises'
 
 export const selectWorkspaceFolder = async ({
   mainWindow,
@@ -15,42 +16,41 @@ export const selectWorkspaceFolder = async ({
   checkAborted,
   onEvent
 }) => {
-  //   //
-  //   const aiIndex = join(WorkSpacesPath, `${inbound.workspace}`, `ai-index`)
-  //   const aiMemory = join(WorkSpacesPath, `${inbound.workspace}`, `ai-memory`)
-  //   const vectorDatabasePath = join(aiIndex, 'vector-database.json')
-  //   let defaultData = { files: [] }
+  //
 
-  //   let vectorDatabaseData = { ...defaultData }
+  let dir = await dialog
+    .showOpenDialog(mainWindow, {
+      defaultPath: app.getPath('documents'),
+      title: 'Select a Folder for AI to use',
+      properties: ['openDirectory', 'createDirectory', 'dontAddToRecent']
+    })
+    .then((data) => {
+      //
+      console.log(data)
 
-  //   await makeDirectory(aiIndex)
-  //   await makeDirectory(aiMemory)
+      return data
+    })
 
-  //   try {
-  //     let str = await readFile(vectorDatabasePath, 'utf8')
-  //     try {
-  //       vectorDatabaseData = JSON.parse(str)
-  //     } catch (e) {
-  //       dialog.showErrorBox('Error', 'Cannot Parse AI Memory JSON')
-  //     }
-  //   } catch (e) {
-  //     await writeFile(vectorDatabasePath, JSON.stringify(defaultData, null, '\t'), {
-  //       encoding: 'utf8'
-  //     })
+  if (!dir.canceled && dir.filePaths[0]) {
+    //
+    let firstFolder = dir.filePaths[0]
 
-  //     let str = await readFile(vectorDatabasePath, 'utf8')
-  //     vectorDatabaseData = JSON.parse(str)
-  //     console.log(e)
-  //   }
+    console.log(firstFolder)
 
-  //   console.log(vectorDatabaseData)
+    // setPath(firstFolder)
 
-  //   const files = await listFiles(join(WorkSpacesPath, `${inbound.workspace}`))
-  //   onEvent({ type: 'files', files: files })
+    await writeFile(
+      join(WorkSpacesPath, `${inbound.workspace}`, `workspace-path.txt`),
+      firstFolder,
+      {
+        encoding: 'utf-8'
+      }
+    )
 
-  dialog.showOpenDialog(mainWindow, {})
+    onEvent({ type: 'saved', saved: true })
+
+    //
+  }
 
   //
 }
-
-//

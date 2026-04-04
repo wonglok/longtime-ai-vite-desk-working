@@ -4,13 +4,13 @@ import { makeDirectory } from 'make-dir'
 // import { developCode } from './subagents/developCode'
 import { writePlan } from './subagents/writePlan'
 import { runAgent } from './runAgent'
+import { WorkSpacesPath } from '../server/workspace/constants'
 // import { initProject } from './subagents/initProject'
 // import { readFile, writeFile } from 'fs/promises'
 // import { join } from 'path'
 
 export const runAppPlanner = async ({ done, checkAborted, onEvent, inbound, randID }) => {
-  const docs = app.getPath('documents')
-  const workspace = `${docs}/ai-home/apps/${inbound.appName}`
+  const workspace = `${WorkSpacesPath}/apps/${inbound.appName}`
   await makeDirectory(workspace)
 
   const [{ plan }] = await Promise.all([

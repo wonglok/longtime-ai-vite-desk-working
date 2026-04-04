@@ -1,8 +1,8 @@
 import { app } from 'electron'
 import fs from 'fs'
 import path from 'path'
-export const DocPath = app.getPath('documents')
-export const WorkSpacesPath = `${DocPath}/ai-home/workspaces/`
+export const AppDataPath = app.getPath('appData')
+export const WorkSpacesPath = `${AppDataPath}/ai-home/workspaces/`
 
 export function getDirectoriesSync(dirPath) {
   return fs.readdirSync(dirPath).filter(function (file) {
