@@ -149,20 +149,23 @@ export function PageSelectFolder({ workspace }) {
                 </Box>
               </>
             )}
-
-            {/* @ts-ignore */}
-            <Box centerAnchor margin={0.1}>
-              <group onClick={onNextPage}>
-                <GeneralButton
-                  title={'Next'}
-                  bgNormal={'#b9ffc1'}
-                  bgHover={'#575757'}
-                  textNormal={'#323232'}
-                  textHover={'#ffffff'}
-                  width={3}
-                ></GeneralButton>
-              </group>
-            </Box>
+            {folder && (
+              <>
+                {/* @ts-ignore */}
+                <Box centerAnchor margin={0.1}>
+                  <group onClick={onNextPage}>
+                    <GeneralButton
+                      title={'Next'}
+                      bgNormal={'#b9ffc1'}
+                      bgHover={'#575757'}
+                      textNormal={'#323232'}
+                      textHover={'#ffffff'}
+                      width={3}
+                    ></GeneralButton>
+                  </group>
+                </Box>
+              </>
+            )}
           </Flex>
         </CenterMe>
       </group>
