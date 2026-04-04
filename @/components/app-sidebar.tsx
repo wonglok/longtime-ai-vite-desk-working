@@ -402,26 +402,28 @@ export function AppSidebar({
   }, [name])
 
   return (
-    <Sidebar collapsible="icon" {...props} className="relative">
+    <Sidebar collapsible="none" {...props} className="relative h-screen">
       <>{/* <img src={electronSVG} /> */}</>
 
-      <SidebarHeader>
-        <TeamSwitcher key={JSON.stringify(workspaces)} teams={workspaces} />
-      </SidebarHeader>
-      <SidebarContent>
-        <NavMain items={mainMenu} />
-        <NavProjects projects={subMenu} />
-      </SidebarContent>
-      <SidebarFooter>
-        <NavUser
-          user={{
-            name: 'HyperEgg AI Folder',
-            email: 'AI Smart Folder',
-            avatar: '/avatars/shadcn.jpg'
-          }}
-        />
-      </SidebarFooter>
-      <SidebarRail />
+      <div className=" relative">
+        <SidebarHeader>
+          <TeamSwitcher key={JSON.stringify(workspaces)} teams={workspaces} />
+        </SidebarHeader>
+        <SidebarContent>
+          <NavMain items={mainMenu} />
+          <NavProjects projects={subMenu} />
+        </SidebarContent>
+        <SidebarFooter className="h-full">
+          {/* <NavUser
+            user={{
+              name: 'HyperEgg AI Folder',
+              email: 'AI Smart Folder',
+              avatar: '/avatars/shadcn.jpg'
+            }}
+          /> */}
+        </SidebarFooter>
+        {/* <SidebarRail /> */}
+      </div>
     </Sidebar>
   )
 }
