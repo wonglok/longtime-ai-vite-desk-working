@@ -46,7 +46,36 @@ const init = (set, get) => {
 
     workspace: '',
 
-    pageAt: 'home'
+    pageAt: '',
+
+    folder: '',
+    loadFolderConfig: async ({}) => {
+      window.api.askAI(
+        {
+          route: 'checkWorkspaceFolder',
+          workspace: get().workspace
+        },
+        (stream) => {
+          const resp = JSON.parse(stream)
+
+          console.log('checkWorkspaceFolder', resp)
+
+          if (resp.folder) {
+            set({
+              folder: resp.folder,
+              pageAt: 'view-files'
+            })
+          } else {
+            set({
+              folder: resp.folder,
+              pageAt: 'home'
+            })
+          }
+        }
+      )
+
+      return
+    }
   }
 }
 export const useHome = create<ReturnType<typeof init>>(init)

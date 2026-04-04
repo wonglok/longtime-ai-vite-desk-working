@@ -11,11 +11,21 @@ import hdr from '../../ui/workspace/3d/assets/factory.hdr?url'
 import { PageSelectFolder } from './PageSelectFolder/PageSelectFolder'
 import { useHome } from './useHome'
 import { PageViewFiles } from './PageViewFiles/PageViewFiles'
-import { Suspense } from 'react'
+import { Suspense, useEffect, useMemo } from 'react'
 // import { CenterMe } from './ProcedureModules/CenterMe'
 // import desk from './assets/room/desk-transformed.glb?url'
 
 export function HyperHome({ workspaceName = '' }) {
+  //
+
+  useEffect(() => {
+    useHome.setState({
+      workspace: workspaceName
+    })
+  }, [workspaceName])
+
+  let workspace = useHome((r) => r.workspace)
+
   return (
     <>
       <div className=" w-full h-full from-[#cbe9eb] to-[#4391be] bg-linear-120">
@@ -31,21 +41,28 @@ export function HyperHome({ workspaceName = '' }) {
             ></Environment>
           </Suspense>
 
-          <Pages workspaceName={workspaceName}></Pages>
+          {workspace && <Pages></Pages>}
         </CanvasGPU>
       </div>
     </>
   )
 }
 
-function Pages({ workspaceName }) {
+function Pages({}) {
   let pageAt = useHome((r) => r.pageAt)
+  let workspace = useHome((r) => r.workspace)
+  let loadFolderConfig = useHome((r) => r.loadFolderConfig)
+
+  useEffect(() => {
+    //
+    loadFolderConfig({})
+    //
+  }, [workspace])
 
   return (
     <>
-      {/*  */}
-      {pageAt === 'home' && <PageSelectFolder workspace={workspaceName}></PageSelectFolder>}
-      {pageAt === 'view-files' && <PageViewFiles workspace={workspaceName}></PageViewFiles>}
+      {pageAt === 'home' && <PageSelectFolder workspace={workspace}></PageSelectFolder>}
+      {pageAt === 'view-files' && <PageViewFiles workspace={workspace}></PageViewFiles>}
     </>
   )
 }

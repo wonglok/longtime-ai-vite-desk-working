@@ -44,6 +44,7 @@ export const selectWorkspaceFolder = async ({
     )
 
     console.log('selectWorkspaceFolder', firstFolder)
+
     onEvent({ type: 'folder', folder: firstFolder })
 
     return firstFolder

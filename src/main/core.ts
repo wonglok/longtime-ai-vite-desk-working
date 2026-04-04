@@ -6,6 +6,7 @@
 
 import { runAppPlanner } from './agent/runAppPlanner'
 import { checkWorkspace } from './server/workspace/checkWorkspace'
+import { checkWorkspaceFolder } from './server/workspace/checkWorkspaceFolder'
 import { createWorkspace } from './server/workspace/createWorkspace'
 import { listWorkspaces } from './server/workspace/listWorkspaces'
 import { readWorkspaceFiles } from './server/workspace/readWorkspaceFiles'
@@ -135,6 +136,21 @@ export const setupIPCMain = async ({ ipcMain, mainWindow }) => {
 
       if (inbound.route === 'selectWorkspaceFolder') {
         return await selectWorkspaceFolder({
+          mainWindow,
+          event,
+          inbound,
+          randID,
+          checkAborted: () => {
+            return abortedFlags[randID]
+          },
+          onEvent: (ev) => {
+            mainWindow.webContents.send(`askAI-stream${randID}`, JSON.stringify(ev))
+          }
+        })
+      }
+
+      if (inbound.route === 'checkWorkspaceFolder') {
+        return await checkWorkspaceFolder({
           mainWindow,
           event,
           inbound,

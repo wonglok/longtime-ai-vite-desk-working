@@ -34,8 +34,8 @@ export const GeneralButton = ({
       <group
         onPointerEnter={() => {
           let progress = { value: 0 }
-          let bgCol = new Color().set(baseMat.current.color)
-          let texCol = new Color().set(textMat.current.color)
+          let bgCol = new Color().set(baseMat?.current?.color)
+          let texCol = new Color().set(textMat?.current?.color)
 
           gsap
             .to(progress, {
@@ -58,8 +58,8 @@ export const GeneralButton = ({
         }}
         onPointerLeave={() => {
           let progress = { value: 0 }
-          let bgCol = new Color().set(baseMat.current.color)
-          let texCol = new Color().set(textMat.current.color)
+          let bgCol = new Color().set(baseMat?.current?.color)
+          let texCol = new Color().set(textMat?.current?.color)
 
           gsap
             .to(progress, {
