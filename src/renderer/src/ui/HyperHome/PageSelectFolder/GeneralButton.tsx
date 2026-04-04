@@ -79,7 +79,6 @@ export const GeneralButton = ({
             })
             .play()
         }}
-        rotation={[-0.25 * Math.PI, 0, 0]}
       >
         <group scale={0.5}>
           <group position={[0, 0, -0.05]}>

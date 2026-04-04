@@ -86,7 +86,7 @@ export function PageSelectFolder({ workspace }) {
         <Flex centerAnchor justifyContent="center" alignItems="center">
           {/* @ts-ignore */}
           <Box centerAnchor marginBottom={0.2}>
-            <group position={[0, 0, 0]} onClick={onSelectFolder}>
+            <group rotation={[-0.15 * Math.PI, 0, 0]} position={[0, 0, 0]} onClick={onSelectFolder}>
               <GeneralButton
                 title={'Select AI Folder'}
                 bgNormal={'#fff'}
@@ -100,7 +100,7 @@ export function PageSelectFolder({ workspace }) {
 
           {/* @ts-ignore */}
           <Box centerAnchor>
-            <group position={[0, 0, 0.5]} onClick={onNextPage}>
+            <group rotation={[-0.15 * Math.PI, 0, 0]} position={[0, 0, 0.5]} onClick={onNextPage}>
               <GeneralButton
                 title={'Next'}
                 bgNormal={'#fff'}
