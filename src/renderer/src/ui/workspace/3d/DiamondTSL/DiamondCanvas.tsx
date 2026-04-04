@@ -9,7 +9,7 @@ import { RoomFX } from '../RoomFX/RoomFX'
 // import { BloomPipeline } from '../CanvasGPU/BloomPipeline'
 import { EnvLoader } from '../CanvasGPU/EnvLoader'
 // import { BloomPipeline } from '../CanvasGPU/BloomPipeline'
-import hdr from '../assets/factory.hdr?url'
+// import hdr from '../assets/factory.hdr?url'
 
 export function DiamondCanvas({}) {
   //
@@ -30,7 +30,7 @@ export function DiamondCanvas({}) {
               <Diamond></Diamond>
             </Spinner>
             <RoomFX></RoomFX>
-            <EnvLoader url={`${hdr}`}></EnvLoader>
+            <EnvLoader></EnvLoader>
           </Suspense>
         </CanvasGPU>
       </div>
@@ -51,7 +51,7 @@ function Diamond() {
   )
 }
 
-function Spinner({ speedY = 1, children }: { speedY?: number; children?: ReactElement }) {
+export function Spinner({ speedY = 1, children }: { speedY?: number; children?: ReactElement }) {
   let clock = new Timer()
   let ref = useRef<any>(null)
   useFrame((_) => {

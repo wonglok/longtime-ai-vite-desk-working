@@ -14,7 +14,7 @@ import { useTexture } from '@react-three/drei'
 export function DeskMesh() {
   const normalMap = useTexture(normalGL)
   let box = useMemo(() => {
-    let geo = new RoundedBoxGeometry(100, 25, 50, 5, 25)
+    let geo = new RoundedBoxGeometry(25, 15, 12.5, 5, 5)
     geo.computeBoundingBox()
 
     let v3 = new Vector3()

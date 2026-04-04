@@ -17,6 +17,7 @@ import {
   useSidebar
 } from '@/components/ui/sidebar'
 import { MoreHorizontalIcon, FolderIcon, ArrowRightIcon, Trash2Icon } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 export function NavProjects({
   projects
@@ -27,6 +28,7 @@ export function NavProjects({
     icon: React.ReactNode
   }[]
 }) {
+  const navigate = useNavigate()
   const { isMobile } = useSidebar()
 
   return (
@@ -36,10 +38,14 @@ export function NavProjects({
         {projects.map((item) => (
           <SidebarMenuItem key={item.name}>
             <SidebarMenuButton asChild>
-              <a href={item.url}>
+              <span
+                onClick={() => {
+                  navigate(item.url)
+                }}
+              >
                 {item.icon}
                 <span>{item.name}</span>
-              </a>
+              </span>
             </SidebarMenuButton>
             {/* <DropdownMenu>
               <DropdownMenuTrigger asChild>
