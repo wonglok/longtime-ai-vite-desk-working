@@ -18,6 +18,7 @@ import { Flex, Box } from '@react-three/flex'
 import { useHome } from '../useHome'
 import { GeneralButton } from './GeneralButton'
 import { useEffect } from 'react'
+import { OrbitControls } from '@react-three/drei'
 
 export function PageSelectFolder({ workspace }) {
   useEffect(() => {
@@ -55,6 +56,18 @@ export function PageSelectFolder({ workspace }) {
 
   return (
     <>
+      <OrbitControls
+        makeDefault
+        object-position={[0, 3.5, 3.5]}
+        target={[0, 2, 0]}
+        minDistance={3}
+        maxDistance={7}
+        minAzimuthAngle={-0.25 * Math.PI}
+        maxAzimuthAngle={0.25 * Math.PI}
+        maxPolarAngle={0.5 * Math.PI}
+        minPolarAngle={0.25 * Math.PI}
+      ></OrbitControls>
+
       <group
         scale={0.75}
         position={[0, 2, 0]}
