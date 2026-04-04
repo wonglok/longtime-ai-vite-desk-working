@@ -14,11 +14,11 @@ import {
   SidebarRail
 } from '@/components/ui/sidebar'
 import {
-  GalleryVerticalEndIcon,
-  AudioLinesIcon,
-  TerminalIcon,
   TerminalSquareIcon,
   BotIcon,
+  HomeIcon,
+  Building2,
+  LucideLayoutDashboard,
   BookOpenIcon,
   Settings2Icon,
   FrameIcon,
@@ -31,13 +31,13 @@ import {
   SmilePlusIcon,
   SparkleIcon,
   SparklesIcon,
-  HomeIcon,
   WorkflowIcon,
-  Building2,
   SquareActivity,
   LayoutDashboard,
   SquareDashedBottom,
-  LucideLayoutDashboard
+  GalleryVerticalEndIcon,
+  AudioLinesIcon,
+  TerminalIcon
 } from 'lucide-react'
 import { navigate } from 'wouter/use-browser-location'
 import { useHome } from '@renderer/ui/HyperHome/useHome'
