@@ -29,7 +29,8 @@ export function HyperFiles({ workspaceName = '' }) {
   return (
     <>
       <div className=" w-full h-full from-[#cbe9eb] to-[#4391be] bg-linear-120 overflow-hidden">
-        {/* <div className="">Welcome Back! {name}</div> */}
+        {/*  */}
+
         <CanvasGPU>
           <EnvLoader></EnvLoader>
           <Suspense fallback={null}>

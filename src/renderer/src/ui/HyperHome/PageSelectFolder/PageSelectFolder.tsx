@@ -90,6 +90,7 @@ export function PageSelectFolder({ workspace }) {
                 <group
                   scale={0.5}
                   position={[0, 0, 0]}
+                  rotation={[Math.PI * 0.25, 0, 0]}
                   //
                   onClick={onSelectFolder}
                 >

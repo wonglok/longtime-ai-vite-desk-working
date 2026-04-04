@@ -41,12 +41,16 @@ function SideBarContnet({ children }) {
     <>
       {sidebar.open && (
         <>
-          <div className="w-full h-full">{children}</div>
+          <div className="h-screen" style={{ width: `calc(100vw - 256px)` }}>
+            {children}
+          </div>
         </>
       )}
       {!sidebar.open && (
         <>
-          <div className="w-full h-full">{children}</div>
+          <div className="h-screen" style={{ width: `calc(100vw - 256px)` }}>
+            {children}
+          </div>
         </>
       )}
     </>
