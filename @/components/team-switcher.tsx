@@ -18,7 +18,7 @@ import {
   useSidebar
 } from '@/components/ui/sidebar'
 import { ChevronsUpDownIcon, PlusIcon } from 'lucide-react'
-import { useHome } from '@renderer/ui/HyperHome/useHome'
+// import { useHome } from '@renderer/ui/HyperHome/useHome'
 import { useNavigate } from 'react-router-dom'
 
 export function TeamSwitcher({

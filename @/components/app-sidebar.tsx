@@ -210,9 +210,14 @@ export function AppSidebar({
   name = '',
   ...props
 }: React.ComponentProps<typeof Sidebar> & { name?: string }) {
+  //
+
   let [workspaces, setWorkspaces] = React.useState([])
   let [mainMenu, setMainMenu] = React.useState([])
   let [subMenu, setSubMenu] = React.useState([])
+
+  //
+
   React.useEffect(() => {
     let reload = () => {
       const controller = window.api.askAI(
@@ -413,6 +418,7 @@ export function AppSidebar({
           <NavMain items={mainMenu} />
           <NavProjects projects={subMenu} />
         </SidebarContent>
+
         <SidebarFooter className="h-full">
           {/* <NavUser
             user={{

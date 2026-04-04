@@ -21,7 +21,10 @@ export const GeneralButton = ({
 }) => {
   const baseMat = useRef<any>(null)
   const textMat = useRef<any>(null)
-  const roundedGeo = useMemo(() => new RoundedBoxGeometry(width, 1, 1, 7, 1 / 4), [width])
+  const roundedGeo = useMemo(
+    () => new RoundedBoxGeometry(Math.max(width, title.length / 3 + 2), 1, 1, 7, 1 / 4),
+    [width, title]
+  )
 
   const bgNormalColor = useMemo(() => new Color(bgNormal), [])
   const bgHoverColor = useMemo(() => new Color(bgHover), [])
@@ -94,7 +97,7 @@ export const GeneralButton = ({
             </CenterMe>
           </group>
 
-          <CenterMe>
+          <CenterMe key={title}>
             <Text3D size={0.5} height={0.05} font={helvetica as any}>
               {`${title}`}
               <meshStandardMaterial

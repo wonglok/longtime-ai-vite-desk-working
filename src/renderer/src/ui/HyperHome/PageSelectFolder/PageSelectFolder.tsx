@@ -21,6 +21,8 @@ import { useEffect } from 'react'
 import { OrbitControls } from '@react-three/drei'
 
 export function PageSelectFolder({ workspace }) {
+  const folder = useHome((r) => r.folder)
+
   useEffect(() => {
     //
     //
@@ -38,6 +40,12 @@ export function PageSelectFolder({ workspace }) {
       (stream) => {
         const resp = JSON.parse(stream)
         console.log('selectWorkspaceFolder', resp)
+
+        if (resp.folder) {
+          useHome.setState({
+            folder: resp.folder
+          })
+        }
       }
     )
 
@@ -98,9 +106,28 @@ export function PageSelectFolder({ workspace }) {
             </group>
           </Box>
 
+          {folder && (
+            <>
+              {/* @ts-ignore */}
+              <Box centerAnchor>
+                <group rotation={[-0.15 * Math.PI, 0, 0]} position={[0, 0, 0.5]} scale={0.75}>
+                  <GeneralButton
+                    key={folder}
+                    title={`Chosen: ${folder}`}
+                    bgNormal={'#fff'}
+                    bgHover={'#7fd956'}
+                    textNormal={'#000000'}
+                    textHover={'#034616'}
+                    width={3}
+                  ></GeneralButton>
+                </group>
+              </Box>
+            </>
+          )}
+
           {/* @ts-ignore */}
           <Box centerAnchor>
-            <group rotation={[-0.15 * Math.PI, 0, 0]} position={[0, 0, 0.5]} onClick={onNextPage}>
+            <group rotation={[-0.15 * Math.PI, 0, 0]} position={[0, 0, 1]} onClick={onNextPage}>
               <GeneralButton
                 title={'Next'}
                 bgNormal={'#fff'}
