@@ -43,7 +43,7 @@ export function PageViewFiles({ workspace }: { workspace: string }) {
 
         <group rotation={[-0.23 * Math.PI, 0, 0]} position={[0, 0.5, 1]}>
           <GeneralButton
-            title={'Home'}
+            title={'Settings'}
             bgNormal={'#fff'}
             bgHover={'#7fd956'}
             textNormal={'#000000'}

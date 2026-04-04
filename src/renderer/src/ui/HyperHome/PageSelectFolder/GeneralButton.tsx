@@ -21,16 +21,17 @@ export const GeneralButton = ({
 }) => {
   const baseMat = useRef<any>(null)
   const textMat = useRef<any>(null)
+
   const roundedGeo = useMemo(
     () => new RoundedBoxGeometry(Math.max(width, title.length / 3 + 2), 1, 1, 7, 1 / 4),
     [width, title]
   )
 
-  const bgNormalColor = useMemo(() => new Color(bgNormal), [])
-  const bgHoverColor = useMemo(() => new Color(bgHover), [])
+  const bgNormalColor = useMemo(() => new Color(bgNormal), [bgNormal])
+  const bgHoverColor = useMemo(() => new Color(bgHover), [bgHover])
 
-  const textNormalColor = useMemo(() => new Color(textNormal), [])
-  const textHoverColor = useMemo(() => new Color(textHover), [])
+  const textNormalColor = useMemo(() => new Color(textNormal), [textNormal])
+  const textHoverColor = useMemo(() => new Color(textHover), [textHover])
 
   return (
     <>
@@ -88,6 +89,7 @@ export const GeneralButton = ({
             <CenterMe>
               <mesh geometry={roundedGeo} scale={[1, 1, 0.1]}>
                 <meshPhysicalMaterial
+                  color={bgNormalColor}
                   roughness={0.2}
                   metalness={0.0}
                   transmission={1}

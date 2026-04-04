@@ -102,10 +102,10 @@ export function PageSelectFolder({ workspace }) {
               <group onClick={onSelectFolder}>
                 <GeneralButton
                   title={`Select AI Folder`}
-                  bgNormal={'#fff'}
-                  bgHover={'#7fd956'}
-                  textNormal={'#000000'}
-                  textHover={'#034616'}
+                  bgNormal={'#ffecb9'}
+                  bgHover={'#575757'}
+                  textNormal={'#323232'}
+                  textHover={'#ffffff'}
                   width={6.5}
                 ></GeneralButton>
               </group>
@@ -154,10 +154,10 @@ export function PageSelectFolder({ workspace }) {
               <group onClick={onNextPage}>
                 <GeneralButton
                   title={'Next'}
-                  bgNormal={'#fff'}
-                  bgHover={'#7fd956'}
-                  textNormal={'#000000'}
-                  textHover={'#034616'}
+                  bgNormal={'#b9ffc1'}
+                  bgHover={'#575757'}
+                  textNormal={'#323232'}
+                  textHover={'#ffffff'}
                   width={3}
                 ></GeneralButton>
               </group>
