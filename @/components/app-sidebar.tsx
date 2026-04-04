@@ -217,8 +217,6 @@ export function AppSidebar({
   let [mainMenu, setMainMenu] = React.useState([])
   let [subMenu, setSubMenu] = React.useState([])
 
-  //
-
   React.useEffect(() => {
     let reload = () => {
       const controller = window.api.askAI(
@@ -263,8 +261,19 @@ export function AppSidebar({
           .loadFolderConfig({})
           .then((folder) => {
             //
-            console.log(folder)
+            console.log('folder', folder)
+
+            //
+            //
             if (folder) {
+              setSubMenu([
+                {
+                  name: 'LMStudio AI',
+                  url: `/workspace/${name}/setup`,
+                  icon: <BotIcon />
+                }
+              ])
+
               setMainMenu([
                 {
                   title: 'AI Workspace',
@@ -290,6 +299,17 @@ export function AppSidebar({
                 }
               ])
             } else {
+              //
+              setSubMenu([
+                // {
+                //   name: 'LMStudio AI',
+                //   url: `/workspace/${name}/setup`,
+                //   icon: <BotIcon />
+                // }
+              ])
+
+              //
+
               setMainMenu([
                 {
                   title: 'AI Workspace',
@@ -301,12 +321,12 @@ export function AppSidebar({
                     {
                       title: 'Workspace Setup',
                       url: `/workspace/${name}/settings`
-                    },
-
-                    {
-                      title: 'CLI Builder',
-                      url: `/workspace/${name}/cli-builder`
                     }
+
+                    // {
+                    //   title: 'CLI Builder',
+                    //   url: `/workspace/${name}/cli-builder`
+                    // }
                   ]
                 }
               ])
@@ -380,25 +400,18 @@ export function AppSidebar({
         //     }
         //   ]
         // }
-        setSubMenu([
-          {
-            name: 'LMStudio AI',
-            url: `/workspace/${name}/setup`,
-            icon: <BotIcon />
-          }
 
-          // {
-          //   name: 'Sales & Marketing',
-          //   url: '#',
-          //   icon: <PieChartIcon />
-          // },
+        // {
+        //   name: 'Sales & Marketing',
+        //   url: '#',
+        //   icon: <PieChartIcon />
+        // },
 
-          // {
-          //   name: 'Travel',
-          //   url: '#',
-          //   icon: <MapIcon />
-          // }
-        ])
+        // {
+        //   name: 'Travel',
+        //   url: '#',
+        //   icon: <MapIcon />
+        // }
 
         //
       })

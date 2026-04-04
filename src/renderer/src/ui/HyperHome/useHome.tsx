@@ -59,7 +59,7 @@ const init = (set, get) => {
           (stream) => {
             const resp = JSON.parse(stream)
 
-            console.log('checkWorkspaceFolder', resp)
+            // console.log('checkWorkspaceFolder', resp)
 
             set({
               folder: resp.folder

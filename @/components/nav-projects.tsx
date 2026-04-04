@@ -33,7 +33,7 @@ export function NavProjects({
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      <SidebarGroupLabel>AI & Settings</SidebarGroupLabel>
+      {projects.length > 0 && <SidebarGroupLabel>AI & Settings</SidebarGroupLabel>}
       <SidebarMenu>
         {projects.map((item) => (
           <SidebarMenuItem key={item.name}>

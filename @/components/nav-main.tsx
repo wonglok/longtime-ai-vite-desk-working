@@ -28,7 +28,7 @@ export function NavMain({
 }) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>HyperEgg 超能AI蛋</SidebarGroupLabel>
+      <SidebarGroupLabel>HyperEgg AI Folder</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
           <Collapsible
