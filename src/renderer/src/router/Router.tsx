@@ -16,6 +16,8 @@ import { OnBoard } from '@renderer/pages/OnBoard'
 import { WorkspaceLayout } from '@renderer/ui/workspace/WorkspaceParent'
 import { WorkHome } from '@renderer/ui/HyperHome/home'
 import { WorkDesk } from '@renderer/ui/workspace/desk'
+import { HyperHome } from '@renderer/ui/HyperHome/PageSelectFolder/HyperHome'
+import { HyperFiles } from '@renderer/ui/HyperHome/PageViewFiles/HyperFiles'
 // import { SearchBar } from '@renderer/effects/SearchBar'
 
 export const AppRouter = () => {
@@ -77,6 +79,40 @@ export const AppRouter = () => {
                     return (
                       <WorkspaceLayout name={params.name}>
                         <Home></Home>
+                      </WorkspaceLayout>
+                    )
+                  }}
+                </NamedParams>
+              </>
+            }
+          ></Route>
+
+          <Route
+            path="workspace/:name/settings"
+            element={
+              <>
+                <NamedParams>
+                  {(params) => {
+                    return (
+                      <WorkspaceLayout name={params.name}>
+                        <HyperHome workspaceName={params.name}></HyperHome>
+                      </WorkspaceLayout>
+                    )
+                  }}
+                </NamedParams>
+              </>
+            }
+          ></Route>
+
+          <Route
+            path="workspace/:name/files"
+            element={
+              <>
+                <NamedParams>
+                  {(params) => {
+                    return (
+                      <WorkspaceLayout name={params.name}>
+                        <HyperFiles workspaceName={params.name}></HyperFiles>
                       </WorkspaceLayout>
                     )
                   }}

@@ -253,27 +253,6 @@ export function AppSidebar({
           })
         )
 
-        setSubMenu([
-          {
-            name: 'LMStudio AI',
-            url: `/workspace/${name}/setup`,
-            icon: <BotIcon />
-          }
-
-          // {
-          //   name: 'Sales & Marketing',
-          //   url: '#',
-          //   icon: <PieChartIcon />
-          // },
-
-          // {
-          //   name: 'Travel',
-          //   url: '#',
-          //   icon: <MapIcon />
-          // }
-        ])
-
-        //
         setMainMenu([
           {
             title: 'AI Workspace',
@@ -283,9 +262,15 @@ export function AppSidebar({
             //
             items: [
               {
-                title: 'Workspace Home',
-                url: `/workspace/${name}`
+                title: 'Workspace',
+                url: `/workspace/${name}/files`
               },
+              {
+                title: 'Settings',
+                url: `/workspace/${name}/settings`
+              },
+
+              //
               // {
               //   title: 'Desktop',
               //   url: `/workspace/${name}/desktop`
@@ -364,6 +349,28 @@ export function AppSidebar({
           //   ]
           // }
         ])
+
+        setSubMenu([
+          {
+            name: 'LMStudio AI',
+            url: `/workspace/${name}/setup`,
+            icon: <BotIcon />
+          }
+
+          // {
+          //   name: 'Sales & Marketing',
+          //   url: '#',
+          //   icon: <PieChartIcon />
+          // },
+
+          // {
+          //   name: 'Travel',
+          //   url: '#',
+          //   icon: <MapIcon />
+          // }
+        ])
+
+        //
       })
     }
 

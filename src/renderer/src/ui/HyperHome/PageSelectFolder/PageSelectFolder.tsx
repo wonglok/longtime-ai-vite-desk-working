@@ -20,6 +20,7 @@ import { GeneralButton } from './GeneralButton'
 import { useEffect } from 'react'
 import { Center, OrbitControls } from '@react-three/drei'
 import { CenterMe } from './CenterMe'
+import { useNavigate } from 'react-router-dom'
 
 export function PageSelectFolder({ workspace }) {
   const folder = useHome((r) => r.folder)
@@ -53,14 +54,14 @@ export function PageSelectFolder({ workspace }) {
     controller.getDataAsync().then(() => {})
   }
 
+  const navigate = useNavigate()
+
   const onNextPage = (ev) => {
     ev.stopPropagation()
 
     console.log(ev)
 
-    useHome.setState({
-      pageAt: 'view-files'
-    })
+    navigate(`/workspace/${workspace}/files`)
   }
 
   return (

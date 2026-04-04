@@ -4,10 +4,12 @@ import { DiamondCompos } from '@renderer/ui/workspace/3d/DiamondTSL/DiamondCompo
 import { Spinner } from '@renderer/ui/workspace/3d/DiamondTSL/DiamondCanvas'
 import { useHome } from '../useHome'
 import { GeneralButton } from '../PageSelectFolder/GeneralButton'
+import { useNavigate } from 'react-router-dom'
 
 export function PageViewFiles({ workspace }: { workspace: string }) {
   console.log('workspace', workspace)
 
+  let navigate = useNavigate()
   return (
     <>
       <OrbitControls
@@ -31,9 +33,7 @@ export function PageViewFiles({ workspace }: { workspace: string }) {
           //
           scale={1.5}
           onClick={() => {
-            useHome.setState({
-              pageAt: 'home'
-            })
+            navigate(`/workspace/${workspace}`)
           }}
         >
           <Spinner>

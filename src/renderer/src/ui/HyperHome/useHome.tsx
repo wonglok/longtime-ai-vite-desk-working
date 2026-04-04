@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 // import { mindset } from './mindset'
 import moment from 'moment'
+import { Navigate } from 'react-router-dom'
 
 const init = (set, get) => {
   let getSeed = () => {
@@ -46,8 +47,6 @@ const init = (set, get) => {
 
     workspace: '',
 
-    pageAt: '',
-
     folder: '',
     loadFolderConfig: async ({}) => {
       window.api.askAI(
@@ -62,13 +61,11 @@ const init = (set, get) => {
 
           if (resp.folder) {
             set({
-              folder: resp.folder,
-              pageAt: 'view-files'
+              folder: resp.folder
             })
           } else {
             set({
-              folder: resp.folder,
-              pageAt: 'home'
+              folder: resp.folder
             })
           }
         }
