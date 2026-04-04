@@ -16,8 +16,14 @@ import {
   SidebarMenuItem,
   useSidebar
 } from '@/components/ui/sidebar'
-import { MoreHorizontalIcon, FolderIcon, ArrowRightIcon, Trash2Icon } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
+import {
+  MoreHorizontalIcon,
+  FolderIcon,
+  ArrowRightIcon,
+  Trash2Icon,
+  ArrowRight
+} from 'lucide-react'
+import { NavLink, useNavigate } from 'react-router-dom'
 
 export function NavProjects({
   projects
@@ -38,14 +44,25 @@ export function NavProjects({
         {projects.map((item) => (
           <SidebarMenuItem key={item.name}>
             <SidebarMenuButton asChild>
-              <span
+              {/* <span
                 onClick={() => {
                   navigate(item.url)
                 }}
               >
                 {item.icon}
                 <span>{item.name}</span>
-              </span>
+              </span> */}
+
+              <NavLink to={item.url}>
+                {({ isActive }) => (
+                  <span
+                    className={`${'flex items-center justify-center'} ${isActive ? `text-lime-500` : ``}`}
+                  >
+                    {isActive ? <ArrowRight className="mr-1 text-lime-500"></ArrowRight> : ''}
+                    {item.name}
+                  </span>
+                )}
+              </NavLink>
             </SidebarMenuButton>
             {/* <DropdownMenu>
               <DropdownMenuTrigger asChild>
