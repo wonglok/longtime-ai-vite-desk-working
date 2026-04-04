@@ -8,7 +8,7 @@ import {
   BreadcrumbSeparator
 } from '@/components/ui/breadcrumb'
 import { Separator } from '@/components/ui/separator'
-import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import { SidebarInset, SidebarProvider, SidebarTrigger, useSidebar } from '@/components/ui/sidebar'
 
 import 'nprogress/nprogress.css'
 import { useEffect } from 'react'
@@ -27,7 +27,28 @@ export function WorkspaceLayout({ name = '', children }) {
   return (
     <SidebarProvider defaultOpen={true}>
       <AppSidebar name={name} />
-      <SidebarInset>{children}</SidebarInset>
+      <SidebarInset>
+        <SideBarContnet>{children}</SideBarContnet>
+      </SidebarInset>
     </SidebarProvider>
+  )
+}
+
+function SideBarContnet({ children }) {
+  let sidebar = useSidebar()
+
+  return (
+    <>
+      {sidebar.open && (
+        <>
+          <div className="w-full h-full">{children}</div>
+        </>
+      )}
+      {!sidebar.open && (
+        <>
+          <div className="w-full h-full">{children}</div>
+        </>
+      )}
+    </>
   )
 }

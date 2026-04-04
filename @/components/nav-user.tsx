@@ -20,7 +20,8 @@ import {
   BadgeCheckIcon,
   CreditCardIcon,
   BellIcon,
-  LogOutIcon
+  LogOutIcon,
+  HomeIcon
 } from 'lucide-react'
 
 export function NavUser({
@@ -97,8 +98,8 @@ export function NavUser({
             <DropdownMenuSeparator />
             <a href={'#/'}>
               <DropdownMenuItem>
-                <LogOutIcon />
-                Log out
+                <HomeIcon />
+                Home
               </DropdownMenuItem>
             </a>
           </DropdownMenuContent>
