@@ -42,6 +42,283 @@ import {
 import { navigate } from 'wouter/use-browser-location'
 import { useHome } from '@renderer/ui/HyperHome/useHome'
 
+export function AppSidebar({
+  name = '',
+  ...props
+}: React.ComponentProps<typeof Sidebar> & { name?: string }) {
+  //
+
+  let [workspaces, setWorkspaces] = React.useState([])
+  let [mainMenu, setMainMenu] = React.useState([])
+  let [subMenu, setSubMenu] = React.useState([])
+
+  React.useEffect(() => {
+    let reload = () => {
+      const controller = window.api.askAI(
+        {
+          route: 'listWorkspaces'
+        },
+        (stream) => {
+          //
+          const resp = JSON.parse(stream)
+          console.log(resp)
+        }
+      )
+
+      controller.getDataAsync().then((data) => {
+        //
+
+        //
+        setWorkspaces(
+          data.workspaces.map((item) => {
+            let icon = <LucideLayoutDashboard />
+            if (item.name.toLowerCase() === 'personal') {
+              icon = <HomeIcon></HomeIcon>
+            }
+            if (item.name.toLowerCase() === 'work') {
+              icon = <Building2></Building2>
+            }
+            return {
+              active: item.name === name,
+              name: item.name,
+              logo: icon,
+              plan: `Workspace`
+            }
+          })
+        )
+
+        useHome.setState({
+          workspace: name
+        })
+
+        useHome
+          .getState()
+          .loadFolderConfig({})
+          .then((folder) => {
+            //
+            console.log('folder', folder)
+
+            //
+            //
+            if (folder) {
+              setSubMenu([
+                {
+                  name: 'LMStudio AI',
+                  url: `/workspace/${name}/setup`,
+                  icon: <BotIcon />
+                }
+              ])
+
+              setMainMenu([
+                {
+                  title: 'AI Workspace',
+                  url: '#',
+                  icon: <TerminalSquareIcon />,
+                  isActive: true,
+                  //
+                  items: [
+                    {
+                      title: 'Files',
+                      url: `/workspace/${name}/files`
+                    },
+                    {
+                      title: 'Settings',
+                      url: `/workspace/${name}/settings`
+                    },
+
+                    {
+                      title: 'CLI Builder',
+                      url: `/workspace/${name}/cli-builder`
+                    }
+                  ]
+                }
+              ])
+            } else {
+              //
+              setSubMenu([
+                // {
+                //   name: 'LMStudio AI',
+                //   url: `/workspace/${name}/setup`,
+                //   icon: <BotIcon />
+                // }
+              ])
+
+              //
+
+              setMainMenu([
+                {
+                  title: 'AI Workspace',
+                  url: '#',
+                  icon: <TerminalSquareIcon />,
+                  isActive: true,
+                  //
+                  items: [
+                    {
+                      title: 'Workspace Setup',
+                      url: `/workspace/${name}/settings`
+                    }
+
+                    // {
+                    //   title: 'CLI Builder',
+                    //   url: `/workspace/${name}/cli-builder`
+                    // }
+                  ]
+                }
+              ])
+            }
+            //
+          })
+
+        //
+      })
+    }
+
+    //
+
+    reload()
+
+    //
+
+    window.addEventListener('reload-workspaces', reload)
+
+    let timer = setInterval(() => {
+      //
+
+      const controller = window.api.askAI(
+        {
+          route: 'checkWorkspace',
+          folderName: name
+        },
+        (stream) => {
+          //
+          const resp = JSON.parse(stream)
+          console.log(resp)
+        }
+      )
+
+      controller.getDataAsync().then((data) => {
+        if (data.exist === true) {
+        } else {
+          navigate('/')
+        }
+      })
+
+      //
+    }, 1500)
+
+    return () => {
+      clearInterval(timer)
+      window.removeEventListener('reload-workspaces', reload)
+    }
+  }, [name])
+
+  return (
+    <Sidebar collapsible="none" {...props} className="relative h-screen">
+      <>{/* <img src={electronSVG} /> */}</>
+
+      <div className=" relative">
+        <SidebarHeader>
+          <TeamSwitcher key={JSON.stringify(workspaces)} teams={workspaces} />
+        </SidebarHeader>
+        <SidebarContent>
+          <NavMain items={mainMenu} />
+          <NavProjects projects={subMenu} />
+        </SidebarContent>
+
+        <SidebarFooter className="h-full">
+          {/* <NavUser
+            user={{
+              name: 'HyperEgg AI Folder',
+              email: 'AI Smart Folder',
+              avatar: '/avatars/shadcn.jpg'
+            }}
+          /> */}
+        </SidebarFooter>
+        {/* <SidebarRail /> */}
+      </div>
+    </Sidebar>
+  )
+}
+
+// {
+//   title: 'Models',
+//   url: '#',
+//   icon: <BotIcon />,
+//   items: [
+//     {
+//       title: 'Genesis',
+//       url: '#'
+//     },
+//     {
+//       title: 'Explorer',
+//       url: '#'
+//     },
+//     {
+//       title: 'Quantum',
+//       url: '#'
+//     }
+//   ]
+// },
+// {
+//   title: 'Documentation',
+//   url: '#',
+//   icon: <BookOpenIcon />,
+//   items: [
+//     {
+//       title: 'Introduction',
+//       url: '#'
+//     },
+//     {
+//       title: 'Get Started',
+//       url: '#'
+//     },
+//     {
+//       title: 'Tutorials',
+//       url: '#'
+//     },
+//     {
+//       title: 'Changelog',
+//       url: '#'
+//     }
+//   ]
+// },
+//
+// {
+//   title: 'Settings',
+//   url: '#',
+//   icon: <Settings2Icon />,
+//   items: [
+//     {
+//       title: 'General',
+//       url: '#'
+//     },
+//     {
+//       title: 'Team',
+//       url: '#'
+//     },
+//     {
+//       title: 'Billing',
+//       url: '#'
+//     },
+//     {
+//       title: 'Limits',
+//       url: '#'
+//     }
+//   ]
+// }
+
+// {
+//   name: 'Sales & Marketing',
+//   url: '#',
+//   icon: <PieChartIcon />
+// },
+
+// {
+//   name: 'Travel',
+//   url: '#',
+//   icon: <MapIcon />
+// }
+
 // import { DiamondCanvas } from '@renderer/ui/workspace/3d/DiamondTSL/DiamondCanvas'
 
 // import { AuraExample } from '@renderer/effects/AuraExample'
@@ -206,280 +483,3 @@ import { useHome } from '@renderer/ui/HyperHome/useHome'
 //     }
 //   ]
 // }
-
-export function AppSidebar({
-  name = '',
-  ...props
-}: React.ComponentProps<typeof Sidebar> & { name?: string }) {
-  //
-
-  let [workspaces, setWorkspaces] = React.useState([])
-  let [mainMenu, setMainMenu] = React.useState([])
-  let [subMenu, setSubMenu] = React.useState([])
-
-  React.useEffect(() => {
-    let reload = () => {
-      const controller = window.api.askAI(
-        {
-          route: 'listWorkspaces'
-        },
-        (stream) => {
-          //
-          const resp = JSON.parse(stream)
-          console.log(resp)
-        }
-      )
-
-      controller.getDataAsync().then((data) => {
-        //
-
-        //
-        setWorkspaces(
-          data.workspaces.map((item) => {
-            let icon = <LucideLayoutDashboard />
-            if (item.name.toLowerCase() === 'personal') {
-              icon = <HomeIcon></HomeIcon>
-            }
-            if (item.name.toLowerCase() === 'work') {
-              icon = <Building2></Building2>
-            }
-            return {
-              active: item.name === name,
-              name: item.name,
-              logo: icon,
-              plan: `Workspace`
-            }
-          })
-        )
-
-        useHome.setState({
-          workspace: name
-        })
-
-        useHome
-          .getState()
-          .loadFolderConfig({})
-          .then((folder) => {
-            //
-            console.log('folder', folder)
-
-            //
-            //
-            if (folder) {
-              setSubMenu([
-                {
-                  name: 'LMStudio AI',
-                  url: `/workspace/${name}/setup`,
-                  icon: <BotIcon />
-                }
-              ])
-
-              setMainMenu([
-                {
-                  title: 'AI Workspace',
-                  url: '#',
-                  icon: <TerminalSquareIcon />,
-                  isActive: true,
-                  //
-                  items: [
-                    {
-                      title: 'Files',
-                      url: `/workspace/${name}/files`
-                    },
-                    {
-                      title: 'Settings',
-                      url: `/workspace/${name}/settings`
-                    },
-
-                    {
-                      title: 'CLI Builder',
-                      url: `/workspace/${name}/cli-builder`
-                    }
-                  ]
-                }
-              ])
-            } else {
-              //
-              setSubMenu([
-                // {
-                //   name: 'LMStudio AI',
-                //   url: `/workspace/${name}/setup`,
-                //   icon: <BotIcon />
-                // }
-              ])
-
-              //
-
-              setMainMenu([
-                {
-                  title: 'AI Workspace',
-                  url: '#',
-                  icon: <TerminalSquareIcon />,
-                  isActive: true,
-                  //
-                  items: [
-                    {
-                      title: 'Workspace Setup',
-                      url: `/workspace/${name}/settings`
-                    }
-
-                    // {
-                    //   title: 'CLI Builder',
-                    //   url: `/workspace/${name}/cli-builder`
-                    // }
-                  ]
-                }
-              ])
-            }
-            //
-          })
-
-        // {
-        //   title: 'Models',
-        //   url: '#',
-        //   icon: <BotIcon />,
-        //   items: [
-        //     {
-        //       title: 'Genesis',
-        //       url: '#'
-        //     },
-        //     {
-        //       title: 'Explorer',
-        //       url: '#'
-        //     },
-        //     {
-        //       title: 'Quantum',
-        //       url: '#'
-        //     }
-        //   ]
-        // },
-        // {
-        //   title: 'Documentation',
-        //   url: '#',
-        //   icon: <BookOpenIcon />,
-        //   items: [
-        //     {
-        //       title: 'Introduction',
-        //       url: '#'
-        //     },
-        //     {
-        //       title: 'Get Started',
-        //       url: '#'
-        //     },
-        //     {
-        //       title: 'Tutorials',
-        //       url: '#'
-        //     },
-        //     {
-        //       title: 'Changelog',
-        //       url: '#'
-        //     }
-        //   ]
-        // },
-        //
-        // {
-        //   title: 'Settings',
-        //   url: '#',
-        //   icon: <Settings2Icon />,
-        //   items: [
-        //     {
-        //       title: 'General',
-        //       url: '#'
-        //     },
-        //     {
-        //       title: 'Team',
-        //       url: '#'
-        //     },
-        //     {
-        //       title: 'Billing',
-        //       url: '#'
-        //     },
-        //     {
-        //       title: 'Limits',
-        //       url: '#'
-        //     }
-        //   ]
-        // }
-
-        // {
-        //   name: 'Sales & Marketing',
-        //   url: '#',
-        //   icon: <PieChartIcon />
-        // },
-
-        // {
-        //   name: 'Travel',
-        //   url: '#',
-        //   icon: <MapIcon />
-        // }
-
-        //
-      })
-    }
-
-    //
-
-    reload()
-
-    //
-
-    window.addEventListener('reload-workspaces', reload)
-
-    let timer = setInterval(() => {
-      //
-
-      const controller = window.api.askAI(
-        {
-          route: 'checkWorkspace',
-          folderName: name
-        },
-        (stream) => {
-          //
-          const resp = JSON.parse(stream)
-          console.log(resp)
-        }
-      )
-
-      controller.getDataAsync().then((data) => {
-        if (data.exist === true) {
-        } else {
-          navigate('/')
-        }
-      })
-
-      //
-    }, 1500)
-
-    return () => {
-      clearInterval(timer)
-      window.removeEventListener('reload-workspaces', reload)
-    }
-  }, [name])
-
-  return (
-    <Sidebar collapsible="none" {...props} className="relative h-screen">
-      <>{/* <img src={electronSVG} /> */}</>
-
-      <div className=" relative">
-        <SidebarHeader>
-          <TeamSwitcher key={JSON.stringify(workspaces)} teams={workspaces} />
-        </SidebarHeader>
-        <SidebarContent>
-          <NavMain items={mainMenu} />
-          <NavProjects projects={subMenu} />
-        </SidebarContent>
-
-        <SidebarFooter className="h-full">
-          {/* <NavUser
-            user={{
-              name: 'HyperEgg AI Folder',
-              email: 'AI Smart Folder',
-              avatar: '/avatars/shadcn.jpg'
-            }}
-          /> */}
-        </SidebarFooter>
-        {/* <SidebarRail /> */}
-      </div>
-    </Sidebar>
-  )
-}

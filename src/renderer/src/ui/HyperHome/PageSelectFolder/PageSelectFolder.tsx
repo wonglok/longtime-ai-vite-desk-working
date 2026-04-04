@@ -56,10 +56,10 @@ export function PageSelectFolder({ workspace }) {
 
   const navigate = useNavigate()
 
-  const onNextPage = (ev) => {
+  const onEnterPage = (ev) => {
     ev.stopPropagation()
 
-    console.log(ev)
+    window.dispatchEvent(new CustomEvent('reload-workspaces', { detail: {} }))
 
     navigate(`/workspace/${workspace}/files`)
   }
@@ -103,7 +103,7 @@ export function PageSelectFolder({ workspace }) {
               <group onClick={onSelectFolder}>
                 <GeneralButton
                   title={`Select AI Folder`}
-                  bgNormal={'#ffecb9'}
+                  bgNormal={'#b9ffc1'}
                   bgHover={'#575757'}
                   textNormal={'#323232'}
                   textHover={'#ffffff'}
@@ -153,9 +153,9 @@ export function PageSelectFolder({ workspace }) {
               <>
                 {/* @ts-ignore */}
                 <Box centerAnchor margin={0.1}>
-                  <group onClick={onNextPage}>
+                  <group onClick={onEnterPage}>
                     <GeneralButton
-                      title={'Next'}
+                      title={'Enter'}
                       bgNormal={'#b9ffc1'}
                       bgHover={'#575757'}
                       textNormal={'#323232'}
