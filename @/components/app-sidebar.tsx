@@ -40,6 +40,7 @@ import {
   LucideLayoutDashboard
 } from 'lucide-react'
 import { navigate } from 'wouter/use-browser-location'
+import { useHome } from '@renderer/ui/HyperHome/useHome'
 
 // import { DiamondCanvas } from '@renderer/ui/workspace/3d/DiamondTSL/DiamondCanvas'
 
@@ -253,102 +254,132 @@ export function AppSidebar({
           })
         )
 
-        setMainMenu([
-          {
-            title: 'AI Workspace',
-            url: '#',
-            icon: <TerminalSquareIcon />,
-            isActive: true,
+        useHome.setState({
+          workspace: name
+        })
+
+        useHome
+          .getState()
+          .loadFolderConfig({})
+          .then((folder) => {
             //
-            items: [
-              {
-                title: 'Workspace',
-                url: `/workspace/${name}/files`
-              },
-              {
-                title: 'Settings',
-                url: `/workspace/${name}/settings`
-              },
+            console.log(folder)
+            if (folder) {
+              setMainMenu([
+                {
+                  title: 'AI Workspace',
+                  url: '#',
+                  icon: <TerminalSquareIcon />,
+                  isActive: true,
+                  //
+                  items: [
+                    {
+                      title: 'Files',
+                      url: `/workspace/${name}/files`
+                    },
+                    {
+                      title: 'Settings',
+                      url: `/workspace/${name}/settings`
+                    },
 
-              // {
-              //   title: 'Desktop',
-              //   url: `/workspace/${name}/desktop`
-              // },
-              {
-                title: 'CLI Builder',
-                url: `/workspace/${name}/cli-builder`
-              }
-            ]
-          }
+                    {
+                      title: 'CLI Builder',
+                      url: `/workspace/${name}/cli-builder`
+                    }
+                  ]
+                }
+              ])
+            } else {
+              setMainMenu([
+                {
+                  title: 'AI Workspace',
+                  url: '#',
+                  icon: <TerminalSquareIcon />,
+                  isActive: true,
+                  //
+                  items: [
+                    {
+                      title: 'Workspace Setup',
+                      url: `/workspace/${name}/settings`
+                    },
 
-          // {
-          //   title: 'Models',
-          //   url: '#',
-          //   icon: <BotIcon />,
-          //   items: [
-          //     {
-          //       title: 'Genesis',
-          //       url: '#'
-          //     },
-          //     {
-          //       title: 'Explorer',
-          //       url: '#'
-          //     },
-          //     {
-          //       title: 'Quantum',
-          //       url: '#'
-          //     }
-          //   ]
-          // },
-          // {
-          //   title: 'Documentation',
-          //   url: '#',
-          //   icon: <BookOpenIcon />,
-          //   items: [
-          //     {
-          //       title: 'Introduction',
-          //       url: '#'
-          //     },
-          //     {
-          //       title: 'Get Started',
-          //       url: '#'
-          //     },
-          //     {
-          //       title: 'Tutorials',
-          //       url: '#'
-          //     },
-          //     {
-          //       title: 'Changelog',
-          //       url: '#'
-          //     }
-          //   ]
-          // },
-          //
-          // {
-          //   title: 'Settings',
-          //   url: '#',
-          //   icon: <Settings2Icon />,
-          //   items: [
-          //     {
-          //       title: 'General',
-          //       url: '#'
-          //     },
-          //     {
-          //       title: 'Team',
-          //       url: '#'
-          //     },
-          //     {
-          //       title: 'Billing',
-          //       url: '#'
-          //     },
-          //     {
-          //       title: 'Limits',
-          //       url: '#'
-          //     }
-          //   ]
-          // }
-        ])
+                    {
+                      title: 'CLI Builder',
+                      url: `/workspace/${name}/cli-builder`
+                    }
+                  ]
+                }
+              ])
+            }
+            //
+          })
 
+        // {
+        //   title: 'Models',
+        //   url: '#',
+        //   icon: <BotIcon />,
+        //   items: [
+        //     {
+        //       title: 'Genesis',
+        //       url: '#'
+        //     },
+        //     {
+        //       title: 'Explorer',
+        //       url: '#'
+        //     },
+        //     {
+        //       title: 'Quantum',
+        //       url: '#'
+        //     }
+        //   ]
+        // },
+        // {
+        //   title: 'Documentation',
+        //   url: '#',
+        //   icon: <BookOpenIcon />,
+        //   items: [
+        //     {
+        //       title: 'Introduction',
+        //       url: '#'
+        //     },
+        //     {
+        //       title: 'Get Started',
+        //       url: '#'
+        //     },
+        //     {
+        //       title: 'Tutorials',
+        //       url: '#'
+        //     },
+        //     {
+        //       title: 'Changelog',
+        //       url: '#'
+        //     }
+        //   ]
+        // },
+        //
+        // {
+        //   title: 'Settings',
+        //   url: '#',
+        //   icon: <Settings2Icon />,
+        //   items: [
+        //     {
+        //       title: 'General',
+        //       url: '#'
+        //     },
+        //     {
+        //       title: 'Team',
+        //       url: '#'
+        //     },
+        //     {
+        //       title: 'Billing',
+        //       url: '#'
+        //     },
+        //     {
+        //       title: 'Limits',
+        //       url: '#'
+        //     }
+        //   ]
+        // }
         setSubMenu([
           {
             name: 'LMStudio AI',
