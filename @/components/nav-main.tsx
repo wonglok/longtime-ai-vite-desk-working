@@ -9,8 +9,8 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem
 } from '@/components/ui/sidebar'
-import { ChevronRightIcon } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { ArrowRight, ArrowRightSquare, ChevronRightIcon } from 'lucide-react'
+import { Link, NavLink } from 'react-router-dom'
 
 export function NavMain({
   items
@@ -50,9 +50,20 @@ export function NavMain({
                   {item.items?.map((subItem) => (
                     <SidebarMenuSubItem key={subItem.title}>
                       <SidebarMenuSubButton asChild>
-                        <Link to={subItem.url}>
-                          <span>{subItem.title}</span>
-                        </Link>
+                        <NavLink to={subItem.url}>
+                          {({ isActive }) => (
+                            <span
+                              className={`${'flex items-center justify-center'} ${isActive ? `text-lime-500` : ``}`}
+                            >
+                              {isActive ? (
+                                <ArrowRight className="mr-1 text-lime-500"></ArrowRight>
+                              ) : (
+                                ''
+                              )}
+                              {subItem.title}
+                            </span>
+                          )}
+                        </NavLink>
                       </SidebarMenuSubButton>
                     </SidebarMenuSubItem>
                   ))}
