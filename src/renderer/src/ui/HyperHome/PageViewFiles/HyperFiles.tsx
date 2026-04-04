@@ -54,7 +54,11 @@ function Pages({}) {
 
   useEffect(() => {
     //
-    loadFolderConfig({})
+    loadFolderConfig({}).then(() => {
+      //
+      //
+    })
+
     //
   }, [workspace])
 

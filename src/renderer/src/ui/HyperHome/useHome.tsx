@@ -2,6 +2,7 @@ import { create } from 'zustand'
 // import { mindset } from './mindset'
 import moment from 'moment'
 import { Navigate } from 'react-router-dom'
+import { resolve } from 'path'
 
 const init = (set, get) => {
   let getSeed = () => {
@@ -49,29 +50,24 @@ const init = (set, get) => {
 
     folder: '',
     loadFolderConfig: async ({}) => {
-      window.api.askAI(
-        {
-          route: 'checkWorkspaceFolder',
-          workspace: get().workspace
-        },
-        (stream) => {
-          const resp = JSON.parse(stream)
+      return new Promise((resolve) => {
+        window.api.askAI(
+          {
+            route: 'checkWorkspaceFolder',
+            workspace: get().workspace
+          },
+          (stream) => {
+            const resp = JSON.parse(stream)
 
-          console.log('checkWorkspaceFolder', resp)
+            console.log('checkWorkspaceFolder', resp)
 
-          if (resp.folder) {
             set({
               folder: resp.folder
             })
-          } else {
-            set({
-              folder: resp.folder
-            })
+            resolve(resp.folder)
           }
-        }
-      )
-
-      return
+        )
+      })
     }
   }
 }
