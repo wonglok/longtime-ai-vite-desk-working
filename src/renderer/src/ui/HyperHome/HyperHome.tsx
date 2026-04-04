@@ -8,10 +8,11 @@ import { Environment, Gltf, OrbitControls, PerspectiveCamera } from '@react-thre
 import { EnvLoader } from '../workspace/3d/CanvasGPU/EnvLoader'
 // import { toast } from 'sonner'
 import hdr from '../../ui/workspace/3d/assets/factory.hdr?url'
-import { FolderSelect } from './ProcedureModules/FolderSelect'
-import { DeskMesh } from './ProcedureModules/DeskMesh'
+import { FolderSelect } from './PageSelectFolder/FolderSelect'
+import { DeskMesh } from './PageSelectFolder/DeskMesh'
 import { Flex, Box } from '@react-three/flex'
-import { NextButton, SelectButton } from './ProcedureModules/Buttons'
+import { NextButton, SelectButton } from './PageSelectFolder/Buttons'
+import { PageSelectFolder } from './PageSelectFolder/PageSelectFolder'
 // import { CenterMe } from './ProcedureModules/CenterMe'
 // import desk from './assets/room/desk-transformed.glb?url'
 
@@ -24,7 +25,7 @@ export function HyperHome({ workspaceName = '' }) {
           <OrbitControls
             makeDefault
             object-position={[0, 3.5, 3.5]}
-            target={[0, 1.5, 0]}
+            target={[0, 2, 0]}
             minAzimuthAngle={-0.25 * Math.PI}
             maxAzimuthAngle={0.25 * Math.PI}
             maxPolarAngle={0.5 * Math.PI}
@@ -32,6 +33,7 @@ export function HyperHome({ workspaceName = '' }) {
           ></OrbitControls>
 
           <EnvLoader></EnvLoader>
+
           <Environment
             files={[`${hdr}`]}
             backgroundIntensity={0.5}
@@ -49,86 +51,3 @@ export function HyperHome({ workspaceName = '' }) {
     </>
   )
 }
-
-function PageSelectFolder({ workspace }) {
-  const onSelectFolder = (ev) => {
-    ev.stopPropagation()
-
-    const controller = window.api.askAI(
-      {
-        route: 'selectWorkspaceFolder',
-
-        workspace: workspace
-      },
-      (stream) => {
-        const resp = JSON.parse(stream)
-
-        console.log('selectWorkspaceFolder', resp)
-      }
-    )
-
-    controller.getDataAsync().then(() => {})
-  }
-
-  const onNextPage = (ev) => {
-    ev.stopPropagation()
-
-    //
-
-    const controller = window.api.askAI(
-      {
-        route: 'selectWorkspaceFolder',
-
-        workspace: workspace
-      },
-      (stream) => {
-        const resp = JSON.parse(stream)
-
-        console.log('selectWorkspaceFolder', resp)
-      }
-    )
-
-    controller.getDataAsync().then(() => {})
-  }
-
-  return (
-    <>
-      <group
-        scale={0.75}
-        position={[0, 2, 0]}
-        //
-        onClick={onSelectFolder}
-      >
-        <FolderSelect></FolderSelect>
-      </group>
-
-      <DeskMesh></DeskMesh>
-
-      <CallToActions
-        //
-        onSelectFolder={onSelectFolder}
-        onNextPage={onNextPage}
-      ></CallToActions>
-    </>
-  )
-}
-
-const FlexBox: any = Flex
-const Div: any = Box
-
-const CallToActions = ({ onSelectFolder, onNextPage }) => (
-  <group position={[0, 1.0, 0.0]}>
-    <FlexBox centerAnchor justifyContent="center" alignItems="center">
-      <Div centerAnchor marginBottom={0.2}>
-        <group position={[0, 0, 0]} onClick={onSelectFolder}>
-          <SelectButton></SelectButton>
-        </group>
-      </Div>
-      <Div centerAnchor>
-        <group position={[0, 0, 0.5]} onClick={onNextPage}>
-          <NextButton></NextButton>
-        </group>
-      </Div>
-    </FlexBox>
-  </group>
-)

@@ -1,13 +1,14 @@
 import { Center, Merged, Text3D, useGLTF } from '@react-three/drei'
 import { extend, InstanceProps, useFrame, useGraph } from '@react-three/fiber'
 import { FC, ReactNode, useEffect, useMemo, useRef, useState } from 'react'
-import { Color, ColorRepresentation, DoubleSide, Mesh, Object3D } from 'three'
+import { Color, ColorRepresentation, DoubleSide, MathUtils, Mesh, Object3D } from 'three'
 import { MeshPhysicalNodeMaterial } from 'three/webgpu'
 import folder from '../assets/smart-folder.glb?url'
 import { RoundedBoxGeometry } from 'three/examples/jsm/Addons.js'
 import { helvetica } from './helvetica'
 
 export function FolderSelect({}) {
+  const refHover = useRef(0)
   const glb = useGLTF(`${folder}`)
   const { nodes }: { nodes: Record<string, Mesh> & any } = useGraph(glb.scene)
 
@@ -45,7 +46,15 @@ export function FolderSelect({}) {
 
   return (
     <>
-      <group rotation={[-0.53, 0, 0]}>
+      <group
+        rotation={[-0.53, 0, 0]}
+        onPointerEnter={() => {
+          refHover.current = 1
+        }}
+        onPointerLeave={() => {
+          refHover.current = 0
+        }}
+      >
         <Merged
           onLostPointerCapture={(ev) => {
             ev.stopPropagation()
@@ -63,7 +72,9 @@ export function FolderSelect({}) {
 
             let files = []
             for (let i = -5; i < 5; i++) {
-              files.push(<EachPlane Compo={Box} key={'plane' + i} n={11} i={i}></EachPlane>)
+              files.push(
+                <EachPlane hover={refHover} Compo={Box} key={'plane' + i} n={11} i={i}></EachPlane>
+              )
             }
 
             return (
@@ -84,10 +95,12 @@ export function FolderSelect({}) {
 function EachPlane({
   i,
   n,
+  hover,
   Compo
 }: {
   i: number
   n: number
+  hover: { current: number }
   Compo: FC<
     InstanceProps & { ref: any } & {
       rotation: number[]
@@ -99,14 +112,17 @@ function EachPlane({
     any
 }) {
   let ref = useRef<any>(null)
+  let refFade = useRef<any>(0)
 
   useFrame((_, dt) => {
+    refFade.current = MathUtils.lerp(refFade.current, hover.current, 0.1)
+
     ref.current.position.y =
-      Math.sin(_.clock.elapsedTime * 1.5 + (i / n) * Math.PI * -2 * 0.5) * 0.1
+      Math.sin(_.clock.elapsedTime * 1.5 + (i / n) * Math.PI * -2 * 0.5) * 0.2
 
     ref.current.position.x = i * (-0.15 + -0.05 * Math.cos(_.clock.elapsedTime * 1.5)) * 0.15
 
-    ref.current.rotation.z = Math.PI * 0.05 * i
+    ref.current.rotation.z = Math.PI * 0.05 * i + refFade.current * 0.025 * i * Math.PI
   })
 
   return (

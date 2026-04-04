@@ -37,8 +37,6 @@ export const selectWorkspaceFolder = async ({
 
     console.log(firstFolder)
 
-    // setPath(firstFolder)
-
     await writeFile(
       join(WorkSpacesPath, `${inbound.workspace}`, `workspace-path.txt`),
       firstFolder,
