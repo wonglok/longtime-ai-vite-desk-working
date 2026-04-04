@@ -53,6 +53,17 @@ export function PageViewFiles({ workspace }: { workspace: string }) {
         </group>
       </group>
 
+      <group rotation={[-0.23 * Math.PI, 0, 0]} scale={2} position={[0, 0.5, 2]}>
+        <GeneralButton
+          title={`${workspace}`}
+          bgNormal={'#fff'}
+          bgHover={'#00728c'}
+          textNormal={'#000000'}
+          textHover={'#ffffff'}
+          width={3.5}
+        ></GeneralButton>
+      </group>
+
       {/*  */}
 
       {/*  */}
