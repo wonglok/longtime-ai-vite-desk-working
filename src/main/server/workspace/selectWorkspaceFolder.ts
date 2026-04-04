@@ -35,8 +35,6 @@ export const selectWorkspaceFolder = async ({
     //
     let firstFolder = dir.filePaths[0]
 
-    console.log(firstFolder)
-
     await writeFile(
       join(WorkSpacesPath, `${inbound.workspace}`, `workspace-path.txt`),
       firstFolder,
@@ -45,10 +43,13 @@ export const selectWorkspaceFolder = async ({
       }
     )
 
-    onEvent({ type: 'saved', saved: true })
+    console.log('selectWorkspaceFolder', firstFolder)
+    onEvent({ type: 'folder', folder: firstFolder })
 
+    return firstFolder
     //
   }
 
+  return false
   //
 }

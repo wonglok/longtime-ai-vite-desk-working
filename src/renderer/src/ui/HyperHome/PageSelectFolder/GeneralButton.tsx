@@ -1,0 +1,113 @@
+import { Center, Merged, Text3D, useGLTF } from '@react-three/drei'
+// import { extend, InstanceProps, useFrame, useGraph } from '@react-three/fiber'
+import { FC, ReactNode, useEffect, useMemo, useRef, useState } from 'react'
+// import { Color, ColorRepresentation, DoubleSide, Mesh, Object3D } from 'three'
+// import { MeshPhysicalNodeMaterial } from 'three/webgpu'
+// import folder from '../assets/smart-folder.glb?url'
+import { RoundedBoxGeometry } from 'three/examples/jsm/Addons.js'
+import { helvetica } from './fonts/helvetica'
+import { CenterMe } from './CenterMe'
+
+import gsap from 'gsap'
+import { Color } from 'three'
+
+export const GeneralButton = ({
+  title = 'Select AI Folder',
+  bgNormal = '#fff',
+  bgHover = '#5688d9',
+  textNormal = '#000000',
+  textHover = '#040346',
+  width = 6.5
+}) => {
+  const baseMat = useRef<any>(null)
+  const textMat = useRef<any>(null)
+  const roundedGeo = useMemo(() => new RoundedBoxGeometry(width, 1, 1, 7, 1 / 4), [width])
+
+  const bgNormalColor = useMemo(() => new Color(bgNormal), [])
+  const bgHoverColor = useMemo(() => new Color(bgHover), [])
+
+  const textNormalColor = useMemo(() => new Color(textNormal), [])
+  const textHoverColor = useMemo(() => new Color(textHover), [])
+
+  return (
+    <>
+      <group
+        onPointerEnter={() => {
+          let progress = { value: 0 }
+          let bgCol = new Color().set(baseMat.current.color)
+          let texCol = new Color().set(textMat.current.color)
+
+          gsap
+            .to(progress, {
+              value: 1,
+              duration: 0.5,
+              ease: 'expo.inOut',
+              onUpdate: () => {
+                bgCol.lerpHSL(bgHoverColor, progress.value)
+                texCol.lerpHSL(textHoverColor, progress.value)
+                if (baseMat.current) {
+                  baseMat.current.color.copy(bgCol)
+                }
+
+                if (textMat.current) {
+                  textMat.current.color.copy(texCol)
+                }
+              }
+            })
+            .play()
+        }}
+        onPointerLeave={() => {
+          let progress = { value: 0 }
+          let bgCol = new Color().set(baseMat.current.color)
+          let texCol = new Color().set(textMat.current.color)
+
+          gsap
+            .to(progress, {
+              value: 1,
+              duration: 0.5,
+              ease: 'expo.inOut',
+              onUpdate: () => {
+                bgCol.lerpHSL(bgNormalColor, progress.value)
+                texCol.lerpHSL(textNormalColor, progress.value)
+                if (baseMat.current) {
+                  baseMat.current.color.copy(bgCol)
+                }
+                if (textMat.current) {
+                  textMat.current.color.copy(texCol)
+                }
+              }
+            })
+            .play()
+        }}
+        rotation={[-0.25 * Math.PI, 0, 0]}
+      >
+        <group scale={0.5}>
+          <group position={[0, 0, -0.05]}>
+            <CenterMe>
+              <mesh geometry={roundedGeo} scale={[1, 1, 0.1]}>
+                <meshPhysicalMaterial
+                  roughness={0.2}
+                  metalness={0.0}
+                  transmission={1}
+                  ref={baseMat}
+                ></meshPhysicalMaterial>
+              </mesh>
+            </CenterMe>
+          </group>
+
+          <CenterMe>
+            <Text3D size={0.5} height={0.05} font={helvetica as any}>
+              {`${title}`}
+              <meshStandardMaterial
+                color={textNormalColor}
+                metalness={0.2}
+                roughness={1}
+                ref={textMat}
+              ></meshStandardMaterial>
+            </Text3D>
+          </CenterMe>
+        </group>
+      </group>
+    </>
+  )
+}

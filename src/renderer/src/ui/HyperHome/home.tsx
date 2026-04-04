@@ -12,6 +12,8 @@ import {
 // SidebarInset, SidebarProvider,
 import { SidebarTrigger } from '@/components/ui/sidebar'
 import { AuraBar } from '@renderer/effects/AuraBar'
+
+//
 import { HyperHome } from './HyperHome'
 
 export function WorkHome({ name }) {

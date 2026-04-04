@@ -1,11 +1,11 @@
-import { Center, Merged, Text3D, useGLTF } from '@react-three/drei'
-import { extend, InstanceProps, useFrame, useGraph } from '@react-three/fiber'
-import { FC, ReactNode, useEffect, useMemo, useRef, useState } from 'react'
-import { Color, ColorRepresentation, DoubleSide, MathUtils, Mesh, Object3D } from 'three'
+import { Merged, useGLTF } from '@react-three/drei'
+import { InstanceProps, useFrame, useGraph } from '@react-three/fiber'
+import { FC, ReactNode, useMemo, useRef } from 'react'
+import { Color, ColorRepresentation, DoubleSide, MathUtils, Mesh } from 'three'
 import { MeshPhysicalNodeMaterial } from 'three/webgpu'
-import folder from '../assets/smart-folder.glb?url'
+import folder from './smart-folder.glb?url'
 import { RoundedBoxGeometry } from 'three/examples/jsm/Addons.js'
-import { helvetica } from './helvetica'
+// import { helvetica } from './helvetica'
 
 export function FolderSelect({}) {
   const refHover = useRef(0)

@@ -15,9 +15,16 @@
 import { FolderSelect } from './FolderSelect'
 import { DeskMesh } from './DeskMesh'
 import { Flex, Box } from '@react-three/flex'
-import { NextButton, SelectButton } from './Buttons'
+import { useHome } from '../useHome'
+import { GeneralButton } from './GeneralButton'
+import { useEffect } from 'react'
 
 export function PageSelectFolder({ workspace }) {
+  useEffect(() => {
+    //
+    //
+  }, [])
+
   const onSelectFolder = (ev) => {
     ev.stopPropagation()
 
@@ -29,7 +36,6 @@ export function PageSelectFolder({ workspace }) {
       },
       (stream) => {
         const resp = JSON.parse(stream)
-
         console.log('selectWorkspaceFolder', resp)
       }
     )
@@ -41,6 +47,10 @@ export function PageSelectFolder({ workspace }) {
     ev.stopPropagation()
 
     console.log(ev)
+
+    useHome.setState({
+      pageAt: 'view-files'
+    })
   }
 
   return (
@@ -56,19 +66,36 @@ export function PageSelectFolder({ workspace }) {
 
       <DeskMesh></DeskMesh>
 
+      {/*  */}
       <group position={[0, 1.0, 0.0]}>
+        {/*  */}
         {/* @ts-ignore */}
         <Flex centerAnchor justifyContent="center" alignItems="center">
           {/* @ts-ignore */}
           <Box centerAnchor marginBottom={0.2}>
             <group position={[0, 0, 0]} onClick={onSelectFolder}>
-              <SelectButton></SelectButton>
+              <GeneralButton
+                title={'Select AI Folder'}
+                bgNormal={'#fff'}
+                bgHover={'#7fd956'}
+                textNormal={'#000000'}
+                textHover={'#034616'}
+                width={6.5}
+              ></GeneralButton>
             </group>
           </Box>
+
           {/* @ts-ignore */}
           <Box centerAnchor>
             <group position={[0, 0, 0.5]} onClick={onNextPage}>
-              <NextButton></NextButton>
+              <GeneralButton
+                title={'Next'}
+                bgNormal={'#fff'}
+                bgHover={'#7fd956'}
+                textNormal={'#000000'}
+                textHover={'#034616'}
+                width={3}
+              ></GeneralButton>
             </group>
           </Box>
         </Flex>

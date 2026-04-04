@@ -1,19 +1,37 @@
 import { useMemo } from 'react'
 import { RoundedBoxGeometry } from 'three/examples/jsm/Addons.js'
-import { DoubleSide, Mesh, MeshPhysicalNodeMaterial } from 'three/webgpu'
+import {
+  DoubleSide,
+  Mesh,
+  MeshPhysicalNodeMaterial,
+  RepeatWrapping,
+  SRGBColorSpace,
+  Vector3
+} from 'three/webgpu'
+import normalGL from './Chip005_4K-PNG_NormalGL.png?url'
+import { useTexture } from '@react-three/drei'
 
 export function DeskMesh() {
+  const normalMap = useTexture(normalGL)
   let box = useMemo(() => {
-    let geo = new RoundedBoxGeometry(14, 0.1, 10, 7, 0.5)
+    let geo = new RoundedBoxGeometry(100, 25, 50, 5, 25)
+    geo.computeBoundingBox()
 
-    geo.translate(0, 0, 0)
-    geo.scale(1, 1, 1)
+    let v3 = new Vector3()
+    geo.boundingBox.getSize(v3)
+    geo.translate(0, 0, -v3.z / 4)
+    geo.scale(1, 1 / 50, 1)
+
+    normalMap.repeat.set(1, 0.5).multiplyScalar(2)
+
+    normalMap.wrapS = normalMap.wrapT = RepeatWrapping
 
     let mat = new MeshPhysicalNodeMaterial({
       //
-      roughness: 0.5,
-      metalness: 0.3,
-      color: '#f7e5c9',
+      normalMap: normalMap,
+      roughness: 0.2,
+      metalness: 0.8,
+      color: '#f3c78d',
       vertexColors: true,
       side: DoubleSide,
       transmission: 0.7

@@ -44,7 +44,9 @@ const init = (set, get) => {
 
     gate: '',
 
-    workspace: ''
+    workspace: '',
+
+    pageAt: 'home'
   }
 }
 export const useHome = create<ReturnType<typeof init>>(init)
