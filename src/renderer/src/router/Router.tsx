@@ -18,6 +18,7 @@ import { WorkDesk } from '@renderer/ui/workspace/desk'
 import { HyperHome } from '@renderer/ui/HyperHome/PageSelectFolder/HyperHome'
 import { HyperFiles } from '@renderer/ui/HyperHome/PageViewFiles/HyperFiles'
 import { useEffect } from 'react'
+import { useHome } from '@renderer/ui/HyperHome/useHome'
 // import { SearchBar } from '@renderer/effects/SearchBar'
 
 export const AppRouter = () => {
@@ -131,8 +132,7 @@ export const AppRouter = () => {
 
                     return (
                       <WorkspaceLayout name={params.name}>
-                        <RedirectArea workspace={params.name}></RedirectArea>
-                        {/* <WorkHome name={params.name}></WorkHome> */}
+                        <RedirectToHyper workspace={params.name}></RedirectToHyper>
                       </WorkspaceLayout>
                     )
                   }}
@@ -157,11 +157,25 @@ export const AppRouter = () => {
   )
 }
 
-function RedirectArea({ workspace = '' }) {
+function RedirectToHyper({ workspace = '' }) {
   let navigate = useNavigate()
 
   useEffect(() => {
-    navigate(`/workspace/${workspace}/settings`)
+    useHome
+      .getState()
+      .loadFolderConfig({})
+      .then((data) => {
+        //
+        // console.log('redirect folder', data)
+        //
+
+        if (data) {
+          navigate(`/workspace/${workspace}/files`)
+        } else {
+          navigate(`/workspace/${workspace}/settings`)
+        }
+        //
+      })
   }, [])
   //
 
