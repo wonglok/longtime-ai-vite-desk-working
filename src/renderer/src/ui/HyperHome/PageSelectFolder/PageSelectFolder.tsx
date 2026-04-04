@@ -18,7 +18,8 @@ import { Flex, Box } from '@react-three/flex'
 import { useHome } from '../useHome'
 import { GeneralButton } from './GeneralButton'
 import { useEffect } from 'react'
-import { OrbitControls } from '@react-three/drei'
+import { Center, OrbitControls } from '@react-three/drei'
+import { CenterMe } from './CenterMe'
 
 export function PageSelectFolder({ workspace }) {
   const folder = useHome((r) => r.folder)
@@ -76,69 +77,93 @@ export function PageSelectFolder({ workspace }) {
         minPolarAngle={0.25 * Math.PI}
       ></OrbitControls>
 
-      <group
-        scale={0.75}
-        position={[0, 2, 0]}
-        //
-        onClick={onSelectFolder}
-      >
-        <FolderSelect></FolderSelect>
-      </group>
-
       <DeskMesh></DeskMesh>
 
-      {/*  */}
-      <group position={[0, 1.0, 0.0]}>
-        {/*  */}
-        {/* @ts-ignore */}
-        <Flex centerAnchor justifyContent="center" alignItems="center">
+      <group rotation={[Math.PI * -0.15, 0, 0]} position={[0, 2, 0.0]}>
+        <CenterMe>
           {/* @ts-ignore */}
-          <Box centerAnchor marginBottom={0.2}>
-            <group rotation={[-0.15 * Math.PI, 0, 0]} position={[0, 0, 0]} onClick={onSelectFolder}>
-              <GeneralButton
-                title={'Select AI Folder'}
-                bgNormal={'#fff'}
-                bgHover={'#7fd956'}
-                textNormal={'#000000'}
-                textHover={'#034616'}
-                width={6.5}
-              ></GeneralButton>
-            </group>
-          </Box>
-
-          {folder && (
-            <>
-              {/* @ts-ignore */}
-              <Box centerAnchor>
-                <group rotation={[-0.15 * Math.PI, 0, 0]} position={[0, 0, 0.5]} scale={0.75}>
-                  <GeneralButton
-                    key={folder}
-                    title={`Chosen: ${folder}`}
-                    bgNormal={'#fff'}
-                    bgHover={'#7fd956'}
-                    textNormal={'#000000'}
-                    textHover={'#034616'}
-                    width={3}
-                  ></GeneralButton>
+          <Flex centerAnchor justifyContent="center" alignItems="center">
+            {/* @ts-ignore */}
+            <Box centerAnchor margin={0.1}>
+              <group onClick={onSelectFolder}>
+                <group
+                  scale={0.5}
+                  position={[0, 0, 0]}
+                  //
+                  onClick={onSelectFolder}
+                >
+                  <FolderSelect></FolderSelect>
                 </group>
-              </Box>
-            </>
-          )}
+              </group>
+            </Box>
 
-          {/* @ts-ignore */}
-          <Box centerAnchor>
-            <group rotation={[-0.15 * Math.PI, 0, 0]} position={[0, 0, 1]} onClick={onNextPage}>
-              <GeneralButton
-                title={'Next'}
-                bgNormal={'#fff'}
-                bgHover={'#7fd956'}
-                textNormal={'#000000'}
-                textHover={'#034616'}
-                width={3}
-              ></GeneralButton>
-            </group>
-          </Box>
-        </Flex>
+            {/* @ts-ignore */}
+            <Box centerAnchor margin={0.1}>
+              <group onClick={onSelectFolder}>
+                <GeneralButton
+                  title={`Select AI Folder`}
+                  bgNormal={'#fff'}
+                  bgHover={'#7fd956'}
+                  textNormal={'#000000'}
+                  textHover={'#034616'}
+                  width={6.5}
+                ></GeneralButton>
+              </group>
+            </Box>
+
+            {workspace && (
+              <>
+                {/* @ts-ignore */}
+                <Box centerAnchor margin={0.1}>
+                  <group scale={0.5}>
+                    <GeneralButton
+                      key={workspace}
+                      title={`Workspace: ${workspace}`}
+                      bgNormal={'#ffffff'}
+                      bgHover={'#ffffff'}
+                      textNormal={'#000000'}
+                      textHover={'#000000'}
+                      width={3}
+                    ></GeneralButton>
+                  </group>
+                </Box>
+              </>
+            )}
+
+            {folder && (
+              <>
+                {/* @ts-ignore */}
+                <Box centerAnchor margin={0.1}>
+                  <group scale={0.5}>
+                    <GeneralButton
+                      key={folder}
+                      title={`Chosen: ${folder}`}
+                      bgNormal={'#ffffff'}
+                      bgHover={'#ffffff'}
+                      textNormal={'#000000'}
+                      textHover={'#000000'}
+                      width={3}
+                    ></GeneralButton>
+                  </group>
+                </Box>
+              </>
+            )}
+
+            {/* @ts-ignore */}
+            <Box centerAnchor margin={0.1}>
+              <group onClick={onNextPage}>
+                <GeneralButton
+                  title={'Next'}
+                  bgNormal={'#fff'}
+                  bgHover={'#7fd956'}
+                  textNormal={'#000000'}
+                  textHover={'#034616'}
+                  width={3}
+                ></GeneralButton>
+              </group>
+            </Box>
+          </Flex>
+        </CenterMe>
       </group>
     </>
   )

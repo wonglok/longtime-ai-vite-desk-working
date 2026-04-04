@@ -5,6 +5,7 @@ import { Color, ColorRepresentation, DoubleSide, MathUtils, Mesh } from 'three'
 import { MeshPhysicalNodeMaterial } from 'three/webgpu'
 import folder from './smart-folder.glb?url'
 import { RoundedBoxGeometry } from 'three/examples/jsm/Addons.js'
+import { CenterMe } from './CenterMe'
 // import { helvetica } from './helvetica'
 
 export function FolderSelect({}) {
@@ -46,48 +47,56 @@ export function FolderSelect({}) {
 
   return (
     <>
-      <group
-        rotation={[-0.53, 0, 0]}
-        onPointerEnter={() => {
-          refHover.current = 1
-        }}
-        onPointerLeave={() => {
-          refHover.current = 0
-        }}
-      >
-        <Merged
-          onLostPointerCapture={(ev) => {
-            ev.stopPropagation()
+      <CenterMe>
+        <group
+          rotation={[-0.53, 0, 0]}
+          onPointerEnter={() => {
+            refHover.current = 1
           }}
-          meshes={{
-            ['folder-front']: new Mesh(nodes['folder-front'].geometry, mat),
-            ['folder-back']: new Mesh(nodes['folder-back'].geometry, mat),
-            ['box']: box
+          onPointerLeave={() => {
+            refHover.current = 0
           }}
         >
-          {(instances) => {
-            let Back = instances['folder-back']
-            let Front = instances['folder-front']
-            let Box = instances['box']
+          <Merged
+            onLostPointerCapture={(ev) => {
+              ev.stopPropagation()
+            }}
+            meshes={{
+              ['folder-front']: new Mesh(nodes['folder-front'].geometry, mat),
+              ['folder-back']: new Mesh(nodes['folder-back'].geometry, mat),
+              ['box']: box
+            }}
+          >
+            {(instances) => {
+              let Back = instances['folder-back']
+              let Front = instances['folder-front']
+              let Box = instances['box']
 
-            let files = []
-            for (let i = -5; i < 5; i++) {
-              files.push(
-                <EachPlane hover={refHover} Compo={Box} key={'plane' + i} n={11} i={i}></EachPlane>
+              let files = []
+              for (let i = -5; i < 5; i++) {
+                files.push(
+                  <EachPlane
+                    hover={refHover}
+                    Compo={Box}
+                    key={'plane' + i}
+                    n={11}
+                    i={i}
+                  ></EachPlane>
+                )
+              }
+
+              return (
+                <>
+                  <Front></Front>
+                  <Back></Back>
+
+                  {files}
+                </>
               )
-            }
-
-            return (
-              <>
-                <Front></Front>
-                <Back></Back>
-
-                {files}
-              </>
-            )
-          }}
-        </Merged>
-      </group>
+            }}
+          </Merged>
+        </group>
+      </CenterMe>
     </>
   )
 }
