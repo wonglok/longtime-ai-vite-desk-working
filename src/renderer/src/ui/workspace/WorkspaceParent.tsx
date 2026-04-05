@@ -12,6 +12,7 @@ import { SidebarInset, SidebarProvider, SidebarTrigger, useSidebar } from '@/com
 
 import 'nprogress/nprogress.css'
 import { useEffect } from 'react'
+import { useHome } from '../HyperHome/useHome'
 // import { ArrayBlock } from '@renderer/ui/ArrayBlock/ArrayBlock'
 // import { TodoKanban } from '@renderer/ui/ArrayBlock/TodoKanban'
 // import { Brain } from '@renderer/ui/ArrayBlock/Brain'
@@ -23,6 +24,12 @@ export function WorkspaceLayout({ name = '', children }) {
   if (!name) {
     return <div className="w-full h-full flex items-center justify-center">Missing Workspace</div>
   }
+
+  useEffect(() => {
+    useHome.setState({
+      workspace: name
+    })
+  }, [name])
 
   return (
     <SidebarProvider defaultOpen={true}>

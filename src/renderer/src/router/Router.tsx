@@ -55,6 +55,23 @@ export const AppRouter = () => {
           ></Route>
 
           <Route
+            path="workspace/:name/advanced-settings"
+            element={
+              <>
+                <NamedParams>
+                  {(params) => {
+                    return (
+                      <WorkspaceLayout name={params.name}>
+                        Advanced Settings {params.name}
+                      </WorkspaceLayout>
+                    )
+                  }}
+                </NamedParams>
+              </>
+            }
+          ></Route>
+
+          <Route
             path="workspace/:name/desktop"
             element={
               <>

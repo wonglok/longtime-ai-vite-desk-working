@@ -5,9 +5,16 @@ import { useEffect, useState } from 'react'
 import { useArchApp } from './useArchApp'
 import nprogress from 'nprogress'
 import { toast } from 'sonner'
+import { useHome } from '../HyperHome/useHome'
 // import { generate } from 'random-words'
 
 export function ArrayBlock({}) {
+  const workspace = useHome((r) => r.workspace)
+
+  //
+  //
+  //
+
   const appName = useArchApp((r) => r.appName)
   const appUserPrompt = useArchApp((r) => r.appUserPrompt)
   const appModel = useArchApp((r) => r.appModel)
@@ -43,7 +50,9 @@ export function ArrayBlock({}) {
 
         appName: `${appName}-${seed}`,
 
-        appUserPrompt: `${appUserPrompt}`
+        appUserPrompt: `${appUserPrompt}`,
+
+        workspace: `${workspace}`
       },
       (stream) => {
         //

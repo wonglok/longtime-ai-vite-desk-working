@@ -5,12 +5,22 @@ import { makeDirectory } from 'make-dir'
 import { writePlan } from './subagents/writePlan'
 import { runAgent } from './runAgent'
 import { WorkSpacesPath } from '../server/workspace/constants'
+import { readFile } from 'fs/promises'
+import { join } from 'path'
 // import { initProject } from './subagents/initProject'
 // import { readFile, writeFile } from 'fs/promises'
 // import { join } from 'path'
 
 export const runAppPlanner = async ({ done, checkAborted, onEvent, inbound, randID }) => {
-  const workspace = `${WorkSpacesPath}/apps/${inbound.appName}`
+  const workspaceFolder = await readFile(
+    join(WorkSpacesPath, `${inbound.workspace}`, `workspace-path.txt`),
+    {
+      encoding: 'utf-8'
+    }
+  )
+
+  const workspace = `${workspaceFolder}/apps`
+
   await makeDirectory(workspace)
 
   const [{ plan }] = await Promise.all([
@@ -28,10 +38,13 @@ export const runAppPlanner = async ({ done, checkAborted, onEvent, inbound, rand
     //   workspace,
     //   onEvent
     // })
+    //
   ])
 
+  //
   // await makeDirectory(`${workspace}/frontend`)
   // await makeDirectory(`${workspace}/backend`)
+  //
 
   const runner = async ({}) => {
     // let res = await developCode({

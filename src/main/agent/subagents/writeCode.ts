@@ -268,7 +268,7 @@ ${one.content || ''}
           include_usage: true
         },
         reasoning_effort: 'xhigh',
-        temperature: 0.0
+        temperature: 0.15
       },
       { signal }
     )

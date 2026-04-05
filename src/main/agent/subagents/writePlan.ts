@@ -178,7 +178,7 @@ ${inbound.appUserPrompt}
             include_usage: true
           },
           reasoning_effort: 'xhigh',
-          temperature: 0.0
+          temperature: 0.15
           // response_format: {
           //   type: 'json_schema',
           //   json_schema: {

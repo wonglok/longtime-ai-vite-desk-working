@@ -2,7 +2,7 @@ import { app } from 'electron'
 import { makeDirectory } from 'make-dir'
 import { OneStep, writeCode } from './subagents/writeCode'
 import { writeFile } from 'fs/promises'
-import path from 'path'
+import path, { join } from 'path'
 import { readFile } from 'fs/promises'
 import { WorkSpacesPath } from '../server/workspace/constants'
 
@@ -10,7 +10,15 @@ const FailCounter = {}
 export const runAgent = async ({ done, plan, checkAborted, onEvent, inbound, randID }) => {
   FailCounter[randID] = FailCounter[randID] || 0
 
-  const workspace = `${WorkSpacesPath}/apps/${inbound.appName}`
+  const workspaceFolder = await readFile(
+    join(WorkSpacesPath, `${inbound.workspace}`, `workspace-path.txt`),
+    {
+      encoding: 'utf-8'
+    }
+  )
+
+  const workspace = `${workspaceFolder}/apps`
+  // const workspace = `${WorkSpacesPath}/apps/${inbound.appName}`
   await makeDirectory(workspace)
 
   if (checkAborted()) {

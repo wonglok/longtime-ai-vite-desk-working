@@ -37,7 +37,8 @@ import {
   SquareDashedBottom,
   GalleryVerticalEndIcon,
   AudioLinesIcon,
-  TerminalIcon
+  TerminalIcon,
+  Trash2
 } from 'lucide-react'
 import { navigate } from 'wouter/use-browser-location'
 import { useHome } from '@renderer/ui/HyperHome/useHome'
@@ -47,6 +48,15 @@ export function AppSidebar({
   ...props
 }: React.ComponentProps<typeof Sidebar> & { name?: string }) {
   //
+
+  React.useEffect(() => {
+    //
+    useHome.setState({
+      workspace: name || ''
+    })
+
+    //
+  }, [name])
 
   let [workspaces, setWorkspaces] = React.useState([])
   let [mainMenu, setMainMenu] = React.useState([])
@@ -106,6 +116,11 @@ export function AppSidebar({
                   name: 'LMStudio AI',
                   url: `/workspace/${name}/setup`,
                   icon: <BotIcon />
+                },
+                {
+                  name: 'Advanced Settings',
+                  url: `/workspace/${name}/advanced-settings`,
+                  icon: <Trash2 />
                 }
               ])
 
