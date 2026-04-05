@@ -48,7 +48,9 @@ export function ArrayBlock({}) {
 
         model: `${appModel}`,
 
-        appName: `${appName}-${seed}`,
+        appName: `${appName}`,
+
+        seed: `${seed}`,
 
         appUserPrompt: `${appUserPrompt}`,
 
