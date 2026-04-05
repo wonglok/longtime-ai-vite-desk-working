@@ -80,7 +80,7 @@ const init = (set, get) => {
     appUserPrompt: `
 Build an bun ts script:
 
-bun run ./prompt.ts --prompt "hi how are you?" --baseURL "http://localhost:1234" --apiKey "my_key" --model "google/gemma-4-26b-a4b"
+bun run ./prompt.ts --prompt "hi how are you?" --baseURL "http://localhost:1234" --apiKey "my_key" --model "qwen/qwen3.5-35b-a3b"
 
 `.trim()
 
