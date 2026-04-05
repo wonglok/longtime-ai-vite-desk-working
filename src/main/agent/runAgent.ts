@@ -17,7 +17,8 @@ export const runAgent = async ({ done, plan, checkAborted, onEvent, inbound, ran
     }
   )
 
-  const workspace = `${workspaceFolder}/apps`
+  const workspace = `${workspaceFolder}/apps/${inbound.appName}/${inbound.seed}`
+
   // const workspace = `${WorkSpacesPath}/apps/${inbound.appName}`
   await makeDirectory(workspace)
 

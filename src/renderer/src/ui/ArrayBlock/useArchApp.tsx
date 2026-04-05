@@ -61,21 +61,26 @@ const init = (set, get) => {
 
     appName: 'transcript-gen',
 
+    //     appUserPrompt: `
+    // Build an bun ts script:
+
+    // bun run ./prompt.ts --prompt "hi how are you?" --baseURL "http://localhost:1234" --apiKey "nono" --model "qwen/qwen3.5-4b"
+
+    // // download metadata and youtube mp4 720p video, and thumbnail
+    // bun run ./youtube.ts --url "https://www.youtube.com/watch?v=jxH3Jj6cCf8" --output "./output"
+
+    // bun run ./convert-to-audio.ts --input "video.mp4" --output "./output/audio.wav"
+
+    // bun run ./transcribe.ts --input "audio.wav" --output "./output/transcipt.txt"
+
+    // bun run ./srt-caption-generator.ts --input "audio.wav" --output "./output/caption.srt"
+
+    // `.trim(),
+
     appUserPrompt: `
 Build an bun ts script:
 
-bun run ./prompt.ts --prompt "hi how are you?" --baseURL "http://localhost:1234" --apiKey "nono" --model "qwen/qwen3.5-4b"
-
-// download metadata and youtube mp4 720p video, and thumbnail
-bun run ./youtube.ts --url "https://www.youtube.com/watch?v=jxH3Jj6cCf8" --output "./output" 
-
-bun run ./convert-to-audio.ts --input "video.mp4" --output "./output/audio.wav"
-
-bun run ./transcribe.ts --input "audio.wav" --output "./output/transcipt.txt"
-
-bun run ./srt-caption-generator.ts --input "audio.wav" --output "./output/caption.srt"
-
-
+bun run ./prompt.ts --prompt "hi how are you?" --baseURL "http://localhost:1234" --apiKey "my_key" --model "google/gemma-4-26b-a4b"
 
 `.trim()
 

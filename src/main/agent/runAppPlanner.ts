@@ -19,7 +19,7 @@ export const runAppPlanner = async ({ done, checkAborted, onEvent, inbound, rand
     }
   )
 
-  const workspace = `${workspaceFolder}/apps`
+  const workspace = `${workspaceFolder}/apps/${inbound.appName}/${inbound.seed}`
 
   await makeDirectory(workspace)
 
