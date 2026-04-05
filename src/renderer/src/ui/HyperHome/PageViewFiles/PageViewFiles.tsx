@@ -28,28 +28,31 @@ export function PageViewFiles({ workspace }: { workspace: string }) {
 
       <group position={[-17 / 2, 0, 0]}>
         <group
-          //
-          position={[0, 1.5, 0]}
-          //
-          scale={1.5}
           onClick={() => {
-            navigate(`/workspace/${workspace}`)
+            navigate(`/workspace/${workspace}/settings`)
           }}
         >
-          <Spinner>
-            <DiamondCompos></DiamondCompos>
-          </Spinner>
-        </group>
+          <group
+            //
+            position={[0, 1.5, 0]}
+            //
+            scale={1.5}
+          >
+            <Spinner>
+              <DiamondCompos></DiamondCompos>
+            </Spinner>
+          </group>
 
-        <group rotation={[-0.23 * Math.PI, 0, 0]} position={[0, 0.5, 1]}>
-          <GeneralButton
-            title={'Settings'}
-            bgNormal={'#fff'}
-            bgHover={'#7fd956'}
-            textNormal={'#000000'}
-            textHover={'#034616'}
-            width={3.5}
-          ></GeneralButton>
+          <group rotation={[-0.23 * Math.PI, 0, 0]} position={[0, 0.5, 1]}>
+            <GeneralButton
+              title={'Settings'}
+              bgNormal={'#fff'}
+              bgHover={'#7fd956'}
+              textNormal={'#000000'}
+              textHover={'#034616'}
+              width={3.5}
+            ></GeneralButton>
+          </group>
         </group>
       </group>
 
