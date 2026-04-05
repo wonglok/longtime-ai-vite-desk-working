@@ -10,6 +10,8 @@ export function PageViewFiles({ workspace }: { workspace: string }) {
   console.log('workspace', workspace)
 
   let navigate = useNavigate()
+  //
+
   return (
     <>
       <OrbitControls

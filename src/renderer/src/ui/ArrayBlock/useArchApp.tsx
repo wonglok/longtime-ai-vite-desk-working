@@ -53,9 +53,9 @@ const init = (set, get) => {
     // google gemma 3 12b dont work
     // google gemma 3 4b dont work
 
-    appModel: `google/gemma-4-26b-a4b`,
+    // appModel: `google/gemma-4-26b-a4b`,
     // qwen/qwen3.5-35b-a3b works well
-    // appModel: `qwen/qwen3.5-35b-a3b`,
+    appModel: `qwen/qwen3.5-35b-a3b`,
     // appModel: `qwen/qwen3.5-122b-a10b`,
     // appModel: `qwen/qwen3.5-4b`,
 
